@@ -2,10 +2,7 @@ package com.sjtu.youpurchase.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 订单项对应的实体类
@@ -17,8 +14,15 @@ public class OrderItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "orderItemId")
     private Long Id;
 
+    @ManyToOne
+    @JoinColumn(name = "orderInfoId")
+    private OrderInfo orderInfo;
+
+    @OneToOne
+    @JoinColumn(name = "commodityId")
     private Commodity commodity;
 
     private Integer amount;
