@@ -14,6 +14,7 @@ public class Dealer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "dealerId")
     private Long Id;
 
     @Column(nullable = false, length = 31)
@@ -22,6 +23,9 @@ public class Dealer {
     @Column(nullable = false, length = 31)
     private String password;
 
+    @Column(nullable = false)
+    private String address;
+
     @Column(nullable = false, length = 31)
     private String realName;
 
@@ -29,6 +33,7 @@ public class Dealer {
     private String contact;
 
     @OneToOne
+    @JoinColumn(name = "storeId")
     private Store store;
 
 }

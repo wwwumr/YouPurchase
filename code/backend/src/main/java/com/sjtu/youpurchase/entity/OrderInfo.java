@@ -2,10 +2,7 @@ package com.sjtu.youpurchase.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -19,16 +16,23 @@ public class OrderInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "orderInfoId")
     private Long Id;
 
+    @ManyToOne
+    @JoinColumn(name = "storeId")
     private Store store;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
     private User user;
 
     private Date createTime;
 
     private double totalPrice;
 
+    @OneToMany
+    @JoinColumn(name = "orderItemId")
     private List<OrderItem> orderItemList;
 
 }

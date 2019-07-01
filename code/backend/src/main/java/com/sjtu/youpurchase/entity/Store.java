@@ -16,6 +16,7 @@ public class Store {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "storeId")
     private Long Id;
 
     @Column(nullable = false, length = 31)
@@ -33,7 +34,7 @@ public class Store {
 
     private Date openHourEnd;
 
-    @OneToMany
+    @OneToMany(targetEntity = Commodity.class)
     private List<Commodity> commodityList;
 
 }

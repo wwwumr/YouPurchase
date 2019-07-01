@@ -14,6 +14,7 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "adminId")
     private Long Id;
 
     @Column(nullable = false, unique = true, length = 31)
