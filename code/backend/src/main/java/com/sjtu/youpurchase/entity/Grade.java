@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /*
 * 用户评论对应实体类
@@ -14,6 +15,7 @@ import javax.persistence.*;
 public class Grade {
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gradeId")
     private long Id;
