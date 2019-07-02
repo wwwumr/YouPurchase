@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * StoreDao的实现类.
+ *
  * @author Chuyuxuan
  */
 @Repository

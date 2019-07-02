@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 商品信息对应的实体类
+ *
  * @author Chuyuxuan
  */
 @Data

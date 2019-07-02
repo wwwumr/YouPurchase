@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 订单对应的实体类
+ *
  * @author Chuyuxuan
  */
 @Data
@@ -24,7 +25,7 @@ public class OrderInfo {
     private Store store;
 
     //订单状态
-    @Column(length=5)
+    @Column(length = 5)
     private String status;
 
     @ManyToOne

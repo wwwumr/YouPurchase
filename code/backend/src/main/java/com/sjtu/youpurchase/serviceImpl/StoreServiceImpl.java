@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * StoreService的实现类.
+ *
  * @author Chuyuxuan
  */
 @Service
@@ -28,12 +29,12 @@ public class StoreServiceImpl implements StoreService {
         List<StoreResponseDTO> storeResponseDTOList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("kk:mm");
         storeArrayList = storeDao.getAllStores();
-        for (Store s:storeArrayList
-             ) {
+        for (Store s : storeArrayList
+        ) {
             StoreResponseDTO storeResponseDTO = new StoreResponseDTO();
             storeResponseDTO.setKey(s.getId());
             storeResponseDTO.setStoreName(s.getStoreName());
-            storeResponseDTO.setAddress(s.getArea()+s.getAddress());
+            storeResponseDTO.setAddress(s.getAddress());
             storeResponseDTO.setContact(s.getContact());
             storeResponseDTO.setCoverPicUrl(s.getCoverPicUrl());
             storeResponseDTO.setDealerId(s.getDealer().getId().intValue());
