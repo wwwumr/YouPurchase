@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 /**
  * 经销商对应的实体类
+ *
  * @author Chuyuxuan
  */
 @Data

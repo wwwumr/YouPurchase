@@ -2,9 +2,6 @@ package com.sjtu.youpurchase.DTO;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 @Data
 public class StoreResponseDTO {
 

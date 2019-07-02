@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 /**
  * 管理员账户对应的实体类
+ *
  * @author Chuyuxuan
  */
 @Data
