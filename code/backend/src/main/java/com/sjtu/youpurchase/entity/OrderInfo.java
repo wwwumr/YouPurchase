@@ -23,6 +23,10 @@ public class OrderInfo {
     @JoinColumn(name = "storeId")
     private Store store;
 
+    //订单状态
+    @Column(length=5)
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
