@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 店铺对应的实体类
+ * 店铺对应的实体类.
  * @author Chuyuxuan
  */
 @Data
@@ -25,6 +25,9 @@ public class Store {
     private String coverPicUrl;
 
     @Column(nullable = false)
+    private String area;
+
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
@@ -34,7 +37,13 @@ public class Store {
 
     private Date openHourEnd;
 
+    @OneToOne
+    @JoinColumn(name = "dealerId")
+    private Dealer dealer;
+
     @OneToMany(targetEntity = Commodity.class)
+    @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "storeId",referencedColumnName = "storeId")},
+    inverseJoinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})
     private List<Commodity> commodityList;
 
 }

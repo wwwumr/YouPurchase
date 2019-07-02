@@ -27,4 +27,7 @@ public class OrderItem {
 
     private Integer amount;
 
+    @Column(scale = 2)
+    private Double price;
+
 }
