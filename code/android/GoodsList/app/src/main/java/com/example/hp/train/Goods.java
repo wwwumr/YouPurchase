@@ -1,0 +1,15 @@
+package com.example.hp.train;
+public class Goods{
+    private String name;
+    private int goodId;
+    public Goods(String name,int goodId){
+        this.name=name;
+        this.goodId = goodId;
+    }
+    public String getName(){
+        return name;
+    }
+    public int getGoodId(){
+        return goodId;
+    }
+}
