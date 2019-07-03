@@ -39,7 +39,7 @@ public class StoreServiceTest {
         store.setCommodityList(new ArrayList<Commodity>());
         store.setContact("123456");
         Dealer dealer = new Dealer();
-        dealer.setId(1L);
+        dealer.setDealerId(1L);
         store.setDealer(dealer);
         store.setStoreName("testStoreName");
         store.setOpenHourStart(new Date());

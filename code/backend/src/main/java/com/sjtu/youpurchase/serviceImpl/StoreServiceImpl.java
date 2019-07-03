@@ -32,12 +32,12 @@ public class StoreServiceImpl implements StoreService {
         for (Store s : storeArrayList
         ) {
             StoreResponseDTO storeResponseDTO = new StoreResponseDTO();
-            storeResponseDTO.setKey(s.getId());
+            storeResponseDTO.setKey(s.getStoreId());
             storeResponseDTO.setStoreName(s.getStoreName());
             storeResponseDTO.setAddress(s.getAddress());
             storeResponseDTO.setContact(s.getContact());
             storeResponseDTO.setCoverPicUrl(s.getCoverPicUrl());
-            storeResponseDTO.setDealerId(s.getDealer().getId().intValue());
+            storeResponseDTO.setDealerId(s.getDealer().getDealerId().intValue());
             String startHour = dateFormat.format(s.getOpenHourStart());
             String endHour = dateFormat.format(s.getOpenHourEnd());
             String[] hours = {startHour, endHour};

@@ -4,6 +4,7 @@ import com.sjtu.youpurchase.DTO.StoreResponseDTO;
 import com.sjtu.youpurchase.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
  *
  * @author Chuyuxuan
  */
-@RestController("/stores")
+@RestController
+@RequestMapping("/stores")
 public class StoreController {
 
     @Autowired
