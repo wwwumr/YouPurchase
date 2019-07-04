@@ -17,13 +17,10 @@ public class User {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-<<<<<<< HEAD
-
     private long userId;
-=======
-    @Column(name = "userId")
-    private Long userId;
->>>>>>> a1d13f20e3229080d729a538bc8bdfa229821703
+
+
+
 
     @Column(nullable = false, unique = true, length = 30)
     private String userName;
