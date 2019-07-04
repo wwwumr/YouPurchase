@@ -39,4 +39,13 @@ public interface DealerDao {
      * @param dealer 经销商实体
      */
     void addADealer(Dealer dealer);
+
+    // TODO: bindDealerStore no implement
+    void bindDealerStore(Long dealerId, Long storeId);
+
+    // TODO: unbindDealerStore no implement
+    void unbindDealerStore(Long dealerId, Long storeId);
+
+    // TODO: updateDealerPassword no implement
+    void updateDealerPassword(Long dealerId, String newPassword);
 }

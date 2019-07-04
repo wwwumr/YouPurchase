@@ -61,7 +61,7 @@ public class MyTests {
 ## 2
 在进行对dao数据访问的单元测试时，如果按照文档上的用@DataJpaTest写测试的话，由于项目的Dao层是一个接口，daoImpl实现接口，但实现方式是注入Repository的接口，在完整的springboot应用中可以，但是这里单元测试就无法注入Repository(目前未知原因)，就会测试失败，所以直接使用@SpringBootTest，就可以进行测试了
 
-加上@Transactional保证数据库测试后回滚(未求证)
+加上@Transactional保证数据库测试后回滚(`import org.springframework.transaction.annotation.Transactional;`)
 
 ## 3
 在测试service接口时，可以直接用WebMvc加载部分context，然后用Mock出的数据进行测试

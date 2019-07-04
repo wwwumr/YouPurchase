@@ -41,7 +41,7 @@ public class DealerDaoTest {
 
     @Test
     public void testGetADealerByDealerId() throws Exception {
-        // assume that we have a data line in the database
+        // assume that we have a line of data in the database
         // Dealer("123", "dadsa", "czcxz", "cxzczx", "xczcx", "xczc")
 
         Dealer dealer = dealerDao.getDealerById(123L);

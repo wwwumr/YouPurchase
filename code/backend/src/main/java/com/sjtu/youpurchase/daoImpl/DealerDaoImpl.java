@@ -38,4 +38,19 @@ public class DealerDaoImpl implements DealerDao {
     public void updateDealer(Dealer dealer) {
         dealerRepository.save(dealer);
     }
+
+    @Override
+    public void bindDealerStore(Long dealerId, Long storeId) {
+
+    }
+
+    @Override
+    public void unbindDealerStore(Long dealerId, Long storeId) {
+
+    }
+
+    @Override
+    public void updateDealerPassword(Long dealerId, String newPassword) {
+
+    }
 }

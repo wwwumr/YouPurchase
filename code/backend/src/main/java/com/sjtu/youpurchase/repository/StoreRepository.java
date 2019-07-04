@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Chuyuxuan
  */
 public interface StoreRepository extends JpaRepository<Store, Long> {
+    Store findByStoreId(Long Id);
 }

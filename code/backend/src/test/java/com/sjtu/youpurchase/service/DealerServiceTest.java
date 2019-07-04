@@ -1,6 +1,6 @@
 package com.sjtu.youpurchase.service;
 
-import com.sjtu.youpurchase.DTO.DealerRequestDTO;
+import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.dao.DealerDao;
 import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
@@ -15,9 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Chuyuxuan
@@ -57,22 +55,22 @@ public class DealerServiceTest {
 
     @Test
     public void testAddAndUpdate() throws Exception {
-        DealerRequestDTO dealerRequestDTO = new DealerRequestDTO();
-        dealerRequestDTO.setUserName("zhang qiang");
-        dealerRequestDTO.setAddress("addr.");
-        dealerRequestDTO.setContact("0371-7898888");
-        dealerRequestDTO.setRealName("zhang san");
-        dealerRequestDTO.setPassword("123456");
+        DealerParameter dealerParameter = new DealerParameter();
+        dealerParameter.setUserName("zhang qiang");
+        dealerParameter.setAddress("addr.");
+        dealerParameter.setContact("0371-7898888");
+        dealerParameter.setRealName("zhang san");
+        dealerParameter.setPassword("123456");
 
-        dealerService.addADealer(dealerRequestDTO);
+        dealerService.addADealer(dealerParameter);
 
         Dealer dealer = new Dealer();
         dealer.setDealerId(123L);
 
         given(this.dealerDao.getDealerById(123L)).willReturn(dealer);
-        dealerRequestDTO.setKey(123L);
-        dealerRequestDTO.setUserName("changed userName");
+        dealerParameter.setKey(123L);
+        dealerParameter.setUserName("changed userName");
 
-        dealerService.updateDealer(dealerRequestDTO);
+        dealerService.updateDealer(dealerParameter);
     }
 }

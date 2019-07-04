@@ -1,8 +1,7 @@
 package com.sjtu.youpurchase.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sjtu.youpurchase.DTO.DealerRequestDTO;
-import com.sjtu.youpurchase.DTO.DealerResponseDTO;
+import com.sjtu.youpurchase.parameter.DealerParameter;
+import com.sjtu.youpurchase.DTO.DealerDTO;
 import com.sjtu.youpurchase.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +21,12 @@ public class DealerController {
     private DealerService dealerService;
 
     /**
-     * 前端请求所有经销商的基本信息，发送的数据格式是JSON数组，内容见{@link DealerResponseDTO}
+     * 前端请求所有经销商的基本信息，发送的数据格式是JSON数组，内容见{@link DealerDTO}
      *
      * @return 所有经销商信息的JSON数组
      */
     @GetMapping
-    public List<DealerResponseDTO> getAllDealers() {
+    public List<DealerDTO> getAllDealers() {
         return dealerService.getAllDealers();
     }
 
@@ -38,7 +37,7 @@ public class DealerController {
      * @return 新建成功返回"saved"
      */
     @PostMapping
-    public String addNewDealer(@RequestBody DealerRequestDTO data) {
+    public String addNewDealer(@RequestBody DealerParameter data) {
         dealerService.addADealer(data);
         return "saved";
     }
@@ -50,7 +49,7 @@ public class DealerController {
      * @return 修改成功返回“saved”
      */
     @PutMapping
-    public String updateDealer(@RequestBody DealerRequestDTO data) {
+    public String updateDealer(@RequestBody DealerParameter data) {
         dealerService.updateDealer(data);
         return "saved";
     }

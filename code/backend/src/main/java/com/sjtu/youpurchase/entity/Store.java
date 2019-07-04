@@ -39,6 +39,8 @@ public class Store {
 
     private Date openHourEnd;
 
+    private boolean attached;
+
     @OneToOne
     @JoinColumn(name = "dealerId")
     private Dealer dealer;
