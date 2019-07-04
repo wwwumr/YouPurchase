@@ -27,7 +27,6 @@ public class User {
     @Column(nullable = false, length = 30)
     private String password;
 
-<<<<<<< HEAD
     //地址
     @Column(length=30,nullable = false)
     private String address;
@@ -161,21 +160,6 @@ public class User {
     public boolean pwdConfirm(String password){
         if(password.equals(this.password))
             return true;
-=======
-    //地区位置
-    @Column(length = 30)
-    private String area;
-
-    //街道地址
-    @Column(length = 30, nullable = false)
-    private String address;
-
-    @Column(length = 11)
-    private String phone;
-
-    @Column(length = 256)
-    private String imgFile;
->>>>>>> a31261f74161f97e15d1a5b67183c904356fc9e0
 
         else
             return false;
