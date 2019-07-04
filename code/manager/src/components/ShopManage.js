@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Table, Input, Button, Icon, Modal } from 'antd';
 import Highlighter from 'react-highlight-words';
 import shopMock from '../mock/shopMock'
+import config from '../config/config';
 
 class ShopManage extends React.Component {
     constructor(props) {
@@ -10,23 +12,24 @@ class ShopManage extends React.Component {
             shopData: [],
             searchText: '',
             selectedRowKeys: [], // Check here to configure the default column
-            loading: false,
             shop: {
                 key: null, 
                 storeName: '', 
                 address: '', 
-                coverPicUrl: '', 
+                coverPicUrl: 'http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg', 
                 contact: '', 
-                hours: []
+                hours: [],
             },
             visible: false,
         };
     }
 
     componentDidMount() {
+        document.getElementById("background").style.backgroundImage="none";
         this.setState({
             shopData: shopMock
         })
+        console.log(this.props.location)
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -36,7 +39,7 @@ class ShopManage extends React.Component {
               ref={node => {
                 this.searchInput = node;
               }}
-              placeholder={`搜索`}
+              addonBefore={`搜索`}
               value={selectedKeys[0]}
               onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
               onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
@@ -90,10 +93,30 @@ class ShopManage extends React.Component {
     };
 
     handleOk = e => {
-        console.log(this.state.shop);
-        this.setState({
-            visible: false,
-        });
+
+        var shop = this.state.shop;
+        shop.key = this.state.shopData.length+1;
+        if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
+            && shop.hours !== [] && shop.storeName !== "") {
+
+            var shopData = this.state.shopData;
+            shopData.push(shop);
+            this.setState({
+                shopData: shopData,
+                shop: {
+                    key: null, 
+                    storeName: '', 
+                    address: '', 
+                    coverPicUrl: config.shop.shopUrl, 
+                    contact: '',
+                    hours: [],
+                },
+                visible: false,
+            });
+        } else {
+            alert("所填不能为空");
+            console.log(this.state.shop);
+        }
     };
 
     removeShop = () => {
@@ -109,25 +132,17 @@ class ShopManage extends React.Component {
         });
     };
 
-    addShop = () => {
-        let shopData = this.state.shopData;
-        var shop = {
-            key: shopData.length + 1, 
-            storeName: '', 
-            address: '', 
-            coverPicUrl: '', 
-            contact: '', 
-            hours: []
-        }
-    };
 
     render() {
 
+        /* Table 列信息 */
         const columns = [
                 {
                     title: '封面',
                     dataIndex: 'coverPicUrl',
                     key: '1',
+                    width:"300px",
+                    render: text => (<img style={{height:"120px", width:"150px"}} src={text} alt="店面图片" />)
                 },{
                     title: '店名',
                     dataIndex: 'storeName',
@@ -147,10 +162,15 @@ class ShopManage extends React.Component {
                     dataIndex: 'hours',
                     key: '5',
                     render: text => <p>{text[0]+" ~ "+text[1]}</p>
+                },{
+                    title: "修改信息",
+                    dataIndex: "key",
+                    key: "6",
+                    render: text => <Button ><Link to={{pathname: "/shopManage/change/", shopKey: text}} >修改</Link></Button>
                 }
             ];
-        const loading = this.state.loading;
 
+        /* 复选框的处理 */
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowSelection = {
             selectedRowKeys,
@@ -164,16 +184,15 @@ class ShopManage extends React.Component {
             <div>
                 <div style={{ marginBottom: 16 }}>
                     {/* 删除和增加的按钮 */}
-                    <Button type="primary" onClick={this.removeShop} disabled={!hasSelected} loading={loading}>
+                    <Button type="primary" style={{marginLeft:"20px"}} onClick={this.removeShop} disabled={!hasSelected} >
                     删除
                     </Button>
-                    <Button type="primary" 
+                    <Button type="primary" style={{marginLeft:"20px", marginRight: "20px"}}
                         onClick={() => {
                             this.setState({
                                 visible: true,
                             });
                         }} 
-                        loading={loading}
                     >
                     增加
                     </Button>
@@ -182,8 +201,12 @@ class ShopManage extends React.Component {
                         visible={this.state.visible}
                         onOk={this.handleOk}
                         onCancel={() => {this.setState({ visible:false })}}
+                        cancelText="取消" okText="确认"
                     >
-                        <Input placeholder="店名" 
+                    <div style={{position: "relative", width: "60%", left: "20%", textAlign:"center"}}>
+                        <h1>店面信息</h1>
+                        {/* 选项按钮 */}
+                        <Input addonBefore="店名" style={{margin:"10px"}}
                             value={this.state.shop.storeName} 
                             onChange= {(e) => {
                                 let shop = this.state.shop;
@@ -191,11 +214,39 @@ class ShopManage extends React.Component {
                                 this.setState({ shop: shop })
                             }}>
                         </Input>
-                        <Input value={this.state.shop.address} placeholder="店地址"></Input>
-                        <Input value={this.state.shop.contact} placeholder="店联系方式"></Input>
-                        <Input value={this.state.shop.coverPicUrl} placeholder="图片地址"></Input>
-                        <Input value={this.state.shop.hours[0]} placeholder="店开始营业时间"></Input>
-                        <Input value={this.state.shop.hours[1]} placeholder="店结束营业时间"></Input>
+                        <Input  addonBefore="店地址" style={{margin:"10px"}}
+                            value={this.state.shop.address}
+                            onChange= {(e) => {
+                                let shop = this.state.shop;
+                                shop.address = e.target.value;
+                                this.setState({ shop: shop })
+                            }}>
+                        </Input>
+                        <Input  addonBefore="店联系方式" style={{margin:"10px"}}
+                            value={this.state.shop.contact}
+                            onChange= {(e) => {
+                                let shop = this.state.shop;
+                                shop.contact = e.target.value;
+                                this.setState({ shop: shop })
+                            }}>
+                        </Input> 
+                        <Input  addonBefore="营业开始时间" style={{margin:"10px"}}
+                            value={this.state.shop.hours[0]}
+                            onChange= {(e) => {
+                                let shop = this.state.shop;
+                                shop.hours[0] = e.target.value;
+                                this.setState({ shop: shop })
+                            }}>
+                        </Input>
+                        <Input  addonBefore="营业结束时间" style={{margin:"10px"}}
+                            value={this.state.shop.hours[1]}
+                            onChange= {(e) => {
+                                let shop = this.state.shop;
+                                shop.hours[1] = e.target.value;
+                                this.setState({ shop: shop })
+                            }}>
+                        </Input>
+                    </div>
                     </Modal>
                     {/* 选中条目 */}
                     <span style={{ marginLeft: 8 }}>

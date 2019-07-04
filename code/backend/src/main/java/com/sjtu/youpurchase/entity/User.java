@@ -11,15 +11,14 @@ import javax.validation.constraints.NotNull;
  *
  * @author Chuyuxuan
  */
-
 @Entity
 public class User {
 
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "userId")
-    private Long userId;
+
+    private long userId;
 
     @Column(nullable = false, unique = true, length = 30)
     private String userName;
@@ -74,12 +73,12 @@ public class User {
         this.valid = valid;
     }
 
-    public Long getId() {
-        return Id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        Id = id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -141,27 +140,5 @@ public class User {
         this.setRegDate(userRegisterParameter.getRegDate());
         this.setPhoto("");
         this.setValid(true);
-    }
-
-    public void setSmsInfo(String phone,String regDate){
-        this.setPhone(phone);
-        this.setRegDate(regDate);
-        this.setValid(true);
-        this.setPhoto("");
-        this.setPassword("");
-        this.setLongitude(0.0);
-        this.setLatitude(0.0);
-        this.setUserName("");
-        this.setAddress("");
-    }
-
-
-    //password验证
-    public boolean pwdConfirm(String password){
-        if(password.equals(this.password))
-            return true;
-
-        else
-            return false;
     }
 }

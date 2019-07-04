@@ -7,7 +7,7 @@ import com.sjtu.youpurchase.entity.User;
 * */
 
 public class UserInfoDTO {
-    private long Id;
+    private long userId;
 
     private String userName;
 
@@ -23,12 +23,12 @@ public class UserInfoDTO {
 
     private String regDate;
 
-    public long getId() {
-        return Id;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setId(long id) {
-        Id = id;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -90,7 +90,7 @@ public class UserInfoDTO {
 
     public UserInfoDTO(User user){
         if(user != null){
-            this.setId(user.getId());
+            this.setUserId(user.getUserId());
             this.setAddress(user.getAddress());
             this.setLatitude(user.getLatitude());
             this.setLongitude(user.getLongitude());
