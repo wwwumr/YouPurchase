@@ -17,7 +17,7 @@ public class Grade {
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gradeId")
-    private long Id;
+    private long gradeId;
 
     @ManyToOne
     @JoinColumn(name = "storeId")

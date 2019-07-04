@@ -16,7 +16,7 @@ public class Dealer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "dealerId")
-    private Long Id;
+    private Long dealerId;
 
     @Column(nullable = false, length = 31)
     private String userName;

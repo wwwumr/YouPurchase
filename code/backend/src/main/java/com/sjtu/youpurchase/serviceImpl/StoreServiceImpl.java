@@ -1,6 +1,6 @@
 package com.sjtu.youpurchase.serviceImpl;
 
-import com.sjtu.youpurchase.DTO.StoreResponseDTO;
+import com.sjtu.youpurchase.DTO.StoreDTO;
 import com.sjtu.youpurchase.dao.StoreDao;
 import com.sjtu.youpurchase.entity.Store;
 import com.sjtu.youpurchase.service.StoreService;
@@ -24,28 +24,28 @@ public class StoreServiceImpl implements StoreService {
     private StoreDao storeDao;
 
     @Override
-    public List<StoreResponseDTO> getAllStores() {
+    public List<StoreDTO> getAllStores() {
         List<Store> storeArrayList = new ArrayList<>();
-        List<StoreResponseDTO> storeResponseDTOList = new ArrayList<>();
+        List<StoreDTO> storeDTOList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("kk:mm");
         storeArrayList = storeDao.getAllStores();
         for (Store s : storeArrayList
         ) {
-            StoreResponseDTO storeResponseDTO = new StoreResponseDTO();
-            storeResponseDTO.setKey(s.getId());
-            storeResponseDTO.setStoreName(s.getStoreName());
-            storeResponseDTO.setAddress(s.getAddress());
-            storeResponseDTO.setContact(s.getContact());
-            storeResponseDTO.setCoverPicUrl(s.getCoverPicUrl());
-            storeResponseDTO.setDealerId(s.getDealer().getId().intValue());
+            StoreDTO storeDTO = new StoreDTO();
+            storeDTO.setKey(s.getStoreId());
+            storeDTO.setStoreName(s.getStoreName());
+            storeDTO.setAddress(s.getAddress());
+            storeDTO.setContact(s.getContact());
+            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
+            storeDTO.setDealerId(s.getDealer().getDealerId().intValue());
             String startHour = dateFormat.format(s.getOpenHourStart());
             String endHour = dateFormat.format(s.getOpenHourEnd());
             String[] hours = {startHour, endHour};
-            storeResponseDTO.setHours(hours);
+            storeDTO.setHours(hours);
 
-            storeResponseDTOList.add(storeResponseDTO);
+            storeDTOList.add(storeDTO);
 
         }
-        return storeResponseDTOList;
+        return storeDTOList;
     }
 }

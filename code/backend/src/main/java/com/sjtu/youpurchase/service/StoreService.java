@@ -1,6 +1,6 @@
 package com.sjtu.youpurchase.service;
 
-import com.sjtu.youpurchase.DTO.StoreResponseDTO;
+import com.sjtu.youpurchase.DTO.StoreDTO;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface StoreService {
      *
      * @return 包含所有storeDTO的列表
      */
-    List<StoreResponseDTO> getAllStores();
+    List<StoreDTO> getAllStores();
 }

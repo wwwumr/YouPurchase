@@ -3,7 +3,7 @@ package com.sjtu.youpurchase.DTO;
 import lombok.Data;
 
 @Data
-public class StoreResponseDTO {
+public class StoreDTO {
 
     private Long key;
 

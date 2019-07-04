@@ -17,7 +17,7 @@ public class Commodity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "commodityId")
-    private Long Id;
+    private Long commodityId;
 
     @Column(scale = 2)
     private double price;

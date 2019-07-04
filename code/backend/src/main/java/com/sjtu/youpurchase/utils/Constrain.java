@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Constrain {
     private static final Logger logger= LogManager.getLogger();
-    private static final String photoDirectory="/root/data/you_purchase/images";
+    private static final String photoDirectory="";
     private static final String imageFormat = ".jpg";
 
 
