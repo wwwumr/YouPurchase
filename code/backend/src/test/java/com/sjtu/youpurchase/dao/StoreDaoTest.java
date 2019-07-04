@@ -34,5 +34,6 @@ public class StoreDaoTest {
     public void testFindAllStores() throws Exception {
         List<Store> storeList = this.storeDao.getAllStores();
         Assert.assertEquals(storeList.size(), 0);
+
     }
 }
