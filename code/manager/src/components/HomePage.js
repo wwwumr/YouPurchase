@@ -69,25 +69,15 @@ class HomePage extends React.Component {
     render() {
         return (
             <div style={{ position:"relative", top:'100px', textAlign:'center' }}>  
-                {
-                    !this.props.logIn &&
-                    <div>
-                        <Title level={1} style={{color: "white"}} > 欢迎登录优邻购管理系统 </Title>  
-                        <div style={{ position:'relative', left:'37%', width: '25%'}}>
-                            <WrappedNormalLoginForm 
-                                fn = { this.props.fn } 
-                            />
-                        </div>
+                <div>
+                    <Title level={1} style={{color: "white"}} > 欢迎登录优邻购管理系统 </Title>  
+                    <div style={{ position:'relative', left:'37%', width: '25%', fontWeight: "bold"}}>
+                        <WrappedNormalLoginForm 
+                            fn = { this.props.fn } 
+                        />
                     </div>
-                }
-                {
-                    this.props.logIn &&
-                    <div>
-                    <Title level={1} > 登录成功 </Title>
-                    </div>
-                }
-            </div>
-            
+                </div>
+            </div> 
         );
     }
 }

@@ -19,6 +19,8 @@ class ShopManage extends React.Component {
                 coverPicUrl: 'http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg', 
                 contact: '', 
                 hours: [],
+                dealerId: null,
+                dealerName: "",
             },
             visible: false,
         };
@@ -29,7 +31,6 @@ class ShopManage extends React.Component {
         this.setState({
             shopData: shopMock
         })
-        console.log(this.props.location)
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -110,6 +111,8 @@ class ShopManage extends React.Component {
                     coverPicUrl: config.shop.shopUrl, 
                     contact: '',
                     hours: [],
+                    dealerId: null,
+                    dealerName: "",
                 },
                 visible: false,
             });
