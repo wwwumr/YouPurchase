@@ -1,7 +1,7 @@
 package com.sjtu.youpurchase.serviceImpl;
 
-import com.sjtu.youpurchase.DTO.DealerRequestDTO;
-import com.sjtu.youpurchase.DTO.DealerResponseDTO;
+import com.sjtu.youpurchase.parameter.DealerParameter;
+import com.sjtu.youpurchase.DTO.DealerDTO;
 import com.sjtu.youpurchase.dao.DealerDao;
 import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
@@ -24,12 +24,12 @@ public class DealerServiceImpl implements DealerService {
     private DealerDao dealerDao;
 
     @Override
-    public List<DealerResponseDTO> getAllDealers() {
+    public List<DealerDTO> getAllDealers() {
         List<Dealer> dealerList = dealerDao.getAllDealers();
-        List<DealerResponseDTO> dtos = new ArrayList<>();
+        List<DealerDTO> dtos = new ArrayList<>();
         for (Dealer d : dealerList
         ) {
-            DealerResponseDTO dealerDto = new DealerResponseDTO();
+            DealerDTO dealerDto = new DealerDTO();
             dealerDto.setKey(d.getDealerId());
             dealerDto.setUserName(d.getUserName());
             dealerDto.setAddress(d.getAddress());
@@ -43,26 +43,26 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
-    public void addADealer(DealerRequestDTO dealerRequestDTO) {
+    public void addADealer(DealerParameter dealerParameter) {
         Dealer dealer = new Dealer();
-        dealer.setUserName(dealerRequestDTO.getUserName());
-        dealer.setAddress(dealerRequestDTO.getAddress());
-        dealer.setContact(dealerRequestDTO.getContact());
-        dealer.setPassword(dealerRequestDTO.getPassword());
-        dealer.setRealName(dealerRequestDTO.getRealName());
+        dealer.setUserName(dealerParameter.getUserName());
+        dealer.setAddress(dealerParameter.getAddress());
+        dealer.setContact(dealerParameter.getContact());
+        dealer.setPassword(dealerParameter.getPassword());
+        dealer.setRealName(dealerParameter.getRealName());
         dealer.setStore(new Store());
 
         dealerDao.addADealer(dealer);
     }
 
     @Override
-    public void updateDealer(DealerRequestDTO dealerRequestDTO) {
-        Dealer dealer = dealerDao.getDealerById(dealerRequestDTO.getKey());
-        dealer.setRealName(dealerRequestDTO.getRealName());
-        dealer.setPassword(dealerRequestDTO.getPassword());
-        dealer.setContact(dealerRequestDTO.getContact());
-        dealer.setAddress(dealerRequestDTO.getAddress());
-        dealer.setUserName(dealerRequestDTO.getUserName());
+    public void updateDealer(DealerParameter dealerParameter) {
+        Dealer dealer = dealerDao.getDealerById(dealerParameter.getKey());
+        dealer.setRealName(dealerParameter.getRealName());
+        dealer.setPassword(dealerParameter.getPassword());
+        dealer.setContact(dealerParameter.getContact());
+        dealer.setAddress(dealerParameter.getAddress());
+        dealer.setUserName(dealerParameter.getUserName());
 
         dealerDao.updateDealer(dealer);
     }

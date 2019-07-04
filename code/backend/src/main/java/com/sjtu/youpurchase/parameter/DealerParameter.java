@@ -1,15 +1,14 @@
-package com.sjtu.youpurchase.DTO;
+package com.sjtu.youpurchase.parameter;
 
 import lombok.Data;
 
 /**
- * 返回前端的经销商数据格式
+ * 前端发送新建一个经销商的数据格式
  *
  * @author Chuyuxuan
  */
 @Data
-public class DealerResponseDTO {
-
+public class DealerParameter {
     private Long key;
 
     private String userName;
@@ -19,8 +18,6 @@ public class DealerResponseDTO {
     private String realName;
 
     private String contact;
-
-    private String storeName;
 
     private String password;
 }

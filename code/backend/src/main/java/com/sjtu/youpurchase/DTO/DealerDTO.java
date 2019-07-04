@@ -3,12 +3,13 @@ package com.sjtu.youpurchase.DTO;
 import lombok.Data;
 
 /**
- * 前端发送新建一个经销商的数据格式
+ * 返回前端的经销商数据格式
  *
  * @author Chuyuxuan
  */
 @Data
-public class DealerRequestDTO {
+public class DealerDTO {
+
     private Long key;
 
     private String userName;
@@ -18,6 +19,8 @@ public class DealerRequestDTO {
     private String realName;
 
     private String contact;
+
+    private String storeName;
 
     private String password;
 }

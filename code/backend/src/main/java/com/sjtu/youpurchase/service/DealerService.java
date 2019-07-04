@@ -1,7 +1,7 @@
 package com.sjtu.youpurchase.service;
 
-import com.sjtu.youpurchase.DTO.DealerRequestDTO;
-import com.sjtu.youpurchase.DTO.DealerResponseDTO;
+import com.sjtu.youpurchase.parameter.DealerParameter;
+import com.sjtu.youpurchase.DTO.DealerDTO;
 
 import java.util.List;
 
@@ -18,19 +18,19 @@ public interface DealerService {
      * @return 包含全部经销商信息的列表
      * @see DealerService
      */
-    List<DealerResponseDTO> getAllDealers();
+    List<DealerDTO> getAllDealers();
 
     /**
      * 新建一个经销商账户
      *
-     * @param dealerRequestDTO 由前端发送过来的信息新建经销商账户
+     * @param dealerParameter 由前端发送过来的信息新建经销商账户
      */
-    void addADealer(DealerRequestDTO dealerRequestDTO);
+    void addADealer(DealerParameter dealerParameter);
 
     /**
      * 更新经销商信息
      *
-     * @param dealerRequestDTO 需要更新的经销商
+     * @param dealerParameter 需要更新的经销商
      */
-    void updateDealer(DealerRequestDTO dealerRequestDTO);
+    void updateDealer(DealerParameter dealerParameter);
 }
