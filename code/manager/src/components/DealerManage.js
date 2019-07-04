@@ -11,6 +11,10 @@ class DealerManage extends React.Component {
         };
     }
 
+    componentDidMount() {
+        document.getElementById("background").style.backgroundImage="none";
+    }
+
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
