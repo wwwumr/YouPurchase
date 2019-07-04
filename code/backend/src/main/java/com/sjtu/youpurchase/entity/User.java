@@ -17,10 +17,8 @@ public class User {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private long userId;
-
-
-
 
     @Column(nullable = false, unique = true, length = 30)
     private String userName;
