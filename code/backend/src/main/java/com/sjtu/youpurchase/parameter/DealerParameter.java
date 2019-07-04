@@ -3,7 +3,7 @@ package com.sjtu.youpurchase.parameter;
 import lombok.Data;
 
 /**
- * 前端发送新建一个经销商的数据格式
+ * 前端发送新建或修改一个经销商的数据格式
  *
  * @author Chuyuxuan
  */

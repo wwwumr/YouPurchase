@@ -1,11 +1,11 @@
 package com.sjtu.youpurchase.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.youpurchase.DTO.StoreDTO;
+import com.sjtu.youpurchase.parameter.StoreParameter;
 import com.sjtu.youpurchase.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +31,16 @@ public class StoreController {
     public List<StoreDTO> getAllStores() {
         return storeService.getAllStores();
     }
+
+    /**
+     * 新建一个店铺信息，数据内容以post请求
+     * @param data 前端Post的数据
+     * @return 一个JSON，格式为{"key" : long, "coverUrl" : String}
+     */
+    @PostMapping
+    public JSONObject addStore(@RequestBody StoreParameter data){
+        return storeService.addAStore(data);
+    }
+
 
 }

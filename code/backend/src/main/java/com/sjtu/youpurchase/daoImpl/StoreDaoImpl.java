@@ -25,4 +25,24 @@ public class StoreDaoImpl implements StoreDao {
         /*使用Google的库直接把Iterable类转化为List*/
         return Lists.newArrayList(storeRepository.findAll());
     }
+
+    @Override
+    public Store getStoreByStoreId(Long Id) {
+        return storeRepository.findByStoreId(Id);
+    }
+
+    @Override
+    public void addAStore(Store store) {
+        storeRepository.save(store);
+    }
+
+    @Override
+    public void updateStore(Store store) {
+        storeRepository.save(store);
+    }
+
+    @Override
+    public void updateStoreCoverPic() {
+
+    }
 }

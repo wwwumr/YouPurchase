@@ -19,13 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 *
 * 测试无法回滚，待解决
 * */
-
-@RunWith(SpringRunner.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-
 @Transactional
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserDaoTest {
     @Autowired
     private UserDao userDao;
@@ -43,6 +40,6 @@ public class UserDaoTest {
         user.setValid(true);
         userDao.save(user);
         User test = new User();
-        test = userDao.findByPhoneAndValid("1",true);
+        test = userDao.findByPhoneAndValid("123123",true);
     }
 }

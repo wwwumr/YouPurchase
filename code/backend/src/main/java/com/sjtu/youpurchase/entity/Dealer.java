@@ -33,6 +33,8 @@ public class Dealer {
     @Column(nullable = false, length = 31)
     private String contact;
 
+    private boolean attached;
+
     @OneToOne
     @JoinColumn(name = "storeId")
     private Store store;

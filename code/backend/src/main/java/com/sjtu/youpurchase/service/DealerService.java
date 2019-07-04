@@ -28,9 +28,29 @@ public interface DealerService {
     void addADealer(DealerParameter dealerParameter);
 
     /**
-     * 更新经销商信息
+     * 更新经销商信息,只包括经销商的用户名、密码、地址、真实姓名、联系方式，调用者为管理员
      *
      * @param dealerParameter 需要更新的经销商
      */
     void updateDealer(DealerParameter dealerParameter);
+
+    /**
+     * 更新经销商管理的店铺，调用者为管理员
+     * TODO: updateDealerStore no implement
+     */
+    void updateDealerStore();
+
+    /**
+     * 更新经销商的密码，调用者为经销商自己
+     * TODO: updateDealerPassword no implement
+     * @param password 修改之后的密码
+     */
+    void updateDealerPassword(String password);
+
+    // TODO: bindStore no implement
+    void bindStore();
+
+    // TODO: unbindStore no implement
+    void unbindStore();
+
 }

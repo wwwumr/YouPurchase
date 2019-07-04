@@ -20,4 +20,6 @@ public class StoreDTO {
 
     private Integer dealerId;
 
+    private String dealerName;
+
 }

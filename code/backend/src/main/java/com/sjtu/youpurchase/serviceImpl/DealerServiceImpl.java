@@ -66,4 +66,24 @@ public class DealerServiceImpl implements DealerService {
 
         dealerDao.updateDealer(dealer);
     }
+
+    @Override
+    public void updateDealerStore() {
+
+    }
+
+    @Override
+    public void updateDealerPassword(String password) {
+
+    }
+
+    @Override
+    public void bindStore() {
+
+    }
+
+    @Override
+    public void unbindStore() {
+
+    }
 }
