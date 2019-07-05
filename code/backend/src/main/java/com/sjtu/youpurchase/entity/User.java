@@ -49,6 +49,41 @@ public class User {
     //状态
     private boolean valid;
 
+    //是否有效
+    private boolean status;
+
+
+    public void setInfo(UserRegisterParameter userRegisterParameter){
+        this.setUserName(userRegisterParameter.getUserName());
+        this.setPassword(userRegisterParameter.getPassword());
+        this.setAddress(userRegisterParameter.getAddress());
+        this.setPhone(userRegisterParameter.getPhone());
+        this.setLatitude(userRegisterParameter.getLatitude());
+        this.setLongitude(userRegisterParameter.getLongitude());
+        this.setRegDate(userRegisterParameter.getRegDate());
+        this.setPhoto("");
+        this.setValid(true);
+        this.setStatus(true);
+    }
+
+    public boolean pwdConfirm(String pwd){
+        if(pwd.equals(this.password))
+            return true;
+        else
+            return false;
+    }
+
+
+
+    //getter and setter
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public double getLongitude() {
         return longitude;
     }
@@ -130,15 +165,5 @@ public class User {
     }
 
 
-    public void setInfo(UserRegisterParameter userRegisterParameter){
-        this.setUserName(userRegisterParameter.getUserName());
-        this.setPassword(userRegisterParameter.getPassword());
-        this.setAddress(userRegisterParameter.getAddress());
-        this.setPhone(userRegisterParameter.getPhone());
-        this.setLatitude(userRegisterParameter.getLatitude());
-        this.setLongitude(userRegisterParameter.getLongitude());
-        this.setRegDate(userRegisterParameter.getRegDate());
-        this.setPhoto("");
-        this.setValid(true);
-    }
+
 }

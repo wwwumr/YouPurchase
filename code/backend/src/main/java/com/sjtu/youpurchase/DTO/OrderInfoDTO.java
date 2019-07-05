@@ -1,30 +1,16 @@
-package com.sjtu.youpurchase.entity;
+package com.sjtu.youpurchase.DTO;
 
+import com.sjtu.youpurchase.entity.OrderInfo;
+import com.sjtu.youpurchase.entity.OrderItem;
 import com.sjtu.youpurchase.parameter.OrderPostParameter;
-import lombok.Data;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * 订单对应的实体类
- *
- * @author Chuyuxuan
- */
-@Data
-@Entity
-public class OrderInfo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "orderInfoId")
-    private Long orderInfoId;
+public class OrderInfoDTO extends OrderInfo{
 
     private String storeName;
 
-    //订单状态
-    @Column(length = 5)
     private String status;
 
     private  String userName;
@@ -35,49 +21,24 @@ public class OrderInfo {
 
     private double totalPrice;
 
-    @OneToMany
-    @JoinColumn(name = "orderItemId")
     private List<OrderItem> orderItemList;
 
-    //是否可用
-    private boolean valid;
 
 
-    /*
-    * Deng Xiao
-    * */
-    //获取订单信息并设置
-    public void setOrderInfo(OrderPostParameter orderPostParameter){
-        this.setStatus("已接单");
-        this.setTotalPrice(orderPostParameter.getTotalPrice());
-        this.setUserId(orderPostParameter.getUserId());
-        this.setOrderItemList(orderPostParameter.getOrderItemList());
-        this.setCreateTime(orderPostParameter.getCreateTime());
-        this.setStoreName(orderPostParameter.getStoreName());
-        this.setValid(true);
+    public OrderInfoDTO(OrderInfo orderInfo){
+        if(orderInfo != null);
+        this.setUserId(orderInfo.getUserId());
+        this.setOrderItemList(orderInfo.getOrderItemList());
+        this.setTotalPrice(orderInfo.getTotalPrice());
+        this.setCreateTime(orderInfo.getCreateTime());
+        this.setUserName(orderInfo.getUserName());
+        this.setStatus(orderInfo.getStatus());
+        this.setStoreName(orderInfo.getStoreName());
 
     }
 
 
-    //getter and setter
-
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
-
-    public Long getOrderInfoId() {
-        return orderInfoId;
-    }
-
-    public void setOrderInfoId(Long orderInfoId) {
-        this.orderInfoId = orderInfoId;
-    }
-
+    //getter and settrer
     public String getStoreName() {
         return storeName;
     }
