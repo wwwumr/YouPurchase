@@ -70,8 +70,8 @@ public class StoreServiceTest {
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
-        storeParameter.setOpenHourStart("7:00");
-        storeParameter.setOpenHourEnd("21:00");
+        String[] hours = {"7:00", "21:00"};
+        storeParameter.setHours(hours);
 
         JSONObject json = storeService.addAStore(storeParameter);
         System.out.println(json);
@@ -88,8 +88,8 @@ public class StoreServiceTest {
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
-        storeParameter.setOpenHourStart("7:00");
-        storeParameter.setOpenHourEnd("21:00");
+        String[] hours = {"7:00", "21:00"};
+        storeParameter.setHours(hours);
     }
 
 }
