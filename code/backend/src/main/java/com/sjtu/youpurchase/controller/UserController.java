@@ -1,6 +1,8 @@
 package com.sjtu.youpurchase.controller;
 
 import com.sjtu.youpurchase.DTO.UserInfoDTO;
+import com.sjtu.youpurchase.DTO.UserLoginDTO;
+import com.sjtu.youpurchase.parameter.UserLoginParameter;
 import com.sjtu.youpurchase.parameter.UserRegisterParameter;
 import com.sjtu.youpurchase.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,14 @@ public class UserController {
     @ResponseBody
     UserInfoDTO UserRegister(@RequestBody UserRegisterParameter userRegisterParameter){
         return userService.UserRegister(userRegisterParameter);
+    }
+
+    //用户登陆
+    @RequestMapping(value = "user/login",method=RequestMethod.POST)
+    public
+    @ResponseBody
+    UserLoginDTO UserLogin(@RequestBody UserLoginParameter userLoginParameter){
+        return userService.UserLogin(userLoginParameter);
     }
 
 }
