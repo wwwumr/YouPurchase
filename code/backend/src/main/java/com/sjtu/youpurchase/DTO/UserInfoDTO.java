@@ -23,8 +23,9 @@ public class UserInfoDTO {
 
     private String regDate;
 
-    public UserInfoDTO(User user) {
-        if (user != null) {
+
+    public UserInfoDTO(User user){
+        if(user != null){
             this.setUserId(user.getUserId());
             this.setAddress(user.getAddress());
             this.setLatitude(user.getLatitude());
@@ -34,9 +35,9 @@ public class UserInfoDTO {
             this.setPhoto(user.getPhoto());
             this.setRegDate(user.getRegDate());
         }
-
     }
 
+    //getter and setter
     public long getUserId() {
         return userId;
     }

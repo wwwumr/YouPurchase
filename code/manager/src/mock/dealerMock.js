@@ -6,7 +6,8 @@ var dealerData = [
         realName: "王笑然",
         contact: "1137658",
         storeName: "华山派",
-        password: "deep dark fantasy"
+        password: "deep dark fantasy",
+        avatar: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1700741544,1951185347&fm=27&gp=0.jpg",
     },{
         key: 1,
         userName: "风清扬",
@@ -14,7 +15,8 @@ var dealerData = [
         realName: "褚宇轩",
         contact: "1137690",
         storeName: "武当派",
-        password: "boy next door"
+        password: "boy next door",
+        avatar: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3024387196,1621670548&fm=27&gp=0.jpg",
     }
 ]
 

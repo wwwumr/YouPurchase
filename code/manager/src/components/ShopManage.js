@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Button, Icon, Modal } from 'antd';
+import { Table, Input, Button, Icon, Modal, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import shopMock from '../mock/shopMock'
 import config from '../config/config';
@@ -12,16 +12,7 @@ class ShopManage extends React.Component {
             shopData: [],
             searchText: '',
             selectedRowKeys: [], // Check here to configure the default column
-            shop: {
-                key: null, 
-                storeName: '', 
-                address: '', 
-                coverPicUrl: 'http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg', 
-                contact: '', 
-                hours: [],
-                dealerId: null,
-                dealerName: "",
-            },
+            shop: config.shop.originShop,
             visible: false,
         };
     }
@@ -93,31 +84,32 @@ class ShopManage extends React.Component {
         this.setState({ searchText: '' });
     };
 
+
+    checkShop = (shop) => {
+        if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
+            && shop.hours !== [] && shop.storeName !== ""){
+            return true;
+        }
+        return false;
+    }
+
     handleOk = e => {
 
         var shop = this.state.shop;
         shop.key = this.state.shopData.length+1;
-        if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
-            && shop.hours !== [] && shop.storeName !== "") {
-
+        /* 检查商店格式 */
+        if (this.checkShop(shop)) {
+            /* 接收数据 */
             var shopData = this.state.shopData;
+            /* 前端更新 */
             shopData.push(shop);
             this.setState({
                 shopData: shopData,
-                shop: {
-                    key: null, 
-                    storeName: '', 
-                    address: '', 
-                    coverPicUrl: config.shop.shopUrl, 
-                    contact: '',
-                    hours: [],
-                    dealerId: null,
-                    dealerName: "",
-                },
+                shop: config.shop.originShop,
                 visible: false,
             });
         } else {
-            alert("所填不能为空");
+            message.error("所填不能为空");
             console.log(this.state.shop);
         }
     };
@@ -169,7 +161,7 @@ class ShopManage extends React.Component {
                     title: "修改信息",
                     dataIndex: "key",
                     key: "6",
-                    render: text => <Button ><Link to={{pathname: "/shopManage/change/", shopKey: text}} >修改</Link></Button>
+                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/", shopKey: text}} >修改</Link></Button>
                 }
             ];
 
