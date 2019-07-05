@@ -79,7 +79,6 @@ public class StoreServiceImpl implements StoreService {
         castStringToDate(storeParameter.getHours()[0],storeParameter.getHours()[1],start,end);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
-
         storeDao.addAStore(store);
 
         JSONObject jsonObject = new JSONObject();
