@@ -1,5 +1,7 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
+import config from '../../../config/config'
+
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -8,17 +10,16 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG) {
-        message.error('You can only upload JPG file!');
+    if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
+        message.error('上传的图片应为jpg或png格式!');
+        return false;
     }
-    /*
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+
+    if (file.size > config.uploadImage.maxCapicity) {
+        message.error('图片大小不应超过2MB!');
+        return false;
     }
-    return isJPG && isLt2M;*/
-    return isJPG;
+    return true;
 }
 
     
@@ -27,7 +28,7 @@ class ImageUpload extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: "http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg",
+            imageUrl: config.uploadImage.url,
         };
     }
     
