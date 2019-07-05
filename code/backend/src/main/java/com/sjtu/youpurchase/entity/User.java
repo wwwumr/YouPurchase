@@ -1,7 +1,6 @@
 package com.sjtu.youpurchase.entity;
 
 import com.sjtu.youpurchase.parameter.UserRegisterParameter;
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,7 +26,7 @@ public class User {
     private String password;
 
     //地址
-    @Column(length=30,nullable = false)
+    @Column(length = 30, nullable = false)
     private String address;
 
     //经度
@@ -36,11 +35,11 @@ public class User {
     //纬度
     private double latitude;
 
-    @Column(length=11)
+    @Column(length = 11)
     private String phone;
 
     //头像路径
-    @Column(length=256)
+    @Column(length = 256)
     private String photo;
 
     //注册日期
@@ -130,7 +129,7 @@ public class User {
     }
 
 
-    public void setInfo(UserRegisterParameter userRegisterParameter){
+    public void setInfo(UserRegisterParameter userRegisterParameter) {
         this.setUserName(userRegisterParameter.getUserName());
         this.setPassword(userRegisterParameter.getPassword());
         this.setAddress(userRegisterParameter.getAddress());

@@ -1,7 +1,7 @@
 package com.sjtu.youpurchase.controller;
 
-import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.DTO.DealerDTO;
+import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

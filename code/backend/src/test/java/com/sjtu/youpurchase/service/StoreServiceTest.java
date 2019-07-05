@@ -6,7 +6,6 @@ import com.sjtu.youpurchase.entity.Commodity;
 import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
 import com.sjtu.youpurchase.parameter.StoreParameter;
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Chuyuxuan
@@ -38,7 +35,7 @@ public class StoreServiceTest {
     private StoreService storeService;
 
     @Test
-    public void testDI() throws Exception{
+    public void testDI() throws Exception {
         Assert.assertNotNull(storeService);
     }
 
@@ -65,7 +62,7 @@ public class StoreServiceTest {
 
     // TODO: test update
     @Test
-    public void testAddStore() throws Exception{
+    public void testAddStore() throws Exception {
         StoreParameter storeParameter = new StoreParameter();
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");
@@ -77,13 +74,13 @@ public class StoreServiceTest {
         System.out.println(json);
 
         /* 由于mock不能模拟storeDao的方法，实际并没有持久化这个数据，所以
-        * json中的key依然是null，没有值，如果想利于测试，可以把storeDao的方法返回值不设置成void，
-        * 比如返回生成的key*/
-        Assert.assertEquals(json.getString("coverUrl"),"/defaultStoreCover");
+         * json中的key依然是null，没有值，如果想利于测试，可以把storeDao的方法返回值不设置成void，
+         * 比如返回生成的key*/
+        Assert.assertEquals(json.getString("coverUrl"), "/defaultStoreCover");
     }
 
     @Test
-    public void testUpdateStore() throws Exception{
+    public void testUpdateStore() throws Exception {
         StoreParameter storeParameter = new StoreParameter();
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");

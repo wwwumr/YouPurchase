@@ -39,15 +39,6 @@ public class DealerDaoImpl implements DealerDao {
         dealerRepository.save(dealer);
     }
 
-    @Override
-    public void bindDealerStore(Long dealerId, Long storeId) {
-
-    }
-
-    @Override
-    public void unbindDealerStore(Long dealerId, Long storeId) {
-
-    }
 
     @Override
     public void updateDealerPassword(Long dealerId, String newPassword) {

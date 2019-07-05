@@ -1,6 +1,5 @@
 package com.sjtu.youpurchase.utils;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +9,7 @@ import java.util.Date;
 
 /**
  * 控制文件上传的工具类
+ * TODO: unit test
  *
  * @author Chuyuxuan
  */
@@ -18,15 +18,15 @@ public final class FileUploadUtil {
 
     private static FileUploadUtil fileUploadUtil = new FileUploadUtil();
 
-    @Value("${imageBaseDirectory}")
-    private String FILE_BASE_DIR;
+    //    @Value("${imageBaseDirectory}")
+    private String FILE_BASE_DIR = "G:\\YouPurchase\\code\\backend\\src\\main\\resources\\images";
 
     private FileUploadUtil() {
-        System.out.println(this.FILE_BASE_DIR);
     }
 
     /**
-     * 使用单例模式创建工具类对象
+     * 使用单例模式创建工具类对象.
+     *
      * @return 控制文件上传的工具类
      */
     public static FileUploadUtil getFileUploadUtil() {
@@ -34,7 +34,8 @@ public final class FileUploadUtil {
     }
 
     /**
-     * 保存上传的文件
+     * 保存上传的文件.
+     *
      * @param file 前端发送的文件
      * @return 保存成功返回文件对应的url，例如"/dafd2f8v8dhv8.jpg";保存不成功返回"error"
      */
@@ -59,7 +60,8 @@ public final class FileUploadUtil {
     }
 
     /**
-     * 删除数据库中文件url对应的文件
+     * 删除数据库中文件url对应的文件.
+     *
      * @param fileUrl 数据库中文件的url，比如"/saf00a9dajd0ad8a.jpg"
      * @return 删除成功返回0, 找不到文件返回1, 删除失败返回2
      */

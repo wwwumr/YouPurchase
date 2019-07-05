@@ -6,6 +6,7 @@ import com.sjtu.youpurchase.entity.Store;
 import com.sjtu.youpurchase.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,7 +39,21 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public void updateStore(Store store) {
-        storeRepository.save(store);
+        storeRepository.saveAndFlush(store);
+    }
+
+    @Transactional(rollbackFor = {RuntimeException.class})
+    @Override
+    public void bindDealerStore(Long dealerId, Long storeId) {
+        storeRepository.bindDealerAndStoreStep1(dealerId, storeId, true);
+        storeRepository.bindDealerAndStoreStep2(dealerId, storeId, true);
+    }
+
+    @Transactional(rollbackFor = {RuntimeException.class})
+    @Override
+    public void unbindDealerStore(Long dealerId, Long storeId) {
+        storeRepository.unbindDealerAndStoreStep1(dealerId, false);
+        storeRepository.unbindDealerAndStoreStep2(storeId, false);
     }
 
     @Override

@@ -2,8 +2,8 @@ package com.sjtu.youpurchase.parameter;
 
 
 /*
-* created by Deng Xiao
-* */
+ * created by Deng Xiao
+ * */
 public class UserLoginParameter {
     String phone;
 

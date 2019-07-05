@@ -14,6 +14,8 @@ public class DealerDTO {
 
     private String userName;
 
+    private String avatar;
+
     private String address;
 
     private String realName;

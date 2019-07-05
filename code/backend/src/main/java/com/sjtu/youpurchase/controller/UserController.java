@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /*
-* 用户相关controller
-* created by Deng Xiao
-* */
+ * 用户相关controller
+ * created by Deng Xiao
+ * */
 
 public class UserController {
 
@@ -20,10 +20,10 @@ public class UserController {
     private UserService userService;
 
     //用户信息修改
-    @RequestMapping(value="user/register",method= RequestMethod.POST)
+    @RequestMapping(value = "user/register", method = RequestMethod.POST)
     public
     @ResponseBody
-    UserInfoDTO UserRegister(@RequestBody UserRegisterParameter userRegisterParameter){
+    UserInfoDTO UserRegister(@RequestBody UserRegisterParameter userRegisterParameter) {
         return userService.UserRegister(userRegisterParameter);
     }
 

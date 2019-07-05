@@ -1,5 +1,7 @@
 package com.sjtu.youpurchase.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -42,6 +44,7 @@ public class Store {
     private boolean attached;
 
     @OneToOne
+    @JsonIgnoreProperties(value = {"store"})
     @JoinColumn(name = "dealerId")
     private Dealer dealer;
 
@@ -50,5 +53,24 @@ public class Store {
             inverseJoinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})
     private List<Commodity> commodityList;
 
+
+    // 这里override toString()方法是因为在有些时候调用时，防止出现无限递归的情况
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeId=" + storeId +
+                ", storeName='" + storeName + '\'' +
+                ", coverPicUrl='" + coverPicUrl + '\'' +
+                ", address='" + address + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", contact='" + contact + '\'' +
+                ", openHourStart=" + openHourStart +
+                ", openHourEnd=" + openHourEnd +
+                ", attached=" + attached +
+                ", dealer=" + dealer.getDealerId() +
+                ", commodityList=" + commodityList +
+                '}';
+    }
 
 }

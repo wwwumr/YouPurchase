@@ -2,7 +2,9 @@ package com.sjtu.youpurchase.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.youpurchase.DTO.StoreDTO;
+import com.sjtu.youpurchase.dao.DealerDao;
 import com.sjtu.youpurchase.dao.StoreDao;
+import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
 import com.sjtu.youpurchase.parameter.StoreParameter;
 import com.sjtu.youpurchase.service.StoreService;
@@ -27,6 +29,11 @@ public class StoreServiceImpl implements StoreService {
 
     @Autowired
     private StoreDao storeDao;
+
+    @Autowired
+    private DealerDao dealerDao;
+    @Value("${storeDefaultCoverPicUrl}")
+    private String storeDefaultCoverPicUrl;
 
     @Override
     public List<StoreDTO> getAllStores() {
@@ -55,12 +62,6 @@ public class StoreServiceImpl implements StoreService {
         return storeDTOList;
     }
 
-    @Value("${imageBaseDirectory}")
-    private String imageBaseDirectory;
-
-    @Value("${storeDefaultCoverPicUrl}")
-    private String storeDefaultCoverPicUrl;
-
     @Override
     public JSONObject addAStore(StoreParameter storeParameter) {
 
@@ -76,7 +77,7 @@ public class StoreServiceImpl implements StoreService {
         store.setAttached(false);
         Date start = new Date();
         Date end = new Date();
-        castStringToDate(storeParameter.getHours()[0],storeParameter.getHours()[1],start,end);
+        castStringToDate(storeParameter.getHours()[0], storeParameter.getHours()[1], start, end);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
         storeDao.addAStore(store);
@@ -96,7 +97,7 @@ public class StoreServiceImpl implements StoreService {
         store.setAddress(storeParameter.getAddress());
         Date start = new Date();
         Date end = new Date();
-        castStringToDate(storeParameter.getHours()[0],storeParameter.getHours()[1],start,end);
+        castStringToDate(storeParameter.getHours()[0], storeParameter.getHours()[1], start, end);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
 
@@ -104,22 +105,45 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStoreCoverPic() {
+    public void bindDealerAndStore(Long dealerId, Long storeId) {
+        // TODO: unit test
+        Store store = storeDao.getStoreByStoreId(storeId);
+        Dealer dealer = dealerDao.getDealerById(dealerId);
 
+        if (store.isAttached() || dealer.isAttached()) {
+            // TODO:当有经销商或者店铺被绑定，返回错误信息
+        } else {
+            storeDao.bindDealerStore(dealerId, storeId);
+        }
+    }
+
+    @Override
+    public void unbindDealerAndStore(Long dealerId, Long storeId) {
+        /* 缺少一个逻辑，检查经销商与店铺是否都是已经绑定过的，前端的逻辑是店铺页面解绑经销商
+         * 这个一般不会出错，可能出错的点在绑定的过程*/
+        // TODO: unit test
+        storeDao.unbindDealerStore(dealerId, storeId);
+    }
+
+    @Override
+    public void updateStoreCoverPic() {
+        // TODO: update store cover picture
     }
 
     /**
      * 把前端发送的字符串形式的时间格式转换为Date，格式为kk:mm
+     *
      * @param startStr 字符串形式的开始营业时间
-     * @param endStr 字符串形式的结束营业时间
-     * @param start 开始营业时间
-     * @param end 结束营业时间
+     * @param endStr   字符串形式的结束营业时间
+     * @param start    开始营业时间
+     * @param end      结束营业时间
      */
-    private void castStringToDate(String startStr, String endStr, Date start, Date end){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm");try{
+    private void castStringToDate(String startStr, String endStr, Date start, Date end) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm");
+        try {
             start = dateFormat.parse(startStr);
             end = dateFormat.parse(endStr);
-        } catch (ParseException e){
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 

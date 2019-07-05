@@ -36,6 +36,22 @@ public interface StoreService {
     void updateStore(StoreParameter storeParameter);
 
     /**
+     * 把店铺与经销商解除绑定(取消对经销商的授权).
+     *
+     * @param storeId  店铺id
+     * @param dealerId 经销商id
+     */
+    void unbindDealerAndStore(Long dealerId, Long storeId);
+
+    /**
+     * 把店铺与经销商绑定，写实现时注意验证经销商是取消绑定的.
+     *
+     * @param dealerId 经销商id
+     * @param storeId  店铺id
+     */
+    void bindDealerAndStore(Long dealerId, Long storeId);
+
+    /**
      * 更新店铺的封面图片，调用者为经销商
      * TODO: updateStoreCoverPic no implement
      */

@@ -3,8 +3,8 @@ package com.sjtu.youpurchase.DTO;
 import com.sjtu.youpurchase.entity.User;
 
 /*
-* created by Deng Xiao
-* */
+ * created by Deng Xiao
+ * */
 
 public class UserInfoDTO {
     private long userId;
@@ -23,6 +23,20 @@ public class UserInfoDTO {
 
     private String regDate;
 
+    public UserInfoDTO(User user) {
+        if (user != null) {
+            this.setUserId(user.getUserId());
+            this.setAddress(user.getAddress());
+            this.setLatitude(user.getLatitude());
+            this.setLongitude(user.getLongitude());
+            this.setPhone(user.getPhone());
+            this.setUserName(user.getUserName());
+            this.setPhoto(user.getPhoto());
+            this.setRegDate(user.getRegDate());
+        }
+
+    }
+
     public long getUserId() {
         return userId;
     }
@@ -38,7 +52,6 @@ public class UserInfoDTO {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
 
     public double getLongitude() {
         return longitude;
@@ -86,19 +99,5 @@ public class UserInfoDTO {
 
     public void setRegDate(String regDate) {
         this.regDate = regDate;
-    }
-
-    public UserInfoDTO(User user){
-        if(user != null){
-            this.setUserId(user.getUserId());
-            this.setAddress(user.getAddress());
-            this.setLatitude(user.getLatitude());
-            this.setLongitude(user.getLongitude());
-            this.setPhone(user.getPhone());
-            this.setUserName(user.getUserName());
-            this.setPhoto(user.getPhoto());
-            this.setRegDate(user.getRegDate());
-        }
-
     }
 }

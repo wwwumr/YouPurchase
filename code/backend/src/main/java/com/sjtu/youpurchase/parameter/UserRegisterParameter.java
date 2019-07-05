@@ -1,7 +1,7 @@
 package com.sjtu.youpurchase.parameter;
 
 /*
-* created by Deng Xiao*/
+ * created by Deng Xiao*/
 public class UserRegisterParameter {
 
     private String userName;
@@ -24,6 +24,10 @@ public class UserRegisterParameter {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public double getLatitude() {
         return latitude;
     }
@@ -38,10 +42,6 @@ public class UserRegisterParameter {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getPassword() {

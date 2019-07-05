@@ -1,12 +1,13 @@
 package com.sjtu.youpurchase.serviceImpl;
 
-import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.DTO.DealerDTO;
 import com.sjtu.youpurchase.dao.DealerDao;
 import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
+import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +21,12 @@ import java.util.List;
 @Service
 public class DealerServiceImpl implements DealerService {
 
+    @Value("${imageBaseDirectory}")
+    private static String imageBaseDirectory;
+    @Value("${dealerDefaultAvatarUrl}")
+    private static String dealerDefaultAvatarUrl;
+    // TODO: 添加经销商默认头像uri
+    private static String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
     @Autowired
     private DealerDao dealerDao;
 
@@ -32,6 +39,7 @@ public class DealerServiceImpl implements DealerService {
             DealerDTO dealerDto = new DealerDTO();
             dealerDto.setKey(d.getDealerId());
             dealerDto.setUserName(d.getUserName());
+            dealerDto.setAvatar(d.getAvatar());
             dealerDto.setAddress(d.getAddress());
             dealerDto.setRealName(d.getRealName());
             dealerDto.setContact(d.getContact());
@@ -50,6 +58,7 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
+        dealer.setAvatar(DEALER_DEFAULT_AVATAR_URL);
         dealer.setStore(new Store());
 
         dealerDao.addADealer(dealer);
@@ -68,22 +77,8 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
-    public void updateDealerStore() {
-
-    }
-
-    @Override
     public void updateDealerPassword(String password) {
 
     }
 
-    @Override
-    public void bindStore() {
-
-    }
-
-    @Override
-    public void unbindStore() {
-
-    }
 }

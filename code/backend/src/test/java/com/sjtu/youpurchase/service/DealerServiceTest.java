@@ -1,9 +1,9 @@
 package com.sjtu.youpurchase.service;
 
-import com.sjtu.youpurchase.parameter.DealerParameter;
 import com.sjtu.youpurchase.dao.DealerDao;
 import com.sjtu.youpurchase.entity.Dealer;
 import com.sjtu.youpurchase.entity.Store;
+import com.sjtu.youpurchase.parameter.DealerParameter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

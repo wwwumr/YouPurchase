@@ -1,6 +1,5 @@
 package com.sjtu.youpurchase.dao;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.sjtu.youpurchase.entity.Store;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -45,18 +44,18 @@ public class StoreDaoTest {
     }
 
     @Test
-    public void testGetStoreById() throws Exception{
+    public void testGetStoreById() throws Exception {
         // assume we have a tuple in the database which value is
         // (`store_id`, `address`, `contact`, `cover_pic_url`, `latitude`, `longitude`, `open_hour_end`, `open_hour_start`, `store_name`, `dealer_id`, `attached`)
         // (233, 'testaddress', '123456000', '/testimg.jpg', 123.3024, 49.2313, '2019-07-04 19:30:13', '2019-07-04 08:00:36', 'laowang''s', null, false)
         Store store = storeDao.getStoreByStoreId(233L);
-        Assert.assertEquals(store.getStoreName(),"laowang's");
-        Assert.assertEquals(store.getAddress(),"testaddress");
-        Assert.assertEquals(store.getCoverPicUrl(),"/testimg.jpg");
+        Assert.assertEquals(store.getStoreName(), "laowang's");
+        Assert.assertEquals(store.getAddress(), "testaddress");
+        Assert.assertEquals(store.getCoverPicUrl(), "/testimg.jpg");
     }
 
     @Test
-    public void testAddAStore() throws Exception{
+    public void testAddAStore() throws Exception {
         Store store = new Store();
         store.setStoreName("KFC");
         store.setAddress("Dongchuan Road 800");
@@ -70,15 +69,38 @@ public class StoreDaoTest {
     }
 
     @Test
-    public void testUpdateStore() throws Exception{
+    public void testUpdateStore() throws Exception {
         // assume we have a tuple in the database which value is
         // (`store_id`, `address`, `contact`, `cover_pic_url`, `latitude`, `longitude`, `open_hour_end`, `open_hour_start`, `store_name`, `dealer_id`, `attached`)
         // (233, 'testaddress', '123456000', '/testimg.jpg', 123.3024, 49.2313, '2019-07-04 19:30:13', '2019-07-04 08:00:36', 'laowang''s', null, false)
         Store store = storeDao.getStoreByStoreId(233L);
-        Assert.assertEquals(store.getStoreName(),"laowang's");
+        Assert.assertEquals(store.getStoreName(), "laowang's");
         store.setStoreName("five cafe");
         storeDao.updateStore(store);
         Store store1 = storeDao.getStoreByStoreId(233L);
-        Assert.assertEquals(store1.getStoreName(),"five cafe");
+        Assert.assertEquals(store1.getStoreName(), "five cafe");
+        store1.setStoreName("laowang's");
+        storeDao.updateStore(store1);
+    }
+
+    @Test
+    public void testBindDealerAndStore() throws Exception {
+        // assume we have a tuple in the database which value is
+        // (`store_id`, `address`, `contact`, `cover_pic_url`, `latitude`, `longitude`, `open_hour_end`, `open_hour_start`, `store_name`, `dealer_id`, `attached`)
+        // (233, 'testaddress', '123456000', '/testimg.jpg', 123.3024, 49.2313, '2019-07-04 19:30:13', '2019-07-04 08:00:36', 'laowang''s', null, false)
+        // and another tuple in table `dealer`
+        // (`dealer_id`, `address`, `contact`, `password`, `real_name`, `user_name`, `store_id`, `attached`, `avatar`)
+        // (124, 'ECNU', '233333', 'abc123', 'cristiano', 'hello', null, false, null)
+        storeDao.bindDealerStore(124L, 233L);
+        Assert.assertEquals(storeDao.getStoreByStoreId(233L).isAttached(), true);
+        Assert.assertEquals(storeDao.getStoreByStoreId(233L).getDealer().getDealerId().longValue(), 124L);
+    }
+
+    @Test
+    public void testUnbindDealerAndStore() throws Exception {
+        // 这个测试接上个测试
+        storeDao.unbindDealerStore(124L, 233L);
+        Assert.assertEquals(storeDao.getStoreByStoreId(233L).isAttached(), false);
+        Assert.assertNull(storeDao.getStoreByStoreId(233L).getDealer());
     }
 }
