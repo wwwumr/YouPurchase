@@ -1,10 +1,9 @@
 import React from 'react';
-import shopMock from '../../mock/shopMock';
-import { Input, message, Popconfirm } from 'antd';
-import { Button } from 'antd/lib/radio';
-import ImageUpload from './ShopDetail/ImageUpload';
-import DealerAutoInput from './ShopDetail/DealerAutoInput';
+import { Input, message, Popconfirm, Button } from 'antd';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import shopMock from '../../../mock/shopMock';
+import ImageUpload from './shopDetail/ImageUpload';
+import DealerAutoInput from './shopDetail/DealerAutoInput';
 
 class ShopDetail extends React.Component {
     constructor(props) {

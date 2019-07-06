@@ -1,6 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
-import config from '../../../config/config'
+import config from '../../../../config/config'
 
 
 function getBase64(img, callback) {

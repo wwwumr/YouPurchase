@@ -1,14 +1,13 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Link } from 'react-router-dom';
-import {hashHistory} from 'react-dom'
+import { hashHistory } from 'react-dom'
 import 'antd/dist/antd.css';
 import { Layout, Menu, Avatar } from 'antd';
-import '../assets/App.css';
 import HomePage from './HomePage';
-import DealerManage from './DealerManage';
-import ShopManage from './ShopManage';
-import ShopDetail from './shopManage/ShopDetail';
-import DealerMessage from './dealerManage/DealerMessage';
+import DealerManage from './dealerManage/DealerManage';
+import ShopManage from './shopManage/ShopManage';
+import ShopDetail from './shopManage/shopDetail/ShopDetail';
+import DealerMessage from './dealerManage/dealerMessage/DealerMessage';
 import config from '../config/config';
 
 const { Header, Content, Footer} = Layout;
@@ -40,10 +39,11 @@ class App extends React.Component {
                             this.state.userName !== '' &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
-                                    <Link to="/"><Avatar size={45} 
-                                    src={config.avatar.url} 
-                                />
-                                </Link>
+                                    <Link to="/">
+                                        <Avatar size={45} 
+                                            src={config.avatar.url} 
+                                        />
+                                    </Link>
                                 </Menu.Item>
                                 <Menu.Item key="2">{ this.state.userName }</Menu.Item> 
                                 <Menu.Item key="3"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>

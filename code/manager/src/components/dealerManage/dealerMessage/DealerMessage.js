@@ -1,6 +1,6 @@
 import React from 'react';
-import dealerData from '../../mock/dealerMock';
-import config from '../../config/config';
+import dealerData from '../../../mock/dealerMock';
+import config from '../../../config/config';
 
 class DealerMessage extends React.Component {
     constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
 import { Link } from 'react-router-dom';
-import dealerMock from '../../../mock/dealerMock';
+import dealerMock from '../../../../mock/dealerMock';
 
 const { Option } = AutoComplete;
 

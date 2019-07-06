@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Input, Button, Icon, Modal, message } from 'antd';
 import Highlighter from 'react-highlight-words';
-import shopMock from '../mock/shopMock'
-import config from '../config/config';
+import shopMock from '../../mock/shopMock'
+import config from '../../config/config';
 
 class ShopManage extends React.Component {
     constructor(props) {
