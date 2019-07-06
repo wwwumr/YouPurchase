@@ -1,5 +1,9 @@
 # 前端制作过程中查询资料
 
+react 编程规范:
+
+https://blog.csdn.net/yczz/article/details/50379212
+
 css: 关于盒子模型及布局对齐的有关知识:
 
 http://www.w3school.com.cn/css/css_table.asp
