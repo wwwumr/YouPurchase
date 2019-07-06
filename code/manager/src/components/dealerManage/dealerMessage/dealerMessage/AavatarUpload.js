@@ -22,20 +22,22 @@ function beforeUpload(file) {
     return true;
 }
 
+/* 父组件设置style更改width与height */
     
-class ImageUpload extends React.Component {
+class AvatarUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: config.shop.shopUrl,
+            imageUrl: config.dealer.avatarUrl,
         };
+        
     }
 
     componentWillMount() {
-        var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.shopUrl;
+        var avatar = this.props.avatar ? this.props.avatar : config.dealer.avatarUrl;
         this.setState({
-            imageUrl: coverPic,
+            imageUrl: avatar,
         })
     }
     
@@ -48,8 +50,8 @@ class ImageUpload extends React.Component {
         // Get this url from response in real world.
             getBase64(info.file.originFileObj, imageUrl =>
                 this.setState({
-                    imageUrl: imageUrl,
-                    loading: false,
+                imageUrl: imageUrl,
+                loading: false,
                 }),
             );
         }
@@ -73,22 +75,28 @@ class ImageUpload extends React.Component {
                 action= {config.uploadImage.action}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
-                style={{position: "relative",display: "block", width: "400px", height: "300px", 
+                style={{position: "relative",display: "block", width: "100px", height: "100px", 
                     verticalAlign: "center", textAlign: "center"}}
             >
                 {/* action之后重构 */}
                 {
                     this.state.imageUrl ?
+                    (
+                    <div
+                        style={{position: "relative", width: "90px", height: "90px", marginLeft: "-2px", marginTop: "-2px"}}
+                    >
                     <img src={this.state.imageUrl} alt="avatar" 
-                        style={{position: "relative", width: "100%", height: "90%"}}
+                        style={{position: "relative", width: "100%", height: "100%"}} 
                     /> 
+                    </div>
+                    )
                     : uploadButton
                 }
-                <h3>点击更换图片</h3>
+                
             </Upload>
         </Tooltip>
         );
     }
 }
 
-export default ImageUpload;
+export default AvatarUpload;

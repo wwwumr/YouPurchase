@@ -4,38 +4,21 @@ import { Link } from 'react-router-dom/cjs/react-router-dom';
 import shopMock from '../../../mock/shopMock';
 import ImageUpload from './shopDetail/ImageUpload';
 import DealerAutoInput from './shopDetail/DealerAutoInput';
+import config from '../../../config/config';
 
 class ShopDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            shop: {
-                key: null, 
-                storeName: '', 
-                address: '', 
-                coverPicUrl: 'http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg', 
-                contact: '', 
-                hours: [],
-                dealerId: null,
-                dealerName: "",
-            },
-            originShop: {
-                key: null, 
-                storeName: '', 
-                address: '', 
-                coverPicUrl: 'http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg', 
-                contact: '', 
-                hours: [],
-                dealerId: null,
-                ealerName: "",
-            }
+            shop: config.shop.originShop,
+            originShop: config.shop.originShop,
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         /* axios function */
 
-        var key = this.props.location.shopKey ? this.props.location.shopKey : 0;
+        var key = this.props.location.storeId ? this.props.location.storeId : 0;
         this.setState({
             shop: shopMock[key],
             originShop: Object.assign({}, shopMock[key]),
@@ -46,11 +29,14 @@ class ShopDetail extends React.Component {
     handleChange = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
-        if (shop.address !== originShop.address || shop.contact !== originShop.contact 
-            || shop.coverPicUrl !== originShop.coverPicUrl || shop.hours[0] !== originShop.hours[0]
-            || shop.hours[1] !== originShop.hours[1] || shop.storeName !== originShop.storeName 
-            || shop.dealerName !== originShop.dealerName) {
+        this.checkShop(shop, originShop); 
+    }
 
+    checkShop(shop, originShop) {
+        if (shop.address !== originShop.address || shop.contact !== originShop.contact
+            || shop.coverPicUrl !== originShop.coverPicUrl || shop.hours[0] !== originShop.hours[0]
+            || shop.hours[1] !== originShop.hours[1] || shop.storeName !== originShop.storeName
+            || shop.dealerName !== originShop.dealerName) {
             alert("修改成功");
         } 
     }
@@ -62,7 +48,7 @@ class ShopDetail extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "30px", marginTop: "50px"}}
             >
-            <ImageUpload />
+            <ImageUpload coverPic={this.state.shop.coverPicUrl} />
             </div>
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}

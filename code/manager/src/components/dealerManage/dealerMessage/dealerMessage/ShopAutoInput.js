@@ -1,32 +1,30 @@
 import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
 import { Link } from 'react-router-dom';
-import dealerMock from '../../../../mock/dealerMock';
+import shopMock from '../../../../mock/shopMock';
+import config from '../../../../config/config';
 
 const { Option } = AutoComplete;
 
-
+/* 菜单中展示的信息 */
 function renderOption(item) {
     return (
-        <Option key={item.userName} text={item.userName}>
         
+        <Option key={item.storeName} text={item.storeName}>
         <div className="global-search-item">
             <span style={{marginLeft: "20px"}} >
                 <img style={{height: "40px"}} 
-                    src={"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} 
-                    alt={"头像"} 
+                    src={config.autoInput.url} 
+                    alt={config.autoInput.alt} 
                 />
             </span>
             <span className="global-search-item-desc" style={{marginLeft: "30px"}}>
-            {item.realName}
-            </span>
-            <span className="global-search-item-desc" style={{marginLeft: "30px"}}>
-            {item.userName}
+            {item.storeName}
             </span>
             <span className="global-search-item-desc" style={{margin: "10px",  float: "right",}}>
             <Link to={{
-                pathname: "/dealerManage/dealerMessage/", 
-                dealerKey: item.key
+                pathname: "/shopManage/shopDetail/", 
+                storeId: item.storeId
             }}>
             查看信息
             </Link>
@@ -36,23 +34,24 @@ function renderOption(item) {
     );
 }
 
-class DealerAutoInput extends React.Component {
+/* 父组件传入setShop以改变storeName,传入style以改变样式 */
+
+class ShopAutoInput extends React.Component {
     state = {
         dataSource: [],
-        dealerData: [],
+        shopData: [],
     };
 
     componentWillMount() {
         this.setState({
-            dealerData: dealerMock,
+            shopData: shopMock,
         })
     }
 
     handleSearch = value => {
         if (value === "") {return false;}
-        const dataSource = this.state.dealerData.filter((elem) => {
-            return elem.realName.slice(0, value.length) === value 
-                    || elem.userName.slice(0, value.length) === value ;
+        const dataSource = this.state.shopData.filter((elem) => {
+            return elem.storeName.slice(0, value.length) === value ;
         })
         this.setState({
             dataSource: dataSource,
@@ -60,24 +59,25 @@ class DealerAutoInput extends React.Component {
     };
 
     handleSelect = (name) => {
-        const dealer = this.state.dealerData.find((elem) => {
-            return elem.userName === name;
+        var shop = this.state.shopData.find((elem) => {
+            return elem.storeName === name;
         })
-        this.props.setDealer(dealer.key, dealer.userName);
+        this.props.setShop(shop.key, shop.storeName);
     }
 
     render() {
         const { dataSource } = this.state;
+        const inputMarginButtom = this.props.style.marginBottom ? this.props.style.marginBottom : "10px";
         return (
         <div className="global-search-wrapper" style={{ width: "100%" }}>
             <AutoComplete
                 className="global-search"
                 size="large"
-                style={{ width: '100%', marginBottom: this.props.marginBottom}}
+                style={{ width: '100%', marginBottom: inputMarginButtom}}
                 dataSource={dataSource.map(renderOption)}
                 onSelect={ this.handleSelect }
                 onSearch={ this.handleSearch }
-                placeholder="修改经销商"
+                placeholder="输入店铺名以修改店铺"
                 optionLabelProp="text"
             >
                 <Input
@@ -96,4 +96,4 @@ class DealerAutoInput extends React.Component {
     }
 }
 
-export default DealerAutoInput;
+export default ShopAutoInput;

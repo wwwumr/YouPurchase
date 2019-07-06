@@ -17,7 +17,7 @@ class ShopManage extends React.Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         document.getElementById("background").style.backgroundImage="none";
         this.setState({
             shopData: shopMock
@@ -161,7 +161,7 @@ class ShopManage extends React.Component {
                     title: "修改信息",
                     dataIndex: "key",
                     key: "6",
-                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/", shopKey: text}} >修改</Link></Button>
+                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/", storeId: text}} >修改</Link></Button>
                 }
             ];
 

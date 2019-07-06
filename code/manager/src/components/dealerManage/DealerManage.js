@@ -17,7 +17,7 @@ class DealerManage extends React.Component {
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         document.getElementById("background").style.backgroundImage="none";
         this.setState({
             dealerData: dealerMock,

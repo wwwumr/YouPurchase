@@ -6,7 +6,7 @@ const { Title } = Typography;
 
 class HomePage extends React.Component {
 
-    componentDidMount() {
+    componentWillMount() {
         document.getElementById("background").style.backgroundImage="url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)";
     }
 
