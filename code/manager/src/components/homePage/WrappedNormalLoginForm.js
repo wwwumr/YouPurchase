@@ -34,6 +34,7 @@ class NormalLoginForm extends React.Component {
                     <Input
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         placeholder="用户名"
+                        autoComplete="on"
                     />,
                     )}
                 </Form.Item>
@@ -45,6 +46,7 @@ class NormalLoginForm extends React.Component {
                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         type="password"
                         placeholder="密码"
+                        autoComplete="on"
                     />,
                     )}
                 </Form.Item>

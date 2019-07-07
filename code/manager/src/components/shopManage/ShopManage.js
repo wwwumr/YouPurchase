@@ -17,7 +17,7 @@ class ShopManage extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         document.getElementById("background").style.backgroundImage="none";
         this.setState({
             shopData: shopMock
