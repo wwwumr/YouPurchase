@@ -1,6 +1,7 @@
 import React from 'react';
-import { Input, message, Popconfirm, Button } from 'antd';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { Input, message, Popconfirm, Button } from 'antd';
+import axios from 'axios';
 import dealerData from '../../../mock/dealerMock';
 import config from '../../../config/config';
 import AvatarUpload from './dealerMessage/AavatarUpload';
@@ -16,9 +17,18 @@ class DealerMessage extends React.Component {
     }
 
     componentWillMount() {
-        /* axios function */
-
+        
         const key = this.props.location.dealerKey ? this.props.location.dealerKey : 0;
+        /* axios function 
+        axios.get(config.url.dealers+key)
+            .then((res) => {
+                this.setState({
+                    dealer: res.data,
+                    originDealer: res.data,
+                })
+            })
+        */
+        /* mock */
         const dealers = dealerData;
         const dealer = dealers.find((elem) => {
             return elem.key === key;
@@ -26,6 +36,46 @@ class DealerMessage extends React.Component {
         this.setState({
             dealer: dealer,
             originDealer: dealer,
+        })
+    }
+
+    handleChange = () => {
+        /* axios 
+        var dealer = this.state.dealer;
+        axios.put(config.url.dealers, 
+                dealer
+            ).then((res) => {
+                if (res.data < 0) {
+                    message.error("修改失败");
+                } else {
+                    message.success("修改成功");
+                }
+            })
+        */
+        message.success("修改成功");
+    }
+
+    handleUnbind = () => {
+        /* axios function 
+        axios.get(config.url.stores+"unbind?dealerId="+this.state.dealer.key+"&storeId="+this.state.dealer.storeId)
+            .then((res) => {
+                if (res.data < 0) {
+                    message.error("解除授权失败");
+                } else {
+                    message.success("授权已取消");
+                    var dealer = this.state.dealer;
+                    dealer.storeName = "";
+                    this.setState({
+                        dealer: dealer,
+                    })
+                }
+            })
+        */
+        message.info("授权已取消");
+        var dealer = this.state.dealer;
+        dealer.storeName = "";
+        this.setState({
+            dealer: dealer,
         })
     }
 
@@ -98,14 +148,7 @@ class DealerMessage extends React.Component {
                 <Popconfirm
                     title="你确定要取消经销商对该店铺的管理授权吗?" okText="确认" cancelText="取消"
                     disabled={!this.state.dealer.storeName}
-                    onConfirm={()=>{
-                        message.info("授权已取消");
-                        var dealer = this.state.dealer;
-                        dealer.storeName = "";
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onConfirm={ this.handleUnbind }
                 >
                     <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}}  
                     >
@@ -125,6 +168,7 @@ class DealerMessage extends React.Component {
                     </Link>
                 </Button>
                 <ShopAutoInput 
+                    storeName = { this.state.dealer.storeName }
                     setShop={(id, name) => {
                         var dealer = this.state.dealer;
                         dealer.storeId = id;
@@ -133,7 +177,6 @@ class DealerMessage extends React.Component {
                             dealer: dealer,
                         })
                     }} 
-                    style = {{ marginBottom: "10px" }}
                 >
                 </ShopAutoInput>
                 <Button 

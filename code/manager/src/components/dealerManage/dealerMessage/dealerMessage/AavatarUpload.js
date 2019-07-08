@@ -22,8 +22,7 @@ function beforeUpload(file) {
     return true;
 }
 
-/* 父组件设置style更改width与height */
-    
+
 class AvatarUpload extends React.Component {
     constructor(props) {
         super(props);

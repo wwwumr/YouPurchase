@@ -49,7 +49,12 @@ class ShopAutoInput extends React.Component {
     }
 
     handleSearch = value => {
-        if (value === "") {return false;}
+        if (value === "") {
+            this.setState({
+                dataSource: this.state.shopData,
+            })
+            return ;
+        }
         const dataSource = this.state.shopData.filter((elem) => {
             return elem.storeName.slice(0, value.length) === value ;
         })
@@ -67,18 +72,19 @@ class ShopAutoInput extends React.Component {
 
     render() {
         const { dataSource } = this.state;
-        const inputMarginButtom = this.props.style.marginBottom ? this.props.style.marginBottom : "10px";
+        const inputMarginButtom = "10px";
         return (
         <div className="global-search-wrapper" style={{ width: "100%" }}>
             <AutoComplete
                 className="global-search"
                 size="large"
+                placeholder="输入店铺名以修改店铺"
+                optionLabelProp="text"
                 style={{ width: '100%', marginBottom: inputMarginButtom}}
                 dataSource={dataSource.map(renderOption)}
                 onSelect={ this.handleSelect }
                 onSearch={ this.handleSearch }
-                placeholder="输入店铺名以修改店铺"
-                optionLabelProp="text"
+                disabled={ this.props.storeName !== "" }
             >
                 <Input
                     suffix={

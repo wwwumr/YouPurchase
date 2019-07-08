@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Table, Input, Button, Icon, Modal, message } from 'antd';
 import Highlighter from 'react-highlight-words';
+import axios from 'axios';
 import shopMock from '../../mock/shopMock'
 import config from '../../config/config';
 
@@ -19,6 +20,14 @@ class ShopManage extends React.Component {
 
     componentDidMount() {
         document.getElementById("background").style.backgroundImage="none";
+        /* axios 
+        axios.get(config.url.stores)
+            .then((res) => {
+                this.setState({
+                    shopData: res.data
+                })
+            })
+        */
         this.setState({
             shopData: shopMock
         })
@@ -96,18 +105,21 @@ class ShopManage extends React.Component {
     handleOk = e => {
 
         var shop = this.state.shop;
-        shop.key = this.state.shopData.length+1;
         /* 检查商店格式 */
         if (this.checkShop(shop)) {
-            /* 接收数据 */
             var shopData = this.state.shopData;
-            /* 前端更新 */
-            shopData.push(shop);
-            this.setState({
-                shopData: shopData,
-                shop: config.shop.originShop,
-                visible: false,
-            });
+            /* 接收数据 */
+            axios.post(config.url.stores, this.state.shop)
+                .then((res) => {
+                    /* 前端更新 */
+                    shop.key = res.data;
+                    shopData.push(shop);
+                    this.setState({
+                        shopData: shopData,
+                        shop: config.shop.originShop,
+                        visible: false,
+                    })
+                })
         } else {
             message.error("所填不能为空");
             console.log(this.state.shop);
@@ -121,6 +133,7 @@ class ShopManage extends React.Component {
                 return elem.key !== element;
             })
         });
+        /* axios */
         this.setState({ 
             shopData: shopData,
             selectedRowKeys: [],

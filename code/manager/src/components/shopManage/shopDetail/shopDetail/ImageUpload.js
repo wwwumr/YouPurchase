@@ -71,6 +71,7 @@ class ImageUpload extends React.Component {
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.action}
+                data={this.state.imageUrl}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "400px", height: "300px", 

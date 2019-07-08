@@ -26,7 +26,16 @@ var config = {
             password: "",
             avatar: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1700741544,1951185347&fm=27&gp=0.jpg",
         },
-
+        postDealer: {
+            key: null,
+            userName: "",
+            address: "",
+            realName: "",
+            contact: "",
+            storeId: null,
+            storeName: "",
+            password: "",
+        }
     },
     uploadImage: {
         validFormat: ["image/jpge", "image/png"],
@@ -43,6 +52,13 @@ var config = {
 
     },
     homePageImageUrl: "url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)",
+    url: {
+        root: "http://localhost:9000/",
+        logIn: "http://localhost:9000/logIn/",
+        stores: "http://localhost:9000/stores/",
+        dealers: "http://localhost:9000/dealers/",
+        newdealer: "http://localhost:9000/dealers/",
+    }
 }
 
 export default config;

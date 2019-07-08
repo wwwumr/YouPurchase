@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Button, Icon, Modal, Avatar } from 'antd';
+import { Table, Input, Button, Icon, Modal, Avatar, message } from 'antd';
 import Highlighter from 'react-highlight-words';
+import axios from 'axios';
 import dealerMock from '../../mock/dealerMock'
 import config from '../../config/config';
 
@@ -17,13 +18,31 @@ class DealerManage extends React.Component {
         };
     }
 
+    /*********************************** 
+    ****          生命周期函数       ****
+    ************************************/
+
     componentWillMount() {
-        document.getElementById("background").style.backgroundImage="none";
+        
+        /* mock模拟*/
         this.setState({
             dealerData: dealerMock,
         })
+        /* 请求经销商数据 
+        axios.get(config.url.dealers).then((res) => {
+            this.setState({
+                dealerData: res.data,
+            })
+        })*/
     }
 
+    componentDidMount() {
+        document.getElementById("background").style.backgroundImage="none";
+    }
+
+    /*****************************************
+    ****             antd  函数           **** 
+    *****************************************/
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -74,6 +93,7 @@ class DealerManage extends React.Component {
         ),
     });
 
+    /* handle functions */
     handleSearch = (selectedKeys, confirm) => {
         confirm();
         this.setState({ searchText: selectedKeys[0] });
@@ -84,28 +104,32 @@ class DealerManage extends React.Component {
         this.setState({ searchText: '' });
     };
 
-    /* 检查dealer是否合格 */
-    checkDealer = (dealer) => {
-        if (dealer.userName !== "" && dealer.address !== "" && dealer.realName !== "" 
-            && dealer.contact !== "" && dealer.password !== "" && dealer.avatar !== "") {
-            return true;
-        }
-        return false;
-    }
-
+    /*****************************************
+    ****           事件处理 函数           **** 
+    *****************************************/
     handleOk = e => {
         /* 检查经销商账户合法性 */
         var dealer = this.state.dealer;
-        dealer.key = this.state.dealerData.length + 1;
         if (this.checkDealer(dealer)) {
-            /* 发送后端并更新前端 */
-            var dealerData = this.state.dealerData;
-            dealerData.push(dealer);
-            this.setState({
-                dealerData: dealerData,
-                dealer: config.dealer.originDealer,
-                visible: false,
-            });
+            message.info("创建成功");
+            /* 发送后端并更新前端 axios 
+            axios.post(config.url.newdealer, dealer)
+                .then((res) => {
+                    if (res.data < 0) {
+                        message.error("新用户创建失败");
+                    } else {
+                        dealer.key = res.data;
+                        var dealerData = this.state.dealerData;
+                        dealerData.push(dealer);
+                        this.setState({
+                            dealerData: dealerData,
+                            dealer: config.dealer.originDealer,
+                            visible: false,
+                        });
+                        message.success("新用户创建成功");
+                    }
+                })
+            */
         } else {
             alert("所填不能为空");
             console.log(this.state.dealer);
@@ -119,12 +143,21 @@ class DealerManage extends React.Component {
                 return elem.key !== element;
             })
         });
+        /* axios */
         this.setState({ 
             dealerData: dealerData,
             selectedRowKeys: [],
         });
     };
-
+    
+    /* 检查dealer是否合格 */
+    checkDealer = (dealer) => {
+        if (dealer.userName !== "" && dealer.address !== "" && dealer.realName !== "" 
+            && dealer.contact !== "" && dealer.password !== "" && dealer.avatar !== "") {
+            return true;
+        }
+        return false;
+    }
 
     render() {
 
