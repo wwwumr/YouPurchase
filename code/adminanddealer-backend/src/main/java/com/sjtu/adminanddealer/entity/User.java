@@ -52,7 +52,7 @@ public class User {
     private boolean status;
 
 
-    public void setInfo(UserRegisterParameter userRegisterParameter){
+    public void setInfo(UserRegisterParameter userRegisterParameter) {
         this.setUserName(userRegisterParameter.getUserName());
         this.setPassword(userRegisterParameter.getPassword());
         this.setAddress(userRegisterParameter.getAddress());
@@ -65,13 +65,12 @@ public class User {
         this.setStatus(true);
     }
 
-    public boolean pwdConfirm(String pwd){
-        if(pwd.equals(this.password))
+    public boolean pwdConfirm(String pwd) {
+        if (pwd.equals(this.password))
             return true;
         else
             return false;
     }
-
 
 
     //getter and setter

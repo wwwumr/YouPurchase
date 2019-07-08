@@ -55,6 +55,11 @@ public class DealerDaoImpl implements DealerDao {
     }
 
     @Override
+    public Dealer getDealerByUserNameAndPassword(String userName, String password) {
+        return dealerRepository.getDealerByUserNameAndPassword(userName, password);
+    }
+
+    @Override
     public void updateDealerPassword(Long dealerId, String newPassword) {
 
     }

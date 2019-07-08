@@ -23,6 +23,7 @@ public interface DealerService {
 
     /**
      * 通过dealerId获取经销商信息
+     *
      * @param dealerId 经销商id
      * @return 对应id的经销商信息
      */

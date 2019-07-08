@@ -26,8 +26,8 @@ public class ImageController {
     private String IMAGE_BASE_DIRECTORY;
 
     @GetMapping(value = "/{picUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public byte[] getImage(@PathVariable("picUrl")String picUrl) throws IOException {
-        File file = new File(IMAGE_BASE_DIRECTORY+picUrl);
+    public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
+        File file = new File(IMAGE_BASE_DIRECTORY + picUrl);
         FileInputStream inputStream = new FileInputStream(file);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());

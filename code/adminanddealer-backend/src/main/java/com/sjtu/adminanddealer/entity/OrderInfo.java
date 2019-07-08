@@ -27,7 +27,7 @@ public class OrderInfo {
     @Column(length = 5)
     private String status;
 
-    private  String userName;
+    private String userName;
 
     private long userId;
 
@@ -44,10 +44,10 @@ public class OrderInfo {
 
 
     /*
-    * Deng Xiao
-    * */
+     * Deng Xiao
+     * */
     //获取订单信息并设置
-    public void setOrderInfo(OrderPostParameter orderPostParameter){
+    public void setOrderInfo(OrderPostParameter orderPostParameter) {
         this.setStatus("已接单");
         this.setTotalPrice(orderPostParameter.getTotalPrice());
         this.setUserId(orderPostParameter.getUserId());

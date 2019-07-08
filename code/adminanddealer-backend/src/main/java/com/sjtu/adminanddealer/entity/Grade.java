@@ -39,7 +39,7 @@ public class Grade {
     //是否可用
     private boolean valid;
 
-    public void setInfo(GradeParameter gradeParameter){
+    public void setInfo(GradeParameter gradeParameter) {
         this.setContext(gradeParameter.getContext());
         this.setScore(gradeParameter.getScore());
         this.setValid(true);

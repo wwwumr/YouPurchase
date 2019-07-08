@@ -72,9 +72,9 @@ public class StoreServiceImpl implements StoreService {
         String endHour = dateFormat.format(store.getOpenHourEnd());
         String[] hours = {startHour, endHour};
 
-        StoreDTO dto = new StoreDTO(store.getStoreId(),store.getStoreName(),store.getAddress(),
-                store.getCoverPicUrl(),store.getContact(),hours,
-                store.getDealer().getDealerId().intValue(),store.getDealer().getUserName());
+        StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
+                store.getCoverPicUrl(), store.getContact(), hours,
+                store.getDealer().getDealerId().intValue(), store.getDealer().getUserName());
         return dto;
     }
 

@@ -23,6 +23,7 @@ public interface StoreService {
 
     /**
      * 通过店铺的id获取店铺信息
+     *
      * @param storeId 店铺id
      * @return 对应id的店铺信息
      */

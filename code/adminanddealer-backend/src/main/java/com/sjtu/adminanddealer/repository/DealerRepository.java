@@ -9,5 +9,7 @@ public interface DealerRepository extends JpaRepository<Dealer, Long> {
 
     Dealer getByDealerId(Long Id);
 
+    Dealer getDealerByUserNameAndPassword(String userName, String Password);
+
     List<Dealer> getByAttachedIsFalse();
 }

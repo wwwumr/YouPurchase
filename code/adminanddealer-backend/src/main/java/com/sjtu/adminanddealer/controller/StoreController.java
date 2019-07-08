@@ -36,11 +36,12 @@ public class StoreController {
 
     /**
      * 用店铺的id请求店铺的信息
+     *
      * @param storeId 店铺的id
      * @return 对应id的店铺信息
      */
     @GetMapping("/{storeId}")
-    public StoreDTO getStoreByStoreId(@PathVariable("storeId")Long storeId){
+    public StoreDTO getStoreByStoreId(@PathVariable("storeId") Long storeId) {
         return storeService.getStoreByStoreId(storeId);
     }
 
@@ -105,7 +106,7 @@ public class StoreController {
      * @return
      */
     @GetMapping("/unbindDealers")
-    public List<DealerDTO> getAllUnbindDealer(){
+    public List<DealerDTO> getAllUnbindDealer() {
         return storeService.getAllUnbindDealers();
     }
 

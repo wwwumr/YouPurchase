@@ -4,7 +4,6 @@ import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
-import com.sjtu.adminanddealer.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +38,7 @@ public class DealerController {
      * @return 对应id的经销商信息
      */
     @GetMapping("/{dealerId}")
-    public DealerDTO getDealerByDealerId(@PathVariable("dealerId") Long dealerId){
+    public DealerDTO getDealerByDealerId(@PathVariable("dealerId") Long dealerId) {
         return dealerService.getDealerByDealerId(dealerId);
     }
 
@@ -73,7 +72,7 @@ public class DealerController {
      * @return 所有未绑定的店铺信息
      */
     @GetMapping("/unbindStores")
-    public List<StoreDTO> getAllUnbindStore(){
+    public List<StoreDTO> getAllUnbindStore() {
         return dealerService.getAllUnbindStore();
     }
 }

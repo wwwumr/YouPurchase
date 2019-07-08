@@ -60,9 +60,9 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public DealerDTO getDealerByDealerId(Long dealerId) {
         Dealer dealer = dealerDao.getDealerById(dealerId);
-        DealerDTO dto = new DealerDTO(dealer.getDealerId(),dealer.getUserName(),dealer.getAvatar(),
-                dealer.getAddress(),dealer.getRealName(),dealer.getContact(),dealer.getStore().getStoreId(),
-                dealer.getStore().getStoreName(),dealer.getPassword());
+        DealerDTO dto = new DealerDTO(dealer.getDealerId(), dealer.getUserName(), dealer.getAvatar(),
+                dealer.getAddress(), dealer.getRealName(), dealer.getContact(), dealer.getStore().getStoreId(),
+                dealer.getStore().getStoreName(), dealer.getPassword());
         return dto;
     }
 

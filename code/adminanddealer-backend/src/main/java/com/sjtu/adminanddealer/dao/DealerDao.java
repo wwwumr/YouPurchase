@@ -50,9 +50,19 @@ public interface DealerDao {
 
     /**
      * 获取所有的未绑定的经销商实体
+     *
      * @return 包含所有未绑定经销商的列表
      */
     List<Dealer> getAllUnbindDealers();
+
+    /**
+     * 供登录使用，使用用户名与密码来获取一个经销商
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @return 如果用户名与密码匹配，返回对应的经销商；否则返回null
+     */
+    Dealer getDealerByUserNameAndPassword(String userName, String password);
 
     // TODO: updateDealerPassword no implement
     void updateDealerPassword(Long dealerId, String newPassword);

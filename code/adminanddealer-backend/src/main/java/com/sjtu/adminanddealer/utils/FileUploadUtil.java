@@ -61,11 +61,12 @@ public final class FileUploadUtil {
 
     /**
      * 覆盖一个已经存在的文件
-     * @param file 前端POST发送的文件
+     *
+     * @param file           前端POST发送的文件
      * @param originFilename 前端POST发送的原文件存入数据库中的url
      * @return 成功返回ok，失败返回error并打印错误信息
      */
-    public String coverExistFile(MultipartFile file, String originFilename){
+    public String coverExistFile(MultipartFile file, String originFilename) {
         File dest = new File(this.FILE_BASE_DIR + "images/" + originFilename);
         try {
             file.transferTo(dest);
