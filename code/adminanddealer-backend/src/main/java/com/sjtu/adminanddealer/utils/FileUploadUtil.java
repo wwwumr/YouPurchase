@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.utils;
+package com.sjtu.adminanddealer.utils;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,6 +53,24 @@ public final class FileUploadUtil {
         try {
             file.transferTo(dest);
             return "images/" + fileName;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    /**
+     * 覆盖一个已经存在的文件
+     *
+     * @param file           前端POST发送的文件
+     * @param originFilename 前端POST发送的原文件存入数据库中的url
+     * @return 成功返回ok，失败返回error并打印错误信息
+     */
+    public String coverExistFile(MultipartFile file, String originFilename) {
+        File dest = new File(this.FILE_BASE_DIR + "images/" + originFilename);
+        try {
+            file.transferTo(dest);
+            return "ok";
         } catch (IOException e) {
             e.printStackTrace();
             return "error";

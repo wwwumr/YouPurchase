@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.controller;
+package com.sjtu.adminanddealer.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,8 +26,8 @@ public class ImageController {
     private String IMAGE_BASE_DIRECTORY;
 
     @GetMapping(value = "/{picUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public byte[] getImage(@PathVariable("picUrl")String picUrl) throws IOException {
-        File file = new File(IMAGE_BASE_DIRECTORY+picUrl);
+    public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
+        File file = new File(IMAGE_BASE_DIRECTORY + picUrl);
         FileInputStream inputStream = new FileInputStream(file);
         byte[] bytes = new byte[inputStream.available()];
         inputStream.read(bytes, 0, inputStream.available());
