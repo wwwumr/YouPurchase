@@ -1,17 +1,17 @@
-package com.sjtu.youpurchase.DTO;
+package com.sjtu.adminanddealer.parameter;
+
+import lombok.Data;
 
 /**
- * 返回前端的经销商数据格式
+ * 前端发送新建或修改一个经销商的数据格式
  *
  * @author Chuyuxuan
  */
-public class DealerDTO {
-
+@Data
+public class DealerParameter {
     private Long key;
 
     private String userName;
-
-    private String avatar;
 
     private String address;
 
@@ -19,25 +19,18 @@ public class DealerDTO {
 
     private String contact;
 
-    private Long storeId;
-
-    private String storeName;
-
     private String password;
 
     /* constructor */
-    public DealerDTO() {
+    public DealerParameter() {
     }
 
-    public DealerDTO(Long key, String userName, String avatar, String address, String realName, String contact, Long storeId, String storeName, String password) {
+    public DealerParameter(Long key, String userName, String address, String realName, String contact, String password) {
         this.key = key;
         this.userName = userName;
-        this.avatar = avatar;
         this.address = address;
         this.realName = realName;
         this.contact = contact;
-        this.storeId = storeId;
-        this.storeName = storeName;
         this.password = password;
     }
 
@@ -56,14 +49,6 @@ public class DealerDTO {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getAddress() {
@@ -88,14 +73,6 @@ public class DealerDTO {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
     }
 
     public String getPassword() {

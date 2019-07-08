@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.DTO;
+package com.sjtu.adminanddealer.DTO;
 
 /**
  * 返回前端的经销商数据格式

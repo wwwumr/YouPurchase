@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.utils;
+package com.sjtu.adminanddealer.utils;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
