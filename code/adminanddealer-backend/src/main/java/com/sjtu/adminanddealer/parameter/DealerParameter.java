@@ -21,17 +21,21 @@ public class DealerParameter {
 
     private String password;
 
+    private Long storeId;
+
     /* constructor */
     public DealerParameter() {
     }
 
-    public DealerParameter(Long key, String userName, String address, String realName, String contact, String password) {
+    public DealerParameter(Long key, String userName, String address, String realName,
+                           String contact, String password, Long storeId) {
         this.key = key;
         this.userName = userName;
         this.address = address;
         this.realName = realName;
         this.contact = contact;
         this.password = password;
+        this.storeId = storeId;
     }
 
     /* getter and setter */

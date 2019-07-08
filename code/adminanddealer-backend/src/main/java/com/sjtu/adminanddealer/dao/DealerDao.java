@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Dealer;
+import com.sjtu.adminanddealer.entity.Store;
 
 import java.util.List;
 
@@ -40,6 +41,18 @@ public interface DealerDao {
      */
     void addADealer(Dealer dealer);
 
+    /**
+     * 获取所有未绑定经销商的店铺实体
+     *
+     * @return 包含所有未绑定店铺的列表
+     */
+    List<Store> getAllUnbindStore();
+
+    /**
+     * 获取所有的未绑定的经销商实体
+     * @return 包含所有未绑定经销商的列表
+     */
+    List<Dealer> getAllUnbindDealers();
 
     // TODO: updateDealerPassword no implement
     void updateDealerPassword(Long dealerId, String newPassword);

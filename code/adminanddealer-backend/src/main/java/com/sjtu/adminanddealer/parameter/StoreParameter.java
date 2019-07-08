@@ -17,16 +17,20 @@ public class StoreParameter {
 
     private String[] hours;
 
+    private Long dealerId;
+
     /* constructor */
     public StoreParameter() {
     }
 
-    public StoreParameter(Long key, String storeName, String address, String contact, String[] hours) {
+    public StoreParameter(Long key, String storeName, String address,
+                          String contact, String[] hours, Long dealerId) {
         this.key = key;
         this.storeName = storeName;
         this.address = address;
         this.contact = contact;
         this.hours = hours;
+        this.dealerId = dealerId;
     }
 
     /* getter and setter */

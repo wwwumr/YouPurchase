@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.service;
 
 import com.sjtu.adminanddealer.DTO.DealerDTO;
+import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 
 import java.util.List;
@@ -19,6 +20,13 @@ public interface DealerService {
      * @see DealerService
      */
     List<DealerDTO> getAllDealers();
+
+    /**
+     * 通过dealerId获取经销商信息
+     * @param dealerId 经销商id
+     * @return 对应id的经销商信息
+     */
+    DealerDTO getDealerByDealerId(Long dealerId);
 
     /**
      * 新建一个经销商账户
@@ -42,5 +50,11 @@ public interface DealerService {
      */
     void updateDealerPassword(String password);
 
+    /**
+     * 获取所有没有绑定的店铺
+     *
+     * @return
+     */
+    List<StoreDTO> getAllUnbindStore();
 
 }

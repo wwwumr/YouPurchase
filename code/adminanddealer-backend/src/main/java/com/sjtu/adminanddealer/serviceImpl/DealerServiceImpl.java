@@ -1,7 +1,9 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.sjtu.adminanddealer.DTO.DealerDTO;
+import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
+import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +34,9 @@ public class DealerServiceImpl implements DealerService {
     @Autowired
     private DealerDao dealerDao;
 
+    @Autowired
+    private StoreDao storeDao;
+
     @Override
     public List<DealerDTO> getAllDealers() {
         List<Dealer> dealerList = dealerDao.getAllDealers();
@@ -48,6 +55,15 @@ public class DealerServiceImpl implements DealerService {
             dtos.add(dealerDto);
         }
         return dtos;
+    }
+
+    @Override
+    public DealerDTO getDealerByDealerId(Long dealerId) {
+        Dealer dealer = dealerDao.getDealerById(dealerId);
+        DealerDTO dto = new DealerDTO(dealer.getDealerId(),dealer.getUserName(),dealer.getAvatar(),
+                dealer.getAddress(),dealer.getRealName(),dealer.getContact(),dealer.getStore().getStoreId(),
+                dealer.getStore().getStoreName(),dealer.getPassword());
+        return dto;
     }
 
     @Override
@@ -72,8 +88,34 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setAddress(dealerParameter.getAddress());
         dealer.setUserName(dealerParameter.getUserName());
-
+        storeDao.bindDealerStore(dealerParameter.getKey(), dealerParameter.getStoreId());
         dealerDao.updateDealer(dealer);
+    }
+
+    @Override
+    public List<StoreDTO> getAllUnbindStore() {
+        List<Store> storeArrayList = dealerDao.getAllUnbindStore();
+        List<StoreDTO> storeDTOList = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
+        for (Store s : storeArrayList
+        ) {
+            StoreDTO storeDTO = new StoreDTO();
+            storeDTO.setKey(s.getStoreId());
+            storeDTO.setStoreName(s.getStoreName());
+            storeDTO.setAddress(s.getAddress());
+            storeDTO.setContact(s.getContact());
+            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
+
+            String startHour = dateFormat.format(s.getOpenHourStart());
+            String endHour = dateFormat.format(s.getOpenHourEnd());
+            String[] hours = {startHour, endHour};
+            storeDTO.setHours(hours);
+
+            storeDTOList.add(storeDTO);
+
+        }
+        return storeDTOList;
     }
 
     @Override

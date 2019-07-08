@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author Chuyuxuan
  */
@@ -30,4 +32,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Modifying
     @Query(value = "update `store` set `attached` = :bind, `dealer_id` = :dealer_id where `store_id` = :store_id ", nativeQuery = true)
     void bindDealerAndStoreStep2(@Param("dealer_id") Long dealerId, @Param("store_id") Long storeId, @Param("bind") boolean bind);
+
+    List<Store> getStoresByAttachedIsFalse();
+
 }

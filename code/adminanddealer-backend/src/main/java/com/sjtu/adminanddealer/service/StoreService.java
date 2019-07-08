@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 
@@ -19,6 +20,13 @@ public interface StoreService {
      * @return 包含所有storeDTO的列表
      */
     List<StoreDTO> getAllStores();
+
+    /**
+     * 通过店铺的id获取店铺信息
+     * @param storeId 店铺id
+     * @return 对应id的店铺信息
+     */
+    StoreDTO getStoreByStoreId(Long storeId);
 
     /**
      * 添加一个店铺，数据从前端发送，调用者为管理员
@@ -50,6 +58,13 @@ public interface StoreService {
      * @param storeId  店铺id
      */
     void bindDealerAndStore(Long dealerId, Long storeId);
+
+    /**
+     * 获取所有未绑定的经销商
+     *
+     * @return 所有未绑定的经销商的信息
+     */
+    List<DealerDTO> getAllUnbindDealers();
 
     /**
      * 更新店铺的封面图片，调用者为经销商

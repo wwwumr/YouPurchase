@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
@@ -34,14 +35,39 @@ public class StoreController {
     }
 
     /**
+     * 用店铺的id请求店铺的信息
+     * @param storeId 店铺的id
+     * @return 对应id的店铺信息
+     */
+    @GetMapping("/{storeId}")
+    public StoreDTO getStoreByStoreId(@PathVariable("storeId")Long storeId){
+        return storeService.getStoreByStoreId(storeId);
+    }
+
+    /**
      * 新建一个店铺信息，数据内容以post请求
      *
      * @param data 前端Post的数据
-     * @return 一个JSON，格式为{"key" : long, "coverUrl" : String}
+     * @return 一个JSON，格式为{"key" : long, "coverPicUrl" : String}
      */
     @PostMapping
     public JSONObject addStore(@RequestBody StoreParameter data) {
         return storeService.addAStore(data);
+    }
+
+    /**
+     * 修改一个店铺的信息
+     *
+     * @param data 前端PUT请求从requestBody发送的数据
+     * @return JSON 格式为{"key" : long},返回的key为-1时代表失败
+     */
+    @PutMapping
+    public JSONObject updateStore(@RequestBody StoreParameter data) {
+        storeService.updateStore(data);
+        storeService.bindDealerAndStore(data.getDealerId(), data.getKey());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("key", data.getKey());
+        return jsonObject;
     }
 
     /**
@@ -73,6 +99,15 @@ public class StoreController {
         return "unbind";
     }
 
+    /**
+     * 获取所有没有绑定的经销商
+     *
+     * @return
+     */
+    @GetMapping("/unbindDealers")
+    public List<DealerDTO> getAllUnbindDealer(){
+        return storeService.getAllUnbindDealers();
+    }
 
 //    / test
 //    @PostMapping("/coverPic")

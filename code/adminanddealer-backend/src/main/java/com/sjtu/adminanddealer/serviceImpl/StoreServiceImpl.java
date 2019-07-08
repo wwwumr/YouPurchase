@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
@@ -39,7 +40,7 @@ public class StoreServiceImpl implements StoreService {
     public List<StoreDTO> getAllStores() {
         List<Store> storeArrayList = new ArrayList<>();
         List<StoreDTO> storeDTOList = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("kk:mm");
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         storeArrayList = storeDao.getAllStores();
         for (Store s : storeArrayList
         ) {
@@ -60,6 +61,21 @@ public class StoreServiceImpl implements StoreService {
 
         }
         return storeDTOList;
+    }
+
+    @Override
+    public StoreDTO getStoreByStoreId(Long storeId) {
+        Store store = storeDao.getStoreByStoreId(storeId);
+
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String startHour = dateFormat.format(store.getOpenHourStart());
+        String endHour = dateFormat.format(store.getOpenHourEnd());
+        String[] hours = {startHour, endHour};
+
+        StoreDTO dto = new StoreDTO(store.getStoreId(),store.getStoreName(),store.getAddress(),
+                store.getCoverPicUrl(),store.getContact(),hours,
+                store.getDealer().getDealerId().intValue(),store.getDealer().getUserName());
+        return dto;
     }
 
     @Override
@@ -126,6 +142,25 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public List<DealerDTO> getAllUnbindDealers() {
+        List<Dealer> dealerList = dealerDao.getAllUnbindDealers();
+        List<DealerDTO> dtos = new ArrayList<>();
+        for (Dealer d : dealerList
+        ) {
+            DealerDTO dealerDto = new DealerDTO();
+            dealerDto.setKey(d.getDealerId());
+            dealerDto.setUserName(d.getUserName());
+            dealerDto.setAvatar(d.getAvatar());
+            dealerDto.setAddress(d.getAddress());
+            dealerDto.setRealName(d.getRealName());
+            dealerDto.setContact(d.getContact());
+            dealerDto.setPassword(d.getPassword());
+            dtos.add(dealerDto);
+        }
+        return dtos;
+    }
+
+    @Override
     public void updateStoreCoverPic() {
         // TODO: update store cover picture
     }
@@ -139,7 +174,7 @@ public class StoreServiceImpl implements StoreService {
      * @param end      结束营业时间
      */
     private void castStringToDate(String startStr, String endStr, Date start, Date end) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("kk:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
             start = dateFormat.parse(startStr);
             end = dateFormat.parse(endStr);
