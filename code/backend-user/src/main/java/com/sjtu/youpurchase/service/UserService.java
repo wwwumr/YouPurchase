@@ -5,7 +5,10 @@ import com.sjtu.youpurchase.DTO.UserLoginDTO;
 import com.sjtu.youpurchase.entity.User;
 import com.sjtu.youpurchase.parameter.UserLoginParameter;
 import com.sjtu.youpurchase.parameter.UserModifyParameter;
+import com.sjtu.youpurchase.parameter.UserPhotoParameter;
 import com.sjtu.youpurchase.parameter.UserRegParameter;
+
+import java.io.IOException;
 
 /*
 * 用户相关的服务层接口
@@ -25,6 +28,12 @@ public interface UserService {
     UserLoginDTO UserLogin(UserLoginParameter userLoginParameter);
 
     //int test();
+
+    //头像上传
+    String UploadPhoto(UserPhotoParameter userPhotoParameter);
+
+    //获取头像
+    String getPhoto(String phone)throws IOException;
 
 
 }

@@ -1,16 +1,15 @@
 package com.sjtu.youpurchase.utils;
 
+import com.sjtu.youpurchase.entity.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Constrain {
     private static final Logger logger= LogManager.getLogger();
     private static final String photoDirectory="";
-    private static final String imageFormat = ".jpg";
+
 
 
     public static double getDistance(double uLng,double uLat,double sLng,double sLat){
@@ -26,4 +25,6 @@ public class Constrain {
     public static void log(Object message){logger.info(message);}
 
     public static void logerror(Exception e){logger.error(e.getMessage());}
+
+
 }
