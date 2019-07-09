@@ -150,7 +150,7 @@ class ShopManage extends React.Component {
                     dataIndex: 'coverPicUrl',
                     key: '1',
                     width:"300px",
-                    render: text => (<img style={{height:"120px", width:"150px"}} src={text} alt="店面图片" />)
+                    render: text => (<img style={{height:"120px", width:"150px"}} src={config.url.root + text} alt="店面图片" />)
                 },{
                     title: '店名',
                     dataIndex: 'storeName',
@@ -174,7 +174,7 @@ class ShopManage extends React.Component {
                     title: "修改信息",
                     dataIndex: "key",
                     key: "6",
-                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/", storeId: text}} >修改</Link></Button>
+                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/"+text}} >修改</Link></Button>
                 }
             ];
 

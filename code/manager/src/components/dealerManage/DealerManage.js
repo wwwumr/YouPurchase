@@ -190,7 +190,7 @@ class DealerManage extends React.Component {
                 title: '修改信息',
                 dataIndex: 'key',
                 key: '5',
-                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/", dealerKey: text}} >修改</Link></Button>
+                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/" + text}} >修改</Link></Button>
             }
         ];
 

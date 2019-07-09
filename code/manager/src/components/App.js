@@ -68,10 +68,10 @@ class App extends React.Component {
                                     render = { () => <HomePage fn={ this.setUserName } logIn={this.state.logIn} /> }
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
-                                <Route exact path = "/dealerManage/dealerMessage/" component = { DealerMessage } ></Route>
+                                <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
-                                <Route exact path = "/shopManage/shopDetail/" component = { ShopDetail } ></Route>
+                                <Route exact path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>
                                 
                                 <Route path = "/test/" component= { DealerManage } ></Route>
                             </Switch>

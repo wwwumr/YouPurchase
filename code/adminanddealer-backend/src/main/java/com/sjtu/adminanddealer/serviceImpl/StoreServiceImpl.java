@@ -68,7 +68,7 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDTO getStoreByStoreId(Long storeId) {
         Store store = storeDao.getStoreByStoreId(storeId);
-
+        // TODO: 返回null时判断
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String startHour = dateFormat.format(store.getOpenHourStart());
         String endHour = dateFormat.format(store.getOpenHourEnd());
@@ -97,7 +97,7 @@ public class StoreServiceImpl implements StoreService {
 
         Store store = new Store();
         store.setStoreName(storeParameter.getStoreName());
-        store.setCoverPicUrl("image" + this.storeDefaultCoverPicUrl);
+        store.setCoverPicUrl(this.storeDefaultCoverPicUrl);
         store.setAddress(storeParameter.getAddress());
         // TODO: 调用外部API而不是设成0
         store.setLongitude(0.0);

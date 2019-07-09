@@ -16,8 +16,8 @@ class ShopDetail extends React.Component {
         }
     }
 
-    componentWillMount() {
-        var key = this.props.location.storeId ? this.props.location.storeId : 0;
+    componentDidMount() {
+        const key = this.props.match.params.key;
         /* axios function */
         axios.get(config.url.stores + key).then((res) => {
             this.setState({
@@ -36,6 +36,9 @@ class ShopDetail extends React.Component {
     /* 最终提交修改信息的函数 */
     handleChange = () => {
         const shop = this.state.shop;
+        console.log(this.state.shop) 
+        /*delete shop["coverPicUrl"];
+        delete shop["dealerName"];*/
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
             /* axios 
@@ -50,31 +53,33 @@ class ShopDetail extends React.Component {
                     }
                 })
             */
-        }    
+        }   
     }
 
     handleUnbind = () => {
-        /* axios function 
+        /* axios function */
         axios.get(config.url.stores+"unbind?dealerId="+this.state.shop.dealerId+"&storeId="+this.state.shop.key)
             .then((res) => {
-                if (res.data < 0) {
+                if (res.data !== "unbind") {
                     message.error("解除授权失败");
                 } else {
                     message.success("授权已取消");
                     var shop = this.state.shop;
                     shop.dealerName = "";
+                    shop.dealerId = null;
                     this.setState({
                         shop: shop,
                     })
                 }
             })
-        */
+        /** 
         message.info("授权已取消");
         var dealer = this.state.dealer;
         dealer.storeName = "";
+        dealer.storeId = null;
         this.setState({
             dealer: dealer,
-        })
+        })*/
     }
 
     checkShop(shop, originShop) {
@@ -95,7 +100,7 @@ class ShopDetail extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "30px", marginTop: "50px"}}
             >
-            <ImageUpload coverPic={this.state.shop.coverPicUrl} />
+            <ImageUpload coverPic={this.state.shop.coverPicUrl} storeId={this.state.shop.key} />
             </div>
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}
@@ -152,7 +157,7 @@ class ShopDetail extends React.Component {
                 />
                 <Input addonBefore="经销商" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
                     value={ this.state.shop.dealerName }
-                    defaultValue="无"
+                    placeholder="无"
                 />
                 <Popconfirm
                     title="你确定要取消对该经销商的授权吗?"
@@ -184,6 +189,7 @@ class ShopDetail extends React.Component {
                             shop: shop,
                         })
                     }} 
+                    disableFlag = {!(this.state.shop.dealerId===null || this.state.shop.dealerName==="")}
                 >
                 </DealerAutoInput>
                 <Button 

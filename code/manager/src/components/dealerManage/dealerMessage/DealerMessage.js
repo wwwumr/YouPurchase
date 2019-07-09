@@ -18,7 +18,7 @@ class DealerMessage extends React.Component {
 
     componentDidMount() {
         
-        const key = this.props.location.dealerKey ? this.props.location.dealerKey : 0;
+        const key = this.props.match.params.key;
         
         /* axios function */
         axios.get(config.url.dealers+key)

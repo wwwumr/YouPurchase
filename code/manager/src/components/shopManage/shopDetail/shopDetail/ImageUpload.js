@@ -66,12 +66,12 @@ class ImageUpload extends React.Component {
         return (
         <Tooltip placement="topLeft" title="更换店面图片">
             <Upload
-                name="avatar"
+                name="file"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.action}
-                data={this.state.imageUrl}
+                data={{"key": this.props.storeId, "coverPicUrl": this.props.coverPic}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "400px", height: "300px", 

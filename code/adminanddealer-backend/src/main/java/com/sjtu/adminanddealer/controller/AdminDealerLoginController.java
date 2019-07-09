@@ -15,14 +15,13 @@ import javax.servlet.http.HttpSession;
  * @author Chuyuxuan
  */
 @RestController
-@RequestMapping("/login")
 public class AdminDealerLoginController {
 
     @Autowired
     private AdminDealerLoginService adminDealerLoginService;
 
 
-    @GetMapping("/admin")
+    @GetMapping("/login/admin")
     public String adminLogin(@RequestParam("userName") String userName,
                              @RequestParam("password") String password,
                              HttpSession session) {
@@ -35,7 +34,7 @@ public class AdminDealerLoginController {
         }
     }
 
-    @GetMapping("/dealer")
+    @GetMapping("/login/dealer")
     public String dealerLogin(@RequestParam("userName") String userName,
                               @RequestParam("password") String password,
                               HttpSession session) {
@@ -46,6 +45,13 @@ public class AdminDealerLoginController {
         } else {
             return "ERROR";
         }
+    }
+
+    @GetMapping("/logout")
+    public String adminDealerLogOut(HttpSession session){
+        session.removeAttribute("dealer");
+        session.removeAttribute("admin");
+        return "LOGOUT";
     }
 
 }

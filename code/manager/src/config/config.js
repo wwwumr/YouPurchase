@@ -1,11 +1,11 @@
 var config = {
     shop:   {
-        shopUrl: "http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg",
+        shopUrl: "http://localhost:9000/image/defaultStoreCover.png",
         originShop: {
             key: null, 
             storeName: '', 
             address: '', 
-            coverPicUrl: "http://img2.imgtn.bdimg.com/it/u=2113909108,4103249324&fm=26&gp=0.jpg", 
+            coverPicUrl: "http://localhost:9000/image/defaultStoreCover.png", 
             contact: '', 
             hours: [],
             dealerId: null,
@@ -58,6 +58,9 @@ var config = {
         stores: "http://localhost:9000/stores/",
         dealers: "http://localhost:9000/dealers/",
         newdealer: "http://localhost:9000/dealers/",
+        unbindDealers: "http://localhost:9000/stores/unbindDealers",
+        unbindStores: "http://localhost:9000/dealers/unbindStores",
+        updateStoreCover: "http://localhost:9000/stores/cover",
     }
 }
 

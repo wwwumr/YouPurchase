@@ -18,7 +18,7 @@ import java.io.IOException;
  * @author Chuyuxuan
  */
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/image")
 public class ImageController {
     // TODO: 获取图片的路径与url这块逻辑比较乱，可以修改
 

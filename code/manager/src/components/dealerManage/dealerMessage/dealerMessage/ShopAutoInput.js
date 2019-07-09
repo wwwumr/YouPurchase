@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import shopMock from '../../../../mock/shopMock';
 import config from '../../../../config/config';
 
@@ -23,8 +24,7 @@ function renderOption(item) {
             </span>
             <span className="global-search-item-desc" style={{margin: "10px",  float: "right",}}>
             <Link to={{
-                pathname: "/shopManage/shopDetail/", 
-                storeId: item.storeId
+                pathname: "/shopManage/shopDetail/" + item.storeId
             }}>
             查看信息
             </Link>
@@ -42,10 +42,17 @@ class ShopAutoInput extends React.Component {
         shopData: [],
     };
 
-    componentWillMount() {
+    componentDidMount() {
+        axios.get(config.url.unbindStores)
+            .then((res) => {
+                this.setState({
+                    shopData: res.data,
+                })
+            })
+        /* 
         this.setState({
             shopData: shopMock,
-        })
+        })*/
     }
 
     handleSearch = value => {
