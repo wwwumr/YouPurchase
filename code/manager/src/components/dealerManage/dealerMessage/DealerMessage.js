@@ -25,7 +25,7 @@ class DealerMessage extends React.Component {
             .then((res) => {
                 this.setState({
                     dealer: res.data,
-                    originDealer: res.data,
+                    originDealer: Object.assign({}, res.data),
                 })
             })
         
@@ -40,7 +40,26 @@ class DealerMessage extends React.Component {
         })*/
     }
 
+    checkChange = () => {
+        const dealer = this.state.dealer;
+        const originDealer = this.state.originDealer;
+        if (
+            dealer.address === originDealer.address &&
+            dealer.contact === originDealer.contact &&
+            dealer.password === originDealer.password &&
+            dealer.realName === originDealer.realName &&
+            dealer.storeId === originDealer.storeId &&
+            dealer.userName === originDealer.userName
+            ){
+                return false;
+            }
+        return true;
+    }
+
     handleChange = () => {
+        if (!this.checkChange()) {
+            return ;
+        }
         /* axios 
         var dealer = this.state.dealer;
         axios.put(config.url.dealers, 
@@ -51,9 +70,7 @@ class DealerMessage extends React.Component {
                 } else {
                     message.success("修改成功");
                 }
-            })
-        */
-        message.success("修改成功");
+            })*/
     }
 
     handleUnbind = () => {
