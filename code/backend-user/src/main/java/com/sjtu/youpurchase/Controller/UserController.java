@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.Controller;
+package com.sjtu.youpurchase.controller;
 
 import com.sjtu.youpurchase.DTO.UserInfoDTO;
 import com.sjtu.youpurchase.DTO.UserLoginDTO;
@@ -9,39 +9,64 @@ import com.sjtu.youpurchase.service.UserService;
 import com.sjtu.youpurchase.utils.Constrain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /*
 * 用户相关controller
 * created by Deng Xiao
 * */
-@RestController
-public class UserController {
-
-    @Autowired
-    private UserService userService;
+@CrossOrigin
+@Controller
+public class UserController extends BaseController{
 
     //用户信息修改
-    @RequestMapping(value="user/modify",method= RequestMethod.POST)
+    @RequestMapping(value="user/modify")
     public
     @ResponseBody
-    UserInfoDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
+    UserLoginDTO UserModify(HttpServletRequest request,HttpServletResponse response){
+        String tempuserId = request.getParameter("userId");
+        long userId = Long.parseLong(tempuserId);
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+        String regDate = request.getParameter("regDate");
+        String templatitude = request.getParameter("latitude");
+        double  latitude =  Double.parseDouble(templatitude);
+        String templongitude = request.getParameter("longitude");
+        double longitude = Double.parseDouble(templongitude);
+        UserModifyParameter userModifyParameter = new UserModifyParameter( userId,userName,password,address,phone,gender,regDate,
+        latitude,longitude);
+        System.out.println(userId);
         return userService.UserModify(userModifyParameter);
     }
 
 
     //用户登陆
-    @RequestMapping(value = "user/login",method=RequestMethod.POST)
+    @RequestMapping(value = "user/login")
+    public
+    @ResponseBody
+    UserLoginDTO UserLogin(HttpServletRequest request, HttpServletResponse response){
+        String phone = request.getParameter("phone");
+        String password = request.getParameter("password");
+        UserLoginParameter userLoginParameter = new UserLoginParameter(phone,password);
+        return userService.UserLogin(userLoginParameter);
+    }
+/*    @PostMapping(value="user/login",produces = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
     UserLoginDTO UserLogin(@RequestBody UserLoginParameter userLoginParameter){
         return userService.UserLogin(userLoginParameter);
-    }
+    }*/
 
     //上传图片
-    @RequestMapping(value = "user/uploadPhoto", method = RequestMethod.POST)
+    @PostMapping(value = "user/uploadPhoto", produces = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
     String uploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter) {

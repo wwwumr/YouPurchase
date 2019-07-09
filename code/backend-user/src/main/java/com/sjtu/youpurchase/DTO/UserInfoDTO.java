@@ -59,6 +59,7 @@ public class UserInfoDTO {
         this.userId = userId;
     }
 
+
     public String getUserName() {
         return userName;
     }

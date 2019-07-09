@@ -2,7 +2,7 @@ package com.sjtu.youpurchase.ControllerTest;
 
 
 import com.alibaba.fastjson.JSON;
-import com.sjtu.youpurchase.Controller.UserController;
+import com.sjtu.youpurchase.controller.UserController;
 import com.sjtu.youpurchase.parameter.UserLoginParameter;
 import com.sjtu.youpurchase.parameter.UserModifyParameter;
 import com.sjtu.youpurchase.service.UserService;
@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +35,7 @@ public class UserControllerTest {
     //对于接口测试，在你命名的接口前面要加个“斜杠”即本身接口为user，则测试时要设置为/user
 
     //登陆接口
-    @Test
+/*    @Test
     public void testPostMethod() throws Exception{
         UserLoginParameter userLoginParameter = new UserLoginParameter();
         userLoginParameter.setPhone("123123");
@@ -44,10 +43,9 @@ public class UserControllerTest {
         System.out.println("step1");
         this.mockMvc.perform(post("/user/login").content(JSON.toJSONString(userLoginParameter)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
-
+    }*/
     //用户修改信息接口
-    @Test
+/*    @Test
     @Rollback(false)
     public void testModifyMethod() throws Exception{
         UserModifyParameter userModifyParameter = new UserModifyParameter();
@@ -63,5 +61,5 @@ public class UserControllerTest {
         this.mockMvc.perform(post("/user/modify").content(JSON.toJSONString(userModifyParameter)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         System.out.println("step2");
-    }
+    }*/
 }

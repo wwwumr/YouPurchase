@@ -37,7 +37,7 @@ public class UserTest {
             System.out.println("true");
     }
 
-    //新增
+/*    //新增
     @Test
     public void testInsertUser(){
         User user = new User();
@@ -53,11 +53,12 @@ public class UserTest {
         userDao.save(user);
         User test = new User();
         test = userDao.findByPhoneAndValid("123123",true);
-    }
+    }*/
 
     //service层测试
 
     //登陆接口
+    /*
     @Test
     public void testLoginService(){
         UserLoginParameter userLoginParameter = new UserLoginParameter();
@@ -67,21 +68,13 @@ public class UserTest {
         //userService.test();
         userService.UserLogin(userLoginParameter);
     }
-
+*/
     //修改个人信息接口
-     @Test
+ /*    @Test
      @Rollback(false)
     public void testModifyUser(){
-         UserModifyParameter userModifyParameter = new UserModifyParameter();
-         userModifyParameter.setUserId(7);
-         userModifyParameter.setAddress("洛斯里克高墙");
-         userModifyParameter.setGender("女");
-         userModifyParameter.setLatitude(13.1);
-         userModifyParameter.setLongitude(15.2);
-         userModifyParameter.setPassword("666666");
-         userModifyParameter.setPhone("13111111234");
-         userModifyParameter.setUserName("冷裂谷的舞娘");
-         System.out.println("step1");
+
+
          userService.UserModify(userModifyParameter);
-     }
+     }*/
 }
