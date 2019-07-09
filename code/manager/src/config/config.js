@@ -58,9 +58,9 @@ var config = {
         stores: "http://localhost:9000/stores/",
         dealers: "http://localhost:9000/dealers/",
         newdealer: "http://localhost:9000/dealers/",
-        unbindDealers: "http://localhost:9000/stores/unbindDealers/",
-        unbindStores: "http://localhost:9000/dealers/unbindStores/",
-        updateStoreCover: "http://localhost:9000/stores/cover/s",
+        unbindDealers: "http://localhost:9000/stores/unbindDealers",
+        unbindStores: "http://localhost:9000/dealers/unbindStores",
+        updateStoreCover: "http://localhost:9000/stores/cover",
     }
 }
 
