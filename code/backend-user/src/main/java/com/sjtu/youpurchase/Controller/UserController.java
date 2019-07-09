@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.Controller;
+package com.sjtu.youpurchase.controller;
 
 import com.sjtu.youpurchase.DTO.UserInfoDTO;
 import com.sjtu.youpurchase.DTO.UserLoginDTO;
@@ -9,6 +9,7 @@ import com.sjtu.youpurchase.service.UserService;
 import com.sjtu.youpurchase.utils.Constrain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -18,10 +19,7 @@ import java.io.IOException;
 * created by Deng Xiao
 * */
 @RestController
-public class UserController {
-
-    @Autowired
-    private UserService userService;
+public class UserController extends BaseController{
 
     //用户信息修改
     @RequestMapping(value="user/modify",method= RequestMethod.POST)

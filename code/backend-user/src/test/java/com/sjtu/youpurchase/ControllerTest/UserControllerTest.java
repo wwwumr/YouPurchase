@@ -2,7 +2,7 @@ package com.sjtu.youpurchase.ControllerTest;
 
 
 import com.alibaba.fastjson.JSON;
-import com.sjtu.youpurchase.Controller.UserController;
+import com.sjtu.youpurchase.controller.UserController;
 import com.sjtu.youpurchase.parameter.UserLoginParameter;
 import com.sjtu.youpurchase.parameter.UserModifyParameter;
 import com.sjtu.youpurchase.service.UserService;
@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
