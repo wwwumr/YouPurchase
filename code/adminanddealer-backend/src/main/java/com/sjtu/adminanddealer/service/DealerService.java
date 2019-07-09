@@ -25,7 +25,7 @@ public interface DealerService {
      * 通过dealerId获取经销商信息
      *
      * @param dealerId 经销商id
-     * @return 对应id的经销商信息
+     * @return 对应id的经销商信息, 如果对应id不存在返回一个空的DealerDTO对象
      */
     DealerDTO getDealerByDealerId(Long dealerId);
 
@@ -44,7 +44,7 @@ public interface DealerService {
     void updateDealer(DealerParameter dealerParameter);
 
     /**
-     * 更新经销商的密码，调用者为经销商自己
+     * 更新经销商的密码，调用者为经销商自己.
      * TODO: updateDealerPassword no implement
      *
      * @param password 修改之后的密码
@@ -52,7 +52,7 @@ public interface DealerService {
     void updateDealerPassword(String password);
 
     /**
-     * 获取所有没有绑定的店铺
+     * 获取所有没有绑定的店铺.
      *
      * @return
      */

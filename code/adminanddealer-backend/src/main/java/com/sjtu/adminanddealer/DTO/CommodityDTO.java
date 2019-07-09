@@ -1,45 +1,35 @@
-package com.sjtu.adminanddealer.entity;
+package com.sjtu.adminanddealer.DTO;
 
-import lombok.Data;
+import com.sjtu.adminanddealer.entity.Commodity;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**
- * 商品信息对应的实体类
+ * 返回前端的商品信息格式.
  *
  * @author Chuyuxuan
  */
-@Data
-@Entity
-public class Commodity {
+public class CommodityDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "commodityId")
-    private Long commodityId;
+    private Long key;
 
-    @Column(scale = 2)
     private double price;
 
     private String commodityInfo;
 
-    @ElementCollection
-    @CollectionTable(name = "commodityPicUrls",
-            joinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})
     private List<String> commodityPicUrls;
 
-    private Boolean onShelves;
+    private boolean onShelves;
 
     private Integer inventory;
 
     private Integer remaining;
 
-    /* constructor */
-    public Commodity() {
+    public CommodityDTO() {
     }
 
-    public Commodity(double price, String commodityInfo, List<String> commodityPicUrls, Boolean onShelves, Integer inventory, Integer remaining) {
+    public CommodityDTO(Long key, double price, String commodityInfo, List<String> commodityPicUrls, boolean onShelves, Integer inventory, Integer remaining) {
+        this.key = key;
         this.price = price;
         this.commodityInfo = commodityInfo;
         this.commodityPicUrls = commodityPicUrls;
@@ -48,13 +38,22 @@ public class Commodity {
         this.remaining = remaining;
     }
 
-    /* getter and setter */
-    public Long getCommodityId() {
-        return commodityId;
+    public CommodityDTO(Commodity commodity) {
+        this.key = commodity.getCommodityId();
+        this.price = commodity.getPrice();
+        this.commodityInfo = commodity.getCommodityInfo();
+        this.commodityPicUrls = commodity.getCommodityPicUrls();
+        this.onShelves = commodity.getOnShelves();
+        this.inventory = commodity.getInventory();
+        this.remaining = commodity.getRemaining();
     }
 
-    public void setCommodityId(Long commodityId) {
-        this.commodityId = commodityId;
+    public Long getKey() {
+        return key;
+    }
+
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public double getPrice() {
@@ -81,11 +80,11 @@ public class Commodity {
         this.commodityPicUrls = commodityPicUrls;
     }
 
-    public Boolean getOnShelves() {
+    public boolean isOnShelves() {
         return onShelves;
     }
 
-    public void setOnShelves(Boolean onShelves) {
+    public void setOnShelves(boolean onShelves) {
         this.onShelves = onShelves;
     }
 

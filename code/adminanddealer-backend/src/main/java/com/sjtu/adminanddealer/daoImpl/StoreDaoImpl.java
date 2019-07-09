@@ -57,7 +57,7 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void updateStoreCoverPic() {
-
+    public void updateStoreCoverPic(Long storeId, String coverPicUrl) {
+        storeRepository.updateStorePicUrl(storeId, coverPicUrl);
     }
 }

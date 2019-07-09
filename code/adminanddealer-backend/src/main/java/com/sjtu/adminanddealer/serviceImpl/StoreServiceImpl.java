@@ -9,9 +9,11 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
+import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -68,13 +70,15 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreDTO getStoreByStoreId(Long storeId) {
         Store store = storeDao.getStoreByStoreId(storeId);
-        // TODO: 返回null时判断
+        if (store == null) {
+            return new StoreDTO();
+        }
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String startHour = dateFormat.format(store.getOpenHourStart());
         String endHour = dateFormat.format(store.getOpenHourEnd());
         String[] hours = {startHour, endHour};
 
-        if(store.getDealer()!=null){
+        if (store.getDealer() != null) {
             StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
                     store.getCoverPicUrl(), store.getContact(), hours,
                     store.getDealer().getDealerId().intValue(), store.getDealer().getUserName());
@@ -138,9 +142,8 @@ public class StoreServiceImpl implements StoreService {
         // TODO: unit test
         Store store = storeDao.getStoreByStoreId(storeId);
         Dealer dealer = dealerDao.getDealerById(dealerId);
-
+        // 当提交的表单未对绑定做修改时，直接跳过
         if (store.isAttached() || dealer.isAttached()) {
-            // TODO:当有经销商或者店铺被绑定，返回错误信息
         } else {
             storeDao.bindDealerStore(dealerId, storeId);
         }
@@ -174,8 +177,17 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStoreCoverPic() {
-        // TODO: update store cover picture
+    public void updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl) {
+        // 当传过来的图片url是默认图片url时，直接新建文件并把路径存入数据库中
+        if (coverPicUrl.equals(this.storeDefaultCoverPicUrl)) {
+            String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            storeDao.updateStoreCoverPic(storeId, newUrl);
+        } else {
+            String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            storeDao.updateStoreCoverPic(storeId, newUrl);
+            // 把原来存在的文件删除
+            FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+        }
     }
 
     /**

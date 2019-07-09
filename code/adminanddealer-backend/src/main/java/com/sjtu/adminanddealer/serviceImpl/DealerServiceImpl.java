@@ -30,7 +30,7 @@ public class DealerServiceImpl implements DealerService {
     // TODO: 参数无法注入(null)
     @Value("${dealerDefaultAvatarUrl}")
     private String dealerDefaultAvatarUrl;
-    // TODO: 添加经销商默认头像uri
+    // TODO: 添加经销商默认头像url
     private String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
     @Autowired
     private DealerDao dealerDao;
@@ -65,6 +65,9 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public DealerDTO getDealerByDealerId(Long dealerId) {
         Dealer dealer = dealerDao.getDealerById(dealerId);
+        if (dealer == null) {
+            return new DealerDTO();
+        }
         DealerDTO dto = new DealerDTO();
         if (dealer.getStore() != null) {
             dto.setKey(dealer.getDealerId());

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface StoreService {
      * 通过店铺的id获取店铺信息
      *
      * @param storeId 店铺id
-     * @return 对应id的店铺信息
+     * @return 对应id的店铺信息, 如果没有对应id返回一个空的StoreDTO
      */
     StoreDTO getStoreByStoreId(Long storeId);
 
@@ -68,8 +69,7 @@ public interface StoreService {
     List<DealerDTO> getAllUnbindDealers();
 
     /**
-     * 更新店铺的封面图片，调用者为经销商
-     * TODO: updateStoreCoverPic no implement
+     * 更新店铺的封面图片，调用者为经销商或管理员.
      */
-    void updateStoreCoverPic();
+    void updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl);
 }

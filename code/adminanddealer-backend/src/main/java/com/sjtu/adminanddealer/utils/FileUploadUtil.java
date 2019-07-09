@@ -80,7 +80,7 @@ public final class FileUploadUtil {
     /**
      * 删除数据库中文件url对应的文件.
      *
-     * @param fileUrl 数据库中文件的url，比如"/saf00a9dajd0ad8a.jpg"
+     * @param fileUrl 数据库中文件的url，比如"image/saf00a9dajd0ad8a.jpg"
      * @return 删除成功返回0, 找不到文件返回1, 删除失败返回2
      */
     public int deleteFile(String fileUrl) {

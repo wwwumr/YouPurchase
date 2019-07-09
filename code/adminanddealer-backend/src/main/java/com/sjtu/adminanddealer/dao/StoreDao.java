@@ -56,6 +56,11 @@ public interface StoreDao {
      */
     void unbindDealerStore(Long dealerId, Long storeId);
 
-    // TODO: updateStoreCoverPic no implement
-    void updateStoreCoverPic();
+    /**
+     * 将图片新的url写入数据库.
+     *
+     * @param storeId     店铺的id
+     * @param coverPicUrl 新图片的url
+     */
+    void updateStoreCoverPic(Long storeId, String coverPicUrl);
 }

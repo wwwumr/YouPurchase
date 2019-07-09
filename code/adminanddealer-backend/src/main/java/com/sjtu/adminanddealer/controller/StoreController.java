@@ -97,36 +97,37 @@ public class StoreController {
     @GetMapping("/unbind")
     public String unbindDealerAndStore(@RequestParam("dealerId") Long dealerId,
                                        @RequestParam("storeId") Long storeId) {
-        // TODO:实现逻辑有问题
-        storeService.bindDealerAndStore(dealerId, storeId);
+        storeService.unbindDealerAndStore(dealerId, storeId);
         return "unbind";
     }
 
     /**
-     * 获取所有没有绑定的经销商
+     * 获取所有没有绑定的经销商.
      *
-     * @return
+     * @return 所有没有店铺绑定的经销商列表
      */
     @GetMapping("/unbindDealers")
     public List<DealerDTO> getAllUnbindDealer() {
         return storeService.getAllUnbindDealers();
     }
 
-//    @PostMapping("/cover")
-    // TODO: {"key": id, "coverPicUrl": origin coverPicUrl}
-//    public String updateStoreCover(@RequestParam("file")MultipartFile file){
-//
-//    }
-//    / test
-//    @PostMapping("/coverPic")
-//    public String uploadCoverPic(@RequestParam("file") MultipartFile file){
-//        System.out.println(FileUploadUtil.getFileUploadUtil().saveFile(file));
-//        return "ok";
-//    }
-//
-//    @DeleteMapping("/coverPic")
-//    public String deleteCoverPic(@RequestParam("fileUrl") String fileUrl){
-//        System.out.println(FileUploadUtil.getFileUploadUtil().deleteFile(fileUrl));
-//        return "ok";
-//    }
+    /**
+     * 更新店铺的封面图片，调用者为管理员或者经销商.
+     *
+     * @param file        上传的新的图片文件
+     * @param storeId     需要修改的店铺id
+     * @param coverPicUrl 原来的封面url
+     * @return 修改成功返回"update"
+     */
+    @PostMapping("/cover")
+    public String updateStoreCover(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
+                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+        if (file == null) {
+            return "ERROR";
+        }
+        storeService.updateStoreCoverPic(file, storeId, coverPicUrl);
+        return "update";
+
+    }
+
 }

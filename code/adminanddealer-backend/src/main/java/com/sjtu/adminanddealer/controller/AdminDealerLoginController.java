@@ -5,7 +5,6 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -48,10 +47,21 @@ public class AdminDealerLoginController {
     }
 
     @GetMapping("/logout")
-    public String adminDealerLogOut(HttpSession session){
+    public String adminDealerLogOut(HttpSession session) {
         session.removeAttribute("dealer");
         session.removeAttribute("admin");
         return "LOGOUT";
+    }
+
+    @GetMapping("/userName")
+    public String getUserName(HttpSession session) {
+        if (session.getAttribute("admin") != null) {
+            return ((Admin) session.getAttribute("admin")).getUserName();
+        } else if (session.getAttribute("dealer") != null) {
+            return ((Dealer) session.getAttribute("dealer")).getUserName();
+        } else {
+            return "NULL";
+        }
     }
 
 }

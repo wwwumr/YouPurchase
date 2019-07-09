@@ -16,7 +16,6 @@ import java.util.List;
 public interface StoreRepository extends JpaRepository<Store, Long> {
     Store findByStoreId(Long Id);
 
-    // TODO: 这里的设计非常丑陋，主要是前期看错了参数，要修改一下
     @Modifying
     @Query(value = "update `dealer` set `attached` = :unbind, `store_id` = null where `dealer_id` = :dealer_id ", nativeQuery = true)
     void unbindDealerAndStoreStep1(@Param("dealer_id") Long dealerId, @Param("unbind") boolean unbind);
@@ -34,5 +33,9 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     void bindDealerAndStoreStep2(@Param("dealer_id") Long dealerId, @Param("store_id") Long storeId, @Param("bind") boolean bind);
 
     List<Store> getStoresByAttachedIsFalse();
+
+    @Modifying
+    @Query(value = "update `store` set `cover_pic_url` = :coverPicUrl where `store_id` = :storeId ", nativeQuery = true)
+    void updateStorePicUrl(Long storeId, String coverPicUrl);
 
 }
