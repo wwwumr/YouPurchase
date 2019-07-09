@@ -1,7 +1,8 @@
 import React from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import { createHashHistory } from 'history';
 import axios from 'axios';
+import config from '../../config/config';
 
 const history = createHashHistory();
 
@@ -12,13 +13,20 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 /* 检查用户名合法性 */
-                
+                axios.get(config.url.logIn + "?userName=" + values.username + "&password=" + values.password)
+                    .then((res) => {
+                        if (res.data === "ADMIN") {
+                            /* 设置用户名并跳转 */
+                            this.props.fn(values.username);
+                            history.push({
+                                pathname: "/shopManage/",
+                            });
+                        } else {
+                            message.error("用户名或密码错误")
+                        }
+                    })
 
-                /* 设置用户名并跳转 */
-                this.props.fn(values.username);
-                history.push({
-                    pathname: "/shopManage/",
-                });
+                            
             }
         });
         

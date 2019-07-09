@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Table, Input, Button, Icon, Modal, Avatar, message } from 'antd';
 import Highlighter from 'react-highlight-words';
 import axios from 'axios';
-import dealerMock from '../../mock/dealerMock'
+//import dealerMock from '../../mock/dealerMock'
 import config from '../../config/config';
 
 class DealerManage extends React.Component {
@@ -131,7 +131,6 @@ class DealerManage extends React.Component {
             
         } else {
             alert("所填不能为空");
-            console.log(this.state.dealer);
         }
     };
 
@@ -190,7 +189,7 @@ class DealerManage extends React.Component {
                 title: '修改信息',
                 dataIndex: 'key',
                 key: '5',
-                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/", dealerKey: text}} >修改</Link></Button>
+                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/" + text}} >修改</Link></Button>
             }
         ];
 

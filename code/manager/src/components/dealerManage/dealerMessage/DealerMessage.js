@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { Input, message, Popconfirm, Button } from 'antd';
 import axios from 'axios';
-import dealerData from '../../../mock/dealerMock';
+//import dealerData from '../../../mock/dealerMock';
 import config from '../../../config/config';
 import AvatarUpload from './dealerMessage/AvatarUpload';
 import ShopAutoInput from './dealerMessage/ShopAutoInput';
@@ -18,7 +18,7 @@ class DealerMessage extends React.Component {
 
     componentDidMount() {
         
-        const key = this.props.location.dealerKey ? this.props.location.dealerKey : 0;
+        const key = this.props.match.params.key;
         
         /* axios function */
         axios.get(config.url.dealers+key)

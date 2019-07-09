@@ -7,6 +7,7 @@ import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -96,6 +97,7 @@ public class StoreController {
     @GetMapping("/unbind")
     public String unbindDealerAndStore(@RequestParam("dealerId") Long dealerId,
                                        @RequestParam("storeId") Long storeId) {
+        // TODO:实现逻辑有问题
         storeService.bindDealerAndStore(dealerId, storeId);
         return "unbind";
     }
@@ -110,6 +112,11 @@ public class StoreController {
         return storeService.getAllUnbindDealers();
     }
 
+//    @PostMapping("/cover")
+    // TODO: {"key": id, "coverPicUrl": origin coverPicUrl}
+//    public String updateStoreCover(@RequestParam("file")MultipartFile file){
+//
+//    }
 //    / test
 //    @PostMapping("/coverPic")
 //    public String uploadCoverPic(@RequestParam("file") MultipartFile file){

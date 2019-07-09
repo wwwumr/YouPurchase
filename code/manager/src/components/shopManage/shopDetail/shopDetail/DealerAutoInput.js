@@ -1,7 +1,9 @@
 import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
 import { Link } from 'react-router-dom';
-import dealerMock from '../../../../mock/dealerMock';
+import axios from 'axios';
+//import dealerMock from '../../../../mock/dealerMock';
+import config from '../../../../config/config';
 
 const { Option } = AutoComplete;
 
@@ -25,8 +27,7 @@ function renderOption(item) {
             </span>
             <span className="global-search-item-desc" style={{margin: "10px",  float: "right",}}>
             <Link to={{
-                pathname: "/dealerManage/dealerMessage/", 
-                dealerKey: item.key
+                pathname: "/dealerManage/dealerMessage/"+item.key, 
             }}>
             查看信息
             </Link>
@@ -43,13 +44,27 @@ class DealerAutoInput extends React.Component {
     };
 
     componentWillMount() {
+        axios.get(config.url.unbindDealers)
+            .then((res) => {
+                this.setState({
+                    dealerData: res.data,
+                })
+            })
+        /*
         this.setState({
             dealerData: dealerMock,
         })
+        */
     }
 
     handleSearch = value => {
-        if (value === "") {return false;}
+        if (value === "") {
+            const dealerData = this.state.dealerData;
+            this.setState({
+                dataSource: dealerData,
+            })
+            return;
+        }
         const dataSource = this.state.dealerData.filter((elem) => {
             return elem.realName.slice(0, value.length) === value 
                     || elem.userName.slice(0, value.length) === value ;
@@ -73,12 +88,13 @@ class DealerAutoInput extends React.Component {
             <AutoComplete
                 className="global-search"
                 size="large"
+                placeholder="修改经销商"
+                optionLabelProp="text"
                 style={{ width: '100%', marginBottom: this.props.marginBottom}}
                 dataSource={dataSource.map(renderOption)}
                 onSelect={ this.handleSelect }
                 onSearch={ this.handleSearch }
-                placeholder="修改经销商"
-                optionLabelProp="text"
+                disabled={this.props.disableFlag}
             >
                 <Input
                     suffix={

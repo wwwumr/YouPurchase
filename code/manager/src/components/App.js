@@ -48,7 +48,6 @@ class App extends React.Component {
                                 <Menu.Item key="2">{ this.state.userName }</Menu.Item> 
                                 <Menu.Item key="3"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
                                 <Menu.Item key="4"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
-                                <Menu.Item key="5"><Link to="/test/">测试组件</Link></Menu.Item>
                             </Menu>
                         }
                         {
@@ -68,12 +67,11 @@ class App extends React.Component {
                                     render = { () => <HomePage fn={ this.setUserName } logIn={this.state.logIn} /> }
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
-                                <Route exact path = "/dealerManage/dealerMessage/" component = { DealerMessage } ></Route>
+                                <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
-                                <Route exact path = "/shopManage/shopDetail/" component = { ShopDetail } ></Route>
+                                <Route exact path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>
                                 
-                                <Route path = "/test/" component= { DealerManage } ></Route>
                             </Switch>
                         
                         </div>
