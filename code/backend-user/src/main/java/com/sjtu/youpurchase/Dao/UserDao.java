@@ -14,7 +14,7 @@ public interface UserDao extends CrudRepository<User,String>{
     * 通过属性查询用户
     * */
     public User findByUserIdAndValid(long id,boolean valid);
-    public User findByUserNameAndValid(String userName,boolean valid);
+
     public User findByPhoneAndValid(String phone,boolean valid);
 
 }

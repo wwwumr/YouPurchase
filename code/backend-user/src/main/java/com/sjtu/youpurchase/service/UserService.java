@@ -23,20 +23,20 @@ import java.util.UUID;
 public class UserService extends BaseService {
 
     //用户注册
-    public UserInfoDTO UserRegister(UserRegParameter userRegParameter){
+    public UserLoginDTO UserRegister(UserRegParameter userRegParameter){
         User user = new User();
 
 
-        return new UserInfoDTO(user);
+        return new UserLoginDTO(200,user);
     }
 
     //修改用户信息
-     public UserInfoDTO UserModify(UserModifyParameter userModifyParameter){
-         User user= userDao.findByUserIdAndValid(userModifyParameter.getUserId(),true);
+     public UserLoginDTO UserModify(UserModifyParameter userModifyParameter){
+         User user = userDao.findByUserIdAndValid(userModifyParameter.getUserId(),true);
          user.setInfo(userModifyParameter);
          userDao.save(user);
          System.out.println("信息更新成功");
-         return new UserInfoDTO(user);
+         return new UserLoginDTO(200,user);
      }
 
    //用户登陆

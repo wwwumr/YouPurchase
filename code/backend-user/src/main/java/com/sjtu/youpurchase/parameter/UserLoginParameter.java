@@ -9,6 +9,10 @@ public class UserLoginParameter {
 
     String password;
 
+    public UserLoginParameter(String phone,String password){
+        this.phone = phone;
+        this.password = password;
+    }
     public String getPhone() {
         return phone;
     }

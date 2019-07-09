@@ -28,7 +28,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("API")
                 .description("restapi文档")
-                .termsOfServiceUrl("http://swagger-ui")
+                .termsOfServiceUrl("localhost:9000/swagger-ui/")
                 .contact("")
                 .version("1.0")
                 .build();

@@ -33,6 +33,8 @@ public class UserModifyParameter {
         this.userId = userId;
     }
 
+
+
     public String getUserName() {
         return userName;
     }

@@ -2,6 +2,7 @@ package com.sjtu.youpurchase.entity;
 
 import com.sjtu.youpurchase.parameter.UserModifyParameter;
 import com.sjtu.youpurchase.parameter.UserRegParameter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,8 +18,9 @@ public class User {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private long userId;
+
+
 
     @Column(nullable = false, unique = true, length = 30)
     private String userName;
@@ -119,6 +121,8 @@ public class User {
     public void setUserId(long userId) {
         this.userId = userId;
     }
+
+
 
     public String getUserName() {
         return userName;

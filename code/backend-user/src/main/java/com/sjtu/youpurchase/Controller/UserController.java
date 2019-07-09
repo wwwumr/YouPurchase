@@ -12,34 +12,46 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /*
 * 用户相关controller
 * created by Deng Xiao
 * */
-@RestController
+@CrossOrigin
+@Controller
 public class UserController extends BaseController{
 
     //用户信息修改
     @RequestMapping(value="user/modify",method= RequestMethod.POST)
     public
     @ResponseBody
-    UserInfoDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
+    UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
         return userService.UserModify(userModifyParameter);
     }
 
 
     //用户登陆
-    @RequestMapping(value = "user/login",method=RequestMethod.POST)
+    @RequestMapping(value = "user/login")
+    public
+    @ResponseBody
+    UserLoginDTO UserLogin(HttpServletRequest request, HttpServletResponse response){
+        String phone = request.getParameter("phone");
+        String password = request.getParameter("password");
+        UserLoginParameter userLoginParameter = new UserLoginParameter(phone,password);
+        return userService.UserLogin(userLoginParameter);
+    }
+/*    @PostMapping(value="user/login",produces = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
     UserLoginDTO UserLogin(@RequestBody UserLoginParameter userLoginParameter){
         return userService.UserLogin(userLoginParameter);
-    }
+    }*/
 
     //上传图片
-    @RequestMapping(value = "user/uploadPhoto", method = RequestMethod.POST)
+    @PostMapping(value = "user/uploadPhoto", produces = MediaType.APPLICATION_JSON_VALUE)
     public
     @ResponseBody
     String uploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter) {

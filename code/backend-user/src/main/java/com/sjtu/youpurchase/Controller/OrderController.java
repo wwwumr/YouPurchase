@@ -3,15 +3,13 @@ package com.sjtu.youpurchase.controller;
 import com.sjtu.youpurchase.DTO.OrderCheckDTO;
 import com.sjtu.youpurchase.DTO.OrderInfoDTO;
 import com.sjtu.youpurchase.parameter.OrderPostParameter;
-import com.sjtu.youpurchase.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
+@CrossOrigin
 public class OrderController extends BaseController{
 
 

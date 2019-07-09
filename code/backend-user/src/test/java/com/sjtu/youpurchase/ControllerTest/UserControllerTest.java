@@ -35,7 +35,7 @@ public class UserControllerTest {
     //对于接口测试，在你命名的接口前面要加个“斜杠”即本身接口为user，则测试时要设置为/user
 
     //登陆接口
-    @Test
+/*    @Test
     public void testPostMethod() throws Exception{
         UserLoginParameter userLoginParameter = new UserLoginParameter();
         userLoginParameter.setPhone("123123");
@@ -43,8 +43,7 @@ public class UserControllerTest {
         System.out.println("step1");
         this.mockMvc.perform(post("/user/login").content(JSON.toJSONString(userLoginParameter)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
-
+    }*/
     //用户修改信息接口
     @Test
     @Rollback(false)
