@@ -22,6 +22,19 @@ public class UserModifyParameter {
 
     private double longitude;
 
+    public  UserModifyParameter(long userId,String userName,String password,String address,String phone,String gender,String regDate,
+                                double latitude,double longitude){
+        this.userId = userId;
+        this.userName = userName;
+        this.address = address;
+        this.password = password;
+        this.gender = gender;
+        this.phone = phone;
+        this.regDate = regDate;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
 
     //getter and setter
 
@@ -32,8 +45,6 @@ public class UserModifyParameter {
     public void setUserId(long userId) {
         this.userId = userId;
     }
-
-
 
     public String getUserName() {
         return userName;

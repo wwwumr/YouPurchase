@@ -33,6 +33,7 @@ public class UserService extends BaseService {
     //修改用户信息
      public UserLoginDTO UserModify(UserModifyParameter userModifyParameter){
          User user = userDao.findByUserIdAndValid(userModifyParameter.getUserId(),true);
+         System.out.println(user.getUserId());
          user.setInfo(userModifyParameter);
          userDao.save(user);
          System.out.println("信息更新成功");

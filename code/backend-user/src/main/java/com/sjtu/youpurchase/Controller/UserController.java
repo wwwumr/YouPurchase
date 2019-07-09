@@ -25,10 +25,25 @@ import java.io.IOException;
 public class UserController extends BaseController{
 
     //用户信息修改
-    @RequestMapping(value="user/modify",method= RequestMethod.POST)
+    @RequestMapping(value="user/modify")
     public
     @ResponseBody
-    UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
+    UserLoginDTO UserModify(HttpServletRequest request,HttpServletResponse response){
+        String tempuserId = request.getParameter("userId");
+        long userId = Long.parseLong(tempuserId);
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+        String address = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+        String regDate = request.getParameter("regDate");
+        String templatitude = request.getParameter("latitude");
+        double  latitude =  Double.parseDouble(templatitude);
+        String templongitude = request.getParameter("longitude");
+        double longitude = Double.parseDouble(templongitude);
+        UserModifyParameter userModifyParameter = new UserModifyParameter( userId,userName,password,address,phone,gender,regDate,
+        latitude,longitude);
+        System.out.println(userId);
         return userService.UserModify(userModifyParameter);
     }
 

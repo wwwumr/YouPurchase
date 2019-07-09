@@ -45,7 +45,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
     }*/
     //用户修改信息接口
-    @Test
+/*    @Test
     @Rollback(false)
     public void testModifyMethod() throws Exception{
         UserModifyParameter userModifyParameter = new UserModifyParameter();
@@ -61,5 +61,5 @@ public class UserControllerTest {
         this.mockMvc.perform(post("/user/modify").content(JSON.toJSONString(userModifyParameter)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         System.out.println("step2");
-    }
+    }*/
 }

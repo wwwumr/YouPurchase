@@ -73,16 +73,8 @@ public class UserTest {
  /*    @Test
      @Rollback(false)
     public void testModifyUser(){
-         UserModifyParameter userModifyParameter = new UserModifyParameter();
-         userModifyParameter.setUserId(7);
-         userModifyParameter.setAddress("洛斯里克高墙");
-         userModifyParameter.setGender("女");
-         userModifyParameter.setLatitude(13.1);
-         userModifyParameter.setLongitude(15.2);
-         userModifyParameter.setPassword("666666");
-         userModifyParameter.setPhone("13111111234");
-         userModifyParameter.setUserName("冷裂谷的舞娘");
-         System.out.println("step1");
+
+
          userService.UserModify(userModifyParameter);
      }*/
 }
