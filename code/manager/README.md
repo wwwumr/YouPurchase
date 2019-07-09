@@ -22,13 +22,13 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 
 店铺管理及经销商管理需要
 
-1. 返回各自全部信息的接口 get /stores
-2. 新建店铺、经销商的接口 post /stores
+1. 返回各自全部信息的接口 get /stores ok ok
+2. 新建店铺、经销商的接口 post /stores  ok ok
 
 店铺详情页面需要
 
-1. 提供key返回店铺信息的接口                                    get /stores/:id
-2. 返回未绑定经销商的接口                                       get /stores/unbindDealers
+1. 提供key返回店铺信息的接口                                    get /stores/:id  ok
+2. 返回未绑定经销商的接口                                       get /stores/unbindDealers 
 3. 提供key及dealerId以解除绑定的接口                               get /stores/unbind?dealerId=?&storeId=?
 4. 上传图片和旧的url返回url的接口                               
 5. 提供新的店铺信息(包括可能新的经销商id及name)更改信息的接口       put /stores
@@ -42,7 +42,7 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 
 经销商详情需要
 
-1. 提供key返回经销商信息的接口 get /dealers/:id
+1. 提供key返回经销商信息的接口 get /dealers/:id  ok
 2. 返回未绑定店铺的接口     get /dealers/unbindStores
 3. 提供key及storeId以解除绑定的接口 get /stores/unbind?dealerId=?&storeId=?
 4. 上传图片返回url的接口
