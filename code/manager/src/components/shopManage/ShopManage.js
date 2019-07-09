@@ -20,17 +20,17 @@ class ShopManage extends React.Component {
 
     componentDidMount() {
         document.getElementById("background").style.backgroundImage="none";
-        /* axios 
+        /* axios */
         axios.get(config.url.stores)
             .then((res) => {
                 this.setState({
                     shopData: res.data
                 })
             })
-        */
+        /* 
         this.setState({
             shopData: shopMock
-        })
+        })*/
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -112,7 +112,7 @@ class ShopManage extends React.Component {
             axios.post(config.url.stores, this.state.shop)
                 .then((res) => {
                     /* 前端更新 */
-                    shop.key = res.data;
+                    shop.key = res.data.key;
                     shopData.push(shop);
                     this.setState({
                         shopData: shopData,

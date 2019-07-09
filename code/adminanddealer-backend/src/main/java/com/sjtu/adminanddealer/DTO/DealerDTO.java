@@ -90,6 +90,14 @@ public class DealerDTO {
         this.contact = contact;
     }
 
+    public Long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId = storeId;
+    }
+
     public String getStoreName() {
         return storeName;
     }

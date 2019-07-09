@@ -4,7 +4,7 @@ import { Input, message, Popconfirm, Button } from 'antd';
 import axios from 'axios';
 import dealerData from '../../../mock/dealerMock';
 import config from '../../../config/config';
-import AvatarUpload from './dealerMessage/AavatarUpload';
+import AvatarUpload from './dealerMessage/AvatarUpload';
 import ShopAutoInput from './dealerMessage/ShopAutoInput';
 
 class DealerMessage extends React.Component {
@@ -16,10 +16,11 @@ class DealerMessage extends React.Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         
         const key = this.props.location.dealerKey ? this.props.location.dealerKey : 0;
-        /* axios function 
+        
+        /* axios function */
         axios.get(config.url.dealers+key)
             .then((res) => {
                 this.setState({
@@ -27,8 +28,8 @@ class DealerMessage extends React.Component {
                     originDealer: res.data,
                 })
             })
-        */
-        /* mock */
+        
+        /* mock 
         const dealers = dealerData;
         const dealer = dealers.find((elem) => {
             return elem.key === key;
@@ -36,7 +37,7 @@ class DealerMessage extends React.Component {
         this.setState({
             dealer: dealer,
             originDealer: dealer,
-        })
+        })*/
     }
 
     handleChange = () => {

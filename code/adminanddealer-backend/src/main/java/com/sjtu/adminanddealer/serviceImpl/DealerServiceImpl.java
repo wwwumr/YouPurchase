@@ -26,11 +26,12 @@ import java.util.List;
 public class DealerServiceImpl implements DealerService {
 
     @Value("${imageBaseDirectory}")
-    private static String imageBaseDirectory;
+    private String imageBaseDirectory;
+    // TODO: 参数无法注入(null)
     @Value("${dealerDefaultAvatarUrl}")
-    private static String dealerDefaultAvatarUrl;
+    private String dealerDefaultAvatarUrl;
     // TODO: 添加经销商默认头像uri
-    private static String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
+    private String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
     @Autowired
     private DealerDao dealerDao;
 
@@ -50,7 +51,11 @@ public class DealerServiceImpl implements DealerService {
             dealerDto.setAddress(d.getAddress());
             dealerDto.setRealName(d.getRealName());
             dealerDto.setContact(d.getContact());
-            dealerDto.setStoreName(d.getStore().getStoreName());
+            if (d.getStore() != null) {
+                dealerDto.setStoreName(d.getStore().getStoreName());
+            } else {
+                dealerDto.setStoreName(null);
+            }
             dealerDto.setPassword(d.getPassword());
             dtos.add(dealerDto);
         }
@@ -60,14 +65,31 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public DealerDTO getDealerByDealerId(Long dealerId) {
         Dealer dealer = dealerDao.getDealerById(dealerId);
-        DealerDTO dto = new DealerDTO(dealer.getDealerId(), dealer.getUserName(), dealer.getAvatar(),
-                dealer.getAddress(), dealer.getRealName(), dealer.getContact(), dealer.getStore().getStoreId(),
-                dealer.getStore().getStoreName(), dealer.getPassword());
+        DealerDTO dto = new DealerDTO();
+        if (dealer.getStore() != null) {
+            dto.setKey(dealer.getDealerId());
+            dto.setUserName(dealer.getUserName());
+            dto.setAvatar(dealer.getAvatar());
+            dto.setAddress(dealer.getAddress());
+            dto.setRealName(dealer.getRealName());
+            dto.setContact(dealer.getContact());
+            dto.setStoreName(dealer.getStore().getStoreName());
+            dto.setStoreId(dealer.getStore().getStoreId());
+            dto.setPassword(dealer.getPassword());
+        } else {
+            dto.setKey(dealer.getDealerId());
+            dto.setUserName(dealer.getUserName());
+            dto.setAvatar(dealer.getAvatar());
+            dto.setAddress(dealer.getAddress());
+            dto.setRealName(dealer.getRealName());
+            dto.setContact(dealer.getContact());
+            dto.setPassword(dealer.getPassword());
+        }
         return dto;
     }
 
     @Override
-    public void addADealer(DealerParameter dealerParameter) {
+    public Long addADealer(DealerParameter dealerParameter) {
         Dealer dealer = new Dealer();
         dealer.setUserName(dealerParameter.getUserName());
         dealer.setAddress(dealerParameter.getAddress());
@@ -75,9 +97,7 @@ public class DealerServiceImpl implements DealerService {
         dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
         dealer.setAvatar(DEALER_DEFAULT_AVATAR_URL);
-        dealer.setStore(new Store());
-
-        dealerDao.addADealer(dealer);
+        return dealerDao.addADealer(dealer);
     }
 
     @Override

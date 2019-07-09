@@ -39,7 +39,7 @@ public interface DealerDao {
      *
      * @param dealer 经销商实体
      */
-    void addADealer(Dealer dealer);
+    Long addADealer(Dealer dealer);
 
     /**
      * 获取所有未绑定经销商的店铺实体

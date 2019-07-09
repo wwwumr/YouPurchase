@@ -24,16 +24,16 @@ class DealerManage extends React.Component {
 
     componentWillMount() {
         
-        /* mock模拟*/
+        /* mock模拟
         this.setState({
             dealerData: dealerMock,
-        })
-        /* 请求经销商数据 
+        })*/
+        /* 请求经销商数据 */
         axios.get(config.url.dealers).then((res) => {
             this.setState({
                 dealerData: res.data,
             })
-        })*/
+        })
     }
 
     componentDidMount() {
@@ -111,8 +111,7 @@ class DealerManage extends React.Component {
         /* 检查经销商账户合法性 */
         var dealer = this.state.dealer;
         if (this.checkDealer(dealer)) {
-            message.info("创建成功");
-            /* 发送后端并更新前端 axios 
+            /* 发送后端并更新前端 axios */
             axios.post(config.url.newdealer, dealer)
                 .then((res) => {
                     if (res.data < 0) {
@@ -129,7 +128,7 @@ class DealerManage extends React.Component {
                         message.success("新用户创建成功");
                     }
                 })
-            */
+            
         } else {
             alert("所填不能为空");
             console.log(this.state.dealer);

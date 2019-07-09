@@ -73,7 +73,7 @@ class App extends React.Component {
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
                                 <Route exact path = "/shopManage/shopDetail/" component = { ShopDetail } ></Route>
                                 
-                                <Route path = "/test/" component= { DealerMessage } ></Route>
+                                <Route path = "/test/" component= { DealerManage } ></Route>
                             </Switch>
                         
                         </div>

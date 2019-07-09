@@ -50,8 +50,10 @@ public class StoreServiceImpl implements StoreService {
             storeDTO.setAddress(s.getAddress());
             storeDTO.setContact(s.getContact());
             storeDTO.setCoverPicUrl(s.getCoverPicUrl());
-            storeDTO.setDealerId(s.getDealer().getDealerId().intValue());
-            storeDTO.setDealerName(s.getDealer().getUserName());
+            if (s.getDealer() != null) {
+                storeDTO.setDealerId(s.getDealer().getDealerId().intValue());
+                storeDTO.setDealerName(s.getDealer().getUserName());
+            }
             String startHour = dateFormat.format(s.getOpenHourStart());
             String endHour = dateFormat.format(s.getOpenHourEnd());
             String[] hours = {startHour, endHour};
@@ -72,10 +74,21 @@ public class StoreServiceImpl implements StoreService {
         String endHour = dateFormat.format(store.getOpenHourEnd());
         String[] hours = {startHour, endHour};
 
-        StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
-                store.getCoverPicUrl(), store.getContact(), hours,
-                store.getDealer().getDealerId().intValue(), store.getDealer().getUserName());
-        return dto;
+        if(store.getDealer()!=null){
+            StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
+                    store.getCoverPicUrl(), store.getContact(), hours,
+                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName());
+            return dto;
+        } else {
+            StoreDTO dto = new StoreDTO();
+            dto.setKey(store.getStoreId());
+            dto.setStoreName(store.getStoreName());
+            dto.setAddress(store.getAddress());
+            dto.setCoverPicUrl(store.getCoverPicUrl());
+            dto.setContact(store.getContact());
+            dto.setHours(hours);
+            return dto;
+        }
     }
 
     @Override
@@ -84,7 +97,7 @@ public class StoreServiceImpl implements StoreService {
 
         Store store = new Store();
         store.setStoreName(storeParameter.getStoreName());
-        store.setCoverPicUrl(this.storeDefaultCoverPicUrl);
+        store.setCoverPicUrl("image" + this.storeDefaultCoverPicUrl);
         store.setAddress(storeParameter.getAddress());
         // TODO: 调用外部API而不是设成0
         store.setLongitude(0.0);

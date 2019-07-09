@@ -49,9 +49,9 @@ public class DealerController {
      * @return 新建成功返回"saved"
      */
     @PostMapping
-    public String addNewDealer(@RequestBody DealerParameter data) {
-        dealerService.addADealer(data);
-        return "saved";
+    public Long addNewDealer(@RequestBody DealerParameter data) {
+
+        return dealerService.addADealer(data);
     }
 
     /**

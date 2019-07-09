@@ -17,18 +17,20 @@ class ShopDetail extends React.Component {
     }
 
     componentWillMount() {
-        /* axios function 
-        axios.get(config.url.stores).then((res) => {
+        var key = this.props.location.storeId ? this.props.location.storeId : 0;
+        /* axios function */
+        axios.get(config.url.stores + key).then((res) => {
             this.setState({
-                shopData: res.data,
+                shop: res.data,
+                originShop: res.data,
             })
         })
-        */
-        var key = this.props.location.storeId ? this.props.location.storeId : 0;
+        
+        /* 
         this.setState({
             shop: shopMock[key],
             originShop: Object.assign({}, shopMock[key]),
-        })
+        })*/
     }
 
     /* 最终提交修改信息的函数 */

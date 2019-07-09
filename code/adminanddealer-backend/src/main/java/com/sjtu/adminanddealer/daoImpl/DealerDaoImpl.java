@@ -30,8 +30,9 @@ public class DealerDaoImpl implements DealerDao {
     }
 
     @Override
-    public void addADealer(Dealer dealer) {
-        dealerRepository.save(dealer);
+    public Long addADealer(Dealer dealer) {
+        dealerRepository.saveAndFlush(dealer);
+        return dealer.getDealerId();
     }
 
     @Override
