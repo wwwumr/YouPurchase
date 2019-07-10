@@ -1,0 +1,31 @@
+package com.sjtu.youpurchase.parameter;
+
+
+/*
+* created by Deng Xiao
+* */
+public class UserLoginParameter {
+    String phone;
+
+    String password;
+
+    public UserLoginParameter(String phone,String password){
+        this.phone = phone;
+        this.password = password;
+    }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
