@@ -39,6 +39,8 @@ public interface DealerService {
      */
      JSONObject addADealer(DealerParameter dealerParameter);
 
+     void deleteDealer(Long dealerId);
+
     /**
      * 更新经销商信息,只包括经销商的用户名、密码、地址、真实姓名、联系方式，调用者为管理员
      *

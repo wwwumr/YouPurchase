@@ -42,6 +42,13 @@ public interface DealerDao {
     Long addADealer(Dealer dealer);
 
     /**
+     * 删除一个经销商
+     *
+     * @param dealerId 经销商id
+     */
+    void deleteDealer(Long dealerId);
+
+    /**
      * 获取所有未绑定经销商的店铺实体
      *
      * @return 包含所有未绑定店铺的列表

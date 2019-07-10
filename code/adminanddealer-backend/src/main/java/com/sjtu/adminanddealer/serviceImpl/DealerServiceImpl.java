@@ -31,10 +31,10 @@ public class DealerServiceImpl implements DealerService {
 
     @Value("${imageBaseDirectory}")
     private String imageBaseDirectory;
-    // TODO: 参数无法注入(null)
+
     @Value("${dealerDefaultAvatarUrl}")
     private String dealerDefaultAvatarUrl;
-    // TODO: 添加经销商默认头像url
+
     private String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
     @Autowired
     private DealerDao dealerDao;
@@ -103,11 +103,11 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
-        dealer.setAvatar(DEALER_DEFAULT_AVATAR_URL);
+        dealer.setAvatar(this.dealerDefaultAvatarUrl);
         JSONObject jsonObject = new JSONObject();
         Long id = dealerDao.addADealer(dealer);
         jsonObject.put("key",id);
-        jsonObject.put("avatar",DEALER_DEFAULT_AVATAR_URL);
+        jsonObject.put("avatar",this.dealerDefaultAvatarUrl);
         return jsonObject;
     }
 
@@ -121,6 +121,11 @@ public class DealerServiceImpl implements DealerService {
         dealer.setUserName(dealerParameter.getUserName());
         storeDao.bindDealerStore(dealerParameter.getKey(), dealerParameter.getStoreId());
         dealerDao.updateDealer(dealer);
+    }
+
+    @Override
+    public void deleteDealer(Long dealerId) {
+        dealerDao.deleteDealer(dealerId);
     }
 
     @Override
@@ -156,7 +161,7 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar) {
-        if(avatar.equals(this.DEALER_DEFAULT_AVATAR_URL)){
+        if(avatar.equals(this.dealerDefaultAvatarUrl)){
             String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
             dealerDao.updateDealerAvatar(dealerId, newAvatar);
             return newAvatar;

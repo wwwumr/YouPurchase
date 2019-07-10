@@ -69,6 +69,21 @@ public class DealerController {
     }
 
     /**
+     * 删除经销商信息.
+     *
+     * @param data 前端发送的需要删除的经销商数据，类型为包含Long的Array
+     * @return 删除成功返回DELETE
+     */
+    @DeleteMapping
+    public String deleteDealer(@RequestBody List<Long> data){
+        for (Long id: data
+             ) {
+            dealerService.deleteDealer(id);
+        }
+        return "DELETE";
+    }
+
+    /**
      * 获取所有未绑定的店铺
      *
      * @return 所有未绑定的店铺信息

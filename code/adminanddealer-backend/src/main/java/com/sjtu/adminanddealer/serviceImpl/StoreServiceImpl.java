@@ -138,6 +138,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public void deleteStore(Long storeId) {
+        storeDao.deleteStore(storeId);
+    }
+
+    @Override
     public void bindDealerAndStore(Long dealerId, Long storeId) {
         // TODO: unit test
         Store store = storeDao.getStoreByStoreId(storeId);
@@ -187,7 +192,8 @@ public class StoreServiceImpl implements StoreService {
             String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
             // 把原来存在的文件删除
-            FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+            int i = FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+            System.out.println(i);
             return newUrl;
         }
     }

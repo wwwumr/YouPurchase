@@ -41,6 +41,13 @@ public interface StoreDao {
     void updateStore(Store store);
 
     /**
+     * 删除一个店铺的信息.
+     *
+     * @param storeId 店铺id
+     */
+    void deleteStore(Long storeId);
+
+    /**
      * 绑定经销商与店铺，将数据库中两条记录的attached设为true，然后把id设置为互相的id.
      *
      * @param dealerId 经销商id

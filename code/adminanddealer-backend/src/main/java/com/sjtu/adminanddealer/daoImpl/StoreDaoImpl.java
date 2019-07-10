@@ -42,6 +42,13 @@ public class StoreDaoImpl implements StoreDao {
         storeRepository.saveAndFlush(store);
     }
 
+    @Override
+    public void deleteStore(Long storeId) {
+        if(storeRepository.existsById(storeId)){
+            storeRepository.deleteStoreByStoreId(storeId);
+        }
+    }
+
     @Transactional(rollbackFor = {RuntimeException.class})
     @Override
     public void bindDealerStore(Long dealerId, Long storeId) {

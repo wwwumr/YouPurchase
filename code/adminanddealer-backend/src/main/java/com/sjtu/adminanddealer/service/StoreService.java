@@ -46,6 +46,13 @@ public interface StoreService {
     void updateStore(StoreParameter storeParameter);
 
     /**
+     * 删除一个店铺的信息.
+     *
+     * @param storeId 店铺id
+     */
+    void deleteStore(Long storeId);
+
+    /**
      * 把店铺与经销商解除绑定(取消对经销商的授权).
      *
      * @param storeId  店铺id

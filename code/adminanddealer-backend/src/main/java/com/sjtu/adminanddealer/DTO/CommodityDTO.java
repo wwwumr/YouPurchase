@@ -17,6 +17,8 @@ public class CommodityDTO {
 
     private String commodityInfo;
 
+    private String commodityCoverPicUrl;
+
     private List<String> commodityPicUrls;
 
     private boolean onShelves;
@@ -28,10 +30,11 @@ public class CommodityDTO {
     public CommodityDTO() {
     }
 
-    public CommodityDTO(Long key, double price, String commodityInfo, List<String> commodityPicUrls, boolean onShelves, Integer inventory, Integer remaining) {
+    public CommodityDTO(Long key, double price, String commodityInfo, String commodityCoverPicUrl, List<String> commodityPicUrls, boolean onShelves, Integer inventory, Integer remaining) {
         this.key = key;
         this.price = price;
         this.commodityInfo = commodityInfo;
+        this.commodityCoverPicUrl = commodityCoverPicUrl;
         this.commodityPicUrls = commodityPicUrls;
         this.onShelves = onShelves;
         this.inventory = inventory;
@@ -42,6 +45,7 @@ public class CommodityDTO {
         this.key = commodity.getCommodityId();
         this.price = commodity.getPrice();
         this.commodityInfo = commodity.getCommodityInfo();
+        this.commodityCoverPicUrl = commodity.getCommodityCoverPicUrl();
         this.commodityPicUrls = commodity.getCommodityPicUrls();
         this.onShelves = commodity.getOnShelves();
         this.inventory = commodity.getInventory();
@@ -70,6 +74,14 @@ public class CommodityDTO {
 
     public void setCommodityInfo(String commodityInfo) {
         this.commodityInfo = commodityInfo;
+    }
+
+    public String getCommodityCoverPicUrl() {
+        return commodityCoverPicUrl;
+    }
+
+    public void setCommodityCoverPicUrl(String commodityCoverPicUrl) {
+        this.commodityCoverPicUrl = commodityCoverPicUrl;
     }
 
     public List<String> getCommodityPicUrls() {

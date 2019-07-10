@@ -36,6 +36,13 @@ public class DealerDaoImpl implements DealerDao {
     }
 
     @Override
+    public void deleteDealer(Long dealerId) {
+        if(dealerRepository.existsById(dealerId)){
+            dealerRepository.deleteDealerByDealerId(dealerId);
+        }
+    }
+
+    @Override
     public Dealer getDealerById(Long Id) {
         return dealerRepository.getByDealerId(Id);
     }

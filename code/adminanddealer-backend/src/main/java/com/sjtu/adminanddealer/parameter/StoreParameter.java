@@ -73,4 +73,12 @@ public class StoreParameter {
     public void setHours(String[] hours) {
         this.hours = hours;
     }
+
+    public Long getDealerId() {
+        return dealerId;
+    }
+
+    public void setDealerId(Long dealerId) {
+        this.dealerId = dealerId;
+    }
 }

@@ -38,4 +38,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query(value = "update `store` set `cover_pic_url` = :coverPicUrl where `store_id` = :storeId ", nativeQuery = true)
     void updateStorePicUrl(@Param("storeId") Long storeId, @Param("coverPicUrl") String coverPicUrl);
 
+    void deleteStoreByStoreId(Long storeId);
+
 }
