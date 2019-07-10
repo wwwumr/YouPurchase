@@ -177,16 +177,18 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl) {
+    public String updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl) {
         // 当传过来的图片url是默认图片url时，直接新建文件并把路径存入数据库中
         if (coverPicUrl.equals(this.storeDefaultCoverPicUrl)) {
             String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
+            return newUrl;
         } else {
             String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
             // 把原来存在的文件删除
             FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+            return newUrl;
         }
     }
 

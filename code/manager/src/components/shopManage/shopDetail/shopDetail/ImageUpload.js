@@ -2,13 +2,6 @@ import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
 import config from '../../../../config/config'
 
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
-
 function beforeUpload(file) {
     if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
         message.error('上传的图片应为jpg或png格式!');
@@ -22,72 +15,76 @@ function beforeUpload(file) {
     return true;
 }
 
-    
+
 class ImageUpload extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: config.shop.shopUrl,
+            imageUrl: "",
         };
+
     }
 
-    componentWillMount() {
-        var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.shopUrl;
-        this.setState({
-            imageUrl: coverPic,
-        })
+    componentDidMount() {
+        setTimeout(() => {
+            var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.shopUrl;
+            this.setState({
+                imageUrl: coverPic,
+            })
+        }, 100)
     }
-    
+
     handleChange = info => {
         if (info.file.status === 'uploading') {
-                this.setState({ loading: true });
-                return;
-            }
+            this.setState({ loading: true });
+            return;
+        }
         if (info.file.status === 'done') {
-        // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl: imageUrl,
-                    loading: false,
-                }),
-            );
+            // Get this url from response in real world.
+            console.log(info.file.response);
+            this.setState({
+                imageUrl: info.file.response,
+                loading: false
+            })
         }
     };
-    
+
     render() {
         const uploadButton = (
-        <div>
-            <Icon type={this.state.loading ? 'loading' : 'plus'} />
-            <div className="ant-upload-text">Upload</div>
-        </div>
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">Upload</div>
+            </div>
         );
 
         return (
-        <Tooltip placement="topLeft" title="更换店面图片">
-            <Upload
-                name="file"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action= {config.uploadImage.action}
-                data={{"key": this.props.storeId, "coverPicUrl": this.props.coverPic}}
-                beforeUpload={beforeUpload}
-                onChange={this.handleChange}
-                style={{position: "relative",display: "block", width: "400px", height: "300px", 
-                    verticalAlign: "center", textAlign: "center"}}
-            >
-                {/* action之后重构 */}
-                {
-                    this.state.imageUrl ?
-                    <img src={this.state.imageUrl} alt="avatar" 
-                        style={{position: "relative", width: "100%", height: "90%"}}
-                    /> 
-                    : uploadButton
-                }
-                <h3>点击更换图片</h3>
-            </Upload>
-        </Tooltip>
+            <Tooltip placement="topLeft" title="更换店面图片">
+                <Upload
+                    name="file"
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    showUploadList={false}
+                    action={config.uploadImage.storeAction}
+                    data={{ "key": this.props.storeId, "coverPicUrl": this.props.coverPic }}
+                    beforeUpload={beforeUpload}
+                    onChange={this.handleChange}
+                    style={{
+                        position: "relative", display: "block", width: "400px", height: "300px",
+                        verticalAlign: "center", textAlign: "center"
+                    }}
+                >
+                    {/* action之后重构 */}
+                    {
+                        this.state.imageUrl ?
+                            <img src={config.url.root + this.state.imageUrl} alt="avatar"
+                                style={{ position: "relative", width: "100%", height: "90%" }}
+                            />
+                            : uploadButton
+                    }
+                    <h3>点击更换图片</h3>
+                </Upload>
+            </Tooltip>
         );
     }
 }

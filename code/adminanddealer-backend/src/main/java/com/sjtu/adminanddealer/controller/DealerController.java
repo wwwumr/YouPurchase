@@ -1,11 +1,13 @@
 package com.sjtu.adminanddealer.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,16 +48,16 @@ public class DealerController {
      * 新建一个经销商.
      *
      * @param data 解析类型为DealerRequestDTO
-     * @return 新建成功返回"saved"
+     * @return 一个JSON,包括新建的经销商id和头像url ,格式为{"key" : long, "avatar" : String}
      */
     @PostMapping
-    public Long addNewDealer(@RequestBody DealerParameter data) {
+    public JSONObject addNewDealer(@RequestBody DealerParameter data) {
 
         return dealerService.addADealer(data);
     }
 
     /**
-     * 修改经销商信息
+     * 修改经销商信息.
      *
      * @param data 前端发送的修改后的经销商信息
      * @return 修改成功返回“saved”
@@ -74,5 +76,15 @@ public class DealerController {
     @GetMapping("/unbindStores")
     public List<StoreDTO> getAllUnbindStore() {
         return dealerService.getAllUnbindStore();
+    }
+
+    @PostMapping("/avatar")
+    public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("key") Long dealerId,
+                                     @RequestParam("avatar") String avatar){
+        if(file==null){
+            return "ERROR";
+        }
+        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
+        return newAvatar;
     }
 }

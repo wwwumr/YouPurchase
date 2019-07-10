@@ -1,8 +1,10 @@
 package com.sjtu.adminanddealer.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,8 +35,9 @@ public interface DealerService {
      * 新建一个经销商账户
      *
      * @param dealerParameter 由前端发送过来的信息新建经销商账户
+     * @return 一个JSON, 包括新建的经销商id和头像url, 格式为{"key" : long, "avatar" : String}
      */
-    Long addADealer(DealerParameter dealerParameter);
+     JSONObject addADealer(DealerParameter dealerParameter);
 
     /**
      * 更新经销商信息,只包括经销商的用户名、密码、地址、真实姓名、联系方式，调用者为管理员
@@ -54,8 +57,10 @@ public interface DealerService {
     /**
      * 获取所有没有绑定的店铺.
      *
-     * @return
+     * @return 所有未绑定的店铺
      */
     List<StoreDTO> getAllUnbindStore();
+
+    String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar);
 
 }

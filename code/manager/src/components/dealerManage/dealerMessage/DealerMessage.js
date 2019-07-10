@@ -60,21 +60,21 @@ class DealerMessage extends React.Component {
         if (!this.checkChange()) {
             return ;
         }
-        /* axios 
+        /* axios */
         var dealer = this.state.dealer;
         axios.put(config.url.dealers, 
                 dealer
             ).then((res) => {
-                if (res.data < 0) {
+                if (res.data !== "saved" ) {
                     message.error("修改失败");
                 } else {
                     message.success("修改成功");
                 }
-            })*/
+            })
     }
 
     handleUnbind = () => {
-        /* axios function 
+        /* axios function */
         axios.get(config.url.stores+"unbind?dealerId="+this.state.dealer.key+"&storeId="+this.state.dealer.storeId)
             .then((res) => {
                 if (res.data < 0) {
@@ -88,13 +88,13 @@ class DealerMessage extends React.Component {
                     })
                 }
             })
-        */
+        /** 
         message.info("授权已取消");
         var dealer = this.state.dealer;
         dealer.storeName = "";
         this.setState({
             dealer: dealer,
-        })
+        })*/
     }
 
     render() {
@@ -107,7 +107,7 @@ class DealerMessage extends React.Component {
                 <div 
                     style={{position: "relative", height: "100px", width: "100px", float: "left",}}
                 >
-                    <AvatarUpload avatar={ this.state.dealer.avatar } />
+                    <AvatarUpload avatar={ this.state.dealer.avatar } id={this.props.match.params.key} />
                 </div>
                 <Input addonBefore="用户名"  style={{ marginBottom : "10px", width: "60%", float: "right"}}
                     value={ this.state.dealer.userName } 

@@ -70,6 +70,8 @@ public interface StoreService {
 
     /**
      * 更新店铺的封面图片，调用者为经销商或管理员.
+     *
+     * @return 新图片的路径
      */
-    void updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl);
+    String updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl);
 }

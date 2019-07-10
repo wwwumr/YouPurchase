@@ -1,11 +1,11 @@
 var config = {
     shop:   {
-        shopUrl: "http://localhost:9000/image/defaultStoreCover.png",
+        shopUrl: "image/defaultStoreCover.png",
         originShop: {
             key: null, 
             storeName: '', 
             address: '', 
-            coverPicUrl: "http://localhost:9000/image/defaultStoreCover.png", 
+            coverPicUrl: "image/defaultStoreCover.png", 
             contact: '', 
             hours: [],
             dealerId: null,
@@ -24,7 +24,7 @@ var config = {
             storeId: null,
             storeName: "",
             password: "",
-            avatar: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1700741544,1951185347&fm=27&gp=0.jpg",
+            avatar: "image/dealerDefaultAvatar.png",
         },
         postDealer: {
             key: null,
@@ -38,10 +38,11 @@ var config = {
         }
     },
     uploadImage: {
-        validFormat: ["image/jpge", "image/png"],
+        validFormat: ["image/jpeg", "image/png", "image/gif"],
         url: "http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg",
         maxCapicity: 2 << 21,
-        action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+        storeAction: "http://localhost:9000/stores/cover/",
+        avatarAction: "http://localhost:9000/dealers/avatar/"
     },
     autoInput: {
         url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",

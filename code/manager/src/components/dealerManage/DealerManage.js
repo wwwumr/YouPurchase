@@ -114,10 +114,11 @@ class DealerManage extends React.Component {
             /* 发送后端并更新前端 axios */
             axios.post(config.url.newdealer, dealer)
                 .then((res) => {
-                    if (res.data < 0) {
+                    // 这里所做的修改是后端返回数据格式变为{"key" : long, "avatar" : String}这种格式
+                    if (res.data.key < 0) {
                         message.error("新用户创建失败");
                     } else {
-                        dealer.key = res.data;
+                        dealer.key = res.data.key;
                         var dealerData = this.state.dealerData;
                         dealerData.push(dealer);
                         this.setState({
@@ -165,7 +166,7 @@ class DealerManage extends React.Component {
                 title: '头像',
                 dataIndex: 'avatar',
                 key: '0',
-                render: text => (<Avatar  size={50} src={text} />)
+                render: text => (<Avatar  size={50} src={config.url.root+text} />)
             },{
                 title: '账户id',
                 dataIndex: 'key',

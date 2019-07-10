@@ -29,9 +29,9 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 
 1. 提供key返回店铺信息的接口                                    get /stores/:id  ok
 2. 返回未绑定经销商的接口                                       get /stores/unbindDealers  ok
-3. 提供key及dealerId以解除绑定的接口                               get /stores/unbind?dealerId=?&storeId=?
+3. 提供key及dealerId以解除绑定的接口                               get /stores/unbind?dealerId=?&storeId=? ok
 4. 上传图片和旧的url返回url的接口                               
-5. 提供新的店铺信息(包括可能新的经销商id及name)更改信息的接口       put /stores
+5. 提供新的店铺信息(包括可能新的经销商id及name)更改信息的接口       put /stores ok
 
         key: 0, 
         storeName: "华山派", 
@@ -44,9 +44,9 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 
 1. 提供key返回经销商信息的接口 get /dealers/:id  ok
 2. 返回未绑定店铺的接口     get /dealers/unbindStores ok
-3. 提供key及storeId以解除绑定的接口 get /stores/unbind?dealerId=?&storeId=?
+3. 提供key及storeId以解除绑定的接口 get /stores/unbind?dealerId=?&storeId=? ok
 4. 上传图片返回url的接口
-5. 提供新的经销商信息(包括可能新的店铺id及name)更改信息的接口   put /dealers
+5. 提供新的经销商信息(包括可能新的店铺id及name)更改信息的接口   put /dealers ok
 
 ## 待做
 

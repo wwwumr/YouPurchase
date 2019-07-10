@@ -125,8 +125,8 @@ public class StoreController {
         if (file == null) {
             return "ERROR";
         }
-        storeService.updateStoreCoverPic(file, storeId, coverPicUrl);
-        return "update";
+        String newUrl = storeService.updateStoreCoverPic(file, storeId, coverPicUrl);
+        return newUrl;
 
     }
 

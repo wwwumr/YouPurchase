@@ -11,8 +11,6 @@ import java.util.List;
  * @author Chuyuxuan
  */
 public interface CommodityService {
-    // 查看某个店铺的所有商品
-    // 查看某一商品
     // 增加商品
     // 修改商品信息
     // 删除商品

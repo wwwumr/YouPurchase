@@ -66,4 +66,11 @@ public interface DealerDao {
 
     // TODO: updateDealerPassword no implement
     void updateDealerPassword(Long dealerId, String newPassword);
+
+    /**
+     * 在数据库中更新经销商的头像信息
+     * @param dealerId 经销商id
+     * @param newAvatar 新的头像url
+     */
+    void updateDealerAvatar(Long dealerId, String newAvatar);
 }

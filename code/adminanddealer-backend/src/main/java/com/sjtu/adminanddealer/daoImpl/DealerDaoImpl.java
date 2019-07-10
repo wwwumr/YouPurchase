@@ -62,6 +62,11 @@ public class DealerDaoImpl implements DealerDao {
 
     @Override
     public void updateDealerPassword(Long dealerId, String newPassword) {
+        // TODO: 经销商修改密码实现
+    }
 
+    @Override
+    public void updateDealerAvatar(Long dealerId, String newAvatar) {
+        dealerRepository.updateDealerAvatar(dealerId, newAvatar);
     }
 }

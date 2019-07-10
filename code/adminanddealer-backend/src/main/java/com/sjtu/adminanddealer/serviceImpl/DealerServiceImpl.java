@@ -1,5 +1,7 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
@@ -8,9 +10,11 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
+import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -92,7 +96,7 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
-    public Long addADealer(DealerParameter dealerParameter) {
+    public JSONObject addADealer(DealerParameter dealerParameter) {
         Dealer dealer = new Dealer();
         dealer.setUserName(dealerParameter.getUserName());
         dealer.setAddress(dealerParameter.getAddress());
@@ -100,7 +104,11 @@ public class DealerServiceImpl implements DealerService {
         dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
         dealer.setAvatar(DEALER_DEFAULT_AVATAR_URL);
-        return dealerDao.addADealer(dealer);
+        JSONObject jsonObject = new JSONObject();
+        Long id = dealerDao.addADealer(dealer);
+        jsonObject.put("key",id);
+        jsonObject.put("avatar",DEALER_DEFAULT_AVATAR_URL);
+        return jsonObject;
     }
 
     @Override
@@ -143,7 +151,22 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public void updateDealerPassword(String password) {
+        // TODO: 经销商密码修改实现
+    }
 
+    @Override
+    public String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar) {
+        if(avatar.equals(this.DEALER_DEFAULT_AVATAR_URL)){
+            String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            dealerDao.updateDealerAvatar(dealerId, newAvatar);
+            return newAvatar;
+        } else {
+            String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            dealerDao.updateDealerAvatar(dealerId, newAvatar);
+            // 把原来存在的文件删除
+            FileUploadUtil.getFileUploadUtil().deleteFile(avatar);
+            return newAvatar;
+        }
     }
 
 }

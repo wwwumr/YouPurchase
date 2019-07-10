@@ -37,11 +37,11 @@ public final class FileUploadUtil {
      * 保存上传的文件.
      *
      * @param file 前端发送的文件
-     * @return 保存成功返回文件对应的url，例如"images/dafd2f8v8dhv8.jpg";保存不成功返回"error"
+     * @return 保存成功返回文件对应的url，例如"image/dafd2f8v8dhv8.jpg";保存不成功返回"error"
      */
     public String saveFile(MultipartFile file) {
         if (file.isEmpty()) {
-            return "error";
+            return null;
         }
         Date date = new Date();
         String originFileName = file.getOriginalFilename();
@@ -49,13 +49,13 @@ public final class FileUploadUtil {
         String suffix = originFileName.substring(originFileName.lastIndexOf('.'));
         // 用当前时间以及文件名哈希，防止文件重名
         String fileName = String.valueOf((date.toString() + originFileName).hashCode()) + suffix;
-        File dest = new File(this.FILE_BASE_DIR + "images/" + fileName);
+        File dest = new File(this.FILE_BASE_DIR + "image/" + fileName);
         try {
             file.transferTo(dest);
-            return "images/" + fileName;
+            return "image/" + fileName;
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
+            return null;
         }
     }
 
@@ -67,13 +67,13 @@ public final class FileUploadUtil {
      * @return 成功返回ok，失败返回error并打印错误信息
      */
     public String coverExistFile(MultipartFile file, String originFilename) {
-        File dest = new File(this.FILE_BASE_DIR + "images/" + originFilename);
+        File dest = new File(this.FILE_BASE_DIR + "image/" + originFilename);
         try {
             file.transferTo(dest);
             return "ok";
         } catch (IOException e) {
             e.printStackTrace();
-            return "error";
+            return null;
         }
     }
 
