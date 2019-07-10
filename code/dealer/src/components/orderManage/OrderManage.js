@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class ShopManage extends React.Component {
+class OrderManage extends React.Component {
 
     componentDidMount() {
         document.getElementById("background").style.backgroundImage="none";
@@ -16,4 +16,4 @@ class ShopManage extends React.Component {
     }
 }
 
-export default ShopManage;
+export default OrderManage;

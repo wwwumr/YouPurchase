@@ -1,10 +1,10 @@
 import React from 'react'
 import { Form, Icon, Input, Button, message } from 'antd';
-//import { createHashHistory } from 'history';
+import { createHashHistory } from 'history';
 //import axios from 'axios';
 //import url from '../../config/url';
 
-//const history = createHashHistory();
+const history = createHashHistory();
 
 class NormalLoginForm extends React.Component {
 
@@ -14,6 +14,10 @@ class NormalLoginForm extends React.Component {
             if (!err) {
                 this.props.setUserName(values.username);
                 message.success("登录成功")
+                document.getElementById("background").style.backgroundImage="none";
+                history.push({
+                    pathname: "/storeManage/"+values.username,
+                });
                 /* 检查用户名合法性 
                 axios.get(url.logIn + "?userName=" + values.username + "&password=" + values.password)
                     .then((res) => {
