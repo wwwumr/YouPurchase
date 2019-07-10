@@ -5,7 +5,11 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Avatar } from 'antd';
 import avatar from './config/avatar';
 import HomePage from './components/HomePage'
-import ShopManage from './components/store/ShopManage';
+import ShopManage from './components/storeManage/StoreManage';
+import OrderManage from './components/orderManage/OrderManage';
+import GoodsManage from './components/goodsManage/GoodsManage';
+import AccountManage from './components/accountManage/AccountManage'
+import Goods from './components/goodsManage/goods/Goods';
 
 const { Header, Content, Footer} = Layout;
 
@@ -29,6 +33,7 @@ class App extends React.Component {
         return (
             <HashRouter history= {hashHistory} >
                 <Layout>
+                {/* 账户管理、店铺信息管理、货物管理、订单管理 */}
                     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                         <div className="logo" />
                         {
@@ -42,10 +47,16 @@ class App extends React.Component {
                                     </Link>
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                {this.state.userName}
+                                <Link to={"/accountManage/"+this.state.userName} >{this.state.userName}</Link>
                                 </Menu.Item>
                                 <Menu.Item key="3">
-                                <Link to="/store/" >店铺管理</Link>
+                                <Link to={"/storeManage/"+this.state.userName} >店铺管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="4">
+                                <Link to={"/goodsManage/"+this.state.userName} >货物管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="5">
+                                <Link to={"/orderManage/"+this.state.userName} >订单管理</Link>
                                 </Menu.Item>
                             </Menu>
                         }
@@ -58,14 +69,18 @@ class App extends React.Component {
                             </Menu>
                         }
                     </Header>
-                    <Content style={{ padding: '0 50px', marginTop: 64, minHeight:"625px" }}>
+                    <Content style={{ padding: '0 50px', marginTop: 64,  }}>
                         <div id="background" style={{ background: '#fff', padding: 24, minHeight: 625, }} >
         
                             <Switch>
                                 <Route exact path = "/" 
                                     render = { () => <HomePage setUserName={ this.setUserName } /> }
                                 />    
-                                <Route exact path = "/store/" component={ ShopManage } />
+                                <Route exact path = "/storeManage/:userName" component={ ShopManage } />
+                                <Route exact path = "/orderManage/:userName" component={ OrderManage } />
+                                <Route exact path = "/goodsManage/:userName" component={ GoodsManage } />
+                                <Route exact path = "/accountManage/:userName" component={ AccountManage } />
+                                <Route exact path = "/goods/:id" component={ Goods } />
                             </Switch>
                         
                         </div>
