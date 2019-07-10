@@ -135,17 +135,31 @@ public class Dealer {
     // 这里override toString()方法是因为在有些时候调用时，防止出现无限递归的情况
     @Override
     public String toString() {
-        return "Dealer{" +
-                "dealerId=" + dealerId +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", address='" + address + '\'' +
-                ", realName='" + realName + '\'' +
-                ", contact='" + contact + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", attached=" + attached +
-                ", store=" + store.getStoreId() +
-                '}';
+        if (this.getStore() != null) {
+            return "Dealer{" +
+                    "dealerId=" + dealerId +
+                    ", userName='" + userName + '\'' +
+                    ", password='" + password + '\'' +
+                    ", address='" + address + '\'' +
+                    ", realName='" + realName + '\'' +
+                    ", contact='" + contact + '\'' +
+                    ", avatar='" + avatar + '\'' +
+                    ", attached=" + attached +
+                    ", store=" + store.getStoreId() +
+                    '}';
+        } else {
+            return "Dealer{" +
+                    "dealerId=" + dealerId +
+                    ", userName='" + userName + '\'' +
+                    ", password='" + password + '\'' +
+                    ", address='" + address + '\'' +
+                    ", realName='" + realName + '\'' +
+                    ", contact='" + contact + '\'' +
+                    ", avatar='" + avatar + '\'' +
+                    ", attached=" + attached +
+                    ", store=null" +
+                    '}';
+        }
     }
 
 }

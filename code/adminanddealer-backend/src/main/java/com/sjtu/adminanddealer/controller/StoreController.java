@@ -80,9 +80,9 @@ public class StoreController {
      * @return 删除成功返回DELETE
      */
     @DeleteMapping
-    public String deleteStore(@RequestBody List<Long> data){
-        for (Long id:data
-             ) {
+    public String deleteStore(@RequestBody List<Long> data) {
+        for (Long id : data
+        ) {
             storeService.deleteStore(id);
         }
         return "DELETE";

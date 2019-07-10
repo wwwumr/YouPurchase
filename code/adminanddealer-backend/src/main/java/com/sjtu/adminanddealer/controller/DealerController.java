@@ -48,7 +48,7 @@ public class DealerController {
      * 新建一个经销商.
      *
      * @param data 解析类型为DealerRequestDTO
-     * @return 一个JSON,包括新建的经销商id和头像url ,格式为{"key" : long, "avatar" : String}
+     * @return 一个JSON, 包括新建的经销商id和头像url ,格式为{"key" : long, "avatar" : String}
      */
     @PostMapping
     public JSONObject addNewDealer(@RequestBody DealerParameter data) {
@@ -75,9 +75,9 @@ public class DealerController {
      * @return 删除成功返回DELETE
      */
     @DeleteMapping
-    public String deleteDealer(@RequestBody List<Long> data){
-        for (Long id: data
-             ) {
+    public String deleteDealer(@RequestBody List<Long> data) {
+        for (Long id : data
+        ) {
             dealerService.deleteDealer(id);
         }
         return "DELETE";
@@ -95,8 +95,8 @@ public class DealerController {
 
     @PostMapping("/avatar")
     public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("key") Long dealerId,
-                                     @RequestParam("avatar") String avatar){
-        if(file==null){
+                                     @RequestParam("avatar") String avatar) {
+        if (file == null) {
             return "ERROR";
         }
         String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);

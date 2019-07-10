@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
@@ -35,7 +34,6 @@ public class DealerServiceImpl implements DealerService {
     @Value("${dealerDefaultAvatarUrl}")
     private String dealerDefaultAvatarUrl;
 
-    private String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
     @Autowired
     private DealerDao dealerDao;
 
@@ -106,8 +104,8 @@ public class DealerServiceImpl implements DealerService {
         dealer.setAvatar(this.dealerDefaultAvatarUrl);
         JSONObject jsonObject = new JSONObject();
         Long id = dealerDao.addADealer(dealer);
-        jsonObject.put("key",id);
-        jsonObject.put("avatar",this.dealerDefaultAvatarUrl);
+        jsonObject.put("key", id);
+        jsonObject.put("avatar", this.dealerDefaultAvatarUrl);
         return jsonObject;
     }
 
@@ -130,7 +128,7 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public List<StoreDTO> getAllUnbindStore() {
-        List<Store> storeArrayList = dealerDao.getAllUnbindStore();
+        List<Store> storeArrayList = storeDao.getAllUnbindStore();
         List<StoreDTO> storeDTOList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
@@ -161,7 +159,7 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar) {
-        if(avatar.equals(this.dealerDefaultAvatarUrl)){
+        if (avatar.equals(this.dealerDefaultAvatarUrl)) {
             String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
             dealerDao.updateDealerAvatar(dealerId, newAvatar);
             return newAvatar;

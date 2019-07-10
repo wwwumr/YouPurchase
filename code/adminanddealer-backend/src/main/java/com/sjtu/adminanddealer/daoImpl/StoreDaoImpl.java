@@ -44,7 +44,7 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public void deleteStore(Long storeId) {
-        if(storeRepository.existsById(storeId)){
+        if (storeRepository.existsById(storeId)) {
             storeRepository.deleteStoreByStoreId(storeId);
         }
     }
@@ -61,6 +61,11 @@ public class StoreDaoImpl implements StoreDao {
     public void unbindDealerStore(Long dealerId, Long storeId) {
         storeRepository.unbindDealerAndStoreStep1(dealerId, false);
         storeRepository.unbindDealerAndStoreStep2(storeId, false);
+    }
+
+    @Override
+    public List<Store> getAllUnbindStore() {
+        return storeRepository.getStoresByAttachedIsFalse();
     }
 
     @Override

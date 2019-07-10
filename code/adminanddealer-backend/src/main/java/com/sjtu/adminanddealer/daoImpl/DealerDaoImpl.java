@@ -2,9 +2,7 @@ package com.sjtu.adminanddealer.daoImpl;
 
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.entity.Dealer;
-import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.repository.DealerRepository;
-import com.sjtu.adminanddealer.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,9 +19,6 @@ public class DealerDaoImpl implements DealerDao {
     @Autowired
     private DealerRepository dealerRepository;
 
-    @Autowired
-    private StoreRepository storeRepository;
-
     @Override
     public List<Dealer> getAllDealers() {
         return dealerRepository.findAll();
@@ -37,7 +32,7 @@ public class DealerDaoImpl implements DealerDao {
 
     @Override
     public void deleteDealer(Long dealerId) {
-        if(dealerRepository.existsById(dealerId)){
+        if (dealerRepository.existsById(dealerId)) {
             dealerRepository.deleteDealerByDealerId(dealerId);
         }
     }
@@ -50,11 +45,6 @@ public class DealerDaoImpl implements DealerDao {
     @Override
     public void updateDealer(Dealer dealer) {
         dealerRepository.save(dealer);
-    }
-
-    @Override
-    public List<Store> getAllUnbindStore() {
-        return storeRepository.getStoresByAttachedIsFalse();
     }
 
     @Override

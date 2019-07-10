@@ -64,6 +64,13 @@ public interface StoreDao {
     void unbindDealerStore(Long dealerId, Long storeId);
 
     /**
+     * 获取所有未绑定经销商的店铺实体
+     *
+     * @return 包含所有未绑定店铺的列表
+     */
+    List<Store> getAllUnbindStore();
+
+    /**
      * 将图片新的url写入数据库.
      *
      * @param storeId     店铺的id

@@ -37,9 +37,9 @@ public interface DealerService {
      * @param dealerParameter 由前端发送过来的信息新建经销商账户
      * @return 一个JSON, 包括新建的经销商id和头像url, 格式为{"key" : long, "avatar" : String}
      */
-     JSONObject addADealer(DealerParameter dealerParameter);
+    JSONObject addADealer(DealerParameter dealerParameter);
 
-     void deleteDealer(Long dealerId);
+    void deleteDealer(Long dealerId);
 
     /**
      * 更新经销商信息,只包括经销商的用户名、密码、地址、真实姓名、联系方式，调用者为管理员
