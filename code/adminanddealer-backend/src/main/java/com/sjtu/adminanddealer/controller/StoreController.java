@@ -118,13 +118,13 @@ public class StoreController {
     }
 
     /**
-     * 获取所有没有绑定的经销商.
+     * 获取所有未绑定的店铺
      *
-     * @return 所有没有店铺绑定的经销商列表
+     * @return 所有未绑定的店铺信息
      */
-    @GetMapping("/unbindDealers")
-    public List<DealerDTO> getAllUnbindDealer() {
-        return storeService.getAllUnbindDealers();
+    @GetMapping("/unbindStores")
+    public List<StoreDTO> getAllUnbindStore() {
+        return storeService.getAllUnbindStore();
     }
 
     /**

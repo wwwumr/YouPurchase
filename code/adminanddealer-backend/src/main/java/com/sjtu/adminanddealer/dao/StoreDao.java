@@ -31,7 +31,7 @@ public interface StoreDao {
      *
      * @param store 店铺信息
      */
-    void addAStore(Store store);
+    Long addAStore(Store store);
 
     /**
      * 修改店铺实体的信息.

@@ -33,8 +33,9 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void addAStore(Store store) {
-        storeRepository.save(store);
+    public Long addAStore(Store store) {
+        storeRepository.saveAndFlush(store);
+        return store.getStoreId();
     }
 
     @Override

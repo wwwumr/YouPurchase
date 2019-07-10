@@ -68,7 +68,7 @@ public class DealerServiceImpl implements DealerService {
     public DealerDTO getDealerByDealerId(Long dealerId) {
         Dealer dealer = dealerDao.getDealerById(dealerId);
         if (dealer == null) {
-            return new DealerDTO();
+            return null;
         }
         DealerDTO dto = new DealerDTO();
         if (dealer.getStore() != null) {
@@ -127,29 +127,22 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
-    public List<StoreDTO> getAllUnbindStore() {
-        List<Store> storeArrayList = storeDao.getAllUnbindStore();
-        List<StoreDTO> storeDTOList = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-
-        for (Store s : storeArrayList
+    public List<DealerDTO> getAllUnbindDealers() {
+        List<Dealer> dealerList = dealerDao.getAllUnbindDealers();
+        List<DealerDTO> dtos = new ArrayList<>();
+        for (Dealer d : dealerList
         ) {
-            StoreDTO storeDTO = new StoreDTO();
-            storeDTO.setKey(s.getStoreId());
-            storeDTO.setStoreName(s.getStoreName());
-            storeDTO.setAddress(s.getAddress());
-            storeDTO.setContact(s.getContact());
-            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
-
-            String startHour = dateFormat.format(s.getOpenHourStart());
-            String endHour = dateFormat.format(s.getOpenHourEnd());
-            String[] hours = {startHour, endHour};
-            storeDTO.setHours(hours);
-
-            storeDTOList.add(storeDTO);
-
+            DealerDTO dealerDto = new DealerDTO();
+            dealerDto.setKey(d.getDealerId());
+            dealerDto.setUserName(d.getUserName());
+            dealerDto.setAvatar(d.getAvatar());
+            dealerDto.setAddress(d.getAddress());
+            dealerDto.setRealName(d.getRealName());
+            dealerDto.setContact(d.getContact());
+            dealerDto.setPassword(d.getPassword());
+            dtos.add(dealerDto);
         }
-        return storeDTOList;
+        return dtos;
     }
 
     @Override

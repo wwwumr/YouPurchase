@@ -39,6 +39,11 @@ public interface DealerService {
      */
     JSONObject addADealer(DealerParameter dealerParameter);
 
+    /**
+     * 删除一个经销商的信息.
+     *
+     * @param dealerId
+     */
     void deleteDealer(Long dealerId);
 
     /**
@@ -57,12 +62,20 @@ public interface DealerService {
     void updateDealerPassword(String password);
 
     /**
-     * 获取所有没有绑定的店铺.
+     * 获取所有未绑定的经销商
      *
-     * @return 所有未绑定的店铺
+     * @return 所有未绑定的经销商的信息
      */
-    List<StoreDTO> getAllUnbindStore();
+    List<DealerDTO> getAllUnbindDealers();
 
+    /**
+     * 经销商更改头像.
+     *
+     * @param file 上传的图片文件
+     * @param dealerId 经销商id
+     * @param avatar 原来的头像url
+     * @return 新建的头像的url
+     */
     String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar);
 
 }
