@@ -79,7 +79,7 @@ class StoreManage extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}
             >
-                <Input addonBefore="店名"  style={{ marginBottom : "10px" }}
+                <Input addonBefore="店名"  style={{ marginBottom : "15px" }}
                     value={ this.state.shop.storeName } 
                     onChange = {(e) => {
                         var shop = this.state.shop;
