@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- *
  * @author Chuyuxuan
  */
 @Transactional
@@ -25,4 +24,6 @@ public interface DealerRepository extends JpaRepository<Dealer, Long> {
     @Modifying
     @Query(value = "update `dealer` set `avatar` = :avatar where `dealer_id` = :dealerId ", nativeQuery = true)
     void updateDealerAvatar(@Param("dealerId") Long dealerId, @Param("avatar") String avatar);
+
+    void deleteDealerByDealerId(Long id);
 }

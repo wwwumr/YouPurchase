@@ -1,8 +1,8 @@
-package com.sjtu.youpurchase.ControllerTest;
+package com.sjtu.youpurchase.controllertest;
 
 
 import com.alibaba.fastjson.JSON;
-import com.sjtu.youpurchase.Controller.UserController;
+import com.sjtu.youpurchase.controller.UserController;
 import com.sjtu.youpurchase.parameter.UserLoginParameter;
 import com.sjtu.youpurchase.parameter.UserModifyParameter;
 import com.sjtu.youpurchase.service.UserService;

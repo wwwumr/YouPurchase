@@ -170,20 +170,38 @@ public class Store {
     // 这里override toString()方法是因为在有些时候调用时，防止出现无限递归的情况
     @Override
     public String toString() {
-        return "Store{" +
-                "storeId=" + storeId +
-                ", storeName='" + storeName + '\'' +
-                ", coverPicUrl='" + coverPicUrl + '\'' +
-                ", address='" + address + '\'' +
-                ", longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", contact='" + contact + '\'' +
-                ", openHourStart=" + openHourStart +
-                ", openHourEnd=" + openHourEnd +
-                ", attached=" + attached +
-                ", dealer=" + dealer.getDealerId() +
-                ", commodityList=" + commodityList +
-                '}';
+        if(this.getDealer()!=null){
+            return "Store{" +
+                    "storeId=" + storeId +
+                    ", storeName='" + storeName + '\'' +
+                    ", coverPicUrl='" + coverPicUrl + '\'' +
+                    ", address='" + address + '\'' +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", contact='" + contact + '\'' +
+                    ", openHourStart=" + openHourStart +
+                    ", openHourEnd=" + openHourEnd +
+                    ", attached=" + attached +
+                    ", dealer=" + dealer.getDealerId() +
+                    ", commodityList=" + commodityList +
+                    '}';
+        } else {
+            return "Store{" +
+                    "storeId=" + storeId +
+                    ", storeName='" + storeName + '\'' +
+                    ", coverPicUrl='" + coverPicUrl + '\'' +
+                    ", address='" + address + '\'' +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", contact='" + contact + '\'' +
+                    ", openHourStart=" + openHourStart +
+                    ", openHourEnd=" + openHourEnd +
+                    ", attached=" + attached +
+                    ", dealer=null" +
+                    ", commodityList=" + commodityList +
+                    '}';
+        }
+
     }
 
 }

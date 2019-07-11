@@ -31,7 +31,7 @@ public interface StoreDao {
      *
      * @param store 店铺信息
      */
-    void addAStore(Store store);
+    Long addAStore(Store store);
 
     /**
      * 修改店铺实体的信息.
@@ -39,6 +39,13 @@ public interface StoreDao {
      * @param store 店铺信息
      */
     void updateStore(Store store);
+
+    /**
+     * 删除一个店铺的信息.
+     *
+     * @param storeId 店铺id
+     */
+    void deleteStore(Long storeId);
 
     /**
      * 绑定经销商与店铺，将数据库中两条记录的attached设为true，然后把id设置为互相的id.
@@ -55,6 +62,13 @@ public interface StoreDao {
      * @param storeId  店铺id
      */
     void unbindDealerStore(Long dealerId, Long storeId);
+
+    /**
+     * 获取所有未绑定经销商的店铺实体
+     *
+     * @return 包含所有未绑定店铺的列表
+     */
+    List<Store> getAllUnbindStore();
 
     /**
      * 将图片新的url写入数据库.

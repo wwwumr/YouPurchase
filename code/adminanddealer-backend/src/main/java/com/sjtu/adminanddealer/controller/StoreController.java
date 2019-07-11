@@ -73,6 +73,22 @@ public class StoreController {
     }
 
     /**
+     * 删除店铺信息.
+     * 前端一般传过来的是一个包含所有需要删除的数组，并且已经做好了绑定检查.
+     *
+     * @param data 前端传过来的需要删除的店铺Id列表
+     * @return 删除成功返回DELETE
+     */
+    @DeleteMapping
+    public String deleteStore(@RequestBody List<Long> data) {
+        for (Long id : data
+        ) {
+            storeService.deleteStore(id);
+        }
+        return "DELETE";
+    }
+
+    /**
      * 绑定经销商与店铺
      *
      * @param dealerId 经销商id
@@ -102,13 +118,13 @@ public class StoreController {
     }
 
     /**
-     * 获取所有没有绑定的经销商.
+     * 获取所有未绑定的店铺
      *
-     * @return 所有没有店铺绑定的经销商列表
+     * @return 所有未绑定的店铺信息
      */
-    @GetMapping("/unbindDealers")
-    public List<DealerDTO> getAllUnbindDealer() {
-        return storeService.getAllUnbindDealers();
+    @GetMapping("/unbindStores")
+    public List<StoreDTO> getAllUnbindStore() {
+        return storeService.getAllUnbindStore();
     }
 
     /**

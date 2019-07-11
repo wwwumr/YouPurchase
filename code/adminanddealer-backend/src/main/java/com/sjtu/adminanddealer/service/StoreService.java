@@ -46,6 +46,13 @@ public interface StoreService {
     void updateStore(StoreParameter storeParameter);
 
     /**
+     * 删除一个店铺的信息.
+     *
+     * @param storeId 店铺id
+     */
+    void deleteStore(Long storeId);
+
+    /**
      * 把店铺与经销商解除绑定(取消对经销商的授权).
      *
      * @param storeId  店铺id
@@ -62,11 +69,11 @@ public interface StoreService {
     void bindDealerAndStore(Long dealerId, Long storeId);
 
     /**
-     * 获取所有未绑定的经销商
+     * 获取所有没有绑定的店铺.
      *
-     * @return 所有未绑定的经销商的信息
+     * @return 所有未绑定的店铺
      */
-    List<DealerDTO> getAllUnbindDealers();
+    List<StoreDTO> getAllUnbindStore();
 
     /**
      * 更新店铺的封面图片，调用者为经销商或管理员.

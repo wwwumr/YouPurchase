@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Dealer;
-import com.sjtu.adminanddealer.entity.Store;
 
 import java.util.List;
 
@@ -42,11 +41,11 @@ public interface DealerDao {
     Long addADealer(Dealer dealer);
 
     /**
-     * 获取所有未绑定经销商的店铺实体
+     * 删除一个经销商
      *
-     * @return 包含所有未绑定店铺的列表
+     * @param dealerId 经销商id
      */
-    List<Store> getAllUnbindStore();
+    void deleteDealer(Long dealerId);
 
     /**
      * 获取所有的未绑定的经销商实体
@@ -69,7 +68,8 @@ public interface DealerDao {
 
     /**
      * 在数据库中更新经销商的头像信息
-     * @param dealerId 经销商id
+     *
+     * @param dealerId  经销商id
      * @param newAvatar 新的头像url
      */
     void updateDealerAvatar(Long dealerId, String newAvatar);

@@ -108,9 +108,8 @@ public class StoreServiceImpl implements StoreService {
         store.setLatitude(0.0);
         store.setContact(storeParameter.getContact());
         store.setAttached(false);
-        Date start = new Date();
-        Date end = new Date();
-        castStringToDate(storeParameter.getHours()[0], storeParameter.getHours()[1], start, end);
+        Date start = castStringToDate(storeParameter.getHours()[0]);
+        Date end = castStringToDate(storeParameter.getHours()[1]);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
         storeDao.addAStore(store);
@@ -128,9 +127,8 @@ public class StoreServiceImpl implements StoreService {
         store.setContact(storeParameter.getContact());
         store.setStoreName(storeParameter.getStoreName());
         store.setAddress(storeParameter.getAddress());
-        Date start = new Date();
-        Date end = new Date();
-        castStringToDate(storeParameter.getHours()[0], storeParameter.getHours()[1], start, end);
+        Date start = castStringToDate(storeParameter.getHours()[0]);
+        Date end = castStringToDate(storeParameter.getHours()[1]);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
 
@@ -138,12 +136,21 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public void deleteStore(Long storeId) {
+        storeDao.deleteStore(storeId);
+    }
+
+    @Override
     public void bindDealerAndStore(Long dealerId, Long storeId) {
         // TODO: unit test
         Store store = storeDao.getStoreByStoreId(storeId);
         Dealer dealer = dealerDao.getDealerById(dealerId);
+        if(store==null || dealer==null){
+            return;
+        }
         // 当提交的表单未对绑定做修改时，直接跳过
         if (store.isAttached() || dealer.isAttached()) {
+            return;
         } else {
             storeDao.bindDealerStore(dealerId, storeId);
         }
@@ -158,22 +165,29 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<DealerDTO> getAllUnbindDealers() {
-        List<Dealer> dealerList = dealerDao.getAllUnbindDealers();
-        List<DealerDTO> dtos = new ArrayList<>();
-        for (Dealer d : dealerList
+    public List<StoreDTO> getAllUnbindStore() {
+        List<Store> storeArrayList = storeDao.getAllUnbindStore();
+        List<StoreDTO> storeDTOList = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
+        for (Store s : storeArrayList
         ) {
-            DealerDTO dealerDto = new DealerDTO();
-            dealerDto.setKey(d.getDealerId());
-            dealerDto.setUserName(d.getUserName());
-            dealerDto.setAvatar(d.getAvatar());
-            dealerDto.setAddress(d.getAddress());
-            dealerDto.setRealName(d.getRealName());
-            dealerDto.setContact(d.getContact());
-            dealerDto.setPassword(d.getPassword());
-            dtos.add(dealerDto);
+            StoreDTO storeDTO = new StoreDTO();
+            storeDTO.setKey(s.getStoreId());
+            storeDTO.setStoreName(s.getStoreName());
+            storeDTO.setAddress(s.getAddress());
+            storeDTO.setContact(s.getContact());
+            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
+
+            String startHour = dateFormat.format(s.getOpenHourStart());
+            String endHour = dateFormat.format(s.getOpenHourEnd());
+            String[] hours = {startHour, endHour};
+            storeDTO.setHours(hours);
+
+            storeDTOList.add(storeDTO);
+
         }
-        return dtos;
+        return storeDTOList;
     }
 
     @Override
@@ -187,27 +201,25 @@ public class StoreServiceImpl implements StoreService {
             String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
             // 把原来存在的文件删除
-            FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+            int i = FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
+            System.out.println(i);
             return newUrl;
         }
     }
 
     /**
-     * 把前端发送的字符串形式的时间格式转换为Date，格式为kk:mm
+     * 把前端发送的字符串形式的时间格式转换为Date，格式为HH:mm.
      *
-     * @param startStr 字符串形式的开始营业时间
-     * @param endStr   字符串形式的结束营业时间
-     * @param start    开始营业时间
-     * @param end      结束营业时间
+     * @param strDate 以字符串形式的日期
+     * @return Date形式的日期
      */
-    private void castStringToDate(String startStr, String endStr, Date start, Date end) {
+    private Date castStringToDate(String strDate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         try {
-            start = dateFormat.parse(startStr);
-            end = dateFormat.parse(endStr);
+            return dateFormat.parse(strDate);
         } catch (ParseException e) {
             e.printStackTrace();
+            return new Date();
         }
-
     }
 }

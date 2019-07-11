@@ -24,6 +24,8 @@ public class Commodity {
 
     private String commodityInfo;
 
+    private String commodityCoverPicUrl;
+
     @ElementCollection
     @CollectionTable(name = "commodityPicUrls",
             joinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})

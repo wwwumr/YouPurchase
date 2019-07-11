@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.Controller;
+package com.sjtu.youpurchase.controller;
 
 import com.sjtu.youpurchase.DTO.UserInfoDTO;
 import com.sjtu.youpurchase.DTO.UserLoginDTO;
@@ -22,7 +22,7 @@ import java.io.IOException;
 * */
 @CrossOrigin
 @Controller
-public class UserController extends com.sjtu.youpurchase.controller.BaseController {
+public class UserController extends BaseController{
 
     //用户信息修改
     @RequestMapping(value="user/modify")
@@ -30,8 +30,7 @@ public class UserController extends com.sjtu.youpurchase.controller.BaseControll
     @ResponseBody
     UserLoginDTO UserModify(HttpServletRequest request,HttpServletResponse response){
         String tempuserId = request.getParameter("userId");
-       long userId = Long.valueOf(tempuserId);
-        System.out.println(tempuserId);
+        long userId = Long.parseLong(tempuserId);
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
         String address = request.getParameter("address");
@@ -39,11 +38,12 @@ public class UserController extends com.sjtu.youpurchase.controller.BaseControll
         String gender = request.getParameter("gender");
         String regDate = request.getParameter("regDate");
         String templatitude = request.getParameter("latitude");
-        double  latitude =  Double.valueOf(templatitude);
+        double  latitude =  Double.parseDouble(templatitude);
         String templongitude = request.getParameter("longitude");
-        double longitude = Double.valueOf(templongitude);
-        UserModifyParameter userModifyParameter = new UserModifyParameter(userId,userName,password,address,phone,gender,regDate, latitude,longitude);
-
+        double longitude = Double.parseDouble(templongitude);
+        UserModifyParameter userModifyParameter = new UserModifyParameter( userId,userName,password,address,phone,gender,regDate,
+        latitude,longitude);
+        System.out.println(userId);
         return userService.UserModify(userModifyParameter);
     }
 
@@ -54,9 +54,7 @@ public class UserController extends com.sjtu.youpurchase.controller.BaseControll
     @ResponseBody
     UserLoginDTO UserLogin(HttpServletRequest request, HttpServletResponse response){
         String phone = request.getParameter("phone");
-        System.out.println(phone);
         String password = request.getParameter("password");
-        System.out.println(password);
         UserLoginParameter userLoginParameter = new UserLoginParameter(phone,password);
         return userService.UserLogin(userLoginParameter);
     }

@@ -9,7 +9,6 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         document.getElementById("background").style.backgroundImage=bgimage;
-        //document.getElementById("background").style.backgroundRepeat="none";
     }
 
     render() {

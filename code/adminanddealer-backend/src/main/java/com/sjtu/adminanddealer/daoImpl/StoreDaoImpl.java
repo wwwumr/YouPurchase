@@ -33,13 +33,21 @@ public class StoreDaoImpl implements StoreDao {
     }
 
     @Override
-    public void addAStore(Store store) {
-        storeRepository.save(store);
+    public Long addAStore(Store store) {
+        storeRepository.saveAndFlush(store);
+        return store.getStoreId();
     }
 
     @Override
     public void updateStore(Store store) {
         storeRepository.saveAndFlush(store);
+    }
+
+    @Override
+    public void deleteStore(Long storeId) {
+        if (storeRepository.existsById(storeId)) {
+            storeRepository.deleteStoreByStoreId(storeId);
+        }
     }
 
     @Transactional(rollbackFor = {RuntimeException.class})
@@ -54,6 +62,11 @@ public class StoreDaoImpl implements StoreDao {
     public void unbindDealerStore(Long dealerId, Long storeId) {
         storeRepository.unbindDealerAndStoreStep1(dealerId, false);
         storeRepository.unbindDealerAndStoreStep2(storeId, false);
+    }
+
+    @Override
+    public List<Store> getAllUnbindStore() {
+        return storeRepository.getStoresByAttachedIsFalse();
     }
 
     @Override

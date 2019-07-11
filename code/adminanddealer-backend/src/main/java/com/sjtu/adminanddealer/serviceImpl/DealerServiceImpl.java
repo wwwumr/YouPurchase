@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
@@ -31,11 +30,10 @@ public class DealerServiceImpl implements DealerService {
 
     @Value("${imageBaseDirectory}")
     private String imageBaseDirectory;
-    // TODO: 参数无法注入(null)
+
     @Value("${dealerDefaultAvatarUrl}")
     private String dealerDefaultAvatarUrl;
-    // TODO: 添加经销商默认头像url
-    private String DEALER_DEFAULT_AVATAR_URL = imageBaseDirectory + dealerDefaultAvatarUrl;
+
     @Autowired
     private DealerDao dealerDao;
 
@@ -70,7 +68,7 @@ public class DealerServiceImpl implements DealerService {
     public DealerDTO getDealerByDealerId(Long dealerId) {
         Dealer dealer = dealerDao.getDealerById(dealerId);
         if (dealer == null) {
-            return new DealerDTO();
+            return null;
         }
         DealerDTO dto = new DealerDTO();
         if (dealer.getStore() != null) {
@@ -103,11 +101,11 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
-        dealer.setAvatar(DEALER_DEFAULT_AVATAR_URL);
+        dealer.setAvatar(this.dealerDefaultAvatarUrl);
         JSONObject jsonObject = new JSONObject();
         Long id = dealerDao.addADealer(dealer);
-        jsonObject.put("key",id);
-        jsonObject.put("avatar",DEALER_DEFAULT_AVATAR_URL);
+        jsonObject.put("key", id);
+        jsonObject.put("avatar", this.dealerDefaultAvatarUrl);
         return jsonObject;
     }
 
@@ -124,29 +122,27 @@ public class DealerServiceImpl implements DealerService {
     }
 
     @Override
-    public List<StoreDTO> getAllUnbindStore() {
-        List<Store> storeArrayList = dealerDao.getAllUnbindStore();
-        List<StoreDTO> storeDTOList = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+    public void deleteDealer(Long dealerId) {
+        dealerDao.deleteDealer(dealerId);
+    }
 
-        for (Store s : storeArrayList
+    @Override
+    public List<DealerDTO> getAllUnbindDealers() {
+        List<Dealer> dealerList = dealerDao.getAllUnbindDealers();
+        List<DealerDTO> dtos = new ArrayList<>();
+        for (Dealer d : dealerList
         ) {
-            StoreDTO storeDTO = new StoreDTO();
-            storeDTO.setKey(s.getStoreId());
-            storeDTO.setStoreName(s.getStoreName());
-            storeDTO.setAddress(s.getAddress());
-            storeDTO.setContact(s.getContact());
-            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
-
-            String startHour = dateFormat.format(s.getOpenHourStart());
-            String endHour = dateFormat.format(s.getOpenHourEnd());
-            String[] hours = {startHour, endHour};
-            storeDTO.setHours(hours);
-
-            storeDTOList.add(storeDTO);
-
+            DealerDTO dealerDto = new DealerDTO();
+            dealerDto.setKey(d.getDealerId());
+            dealerDto.setUserName(d.getUserName());
+            dealerDto.setAvatar(d.getAvatar());
+            dealerDto.setAddress(d.getAddress());
+            dealerDto.setRealName(d.getRealName());
+            dealerDto.setContact(d.getContact());
+            dealerDto.setPassword(d.getPassword());
+            dtos.add(dealerDto);
         }
-        return storeDTOList;
+        return dtos;
     }
 
     @Override
@@ -156,7 +152,7 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar) {
-        if(avatar.equals(this.DEALER_DEFAULT_AVATAR_URL)){
+        if (avatar.equals(this.dealerDefaultAvatarUrl)) {
             String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
             dealerDao.updateDealerAvatar(dealerId, newAvatar);
             return newAvatar;

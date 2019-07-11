@@ -13,6 +13,7 @@ class ShopManage extends React.Component {
             shopData: [],
             searchText: '',
             selectedRowKeys: [], // Check here to configure the default column
+            selectedRows: [],
             shop: config.shop.originShop,
             visible: false,
         };
@@ -127,16 +128,36 @@ class ShopManage extends React.Component {
 
     removeShop = () => {
         let shopData = this.state.shopData;
-        this.state.selectedRowKeys.forEach(element => {
-            shopData = shopData.filter((elem) => {
-                return elem.key !== element;
+        var tmpArray = new Array();
+        this.state.selectedRows.forEach(element => {
+            if(element.dealerId !== null){
+                tmpArray.push(element);
+            }
+        });
+        if(tmpArray.length > 0){
+            message.warn("选中的店铺中存在已经被授权管理的店铺，暂时无法删除")
+            return;
+        } else {
+            axios.delete(config.url.stores,{data:this.state.selectedRowKeys})
+            .then((res)=>{
+                if(res.data==="DELETE"){
+                    this.state.selectedRowKeys.forEach(element => {
+                        shopData = shopData.filter((elem) => {
+                            return elem.key !== element;
+                        })
+                    });
+                    this.setState({ 
+                        shopData: shopData,
+                        selectedRowKeys: [],
+                    });
+                    message.info("删除成功")
+                }
             })
-        });
-        /* axios */
-        this.setState({ 
-            shopData: shopData,
-            selectedRowKeys: [],
-        });
+            .catch((error)=>{
+                console.log(error);
+                message.error("删除失败，请稍后重试");
+            })
+        }  
     };
 
 
@@ -181,8 +202,8 @@ class ShopManage extends React.Component {
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowSelection = {
             selectedRowKeys,
-            onChange: selectedRowKeys => {
-                this.setState({ selectedRowKeys });
+            onChange: (selectedRowKeys, selectedRows) => {
+                this.setState({ selectedRowKeys, selectedRows });
             },
         };
         const hasSelected = selectedRowKeys.length > 0;

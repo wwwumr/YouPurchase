@@ -1,4 +1,4 @@
-package com.sjtu.youpurchase.BasicTest;
+package com.sjtu.youpurchase.basictest;
 
 
 import com.sjtu.youpurchase.Dao.UserDao;
