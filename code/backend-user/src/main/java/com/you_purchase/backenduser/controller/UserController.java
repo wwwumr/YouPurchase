@@ -21,7 +21,7 @@ public class UserController extends BaseController {
 
 
     //用户信息修改
-    @RequestMapping(value = "/user/modify")
+    @RequestMapping(value = "/user/modify",method = RequestMethod.POST)
     public
     @ResponseBody
     UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
@@ -29,7 +29,7 @@ public class UserController extends BaseController {
     }
     //用户登陆
 
-    @RequestMapping(value = "/user/login")
+    @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public
     @ResponseBody
     UserLoginDTO UserLogin(@RequestBody  UserLoginParameter userLoginParameter){
@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     }
     //用户查看信息
 
-    @RequestMapping(value = "/user/check")
+    @RequestMapping(value = "/user/check",method = RequestMethod.GET)
     public
     @ResponseBody
     UserLoginDTO UserCheck(long userId){

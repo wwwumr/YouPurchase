@@ -7,6 +7,7 @@ import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
+import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,9 @@ public class DealerServiceTest {
 
     @MockBean
     private StoreDao storeDao;
+
+    @MockBean
+    private FileUploadUtil fileUploadUtil;
 
     @Autowired
     private DealerService dealerService;

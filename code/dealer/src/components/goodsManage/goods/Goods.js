@@ -1,37 +1,34 @@
 import React from 'react';
-import { Input, message, Button } from 'antd';
-//import { Link } from 'react-router-dom/cjs/react-router-dom';
+import { Input, message, Button, Radio,  } from 'antd';
 //import axios from 'axios';
 import goodsMock from '../../../mock/goodsMock';
+import goodsConfig from '../../../config/goods';
 import ImageUpload from './goods/ImageUpload';
+
+const { TextArea } = Input;
 
 class Goods extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            goods: goodsMock.originGoods,
-            originGoods: goodsMock.originGoods,
+            goods: goodsConfig.originGoods,
+            originGoods: goodsConfig.originGoods,
         }
     }
 
     componentDidMount() {
         
-        /* axios function 
-        axios.get(config.url.stores + key).then((res) => {
-            this.setState({
-                goods: res.data,
-                originGoods: res.data,
-            })
-        })*/
-        
-        /* */
+        /* axios function */
+
         var goods = goodsMock.find((elem)=> {
-            return elem.key === this.props.match.params.id;
+            return elem.key === parseInt(this.props.match.params.id);
         })
         console.log(goods)
         this.setState({
             goods: goods,
             originGoods: Object.assign({}, goods),
+        }, () => {
+            console.log(this.state.goods)
         })
     }
 
@@ -40,17 +37,7 @@ class Goods extends React.Component {
         const goods = this.state.goods;
         const originGoods = this.state.originGoods;
         if (this.checkShop(goods, originGoods)) {
-            /* axios 
-            var goods = this.state.goods
-            axios.put(config.url.stores, 
-                    goods
-                ).then((res) => {
-                    if (res.data < 0) {
-                        message.error("修改失败");
-                    } else {
-                        message.success("修改成功");
-                    }
-                })*/
+            /* axios */
             message.info("修改")
         }   
     }
@@ -67,17 +54,17 @@ class Goods extends React.Component {
     render() {
         return(
         <div style={{position: "relative", textAlign: "center", left: "150px" }}>
-            <h1 style={{position: "relative", right: "150px"}}>店面信息</h1>
+            <h1 style={{position: "relative", right: "150px"}}>商品信息</h1>
             <div 
-                style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "30px", marginTop: "50px"}}
+                style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "0px", marginTop: "20px", marginLeft: "50px"}}
             >
-            {/*
-            <ImageUpload coverPic={this.state.goods["commodityCoverPicUrl"]} storeId={this.props.match.params.id} />
+            {/**/}
+            <ImageUpload coverPic={this.state.goods.commodityCoverPicUrl } storeId={this.props.match.params.id} />
             </div>
             <div 
-                style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}
+                style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "70px", marginLeft: "0px"}}
             >
-                <Input addonBefore="商品信息"  style={{ marginBottom : "10px" }}
+                <TextArea addonBefore="商品信息"  style={{ marginBottom : "15px" }}
                     value={ this.state.goods.commodityInfo } 
                     onChange = {(e) => {
                         var goods = this.state.goods;
@@ -88,7 +75,7 @@ class Goods extends React.Component {
                     }}
                 />
                 <Input addonBefore="价格"  style={{marginBottom: "15px"}}
-                    value={ this.state.goods.price } 
+                    value={ this.state.goods.price + "￥"} 
                     onChange = {(e) => {
                         var goods = this.state.goods;
                         goods.price = e.target.value;
@@ -97,10 +84,35 @@ class Goods extends React.Component {
                         })
                     }}
                 />
-                <Input addonBefore="是否上架" style={{marginBottom: "15px"}}
-                    value={ this.state.goods.onShelves ? "已上架" : "未上架" } 
-                />*/}
-                <Button 
+                <Input addonBefore="商品库存" style={{ marginButtom: "15px" }}
+                    value={this.state.goods.inventory}
+                    onChange={(e) => {
+                        let goods = this.state.goods;
+                        goods.inventory = e.target.value;
+                        this.setState({ goods: goods })
+                    }}>
+                </Input> 
+                <Radio.Group value={ this.state.goods.onShelves }
+                    style={{display: "block", marginBottom: "15px", marginTop: "15px"}}
+                    onChange={(e) => {
+                        let goods = this.state.goods;
+                        goods.onShelves = e.target.value;
+                        this.setState({ goods: goods })
+                    }}
+                >
+                    <Radio value={true} defaultChecked={true}>已上架</Radio>
+                    <Radio value={false}>未上架</Radio>
+                </Radio.Group>
+                <Input addonBefore="上架数量" style={{ marginButtom: "15px" }}
+                    value={this.state.goods.remaining}
+                    disabled={!this.state.goods.onShelves}
+                    onChange={(e) => {
+                        let goods = this.state.goods;
+                        goods.remaining = e.target.value;
+                        this.setState({ goods: goods })
+                    }}>
+                </Input>
+                <Button style={{ marginTop: "15px" }}
                     onClick = { this.handleChange } 
                 >
                 确认修改

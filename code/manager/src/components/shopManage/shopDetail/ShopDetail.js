@@ -20,9 +20,12 @@ class ShopDetail extends React.Component {
         const key = this.props.match.params.key;
         /* axios function */
         axios.get(config.url.stores + key).then((res) => {
+            const hours = Object.assign([], res.data.hours);
+            const originShop = Object.assign({}, res.data);
+            originShop.hours = hours;
             this.setState({
                 shop: res.data,
-                originShop: Object.assign({}, res.data) ,
+                originShop: originShop,
             })
         })
         
@@ -86,7 +89,7 @@ class ShopDetail extends React.Component {
             || shop.hours[0] !== originShop.hours[0]
             || shop.hours[1] !== originShop.hours[1] || shop.storeName !== originShop.storeName
             || shop.dealerName !== originShop.dealerName) {
-            alert("修改成功");
+            
             return true;
         } 
         return false;

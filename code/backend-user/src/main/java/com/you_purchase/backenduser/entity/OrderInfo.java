@@ -36,7 +36,6 @@ public class OrderInfo {
     private String createDate;
     //执行状态，0：待处理 1：待配送 2：已发货 3：已完成
     private int status;
-    //订单可用
     private boolean valid;
 
     public void setOrderInfo(OrderParameter orderParameter){

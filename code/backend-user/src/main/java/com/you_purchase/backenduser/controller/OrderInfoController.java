@@ -12,14 +12,14 @@ import java.util.List;
 @RestController
 public class OrderInfoController extends BaseController{
     //新增订单
-    @RequestMapping(value = "/order/add")
+    @RequestMapping(value = "/order/add",method = RequestMethod.POST)
     public
     @ResponseBody
     OrderInfoDTO OrderAdd(@RequestBody OrderParameter orderParameter){
         return orderInfoService.OrderAdd(orderParameter);
     }
     //订单查询
-    @RequestMapping(value = "/order/check")
+    @RequestMapping(value = "/order/check",method = RequestMethod.POST)
     public
     @ResponseBody
     List<OrderCheckDTO> OrderCheckByUser(@RequestBody OrderCheckParameter orderCheckParameter){

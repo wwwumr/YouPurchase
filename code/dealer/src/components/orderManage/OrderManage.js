@@ -3,9 +3,7 @@ import React from 'react';
 
 class OrderManage extends React.Component {
 
-    componentDidMount() {
-        document.getElementById("background").style.backgroundImage="none";
-    }
+    componentDidMount() {}
 
     render() {
         return (

@@ -29,10 +29,23 @@ public class ImageController {
 
     @GetMapping(value = "/{picUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
-        File file = new File(IMAGE_BASE_DIRECTORY + picUrl);
-        FileInputStream inputStream = new FileInputStream(file);
-        byte[] bytes = new byte[inputStream.available()];
-        inputStream.read(bytes, 0, inputStream.available());
+        File file = null;
+        FileInputStream inputStream = null;
+        byte[] bytes = null;
+        try{
+            file = new File(IMAGE_BASE_DIRECTORY + picUrl);
+            inputStream = new FileInputStream(file);
+            bytes = new byte[inputStream.available()];
+            inputStream.read(bytes, 0, inputStream.available());
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         return bytes;
     }
 }

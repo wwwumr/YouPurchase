@@ -30,6 +30,8 @@ public class User {
     //用户是否可用
     private boolean valid;
 
+    private boolean valid;
+
     private String regDate;
 
     private String gender;
@@ -49,7 +51,6 @@ public class User {
         this.setPassword(userModifyParameter.getPassword());
         this.setUserName(userModifyParameter.getUserName());
         this.setPhone(userModifyParameter.getPhone());
-        this.setValid(true);
     }
 
     public boolean pwdConfirm(String pwd){
@@ -64,8 +65,6 @@ public class User {
 
 
     //getter and setter
-
-
     public long getUserId() {
         return userId;
     }
