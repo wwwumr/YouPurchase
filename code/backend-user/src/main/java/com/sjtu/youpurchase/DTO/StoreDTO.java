@@ -1,39 +1,27 @@
-package com.sjtu.adminanddealer.parameter;
+package com.sjtu.youpurchase.DTO;
 
 import lombok.Data;
 
-/**
- * 从前端接受的新建店铺的信息
- */
 @Data
-public class StoreParameter {
+public class StoreDTO {
+
     private Long key;
 
     private String storeName;
 
     private String address;
 
+    private String coverPicUrl;
+
     private String contact;
 
+    /*总共有两个元素,hour[0]营业开始时间,hours[1]结束时间,格式均为HH:mm*/
     private String[] hours;
 
-    private Long dealerId;
+    private Integer dealerId;
 
-    /* constructor */
-    public StoreParameter() {
-    }
+    private String dealerName;
 
-    public StoreParameter(Long key, String storeName, String address,
-                          String contact, String[] hours, Long dealerId) {
-        this.key = key;
-        this.storeName = storeName;
-        this.address = address;
-        this.contact = contact;
-        this.hours = hours;
-        this.dealerId = dealerId;
-    }
-
-    /* getter and setter */
     public Long getKey() {
         return key;
     }
@@ -53,9 +41,17 @@ public class StoreParameter {
     public String getAddress() {
         return address;
     }
-    public long getDealerId(){return dealerId;}
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCoverPicUrl() {
+        return coverPicUrl;
+    }
+
+    public void setCoverPicUrl(String coverPicUrl) {
+        this.coverPicUrl = coverPicUrl;
     }
 
     public String getContact() {
@@ -72,5 +68,21 @@ public class StoreParameter {
 
     public void setHours(String[] hours) {
         this.hours = hours;
+    }
+
+    public Integer getDealerId() {
+        return dealerId;
+    }
+
+    public void setDealerId(Integer dealerId) {
+        this.dealerId = dealerId;
+    }
+
+    public String getDealerName() {
+        return dealerName;
+    }
+
+    public void setDealerName(String dealerName) {
+        this.dealerName = dealerName;
     }
 }
