@@ -57,3 +57,5 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 5. 在经销商管理页面，同一页面（不跳转）先授权商店，然后取消授权，下面的搜索框出现disable的状态
 6. 当经销商或者商店未授权时，查看信息的按钮不是disable状态，会跳转到空页面
 7. 莫名其妙的会请求一些[https:/zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png]这种请求，应该是在config中的默认设置，可以换成自己的url
+8. 商店管理页面，新增后表单不清空,连续添加key改成相同的
+9. 时间格式验证

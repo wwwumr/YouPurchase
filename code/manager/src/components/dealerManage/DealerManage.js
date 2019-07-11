@@ -119,6 +119,9 @@ class DealerManage extends React.Component {
                     if (res.data.key < 0) {
                         message.error("新用户创建失败");
                     } else {
+                        console.log(res.data);
+                        console.log(res.data.key);
+
                         dealer.key = res.data.key;
                         var dealerData = this.state.dealerData;
                         dealerData.push(dealer);

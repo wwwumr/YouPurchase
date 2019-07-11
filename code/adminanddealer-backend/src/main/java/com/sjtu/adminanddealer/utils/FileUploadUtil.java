@@ -1,5 +1,6 @@
 package com.sjtu.adminanddealer.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,14 +15,20 @@ import java.util.Date;
  * @author Chuyuxuan
  */
 @Component
-public final class FileUploadUtil {
+public class FileUploadUtil {
 
-    private static FileUploadUtil fileUploadUtil = new FileUploadUtil();
+    // spring boot不能为static类进行注入
+    // private static String FILE_BASE_DIR;
+    private String FILE_BASE_DIR;
 
-    //    @Value("${imageBaseDirectory}")
-    private String FILE_BASE_DIR = "G:\\YouPurchase\\code\\backend\\src\\main\\resources\\";
+    // private static FileUploadUtil fileUploadUtil = new FileUploadUtil();
 
-    private FileUploadUtil() {
+    public FileUploadUtil() {
+    }
+
+    @Value("${imageBaseDir}")
+    public void setFILE_BASE_DIR(String file_base_dir){
+        this.FILE_BASE_DIR = file_base_dir;
     }
 
     /**
@@ -29,9 +36,9 @@ public final class FileUploadUtil {
      *
      * @return 控制文件上传的工具类
      */
-    public static FileUploadUtil getFileUploadUtil() {
-        return fileUploadUtil;
-    }
+//    public FileUploadUtil getFileUploadUtil() {
+//        return fileUploadUtil;
+//    }
 
     /**
      * 保存上传的文件.

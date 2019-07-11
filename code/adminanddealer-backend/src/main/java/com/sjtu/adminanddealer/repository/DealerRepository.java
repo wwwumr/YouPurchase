@@ -26,4 +26,5 @@ public interface DealerRepository extends JpaRepository<Dealer, Long> {
     void updateDealerAvatar(@Param("dealerId") Long dealerId, @Param("avatar") String avatar);
 
     void deleteDealerByDealerId(Long id);
+
 }

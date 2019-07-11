@@ -15,7 +15,7 @@ function renderOption(item) {
         <div className="global-search-item">
             <span style={{marginLeft: "20px"}} >
                 <img style={{height: "40px"}} 
-                    src={"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"} 
+                    src={config.url.root+item.avatar} 
                     alt={"头像"} 
                 />
             </span>

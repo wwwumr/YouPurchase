@@ -35,12 +35,16 @@ public class StoreServiceImpl implements StoreService {
 
     @Autowired
     private DealerDao dealerDao;
+
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
+
     @Value("${storeDefaultCoverPicUrl}")
     private String storeDefaultCoverPicUrl;
 
     @Override
     public List<StoreDTO> getAllStores() {
-        List<Store> storeArrayList = new ArrayList<>();
+        List<Store> storeArrayList;
         List<StoreDTO> storeDTOList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         storeArrayList = storeDao.getAllStores();
@@ -112,10 +116,10 @@ public class StoreServiceImpl implements StoreService {
         Date end = castStringToDate(storeParameter.getHours()[1]);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
-        storeDao.addAStore(store);
+        Long newId = storeDao.addAStore(store);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("key", store.getStoreId());
+        jsonObject.put("key", newId);
         jsonObject.put("coverUrl", store.getCoverPicUrl());
 
         return jsonObject;
@@ -142,7 +146,6 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void bindDealerAndStore(Long dealerId, Long storeId) {
-        // TODO: unit test
         Store store = storeDao.getStoreByStoreId(storeId);
         Dealer dealer = dealerDao.getDealerById(dealerId);
         if(store==null || dealer==null){
@@ -160,7 +163,6 @@ public class StoreServiceImpl implements StoreService {
     public void unbindDealerAndStore(Long dealerId, Long storeId) {
         /* 缺少一个逻辑，检查经销商与店铺是否都是已经绑定过的，前端的逻辑是店铺页面解绑经销商
          * 这个一般不会出错，可能出错的点在绑定的过程*/
-        // TODO: unit test
         storeDao.unbindDealerStore(dealerId, storeId);
     }
 
@@ -194,15 +196,16 @@ public class StoreServiceImpl implements StoreService {
     public String updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl) {
         // 当传过来的图片url是默认图片url时，直接新建文件并把路径存入数据库中
         if (coverPicUrl.equals(this.storeDefaultCoverPicUrl)) {
-            String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            String newUrl = fileUploadUtil.saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
             return newUrl;
         } else {
-            String newUrl = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            String newUrl = fileUploadUtil.saveFile(file);
             storeDao.updateStoreCoverPic(storeId, newUrl);
             // 把原来存在的文件删除
-            int i = FileUploadUtil.getFileUploadUtil().deleteFile(coverPicUrl);
-            System.out.println(i);
+            int i = fileUploadUtil.deleteFile(coverPicUrl);
+            /// debug
+//            System.out.println(i);
             return newUrl;
         }
     }

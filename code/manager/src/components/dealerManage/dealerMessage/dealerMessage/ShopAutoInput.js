@@ -15,7 +15,7 @@ function renderOption(item) {
         <div className="global-search-item">
             <span style={{marginLeft: "20px"}} >
                 <img style={{height: "40px"}} 
-                    src={config.autoInput.url} 
+                    src={config.url.root+item.coverPicUrl} 
                     alt={config.autoInput.alt} 
                 />
             </span>

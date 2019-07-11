@@ -40,6 +40,9 @@ public class DealerServiceImpl implements DealerService {
     @Autowired
     private StoreDao storeDao;
 
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
+
     @Override
     public List<DealerDTO> getAllDealers() {
         List<Dealer> dealerList = dealerDao.getAllDealers();
@@ -153,14 +156,14 @@ public class DealerServiceImpl implements DealerService {
     @Override
     public String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar) {
         if (avatar.equals(this.dealerDefaultAvatarUrl)) {
-            String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            String newAvatar = fileUploadUtil.saveFile(file);
             dealerDao.updateDealerAvatar(dealerId, newAvatar);
             return newAvatar;
         } else {
-            String newAvatar = FileUploadUtil.getFileUploadUtil().saveFile(file);
+            String newAvatar = fileUploadUtil.saveFile(file);
             dealerDao.updateDealerAvatar(dealerId, newAvatar);
             // 把原来存在的文件删除
-            FileUploadUtil.getFileUploadUtil().deleteFile(avatar);
+            fileUploadUtil.deleteFile(avatar);
             return newAvatar;
         }
     }

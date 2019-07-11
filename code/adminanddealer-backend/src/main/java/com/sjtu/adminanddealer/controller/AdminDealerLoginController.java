@@ -54,7 +54,7 @@ public class AdminDealerLoginController {
     }
 
     @GetMapping("/userName")
-    public String getUserName(HttpSession session) {
+    public String getUserNameFromSession(HttpSession session) {
         if (session.getAttribute("admin") != null) {
             return ((Admin) session.getAttribute("admin")).getUserName();
         } else if (session.getAttribute("dealer") != null) {

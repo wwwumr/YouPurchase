@@ -41,10 +41,10 @@ public class Commodity {
     public Commodity() {
     }
 
-    public Commodity(double price, String commodityInfo, List<String> commodityPicUrls, Boolean onShelves, Integer inventory, Integer remaining) {
+    public Commodity(double price, String commodityInfo, String commodityCoverPicUrl, Boolean onShelves, Integer inventory, Integer remaining) {
         this.price = price;
         this.commodityInfo = commodityInfo;
-        this.commodityPicUrls = commodityPicUrls;
+        this.commodityCoverPicUrl = commodityCoverPicUrl;
         this.onShelves = onShelves;
         this.inventory = inventory;
         this.remaining = remaining;

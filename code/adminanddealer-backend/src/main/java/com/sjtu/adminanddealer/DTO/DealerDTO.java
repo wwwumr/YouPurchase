@@ -41,6 +41,21 @@ public class DealerDTO {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "DealerDTO{" +
+                "key=" + key +
+                ", userName='" + userName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", address='" + address + '\'' +
+                ", realName='" + realName + '\'' +
+                ", contact='" + contact + '\'' +
+                ", storeId=" + storeId +
+                ", storeName='" + storeName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     /* getter and setter */
     public Long getKey() {
         return key;
