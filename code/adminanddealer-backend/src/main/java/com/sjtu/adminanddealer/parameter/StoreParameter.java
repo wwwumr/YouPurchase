@@ -53,7 +53,6 @@ public class StoreParameter {
     public String getAddress() {
         return address;
     }
-    public long getDealerId(){return dealerId;}
     public void setAddress(String address) {
         this.address = address;
     }
