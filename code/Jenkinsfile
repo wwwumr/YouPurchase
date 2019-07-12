@@ -9,14 +9,14 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'echo build-stage'
-                cd code/adminanddealer-backend && mvn -B -DskipTests clean package
+                sh 'cd code/adminanddealer-backend && mvn -B -DskipTests clean package'
             }
         }
 
         stage('Test') {
             steps {
                 sh 'echo test-stage'
-                cd code/adminanddealer-backend && mvn test
+                sh 'cd code/adminanddealer-backend && mvn test'
             }
         }
         post {
