@@ -1,4 +1,4 @@
-/*package com.you_purchase.backenduser.Test;
+package com.you_purchase.backenduser.Test;
 
 
 
@@ -46,23 +46,7 @@ public class BaseTest {
         user.setPhoto("D:/images");
         userDao.save(user);
     }
-    @Test
-    public void addOrder(){
-        OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setOrderItemId(7);
-        orderInfo.setOrderIteName("舞娘臂甲");
-        orderInfo.setPrice(3000);
-        orderInfo.setAmount(1);
-        orderInfo.setTotalPrice(3000);
-        orderInfo.setStoreId(22);
-        orderInfo.setStoreName("舞娘");
-        orderInfo.setUserId(1);
-        orderInfo.setUserName("余烬");
-        orderInfo.setCreateDate("01/02/2019");
-        orderInfo.setStatus(1);
-        orderInfo.setValid(true);
-        orderInfoDao.save(orderInfo);
-    }
+
     @Test
     public void testUserDao(){
         User user1 = userDao.findByUserIdAndValid(23,true);
@@ -88,22 +72,7 @@ public class BaseTest {
         Assert.assertEquals(user3.getGender(),"男");
 
     }
-    @Test
-    public void testOrderDao(){
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(26,1,true);
-        Assert.assertNotNull(orderInfos);
-        Assert.assertEquals(orderInfos.get(0).getOrderIteName(),"风暴管束者");
-        Assert.assertEquals(orderInfos.get(0).getStoreName(),"巨人尤姆");
 
-        List<OrderInfo> orderInfos1 = orderInfoDao.findByUserIdAndStatusAndValid(1,1,true);
-        Assert.assertNotNull(orderInfos1);
-        Assert.assertEquals(orderInfos1.get(0).getStoreName(),"巨人尤姆");
-        Assert.assertEquals(orderInfos1.get(1).getStoreName(),"舞娘");
-        Assert.assertEquals(orderInfos1.size(),5);
 
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(27,true);
-        Assert.assertNotNull(orderInfo);
-        Assert.assertEquals(orderInfo.getStoreName(),"舞娘");
-        Assert.assertEquals(orderInfo.getOrderIteName(),"舞娘双刀");
-    }*/
-//}
+
+}

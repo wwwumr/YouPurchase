@@ -3,6 +3,7 @@ package com.you_purchase.backenduser.service;
 
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
+import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
@@ -24,22 +25,25 @@ public class OrderInfoService extends BaseService {
 
     //用户查看不同执行状态的订单
     public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
+        //带有用户id的订单+带有订单id的商品
         List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
         if(orderInfos == null){
             return null;
         }
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
-        for(OrderInfo s: orderInfos){
+        //获取对应用户id的所有订单
+        for(OrderInfo s:orderInfos){
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setCreateDate(s.getCreateDate());
-            //获取店铺名称
-            Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            //获取用户名称
+            orderInfoDTO.setTotalPrice(s.getTotalPrice());
             User user = userDao.findByUserId(s.getUserId());
             orderInfoDTO.setUserName(user.getUserName());
+            Store store = storeDao.findByStoreId(s.getStoreId());
+            orderInfoDTO.setStoreName(store.getStoreName());
+            //获取对应订单id的所有商品
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfo(s.getOrderInfoId());
+            orderInfoDTO.setOrderItemList(orderItems);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;
@@ -48,10 +52,10 @@ public class OrderInfoService extends BaseService {
     //店家查看不同执行状态的订单
     public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter){
         List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
+        List<OrderInfoDTO> orderInfoDTOS =new ArrayList<>();
         if(orderInfos == null){
             return null;
         }
-        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         for(OrderInfo s:orderInfos){
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setCreateDate(s.getCreateDate());
@@ -61,6 +65,8 @@ public class OrderInfoService extends BaseService {
             User user = userDao.findByUserId(s.getUserId());
             orderInfoDTO.setUserName(user.getUserName());
             orderInfoDTO.setStoreName(store.getStoreName());
+            List<OrderItem> orderItemList = orderItemDao.findByOrderInfo(s.getOrderInfoId());
+            orderInfoDTO.setOrderItemList(orderItemList);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;

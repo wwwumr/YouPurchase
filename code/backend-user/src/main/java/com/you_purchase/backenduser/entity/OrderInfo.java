@@ -27,8 +27,9 @@ public class OrderInfo {
     //订单是否可用
     private boolean valid;
 
-    @OneToMany(targetEntity = OrderItem.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderItemId")
+    @OneToMany(targetEntity = OrderItem.class)
+    @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
+            inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
     private List<OrderItem> orderItemList = new ArrayList<>();
 
 
