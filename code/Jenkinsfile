@@ -3,7 +3,7 @@ pipeline {
     
     stages {
 
-        stage('Build') {
+        stage('Backend-Build') {
             agent {
                 docker {
                     image 'maven:3-alpine'
@@ -16,7 +16,20 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage("Front-Build") {
+            agent {
+                docker {
+                    image 'node:6-alpine' 
+                    args '-p 3000:3000' 
+                }
+            }
+            steps {
+                sh 'echo frontend build'
+                sh 'cd code/manager && npm install && npm build'
+            }
+        }
+
+        stage('Backend-Test') {
             agent {
                 docker {
                     image 'maven:3-alpine'
