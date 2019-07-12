@@ -1,5 +1,11 @@
 package com.you_purchase.backenduser.parameter;
 
+
+
+/*
+* 用户修改个人信息申请
+* */
+
 public class UserModifyParameter {
 
     private long userId;

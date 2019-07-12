@@ -1,5 +1,10 @@
 package com.you_purchase.backenduser.parameter;
 
+
+
+/*
+* 用户登陆申请
+* */
 public class UserLoginParameter {
     private String phone;
 
