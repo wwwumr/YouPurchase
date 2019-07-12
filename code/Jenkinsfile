@@ -19,10 +19,5 @@ pipeline {
                 sh 'cd code/adminanddealer-backend && mvn test'
             }
         }
-        post {
-            always {
-                junit 'code/adminanddealer-backend/target/surefire-reports/*.xml'
-            }
-        }
     }
 }
