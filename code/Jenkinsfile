@@ -1,12 +1,15 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
-    }
+    agent none
+    
     stages {
+
         stage('Build') {
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh 'echo build-stage'
                 sh 'cd code/adminanddealer-backend && mvn -B -DskipTests clean package'
@@ -14,6 +17,12 @@ pipeline {
         }
 
         stage('Test') {
+            agent {
+                docker {
+                    image 'maven:3-alpine'
+                    args '-v /root/.m2:/root/.m2'
+                }
+            }
             steps {
                 sh 'echo test-stage'
                 sh 'cd code/adminanddealer-backend && mvn test'
@@ -22,19 +31,19 @@ pipeline {
     }
 }
 
-pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'echo front-build-stage'
-                sh 'cd code/manager && npm install && npm build' 
-            }
-        }
-    }
-}
+// pipeline {
+//     agent {
+//         docker {
+//             image 'node:6-alpine' 
+//             args '-p 3000:3000' 
+//         }
+//     }
+//     stages {
+//         stage('Build') { 
+//             steps {
+//                 sh 'echo front-build-stage'
+//                 sh 'cd code/manager && npm install && npm build' 
+//             }
+//         }
+//     }
+// }
