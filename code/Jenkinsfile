@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 sh 'echo frontend build'
-                sh 'cd code/manager && npm install --unsafe-perm && npm build'
+                sh 'cd code/manager && npm install --unsafe-perm && npm run-script build '
             }
         }
 
@@ -33,7 +33,7 @@ pipeline {
             agent {
                 docker {
                     image 'maven:3-alpine'
-                    args '-v /root/.m2:/root/.m2'
+                    args '-u root -v /root/.m2:/root/.m2'
                 }
             }
             steps {
@@ -43,20 +43,3 @@ pipeline {
         }
     }
 }
-
-// pipeline {
-//     agent {
-//         docker {
-//             image 'node:6-alpine' 
-//             args '-p 3000:3000' 
-//         }
-//     }
-//     stages {
-//         stage('Build') { 
-//             steps {
-//                 sh 'echo front-build-stage'
-//                 sh 'cd code/manager && npm install && npm build' 
-//             }
-//         }
-//     }
-// }

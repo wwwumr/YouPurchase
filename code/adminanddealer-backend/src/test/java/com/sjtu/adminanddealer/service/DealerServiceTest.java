@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -64,7 +63,7 @@ public class DealerServiceTest {
     public void testGetAllDealers() throws Exception {
         Dealer dealer1 = new Dealer("dealerName", "1234", "addr", "zhangsan",
                 "12348888", "image/232323.jpg", true, null);
-        Dealer dealer2 = new Dealer("dealername2","12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer1.setDealerId(1L);
         dealer2.setDealerId(2L);
@@ -82,7 +81,7 @@ public class DealerServiceTest {
     }
 
     @Test
-    public void testGetDealerByDealerId() throws Exception{
+    public void testGetDealerByDealerId() throws Exception {
         Dealer dealer1 = new Dealer("dealerName", "1234", "addr", "zhangsan",
                 "12348888", "image/232323.jpg", true, null);
         dealer1.setDealerId(1L);
@@ -90,7 +89,7 @@ public class DealerServiceTest {
         store.setStoreName("robot/s");
         dealer1.setStore(store);
 
-        Dealer dealer2 = new Dealer("dealername2","12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer2.setDealerId(2L);
 
@@ -99,7 +98,7 @@ public class DealerServiceTest {
 
         Assert.assertNotNull(dealerService.getDealerByDealerId(1L));
         Assert.assertNotNull(dealerService.getDealerByDealerId(2L));
-        Assert.assertEquals(dealerService.getDealerByDealerId(1L).getRealName(),"zhangsan");
+        Assert.assertEquals(dealerService.getDealerByDealerId(1L).getRealName(), "zhangsan");
         Assert.assertEquals(dealerService.getDealerByDealerId(2L).getStoreName(), null);
     }
 
@@ -130,8 +129,8 @@ public class DealerServiceTest {
     }
 
     @Test
-    public void testGetAllUnbindDealers() throws Exception{
-        Dealer dealer = new Dealer("dealername2","12345", "addr2", "zhangsi",
+    public void testGetAllUnbindDealers() throws Exception {
+        Dealer dealer = new Dealer("dealername2", "12345", "addr2", "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer.setDealerId(2L);
         ArrayList<Dealer> unbindDealers = new ArrayList<>();

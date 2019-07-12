@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
@@ -148,7 +147,7 @@ public class StoreServiceImpl implements StoreService {
     public void bindDealerAndStore(Long dealerId, Long storeId) {
         Store store = storeDao.getStoreByStoreId(storeId);
         Dealer dealer = dealerDao.getDealerById(dealerId);
-        if(store==null || dealer==null){
+        if (store == null || dealer == null) {
             return;
         }
         // 当提交的表单未对绑定做修改时，直接跳过

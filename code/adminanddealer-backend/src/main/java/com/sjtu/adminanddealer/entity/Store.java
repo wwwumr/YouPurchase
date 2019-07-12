@@ -170,7 +170,7 @@ public class Store {
     // 这里override toString()方法是因为在有些时候调用时，防止出现无限递归的情况
     @Override
     public String toString() {
-        if(this.getDealer()!=null){
+        if (this.getDealer() != null) {
             return "Store{" +
                     "storeId=" + storeId +
                     ", storeName='" + storeName + '\'' +

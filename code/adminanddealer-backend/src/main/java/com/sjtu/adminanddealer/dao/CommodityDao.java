@@ -26,4 +26,27 @@ public interface CommodityDao {
      * @return 对应id的商品实体，没有对应id则返回null
      */
     Commodity getCommodityById(Long commodityId);
+
+    /**
+     * 数据库中持久化一个商品的信息.
+     *
+     * @param commodity 需要持久化的商品
+     * @return 保存成功返回商品的id，返回-1表示失败
+     */
+    Long addCommodity(Commodity commodity);
+
+    /**
+     * 更新数据库中商品的信息.
+     *
+     * @param commodity 需要更新的商品信息
+     */
+    void updateCommodity(Commodity commodity);
+
+    /**
+     * 删除数据库中商品信息的记录.
+     *
+     * @param commodityId 商品id
+     */
+    void deleteCommodity(Long commodityId);
+
 }

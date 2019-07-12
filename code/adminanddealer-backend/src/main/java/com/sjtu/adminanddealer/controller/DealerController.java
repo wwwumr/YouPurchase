@@ -2,7 +2,6 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
-import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
 import org.springframework.beans.factory.annotation.Autowired;

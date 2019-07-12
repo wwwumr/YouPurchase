@@ -1,5 +1,6 @@
 package com.sjtu.adminanddealer.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 
@@ -11,9 +12,6 @@ import java.util.List;
  * @author Chuyuxuan
  */
 public interface CommodityService {
-    // 增加商品
-    // 修改商品信息
-    // 删除商品
     // 上架商品
 
     /**
@@ -36,8 +34,9 @@ public interface CommodityService {
      * 添加一个新商品.
      *
      * @param commodityParameter 前端发送的商品数据
+     * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
-    void addACommodity(CommodityParameter commodityParameter);
+    JSONObject addACommodity(CommodityParameter commodityParameter);
 
     /**
      * 修改一个商品的信息.
@@ -45,4 +44,11 @@ public interface CommodityService {
      * @param commodityParameter 前端发送的商品数据
      */
     void updateACommodity(CommodityParameter commodityParameter);
+
+    /**
+     * 通过商品的id删除商品
+     *
+     * @param commodityId 商品id
+     */
+    void deleteCommodity(Long commodityId);
 }

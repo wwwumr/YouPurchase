@@ -18,14 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -65,7 +58,7 @@ public class DealerControllerTest {
     @Test
     public void testGetDealerByDealerId() throws Exception {
         DealerDTO dto = new DealerDTO(1L, "user", "image/f3920f.jpg", "England",
-                "Ed","12345555", null, null,"123pass");
+                "Ed", "12345555", null, null, "123pass");
         given(this.dealerService.getDealerByDealerId(1L)).willReturn(dto);
 
         this.mockMvc.perform(get("/dealers/1")).andExpect(status().isOk())
@@ -75,13 +68,13 @@ public class DealerControllerTest {
     }
 
     @Test
-    public void testAddNewDealer() throws Exception{
+    public void testAddNewDealer() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("key",1L);
-        jsonObject.put("avatar","image/avatar");
+        jsonObject.put("key", 1L);
+        jsonObject.put("avatar", "image/avatar");
 
-        DealerParameter dealerParameter = new DealerParameter(null,"user","Shanghai","jiang",
-                "123456","password",null);
+        DealerParameter dealerParameter = new DealerParameter(null, "user", "Shanghai", "jiang",
+                "123456", "password", null);
         given(this.dealerService.addADealer(dealerParameter)).willReturn(jsonObject);
         this.mockMvc.perform(post("/dealers").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(dealerParameter)))
                 .andExpect(status().isOk()).andExpect(content().json(jsonObject.toJSONString()));
@@ -95,7 +88,7 @@ public class DealerControllerTest {
     }
 
     @Test
-    public void testDeleteDealers() throws Exception{
+    public void testDeleteDealers() throws Exception {
         this.mockMvc.perform(delete("/dealers").contentType(MediaType.APPLICATION_JSON).content("[1,2,3,4]"))
                 .andExpect(status().isOk()).andExpect(content().string("DELETE"));
     }
@@ -106,12 +99,12 @@ public class DealerControllerTest {
     }
 
     @Test
-    public void testUpdateDealerAvatar() throws Exception{
-        given(this.dealerService.updateDealerAvatar(any(),any(),any())).willReturn("image/new.jpg");
+    public void testUpdateDealerAvatar() throws Exception {
+        given(this.dealerService.updateDealerAvatar(any(), any(), any())).willReturn("image/new.jpg");
         byte[] bytes = null;
-        MockMultipartFile file = new MockMultipartFile("file","a.jpg", MediaType.TEXT_PLAIN_VALUE, bytes);
+        MockMultipartFile file = new MockMultipartFile("file", "a.jpg", MediaType.TEXT_PLAIN_VALUE, bytes);
         this.mockMvc.perform(MockMvcRequestBuilders.fileUpload("/dealers/avatar").file(file)
-                .param("key","1").param("avatar","origin")).andExpect(status().isOk());
+                .param("key", "1").param("avatar", "origin")).andExpect(status().isOk());
     }
 
 }

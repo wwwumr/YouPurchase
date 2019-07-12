@@ -1,7 +1,5 @@
 package com.sjtu.adminanddealer.DTO;
 
-import com.sjtu.adminanddealer.entity.Store;
-
 /**
  * 前端需要的商店信息格式
  *

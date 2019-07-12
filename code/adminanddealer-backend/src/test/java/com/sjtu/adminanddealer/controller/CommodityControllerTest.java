@@ -1,6 +1,5 @@
 package com.sjtu.adminanddealer.controller;
 
-import com.sjtu.adminanddealer.entity.Commodity;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,7 +36,7 @@ public class CommodityControllerTest {
     private CommodityService commodityService;
 
     @Test
-    public void testDI() throws Exception{
+    public void testDI() throws Exception {
         Assert.assertNotNull(commodityController);
     }
 

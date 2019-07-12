@@ -37,4 +37,22 @@ public class CommodityDaoImpl implements CommodityDao {
     public Commodity getCommodityById(Long commodityId) {
         return commodityRepository.getCommodityByCommodityId(commodityId);
     }
+
+    @Override
+    public Long addCommodity(Commodity commodity) {
+        commodityRepository.saveAndFlush(commodity);
+        return commodity.getCommodityId();
+    }
+
+    @Override
+    public void updateCommodity(Commodity commodity) {
+        commodityRepository.saveAndFlush(commodity);
+    }
+
+    @Override
+    public void deleteCommodity(Long commodityId) {
+        if (commodityRepository.existsById(commodityId)) {
+            commodityRepository.deleteCommodityByCommodityId(commodityId);
+        }
+    }
 }

@@ -15,8 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -49,11 +47,11 @@ public class AdminDealerLoginControllerTest {
 
     @Test
     public void testAdminLogin() throws Exception {
-        given(this.adminDealerLoginService.getAdminByUserNameAndPassword("admin","password"))
+        given(this.adminDealerLoginService.getAdminByUserNameAndPassword("admin", "password"))
                 .willReturn(new Admin());
-        given(this.adminDealerLoginService.getAdminByUserNameAndPassword("user","1234"))
+        given(this.adminDealerLoginService.getAdminByUserNameAndPassword("user", "1234"))
                 .willReturn(null);
-        this.mockMvc.perform(get("/login/admin").param("userName","admin").param("password","password"))
+        this.mockMvc.perform(get("/login/admin").param("userName", "admin").param("password", "password"))
                 .andExpect(content().string("ADMIN"));
         this.mockMvc.perform(get("/login/admin").param("userName", "user").param("password", "1234"))
                 .andExpect(content().string("ERROR"));
@@ -62,11 +60,11 @@ public class AdminDealerLoginControllerTest {
 
     @Test
     public void testDealerLogin() throws Exception {
-        given(this.adminDealerLoginService.getDealerByUserNameAndPassword("user","password"))
+        given(this.adminDealerLoginService.getDealerByUserNameAndPassword("user", "password"))
                 .willReturn(new Dealer());
-        given(this.adminDealerLoginService.getDealerByUserNameAndPassword("wrong","wrong"))
+        given(this.adminDealerLoginService.getDealerByUserNameAndPassword("wrong", "wrong"))
                 .willReturn(null);
-        this.mockMvc.perform(get("/login/dealer").param("userName","user").param("password","password"))
+        this.mockMvc.perform(get("/login/dealer").param("userName", "user").param("password", "password"))
                 .andExpect(content().string("DEALER"));
         this.mockMvc.perform(get("/login/dealer").param("userName", "wrong").param("password", "WRONG"))
                 .andExpect(content().string("ERROR"));
@@ -87,7 +85,7 @@ public class AdminDealerLoginControllerTest {
         session.clearAttributes();
         Dealer dealer = new Dealer();
         dealer.setUserName("dealerName");
-        session.setAttribute("dealer",dealer);
+        session.setAttribute("dealer", dealer);
         this.mockMvc.perform(get("/userName").session(session)).andExpect(content().string("dealerName"));
         session.clearAttributes();
         this.mockMvc.perform(get("/userName").session(session)).andExpect(content().string("NULL"));
