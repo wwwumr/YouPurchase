@@ -25,7 +25,7 @@ pipeline {
             }
             steps {
                 sh 'echo frontend build'
-                sh 'cd code/manager && npm install && npm build'
+                sh 'cd code/manager && npm install --unsafe-perm && npm build'
             }
         }
 
