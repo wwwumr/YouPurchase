@@ -1,24 +1,18 @@
-package com.you_purchase.backenduser.Test;
+/*package com.you_purchase.backenduser.Test;
 
 
 
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.you_purchase.backenduser.dao.OrderInfoDao;
 import com.you_purchase.backenduser.dao.UserDao;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.User;
-import com.you_purchase.backenduser.parameter.OrderModifyParameter;
-import com.you_purchase.backenduser.parameter.OrderParameter;
-import com.you_purchase.backenduser.parameter.UserModifyParameter;
-import com.you_purchase.backenduser.parameter.UserRegParameter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -111,5 +105,5 @@ public class BaseTest {
         Assert.assertNotNull(orderInfo);
         Assert.assertEquals(orderInfo.getStoreName(),"舞娘");
         Assert.assertEquals(orderInfo.getOrderIteName(),"舞娘双刀");
-    }
-}
+    }*/
+//}

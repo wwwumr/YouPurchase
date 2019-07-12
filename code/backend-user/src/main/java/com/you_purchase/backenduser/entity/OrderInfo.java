@@ -1,56 +1,45 @@
 package com.you_purchase.backenduser.entity;
 
-import com.you_purchase.backenduser.parameter.OrderParameter;
+import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrderInfo {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "orderInfoId")
     private long orderInfoId;
 
     private long userId;
 
     private long storeId;
-
-    private long orderItemId;
-
-    private String userName;
-
-    private String storeName;
-
-    private String orderIteName;
-
-    private int amount;
-
-    private double price;
-
-    private double totalPrice;
+    //执行状态，0：待接单 1：待发货 2：配送中 3：已收货
+    private int status;
 
     private String createDate;
-    //执行状态，0：待处理 1：待配送 2：已发货 3：已完成
-    private int status;
+
+    private double totalPrice;
+    //订单是否可用
     private boolean valid;
 
-    public void setOrderInfo(OrderParameter orderParameter){
-        this.setAmount(orderParameter.getAmount());
-        this.setCreateDate(orderParameter.getCreateDate());
-        this.setOrderItemId(orderParameter.getOrderItemId());
-        this.setOrderIteName(orderParameter.getOrderIteName());
-        this.setPrice(orderParameter.getPrice());
-        this.setStoreId(orderParameter.getStoreId());
-        this.setStoreName(orderParameter.getStoreName());
-        this.setTotalPrice(orderParameter.getTotalPrice());
-        this.setUserId(orderParameter.getUserId());
-        this.setUserName(orderParameter.getUserName());
+    @OneToMany(targetEntity = OrderItem.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderItemId")
+    private List<OrderItem> orderItemList = new ArrayList<>();
+
+
+    public void setOrderInfo(OrderInfoParameter orderInfoParameter){
         this.setValid(true);
         this.setStatus(0);
+        this.setUserId(orderInfoParameter.getUserId());
+        this.setStoreId(orderInfoParameter.getStoreId());
+        this.setTotalPrice(orderInfoParameter.getTotalPrice());
+        this.setCreateDate(orderInfoParameter.getCreateDate());
+        this.setOrderItemList(orderInfoParameter.getOrderItemList());
     }
 
 
@@ -58,14 +47,6 @@ public class OrderInfo {
 
     //getter and setter
 
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
     public long getOrderInfoId() {
         return orderInfoId;
@@ -91,60 +72,12 @@ public class OrderInfo {
         this.storeId = storeId;
     }
 
-    public long getOrderItemId() {
-        return orderItemId;
+    public int getStatus() {
+        return status;
     }
 
-    public void setOrderItemId(long orderItemId) {
-        this.orderItemId = orderItemId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
-    public String getOrderIteName() {
-        return orderIteName;
-    }
-
-    public void setOrderIteName(String orderIteName) {
-        this.orderIteName = orderIteName;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getCreateDate() {
@@ -155,11 +88,27 @@ public class OrderInfo {
         this.createDate = createDate;
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     public boolean isValid() {
         return valid;
     }
 
     public void setValid(boolean valid) {
         this.valid = valid;
+    }
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 }

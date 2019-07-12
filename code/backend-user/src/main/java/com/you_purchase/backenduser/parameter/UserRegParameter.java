@@ -1,5 +1,11 @@
 package com.you_purchase.backenduser.parameter;
 
+
+
+/*
+* 用户注册申请
+* */
+
 public class UserRegParameter {
     private String phone;
 
