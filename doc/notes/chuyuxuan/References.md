@@ -20,3 +20,4 @@
 
 ## CI-Jenkins
 * https://jenkins.io/zh/
+* https://www.xncoding.com/2017/03/22/fullstack/jenkins02.html
