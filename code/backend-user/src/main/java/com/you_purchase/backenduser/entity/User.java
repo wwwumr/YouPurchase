@@ -27,6 +27,8 @@ public class User {
     private double longitude;
 
     private String photo;
+    //用户是否可用
+    private boolean valid;
 
     private boolean valid;
 
