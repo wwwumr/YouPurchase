@@ -45,12 +45,10 @@ var config = {
         avatarAction: "http://localhost:9000/dealers/avatar/"
     },
     autoInput: {
-        url : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
         alt : "店面",
     },
     avatar: {
         url: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-
     },
     homePageImageUrl: "url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)",
     url: {
