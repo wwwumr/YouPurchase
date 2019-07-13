@@ -32,17 +32,17 @@ public class ImageController {
         File file = null;
         FileInputStream inputStream = null;
         byte[] bytes = null;
-        try{
+        try {
             file = new File(IMAGE_BASE_DIRECTORY + picUrl);
             inputStream = new FileInputStream(file);
             bytes = new byte[inputStream.available()];
             inputStream.read(bytes, 0, inputStream.available());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 inputStream.close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

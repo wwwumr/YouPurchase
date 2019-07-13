@@ -5,33 +5,38 @@ import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.parameter.UserLoginParameter;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
 import com.you_purchase.backenduser.parameter.UserRegParameter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Api(tags = "用户相关接口")
 public class UserController extends BaseController {
 
     //用户注册
     @RequestMapping(value = "/user/reg",method = RequestMethod.POST)
     public
     @ResponseBody
+    @ApiOperation(value = "用户注册")
     UserInfoDTO UserReg(@RequestBody UserRegParameter userRegParameter){
         return userService.UserReg(userRegParameter);
     }
-
 
     //用户信息修改
     @RequestMapping(value = "/user/modify",method = RequestMethod.POST)
     public
     @ResponseBody
+    @ApiOperation(value = "用户信息修改")
     UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
         return userService.UserModify(userModifyParameter);
     }
-    //用户登陆
 
+    //用户登陆
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public
     @ResponseBody
+    @ApiOperation(value = "用户登陆")
     UserLoginDTO UserLogin(@RequestBody  UserLoginParameter userLoginParameter){
         return userService.UserLogin(userLoginParameter);
     }
@@ -40,6 +45,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/check",method = RequestMethod.GET)
     public
     @ResponseBody
+    @ApiOperation(value = "用户查看个人信息")
     UserLoginDTO UserCheck(long userId){
         return userService.UserCheck(userId);
     }

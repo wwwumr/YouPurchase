@@ -17,3 +17,7 @@
 * SpringBoot整合Redis   https://blog.csdn.net/plei_yue/article/details/79362372
 * SpringBoot+SpringSession+Redis实现session共享及单点登录 https://blog.csdn.net/xjj1040249553/article/details/82658889
 * SpringBoot整合Redis及Redis工具类撰写 https://www.cnblogs.com/zeng1994/p/03303c805731afc9aa9c60dbbd32a323.html
+
+## CI-Jenkins
+* https://jenkins.io/zh/
+* https://www.xncoding.com/2017/03/22/fullstack/jenkins02.html

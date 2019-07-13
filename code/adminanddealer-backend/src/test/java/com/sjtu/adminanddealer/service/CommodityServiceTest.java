@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 
 /**
@@ -42,8 +41,8 @@ public class CommodityServiceTest {
 
     @Test
     public void testGetAllCommoditiesByStore() throws Exception {
-        Commodity commodity1 = new Commodity(12.5,"耳机线", "image/isndsnd.jpg",true,100,80);
-        Commodity commodity2 = new Commodity(35, "notebook","image/dsdsa.gif",true,100,40);
+        Commodity commodity1 = new Commodity(12.5, "耳机线", "image/isndsnd.jpg", true, 100, 80);
+        Commodity commodity2 = new Commodity(35, "notebook", "image/dsdsa.gif", true, 100, 40);
         List<Commodity> commodityList = new ArrayList<>();
         commodityList.add(commodity1);
         commodityList.add(commodity2);
@@ -51,14 +50,14 @@ public class CommodityServiceTest {
         given(this.commodityDao.getAllCommodityByStore(1L)).willReturn(commodityList);
 
         Assert.assertNotNull(commodityService.getAllCommoditiesByStore(1L));
-        Assert.assertEquals(commodityService.getAllCommoditiesByStore(1L).get(0).getInventory().intValue(),100);
-        Assert.assertEquals(commodityService.getAllCommoditiesByStore(1L).get(1).getCommodityInfo(),"notebook");
+        Assert.assertEquals(commodityService.getAllCommoditiesByStore(1L).get(0).getInventory().intValue(), 100);
+        Assert.assertEquals(commodityService.getAllCommoditiesByStore(1L).get(1).getCommodityInfo(), "notebook");
     }
 
     @Test
     public void testGetCommodityById() throws Exception {
-        Commodity commodity2 = new Commodity(35, "notebook","image/dsdsa.gif",
-                true,100,40);
+        Commodity commodity2 = new Commodity(35, "notebook", "image/dsdsa.gif",
+                true, 100, 40);
         commodity2.setCommodityId(1L);
         given(this.commodityDao.getCommodityById(1L)).willReturn(commodity2);
 

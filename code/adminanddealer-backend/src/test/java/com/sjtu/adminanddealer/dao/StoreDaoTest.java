@@ -1,6 +1,5 @@
 package com.sjtu.adminanddealer.dao;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.sjtu.adminanddealer.entity.Store;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -15,8 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * StoreDao的测试类.
@@ -48,12 +45,12 @@ public class StoreDaoTest {
      * */
 
     @Test
-    public void testDI() throws Exception{
+    public void testDI() throws Exception {
         Assert.assertNotNull(storeDao);
     }
 
     @Test
-    public void testGetAllStores() throws Exception{
+    public void testGetAllStores() throws Exception {
         List<Store> stores = storeDao.getAllStores();
         Assert.assertNotNull(stores);
         Assert.assertEquals(stores.get(0).getStoreId().longValue(), 23L);
@@ -62,21 +59,21 @@ public class StoreDaoTest {
     }
 
     @Test
-    public void testGetStoreByStoreId() throws Exception{
+    public void testGetStoreByStoreId() throws Exception {
         Store store1 = storeDao.getStoreByStoreId(1L);
         Assert.assertNull(store1);
         Store store2 = storeDao.getStoreByStoreId(24L);
-        Assert.assertEquals(store2.getAddress(),"JianChuan Road");
+        Assert.assertEquals(store2.getAddress(), "JianChuan Road");
         Assert.assertEquals(store2.getContact(), "020-999888");
         Assert.assertEquals(store2.getCoverPicUrl(), "image/idfosnfds.jpg");
         Assert.assertEquals(store2.getStoreName(), "JinGongMen");
-        Assert.assertEquals(store2.getLatitude(),123.4324, 0.01);
+        Assert.assertEquals(store2.getLatitude(), 123.4324, 0.01);
         Assert.assertEquals(store2.getLongitude(), 40.131, 0.01);
 
     }
 
     @Test
-    public void testAddAndDeleteStore() throws Exception{
+    public void testAddAndDeleteStore() throws Exception {
         Store store = new Store();
         store.setStoreName("helloname");
         store.setCoverPicUrl("image/2323.gif");
@@ -95,28 +92,28 @@ public class StoreDaoTest {
     }
 
     @Test
-    public void testUpdateStore() throws Exception{
+    public void testUpdateStore() throws Exception {
         Store store = storeDao.getStoreByStoreId(23L);
         // origin Dongchuan Road 800 set to Shanghai Station
         store.setAddress("Shanghai Station");
         storeDao.updateStore(store);
-        Assert.assertEquals(store.getAddress(),"Shanghai Station");
+        Assert.assertEquals(store.getAddress(), "Shanghai Station");
     }
 
     @Ignore
     @Test
-    public void testGetAllUnbindStore() throws Exception{
+    public void testGetAllUnbindStore() throws Exception {
         // 由于加上了transactional的原因，导致这次的获取在运行时有读取的冲突，导致测试结果错误
         // 单独执行这段代码时测试可以通过（正常情况），所以把这个测试用例跳过
         List<Store> unbindStores = storeDao.getAllUnbindStore();
         Assert.assertNotNull(unbindStores);
         System.out.println(unbindStores);
-        Assert.assertTrue(unbindStores.size()==0);
+        Assert.assertTrue(unbindStores.size() == 0);
     }
 
     // 这个测试需要和下面一个测试testUnbind一起进行
     @Test
-    public void testBind() throws Exception{
+    public void testBind() throws Exception {
         storeDao.bindDealerStore(22L, 23L);
         Store store = storeDao.getStoreByStoreId(23L);
         Assert.assertTrue(store.isAttached());
@@ -125,7 +122,7 @@ public class StoreDaoTest {
 
     // 这个测试需要和上面一个测试testBind一起进行
     @Test
-    public void testUnbind() throws Exception{
+    public void testUnbind() throws Exception {
         storeDao.unbindDealerStore(22L, 23L);
         Store store1 = storeDao.getStoreByStoreId(23L);
         Assert.assertFalse(store1.isAttached());

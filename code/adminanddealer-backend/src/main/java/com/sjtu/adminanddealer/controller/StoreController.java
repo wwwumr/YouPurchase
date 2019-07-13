@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;

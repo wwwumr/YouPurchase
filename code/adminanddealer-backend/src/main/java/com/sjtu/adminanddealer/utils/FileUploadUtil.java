@@ -27,7 +27,7 @@ public class FileUploadUtil {
     }
 
     @Value("${imageBaseDir}")
-    public void setFILE_BASE_DIR(String file_base_dir){
+    public void setFILE_BASE_DIR(String file_base_dir) {
         this.FILE_BASE_DIR = file_base_dir;
     }
 

@@ -2,7 +2,6 @@ package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
-import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,9 +70,9 @@ public interface DealerService {
     /**
      * 经销商更改头像.
      *
-     * @param file 上传的图片文件
+     * @param file     上传的图片文件
      * @param dealerId 经销商id
-     * @param avatar 原来的头像url
+     * @param avatar   原来的头像url
      * @return 新建的头像的url
      */
     String updateDealerAvatar(MultipartFile file, Long dealerId, String avatar);

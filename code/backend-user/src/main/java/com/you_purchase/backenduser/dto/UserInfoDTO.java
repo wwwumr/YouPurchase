@@ -1,7 +1,11 @@
 package com.you_purchase.backenduser.dto;
 
 import com.you_purchase.backenduser.entity.User;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 
+
+@ApiModel(description = "用户实体")
 public class UserInfoDTO {
     private long userId;
 

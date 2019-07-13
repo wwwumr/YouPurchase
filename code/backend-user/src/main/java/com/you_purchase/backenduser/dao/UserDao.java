@@ -11,12 +11,9 @@ public interface UserDao extends CrudRepository<User,String> {
 
     public User findByPhoneAndValid(String phone, boolean valid);
 
-<<<<<<< HEAD
 
     //test use
     public User findByUserId(long userId);
     public User findByPhone(String phone);
 
-=======
->>>>>>> 747cde55b24f94b9c132da1bd7737c8016d5447b
 }

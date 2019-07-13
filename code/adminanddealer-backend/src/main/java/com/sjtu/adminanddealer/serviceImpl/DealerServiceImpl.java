@@ -2,11 +2,9 @@ package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
-import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Dealer;
-import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
 import com.sjtu.adminanddealer.utils.FileUploadUtil;
@@ -15,8 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 

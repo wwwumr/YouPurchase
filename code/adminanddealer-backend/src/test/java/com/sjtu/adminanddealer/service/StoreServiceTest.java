@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,10 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 /**
  * StoreService的测试类.
@@ -92,7 +89,7 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void testGetStoreByStoreId() throws Exception{
+    public void testGetStoreByStoreId() throws Exception {
         Store store = new Store();
         store.setStoreId(1L);
         store.setAddress("tAddress");
@@ -109,7 +106,7 @@ public class StoreServiceTest {
 
         Assert.assertNotNull(storeService.getStoreByStoreId(1L));
         Assert.assertEquals(storeService.getStoreByStoreId(1L).getKey().longValue(), 1L);
-        Assert.assertEquals(storeService.getStoreByStoreId(1L).getAddress(),"tAddress");
+        Assert.assertEquals(storeService.getStoreByStoreId(1L).getAddress(), "tAddress");
         Assert.assertEquals(storeService.getStoreByStoreId(1L).getContact(), "123456");
         Assert.assertEquals(storeService.getStoreByStoreId(1L).getDealerId().intValue(), 1);
 
@@ -152,7 +149,7 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void testGetAllUnbindStore() throws Exception{
+    public void testGetAllUnbindStore() throws Exception {
         Store store = new Store();
         store.setAddress("tAddress");
         store.setCommodityList(new ArrayList<Commodity>());
@@ -184,8 +181,8 @@ public class StoreServiceTest {
         given(this.storeDao.getAllUnbindStore()).willReturn(unbindStores);
 
         Assert.assertNotNull(storeService.getAllUnbindStore());
-        Assert.assertEquals(storeService.getAllUnbindStore().get(0).getKey().longValue(),2L);
-        Assert.assertEquals(storeService.getAllUnbindStore().get(0).getContact(),"666888");
+        Assert.assertEquals(storeService.getAllUnbindStore().get(0).getKey().longValue(), 2L);
+        Assert.assertEquals(storeService.getAllUnbindStore().get(0).getContact(), "666888");
         Assert.assertEquals(storeService.getAllUnbindStore().get(0).getAddress(), "taddr1");
         Assert.assertNull(storeService.getAllUnbindStore().get(0).getDealerId());
     }
@@ -193,13 +190,13 @@ public class StoreServiceTest {
     // 只是传递参数
     @Test
     public void testUnbindStoreDealer() throws Exception {
-        storeService.unbindDealerAndStore(1L,2L);
+        storeService.unbindDealerAndStore(1L, 2L);
     }
 
     @Test
     public void testBindStoreDealer() throws Exception {
         /* mock */
-        Dealer dealer2 = new Dealer("dealername2","12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer2.setDealerId(2L);
         given(this.dealerDao.getDealerById(2L)).willReturn(dealer2);
@@ -223,12 +220,12 @@ public class StoreServiceTest {
     }
 
     @Test
-    public void testUpdateStoreCoverPic() throws Exception{
+    public void testUpdateStoreCoverPic() throws Exception {
         given(this.fileUploadUtil.saveFile(any())).willReturn("image/1234.jpg");
         byte[] bytes = null;
         MultipartFile file = new MockMultipartFile("1.jpg", bytes);
-        Assert.assertEquals(storeService.updateStoreCoverPic(file, 1L, "image/origin.jpg"),"image/1234.jpg");
-        Assert.assertEquals(storeService.updateStoreCoverPic(file, 1L, "image/defaultStoreCover.png"),"image/1234.jpg");
+        Assert.assertEquals(storeService.updateStoreCoverPic(file, 1L, "image/origin.jpg"), "image/1234.jpg");
+        Assert.assertEquals(storeService.updateStoreCoverPic(file, 1L, "image/defaultStoreCover.png"), "image/1234.jpg");
 
     }
 
