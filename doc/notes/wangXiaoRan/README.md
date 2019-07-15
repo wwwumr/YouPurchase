@@ -35,3 +35,14 @@ https://www.bilibili.com/video/av22571713
 react思想：
 
 https://react.docschina.org/docs/thinking-in-react.html
+
+
+解决生产环境的sourceMap问题：
+
+https://www.jianshu.com/p/e09b2c57cf20
+
+react测试:
+
+https://react.docschina.org/docs/test-utils.html
+https://react.docschina.org/docs/shallow-renderer.html
+https://react.docschina.org/docs/test-renderer.html
