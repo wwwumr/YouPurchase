@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @Api(tags = "用户相关接口")
@@ -50,6 +51,19 @@ public class UserController extends BaseController {
         return userService.UserCheck(userId);
     }
 
+
+
+    //用户更新头像
+    @PostMapping("/user/photo")
+    @ApiOperation(value = "用户更新头像")
+    public String UpdateUserPhoto(@RequestParam("file") MultipartFile file, @RequestParam("key") Long userId,
+                                  @RequestParam("photo") String photo) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newAvatar = userService.UpdateUserPhoto(file,userId,photo);
+        return newAvatar;
+    }
 
     //用户注册
 

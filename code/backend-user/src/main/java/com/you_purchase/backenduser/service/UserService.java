@@ -6,7 +6,9 @@ import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.UserLoginParameter;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
 import com.you_purchase.backenduser.parameter.UserRegParameter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService extends BaseService{
@@ -51,9 +53,33 @@ public class UserService extends BaseService{
         System.out.println("信息更新成功");
         return new UserLoginDTO(200,user);
     }
+
+    @Value("${imageBaseDirectory}")
+    private String imageBaseDirectory;
+
+    @Value("${userDefaultAvatarUrl}")
+    private String userDefaultAvatarUrl;
+
     //用户查看个人信息
     public UserLoginDTO UserCheck(long userId){
         User user = userDao.findByUserIdAndValid(userId,true);
         return new UserLoginDTO(200,user);
+    }
+
+    public String UpdateUserPhoto(MultipartFile file,long userId,String photo){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        if(photo.equals(this.userDefaultAvatarUrl)){
+            String newPhoto = fileUploadUtil.saveFile(file);
+            user.setPhoto(newPhoto);
+            userDao.save(user);
+            return newPhoto;
+        }
+        else{
+            String newPhoto = fileUploadUtil.saveFile(file);
+            user.setPhoto(newPhoto);
+            userDao.save(user);
+            fileUploadUtil.deleteFile(photo);
+            return newPhoto;
+        }
     }
 }
