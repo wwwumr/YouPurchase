@@ -28,4 +28,17 @@ public interface AdminDealerLoginService {
      * @return 验证成功返回对应经销商，失败则返回null
      */
     Dealer getDealerByUserNameAndPassword(String userName, String password);
+
+    /**
+     * 把登录过后的sessionId保存在redis中，防止重复登录
+     * @param key loginUserId:{id}
+     * @param value sessionId
+     */
+    void addSessionIdToRedis(String key, String value);
+
+    /**
+     * 当用户注销时，从redis中删除sessionId
+     * @param key key
+     */
+    void deleteSessionId(String key);
 }

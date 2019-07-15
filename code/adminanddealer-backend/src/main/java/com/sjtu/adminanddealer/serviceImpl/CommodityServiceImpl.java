@@ -31,6 +31,9 @@ public class CommodityServiceImpl implements CommodityService {
     public List<CommodityDTO> getAllCommoditiesByStore(Long storeId) {
         List<Commodity> commodityList = commodityDao.getAllCommodityByStore(storeId);
         List<CommodityDTO> commodityDTOS = new ArrayList<>();
+        if(commodityList==null){
+            return commodityDTOS;
+        }
         for (Commodity c : commodityList
         ) {
             CommodityDTO dto = new CommodityDTO(c);

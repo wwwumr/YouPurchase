@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -40,6 +41,9 @@ public class AdminDealerLoginControllerTest {
     @MockBean
     private AdminDealerLoginService adminDealerLoginService;
 
+    @MockBean
+    private StringRedisTemplate stringRedisTemplate;
+
     @Test
     public void testDI() throws Exception {
         Assert.assertNotNull(adminDealerLoginController);
@@ -51,6 +55,7 @@ public class AdminDealerLoginControllerTest {
                 .willReturn(new Admin());
         given(this.adminDealerLoginService.getAdminByUserNameAndPassword("user", "1234"))
                 .willReturn(null);
+//        given(this.stringRedisTemplate.opsForValue().set()).willReturn()
         this.mockMvc.perform(get("/login/admin").param("userName", "admin").param("password", "password"))
                 .andExpect(content().string("ADMIN"));
         this.mockMvc.perform(get("/login/admin").param("userName", "user").param("password", "1234"))

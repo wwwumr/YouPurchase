@@ -26,7 +26,7 @@ public class Commodity {
 
     private String commodityCoverPicUrl;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "commodityPicUrls",
             joinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})
     private List<String> commodityPicUrls;
