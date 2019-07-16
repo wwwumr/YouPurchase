@@ -27,5 +27,8 @@ editor = pref.edit()
 editor.putString(key,value);
 editor.apply();
 ```
-### 使用SQLite 数据库进行存储
+### 使用LitePal 数据库进行存储
 - 其中LitePalTest就是实现了这个简单地例子
+
+### 使用 SQLite 数据库进行存储
+- 其中 DatabaseTest就是使用SQLite实现简单地存储，删除和查询
