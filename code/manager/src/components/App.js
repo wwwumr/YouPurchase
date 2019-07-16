@@ -64,7 +64,14 @@ class App extends React.Component {
         
                             <Switch>
                                 <Route exact path = "/" 
-                                    render = { () => <HomePage fn={ this.setUserName } logIn={this.state.logIn} /> }
+                                    render = { () => 
+                                    <HomePage 
+                                        fn={ this.setUserName } 
+                                        logIn={this.state.logIn} 
+                                        changeBg={ () => {
+                                            document.getElementById("background").style.backgroundImage="url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)";
+                                        }}
+                                    /> }
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
