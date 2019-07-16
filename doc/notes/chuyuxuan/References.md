@@ -30,5 +30,9 @@
 * https://blog.csdn.net/wqc19920906/article/details/82193316 MQ介绍
 * https://blog.csdn.net/wang_shuyu/article/details/80279535 一个示例，可能没什么用
 * https://docs.spring.io/spring-boot/docs/2.1.6.RELEASE/reference/html/boot-features-messaging.html springboot文档中对message queue的介绍
+* https://www.rabbitmq.com/tutorials/tutorial-one-java.html
 
 ## Prometheus + Grafana
+
+## Others
+* 根据经纬度计算球面两点距离 https://www.cnblogs.com/softfair/p/distance_of_two_latitude_and_longitude_points.html

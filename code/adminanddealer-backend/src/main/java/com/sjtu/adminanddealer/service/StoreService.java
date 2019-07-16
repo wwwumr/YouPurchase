@@ -80,4 +80,12 @@ public interface StoreService {
      * @return 新图片的路径
      */
     String updateStoreCoverPic(MultipartFile file, Long storeId, String coverPicUrl);
+
+    /**
+     * 修改店铺的配送方式
+     *
+     * @param type 配送方式，0代表自己配送；1代表外部配送（蜂鸟）
+     * @param storeId 店铺id
+     */
+    void updateStoreDeliveryType(Integer type, Long storeId);
 }

@@ -66,6 +66,7 @@ public class StoreServiceTest {
         store.setStoreName("testStoreName");
         store.setOpenHourStart(new Date());
         store.setOpenHourEnd(new Date());
+        store.setDeliveryType(0);
 
         Store store1 = new Store();
         store1.setAddress("taddr1");
@@ -78,6 +79,7 @@ public class StoreServiceTest {
         store1.setLatitude(56.232);
         store1.setOpenHourStart(new Date());
         store1.setOpenHourEnd(new Date());
+        store1.setDeliveryType(0);
 
         ArrayList<Store> stores = new ArrayList<>();
         stores.add(store);
@@ -101,6 +103,7 @@ public class StoreServiceTest {
         store.setStoreName("testStoreName");
         store.setOpenHourStart(new Date());
         store.setOpenHourEnd(new Date());
+        store.setDeliveryType(0);
 
         given(this.storeDao.getStoreByStoreId(1L)).willReturn(store);
 

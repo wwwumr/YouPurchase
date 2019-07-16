@@ -84,6 +84,7 @@ public class StoreDaoTest {
         store.setAttached(false);
         store.setOpenHourStart(new Date());
         store.setOpenHourEnd(new Date());
+        store.setDeliveryType(0);
         Long newId = storeDao.addAStore(store);
         Assert.assertNotNull(newId);
         storeDao.deleteStore(newId);

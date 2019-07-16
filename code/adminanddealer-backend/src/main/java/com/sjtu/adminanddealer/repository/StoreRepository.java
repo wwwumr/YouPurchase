@@ -40,4 +40,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     void deleteStoreByStoreId(Long storeId);
 
+    @Modifying
+    @Query(value = "update `store` set `delivery_type` = :deliveryType where `store_id` = :storeId", nativeQuery = true)
+    void updateStoreDelivery(@Param("delivery_type")Integer type, @Param("storeId")Long storeId);
 }

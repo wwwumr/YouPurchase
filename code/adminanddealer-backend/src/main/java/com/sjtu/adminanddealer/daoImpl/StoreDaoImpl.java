@@ -73,4 +73,11 @@ public class StoreDaoImpl implements StoreDao {
     public void updateStoreCoverPic(Long storeId, String coverPicUrl) {
         storeRepository.updateStorePicUrl(storeId, coverPicUrl);
     }
+
+    @Override
+    public void updateStoreDeliveryType(Integer type, Long storeId) {
+        if(storeRepository.existsById(storeId)){
+            storeRepository.updateStoreDelivery(type, storeId);
+        }
+    }
 }

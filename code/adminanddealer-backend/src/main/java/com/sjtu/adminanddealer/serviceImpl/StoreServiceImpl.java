@@ -63,6 +63,7 @@ public class StoreServiceImpl implements StoreService {
             String endHour = dateFormat.format(s.getOpenHourEnd());
             String[] hours = {startHour, endHour};
             storeDTO.setHours(hours);
+            storeDTO.setDeliveryType(s.getDeliveryType());
 
             storeDTOList.add(storeDTO);
 
@@ -84,7 +85,7 @@ public class StoreServiceImpl implements StoreService {
         if (store.getDealer() != null) {
             StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
                     store.getCoverPicUrl(), store.getContact(), hours,
-                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName());
+                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName(), store.getDeliveryType());
             return dto;
         } else {
             StoreDTO dto = new StoreDTO();
@@ -94,6 +95,7 @@ public class StoreServiceImpl implements StoreService {
             dto.setCoverPicUrl(store.getCoverPicUrl());
             dto.setContact(store.getContact());
             dto.setHours(hours);
+            dto.setDeliveryType(store.getDeliveryType());
             return dto;
         }
     }
@@ -115,6 +117,7 @@ public class StoreServiceImpl implements StoreService {
         Date end = castStringToDate(storeParameter.getHours()[1]);
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
+        store.setDeliveryType(0);
         Long newId = storeDao.addAStore(store);
 
         JSONObject jsonObject = new JSONObject();
@@ -207,6 +210,11 @@ public class StoreServiceImpl implements StoreService {
 //            System.out.println(i);
             return newUrl;
         }
+    }
+
+    @Override
+    public void updateStoreDeliveryType(Integer type, Long storeId) {
+        storeDao.updateStoreDeliveryType(type, storeId);
     }
 
     /**

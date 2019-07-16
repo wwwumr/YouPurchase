@@ -24,11 +24,13 @@ public class StoreDTO {
 
     private String dealerName;
 
+    private Integer deliveryType;
+
     /* constructor */
     public StoreDTO() {
     }
 
-    public StoreDTO(Long key, String storeName, String address, String coverPicUrl, String contact, String[] hours, Integer dealerId, String dealerName) {
+    public StoreDTO(Long key, String storeName, String address, String coverPicUrl, String contact, String[] hours, Integer dealerId, String dealerName, Integer deliveryType) {
         this.key = key;
         this.storeName = storeName;
         this.address = address;
@@ -37,6 +39,7 @@ public class StoreDTO {
         this.hours = hours;
         this.dealerId = dealerId;
         this.dealerName = dealerName;
+        this.deliveryType = deliveryType;
     }
 
     /* getter and setter */
@@ -104,4 +107,11 @@ public class StoreDTO {
         this.dealerName = dealerName;
     }
 
+    public Integer getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
+    }
 }

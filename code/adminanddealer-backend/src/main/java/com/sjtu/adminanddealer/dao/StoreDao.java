@@ -77,4 +77,12 @@ public interface StoreDao {
      * @param coverPicUrl 新图片的url
      */
     void updateStoreCoverPic(Long storeId, String coverPicUrl);
+
+    /**
+     * 修改店铺的配送方式
+     *
+     * @param type 配送方式：0 默认自己配送 ；1：外部配送
+     * @param storeId 店铺id
+     */
+    void updateStoreDeliveryType(Integer type, Long storeId);
 }
