@@ -1,5 +1,6 @@
 package com.sjtu.deliverymock.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sjtu.deliverymock.util.JsonUtils;
 import com.sjtu.deliverymock.util.URLUtils;
@@ -68,6 +69,10 @@ public class ElemeCreateOrderRequest extends AbstractRequest {
 		 */
 		private TransportInfo transport_info;
 		/**
+		 * 下单时间
+		 */
+		private Long order_add_time;
+		/**
 		 * 订单总金额（不包含商家的任何活动以及折扣的金额）
 		 */
 		private BigDecimal order_total_amount;
@@ -111,10 +116,6 @@ public class ElemeCreateOrderRequest extends AbstractRequest {
 		 * 需要送达时间
 		 */
 		private long require_receive_time;
-		/**
-		 * 下单时间
-		 */
-		private Long order_add_time;
 		/**
 		 * 订单重量
 		 */
