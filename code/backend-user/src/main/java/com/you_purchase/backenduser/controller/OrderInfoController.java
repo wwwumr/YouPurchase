@@ -2,8 +2,10 @@ package com.you_purchase.backenduser.controller;
 
 
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
+import com.you_purchase.backenduser.parameter.PayParameter;
 import com.you_purchase.backenduser.service.OrderInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,9 +23,28 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户新增订单")
-    int addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
+    OrderPayDTO addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
         return orderInfoService.addOrder(orderInfoParameter);
     }
+
+    //用户支付订单
+    @RequestMapping(value = "/order/pay",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户支付订单")
+    boolean OrderPay(@RequestBody  PayParameter payParameter){
+        return orderInfoService.OrderPay(payParameter);
+    }
+
+    //模拟第三方接口,确认具体支付方式后删除
+    @RequestMapping(value = "/order/thirdPay",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "第三方模拟接口")
+    PayParameter ThirdPay(@RequestBody PayParameter payParameter){
+        return orderInfoService.ThirdPay(payParameter);
+    }
+
 
     //用户查看订单
     @RequestMapping(value = "/order/userCheck",method = RequestMethod.POST)

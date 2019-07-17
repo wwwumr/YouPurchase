@@ -27,6 +27,8 @@ public class OrderInfo {
     //订单是否可用
     private boolean valid;
 
+    private boolean judged;
+
     @OneToMany(targetEntity = OrderItem.class)
     @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
             inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
@@ -35,6 +37,7 @@ public class OrderInfo {
 
     public void setOrderInfo(OrderInfoParameter orderInfoParameter){
         this.setValid(true);
+        this.setJudged(false);
         this.setStatus(0);
         this.setUserId(orderInfoParameter.getUserId());
         this.setStoreId(orderInfoParameter.getStoreId());
@@ -48,6 +51,13 @@ public class OrderInfo {
 
     //getter and setter
 
+    public boolean isJudged() {
+        return judged;
+    }
+
+    public void setJudged(boolean judged) {
+        this.judged = judged;
+    }
 
     public long getOrderInfoId() {
         return orderInfoId;

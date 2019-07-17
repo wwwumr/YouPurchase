@@ -29,4 +29,11 @@ public class GradeController extends BaseController {
     List<GradeDTO> GradeShow(long storeId){
         return gradeService.GradeShow(storeId);
     }
+
+    //删除评论
+    @RequestMapping(value = "/grade/delete",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "删除评论")
+    int GradeDelete(long gradeId){return gradeService.GradeDelete(gradeId);}
 }

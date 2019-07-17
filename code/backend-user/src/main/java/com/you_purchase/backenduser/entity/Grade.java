@@ -21,6 +21,8 @@ public class Grade {
 
     private long storeId;
 
+    private long orderInfoId;
+
     private double score;
 
     private String content;
@@ -35,6 +37,7 @@ public class Grade {
         this.setStoreId(gradeParameter.getStoreId());
         this.setUserId(gradeParameter.getUserId());
         this.setCreateDate(gradeParameter.getCreateDate());
+        this.setOrderInfoId(gradeParameter.getOrderInfoId());
         this.setValid(true);
     }
 
@@ -42,6 +45,14 @@ public class Grade {
 
 
     //getter and setter
+
+    public long getOrderInfoId() {
+        return orderInfoId;
+    }
+
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
+    }
 
     public String getCreateDate() {
         return createDate;
