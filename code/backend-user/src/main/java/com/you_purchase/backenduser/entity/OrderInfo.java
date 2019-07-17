@@ -18,7 +18,7 @@ public class OrderInfo {
     private long userId;
 
     private long storeId;
-    //执行状态，0：待接单 1：待发货 2：配送中 3：已收货
+    //执行状态，0：未支付 1：待发货 2：配送中 3：已送达
     private int status;
 
     private String createDate;

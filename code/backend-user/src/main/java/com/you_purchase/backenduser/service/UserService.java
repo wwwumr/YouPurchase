@@ -1,18 +1,30 @@
 package com.you_purchase.backenduser.service;
 
+
+import com.alibaba.fastjson.JSONObject;
+import com.you_purchase.backenduser.Sms.Message;
+import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.parameter.SmsParameter;
 import com.you_purchase.backenduser.parameter.UserLoginParameter;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
 import com.you_purchase.backenduser.parameter.UserRegParameter;
+import com.zhenzi.sms.ZhenziSmsClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import javax.xml.ws.spi.http.HttpHandler;
+import java.util.Random;
+
 @Service
 public class UserService extends BaseService{
-    //用户注册
+/*    //用户注册
     public UserInfoDTO UserReg(UserRegParameter userRegParameter){
         User user = userDao.findByPhoneAndValid(userRegParameter.getPhone(),true);
         if(user != null){
@@ -28,7 +40,8 @@ public class UserService extends BaseService{
             return new UserLoginDTO(200,user1);
         }
         return new UserLoginDTO(403,null);
-    }
+    }*/
+
     //用户登陆
     public UserLoginDTO UserLogin(UserLoginParameter userLoginParameter){
         System.out.println("开始登陆");
@@ -82,4 +95,57 @@ public class UserService extends BaseService{
             return newPhoto;
         }
     }
+
+
+
+    //短信申请注册
+    private String apiUrl = "https://sms_developer.zhenzikj.com";
+    private String appId = "102064";
+    private String appSecret = "a280ea22-e4d6-4a2b-a564-85c62434616f";
+    public int GetCode(String phone) throws Exception {
+        User user = userDao.findByPhoneAndValid(phone,true);
+        if(user != null){
+            System.out.println( "该手机已注册");
+            return 403;
+        }
+        try{
+            JSONObject json = null;
+            //随机生成验证码
+            String code = String .valueOf(new Random().nextInt(999999));
+            //调用榛子云接口发送短信
+            ZhenziSmsClient client = new ZhenziSmsClient(apiUrl,appId,appSecret);
+            String result = client.send(phone, "您的验证码为:" + code + "，该码有效期为5分钟，该码只能使用一次!");
+            json = JSONObject.parseObject(result);
+            if(json.getIntValue("code")!=0){
+                return 402;
+            }
+            //保存相关信息，并存入创建时间
+            Message message = new Message();
+            long time = System.currentTimeMillis()/1000;
+            message.setSmsInfo(phone,code,time);
+            smsDao.save(message);
+            return 200;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 200;
+    }
+
+    //短信验证
+    public int SmsRegister(SmsParameter smsParameter){
+     Message msg = smsDao.findByMessageId(smsParameter.getMsgId());
+     System.out.println("开始验证");
+     if(!msg.getCode().equals(smsParameter.getCode())){
+         System.out.println("验证码错误");
+         return 403;
+     }
+     if(smsParameter.getTime() - msg.getTime()>300){
+         System.out.println("验证码超时");
+         return 402;
+     }
+     return 200;
+    }
+
+    //用户支付——调用另一个工程的接口
+    public int pay
 }
