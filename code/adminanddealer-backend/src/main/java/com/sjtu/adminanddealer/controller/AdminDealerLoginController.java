@@ -8,12 +8,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.servlet.http.HttpSession;
 
 /**
  * @author Chuyuxuan
  */
+@CrossOrigin
 @RestController
 public class AdminDealerLoginController {
 

@@ -22,6 +22,10 @@ class App extends React.Component {
         }
     }
 
+    componentDidMount() {
+        
+    }
+
     setUserName = (userName) => {
         this.setState({
             userName : userName,

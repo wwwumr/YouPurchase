@@ -29,7 +29,6 @@ class GoodsManage extends React.Component {
         })
     }
 
-
     handleClick = (e) => {
         const key = parseInt(e.target.parentNode.className);
         var goodsList = this.state.goodsList.filter((elem) => {

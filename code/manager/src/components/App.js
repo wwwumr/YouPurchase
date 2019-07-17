@@ -3,12 +3,15 @@ import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import { hashHistory } from 'react-dom'
 import 'antd/dist/antd.css';
 import { Layout, Menu, Avatar } from 'antd';
+import axios from 'axios';
 import HomePage from './HomePage';
 import DealerManage from './dealerManage/DealerManage';
 import ShopManage from './shopManage/ShopManage';
 import ShopDetail from './shopManage/shopDetail/ShopDetail';
 import DealerMessage from './dealerManage/dealerMessage/DealerMessage';
 import config from '../config/config';
+
+axios.defaults.withCredentials = true;
 
 const { Header, Content, Footer} = Layout;
 

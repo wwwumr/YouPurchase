@@ -19,7 +19,7 @@ class HomePage extends React.Component {
                 fontWeight: "bold",
             }}>
                 <WrappedNormalLoginForm
-                    fn = { this.props.fn }
+                    fn = { props.fn }
                 />
             </div>
         );
@@ -30,7 +30,7 @@ class HomePage extends React.Component {
         return (
             <div style={{ position:"relative", top:'100px', textAlign:'center' }}>  
                 <Title level={1} style={{color: "white"}} > 欢迎登录优邻购管理系统 </Title>  
-                <this.LogInForm />
+                <this.LogInForm fn={this.props.fn} />
             </div> 
         );
     }
