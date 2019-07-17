@@ -42,5 +42,5 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 
     @Modifying
     @Query(value = "update `store` set `delivery_type` = :deliveryType where `store_id` = :storeId", nativeQuery = true)
-    void updateStoreDelivery(@Param("delivery_type")Integer type, @Param("storeId")Long storeId);
+    void updateStoreDelivery(@Param("deliveryType") Integer type, @Param("storeId") Long storeId);
 }

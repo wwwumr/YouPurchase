@@ -67,6 +67,20 @@ public class CommodityController {
     }
 
     /**
+     * 删除商品信息.
+     *
+     * @param data 需要删除的商品id
+     * @return DELETE
+     */
+    @DeleteMapping("/commodities")
+    public String deleteCommodities(@RequestBody List<Long> data) {
+        for (Long id : data) {
+            commodityService.deleteCommodity(id);
+        }
+        return "DELETE";
+    }
+
+    /**
      * 通过一个商品id的数组请求商品的详细信息.
      *
      * @param data 元素为商品id的数组
