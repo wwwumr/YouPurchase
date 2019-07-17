@@ -25,7 +25,7 @@ public class ImageController {
     private String IMAGE_BASE_DIRECTORY;
 
     @ApiOperation(value = "用户获取头像")
-    @GetMapping(value = "/user/getPhoto", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @GetMapping(value = "/user/getPhoto/{picUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
         File file = null;
         FileInputStream inputStream = null;

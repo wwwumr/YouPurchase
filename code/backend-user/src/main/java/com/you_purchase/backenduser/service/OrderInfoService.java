@@ -2,12 +2,15 @@ package com.you_purchase.backenduser.service;
 
 
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
+import com.you_purchase.backenduser.parameter.PayParameter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,11 +19,11 @@ import java.util.List;
 @Service
 public class OrderInfoService extends BaseService {
     //用户新增订单
-    public int addOrder(OrderInfoParameter orderInfoParameter){
+    public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter){
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderInfo(orderInfoParameter);
         orderInfoDao.save(orderInfo);
-        return 200;
+        return new OrderPayDTO(orderInfo);
     }
 
     //用户查看不同执行状态的订单
@@ -36,7 +39,8 @@ public class OrderInfoService extends BaseService {
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setTotalPrice(s.getTotalPrice());
+            orderInfoDTO.setCreateDate(s.getCreateDate());
+            orderInfoDTO.setJudged(s.isJudged());
             User user = userDao.findByUserId(s.getUserId());
             orderInfoDTO.setUserName(user.getUserName());
             Store store = storeDao.findByStoreId(s.getStoreId());
@@ -76,6 +80,7 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoModify(long orderInfoId,int status){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
         if(orderInfo == null){
+            System.out.println("不存在该订单");
             return 403;
         }
         orderInfo.setStatus(status);
@@ -86,9 +91,29 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoDelete(long orderInfoId){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
         if(orderInfo == null){
+            System.out.println("不存在该订单");
             return 403;
         }
         orderInfo.setValid(false);
         return 200;
+    }
+
+    //支付订单
+    public boolean OrderPay(PayParameter payParameter){
+        String url = "http://localhost:9000/order/thirdPay";
+        ResponseEntity<PayParameter> responseEntity = restTemplate.postForEntity(url,payParameter,PayParameter.class);
+        if(responseEntity.getBody().getStatus() == 1){
+            OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(responseEntity.getBody().getPayId(),true);
+            orderInfo.setStatus(1);
+            orderInfoDao.save(orderInfo);
+            return true;
+        }
+        return false;
+    }
+
+    //模拟第三方服务
+    public PayParameter ThirdPay(PayParameter payParameter){
+        payParameter.setStatus(1);
+        return payParameter;
     }
 }

@@ -16,7 +16,6 @@ public class GradeDTO {
 
 
     //getter and setter
-
     public String getUserName() {
         return userName;
     }

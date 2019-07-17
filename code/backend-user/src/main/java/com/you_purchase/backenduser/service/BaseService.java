@@ -7,6 +7,7 @@ import com.you_purchase.backenduser.entity.User;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -31,4 +32,6 @@ public class BaseService {
     protected FileUploadUtil fileUploadUtil;
     @Autowired
     protected DeliveryAddressDao deliveryAddressDao;
+    @Autowired
+    protected  RestTemplate restTemplate;
 }

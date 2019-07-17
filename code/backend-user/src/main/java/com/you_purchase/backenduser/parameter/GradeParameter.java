@@ -5,6 +5,8 @@ public class GradeParameter {
 
     private long storeId;
 
+    private long orderInfoId;
+
     private double score;
 
     private String content;
@@ -13,6 +15,14 @@ public class GradeParameter {
 
 
     //getter and setter
+
+    public long getOrderInfoId() {
+        return orderInfoId;
+    }
+
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
+    }
 
     public String getCreateDate() {
         return createDate;

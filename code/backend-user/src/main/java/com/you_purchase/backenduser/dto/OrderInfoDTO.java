@@ -19,6 +19,8 @@ public class OrderInfoDTO {
 
     private String createDate;
 
+    private boolean judged;
+
     List<OrderItem> orderItemList;
 
 
@@ -30,6 +32,13 @@ public class OrderInfoDTO {
 
     //getter and setter
 
+    public boolean isJudged() {
+        return judged;
+    }
+
+    public void setJudged(boolean judged) {
+        this.judged = judged;
+    }
 
     public List<OrderItem> getOrderItemList() {
         return orderItemList;

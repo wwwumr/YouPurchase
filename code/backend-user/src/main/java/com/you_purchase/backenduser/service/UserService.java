@@ -96,6 +96,19 @@ public class UserService extends BaseService{
         }
     }
 
+    //禁用某个用户
+    public int UserBlock(long userId){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        if(user == null){
+            System.out.println("该用户不存在或已经被屏蔽");
+            return 403;
+        }
+        user.setValid(false);
+        userDao.save(user);
+        return 200;
+
+    }
+
 
 
     //短信申请注册
@@ -131,21 +144,24 @@ public class UserService extends BaseService{
         return 200;
     }
 
-    //短信验证
-    public int SmsRegister(SmsParameter smsParameter){
+    //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
+    public long SmsRegister(SmsParameter smsParameter){
      Message msg = smsDao.findByMessageId(smsParameter.getMsgId());
      System.out.println("开始验证");
      if(!msg.getCode().equals(smsParameter.getCode())){
          System.out.println("验证码错误");
-         return 403;
+         return -403;
      }
      if(smsParameter.getTime() - msg.getTime()>300){
          System.out.println("验证码超时");
-         return 402;
+         return -402;
      }
-     return 200;
+     User user =new User();
+     user.setPhone(smsParameter.getPhone());
+     user.setValid(false);
+     userDao.save(user);
+     long id = user.getUserId();
+     return id;
     }
 
-    //用户支付——调用另一个工程的接口
-    public int pay
 }

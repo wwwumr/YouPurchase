@@ -3,6 +3,7 @@ package com.you_purchase.backenduser.service;
 
 import com.you_purchase.backenduser.dto.GradeDTO;
 import com.you_purchase.backenduser.entity.Grade;
+import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.GradeParameter;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class GradeService extends BaseService {
     public int GradeAdd(GradeParameter gradeParameter){
         Grade grade = new Grade();
         grade.setInfo(gradeParameter);
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(gradeParameter.getOrderInfoId(),true);
+        orderInfo.setJudged(true);
+        orderInfoDao.save(orderInfo);
         gradeDao.save(grade);
         return 200;
     }
@@ -36,5 +40,17 @@ public class GradeService extends BaseService {
             gradeDTOS.add(gradeDTO);
         }
         return gradeDTOS;
+    }
+
+    //删除评论
+    public int GradeDelete(long gradeId){
+        Grade grade = gradeDao.findByGradeIdAndValid(gradeId,true);
+        if(grade == null){
+            System.out.println("该评论不存在或已删除");
+            return 403;
+        }
+        grade.setValid(false);
+        gradeDao.save(grade);
+        return 200;
     }
 }

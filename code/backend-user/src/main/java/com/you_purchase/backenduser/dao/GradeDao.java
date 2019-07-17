@@ -8,5 +8,6 @@ import java.util.List;
 public interface GradeDao extends CrudRepository<Grade,String> {
 
     public List<Grade> findByStoreIdAndValid(long storeId,boolean valid);
+    public Grade findByGradeIdAndValid(long gradeId,boolean valid);
 
 }

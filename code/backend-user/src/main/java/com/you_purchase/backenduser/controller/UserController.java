@@ -80,8 +80,17 @@ public class UserController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "验证码验证")
-    int SmsRegister(@RequestBody SmsParameter smsParameter){
+    long SmsRegister(@RequestBody SmsParameter smsParameter){
         return userService.SmsRegister(smsParameter);
+    }
+
+    //用户拉黑
+    @RequestMapping(value = "/user/black",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户拉黑")
+    int UserBlock(long userId){
+        return userService.UserBlock(userId);
     }
 
     //模拟用户支付，使用template调用虚拟接口
