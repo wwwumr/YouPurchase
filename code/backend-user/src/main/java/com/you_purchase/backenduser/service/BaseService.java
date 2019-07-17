@@ -26,5 +26,7 @@ public class BaseService {
     @Autowired
     protected GradeDao gradeDao;
     @Autowired
+    protected  SmsDao smsDao;
+    @Autowired
     protected FileUploadUtil fileUploadUtil;
 }
