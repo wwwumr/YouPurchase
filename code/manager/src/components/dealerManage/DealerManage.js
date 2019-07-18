@@ -37,9 +37,6 @@ class DealerManage extends React.Component {
         })
     }
 
-    componentDidMount() {
-        document.getElementById("background").style.backgroundImage="none";
-    }
 
     /*****************************************
     ****             antd  函数           **** 

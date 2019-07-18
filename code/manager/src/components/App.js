@@ -25,11 +25,27 @@ class App extends React.Component {
         }
     }
 
+    componentDidMount() {
+        /* 刷新时重新获取用户名信息 */
+        axios.get(config.url.root + "login/userName").then((res) => {
+            this.setUserName(res.data)
+        })
+    }
+
+    /* 当userName不为空时设置userName, 否则改为退出登录 */
     setUserName = (userName) => {
-        this.setState({
-            userName : userName,
-            logIn: true
-        });
+        if (userName !== '' && userName !== null ) {
+            this.setState({
+                userName : userName,
+                logIn: true,
+            });
+        } else {
+            axios.get(config.url.root+"logout");
+            this.setState({
+                userName : '',
+                logIn: false,
+            });
+        }
     }
 
     render() {
@@ -44,11 +60,13 @@ class App extends React.Component {
                                 <Menu.Item key="1">
                                     <Link to="/">
                                         <Avatar size={45} 
-                                            src={config.avatar.url} 
+                                            src={config.url.root + config.avatar.url} 
                                         />
                                     </Link>
                                 </Menu.Item>
-                                <Menu.Item key="2">{ this.state.userName }</Menu.Item> 
+                                <Menu.Item key="2"><Link to="/" onClick={()=>{
+                                    this.setUserName('')
+                                }}>退出登录</Link></Menu.Item> 
                                 <Menu.Item key="3"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
                                 <Menu.Item key="4"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
                             </Menu>
@@ -71,8 +89,13 @@ class App extends React.Component {
                                     <HomePage 
                                         fn={ this.setUserName } 
                                         logIn={this.state.logIn} 
-                                        changeBg={ () => {
-                                            document.getElementById("background").style.backgroundImage="url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)";
+                                        changeBg={ (str) => {
+                                            let node = document.getElementById("background");
+                                            if (str === "initial") {
+                                                node.style.backgroundImage = "initial";
+                                            } else {
+                                                node.style.backgroundImage = config.homePageImageUrl;
+                                            }
                                         }}
                                     /> }
                                 />

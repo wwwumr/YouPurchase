@@ -1,5 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
+import axios from 'axios';
 import config from '../../../../config/config'
 
 
@@ -22,17 +23,20 @@ class AvatarUpload extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: config.dealer.avatarUrl,
+            imageUrl: "",
         };
         
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                imageUrl: this.props.avatar ? this.props.avatar : config.dealer.avatarUrl,
+        axios
+            .get(config.url.dealers + this.props.id)
+            .then(res => {
+                this.setState({
+                    imageUrl: res.data.avatar,
+                })
             })
-        }, 100)     
+
     }
     
     handleChange = info => {

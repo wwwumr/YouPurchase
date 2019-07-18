@@ -1,5 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
+import axios from 'axios';
 import config from '../../../../config/config'
 
 function beforeUpload(file) {
@@ -27,12 +28,13 @@ class ImageUpload extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.shopUrl;
-            this.setState({
-                imageUrl: coverPic,
+        axios
+            .get(config.url.stores + this.props.storeId)
+            .then(res => {
+                this.setState({
+                    imageUrl: res.data.coverPicUrl,
+                })
             })
-        }, 100)
     }
 
     handleChange = info => {

@@ -134,7 +134,7 @@ get /dealers
 返回经销商信息列表
 
 请求某位经销商信息
-get /{dealerId}
+get /dealers/{dealerId}
 返回经销商信息
 
 新建经销商
@@ -170,7 +170,7 @@ get /stores
 返回所有商店信息
 
 用id请求商店信息
-get /{storeId}
+get /stores/{storeId}
 返回指定id的商店
 
 新建店铺

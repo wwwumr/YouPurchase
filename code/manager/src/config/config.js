@@ -13,8 +13,6 @@ var config = {
         }
     },
     dealer: {
-        avatarUrl: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        manAvatar: "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1700741544,1951185347&fm=27&gp=0.jpg",
         originDealer: {   
             key: null,
             userName: "",
@@ -39,18 +37,14 @@ var config = {
     },
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
-        url: "http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg",
         maxCapicity: 2 << 21,
         storeAction: "http://localhost:9000/stores/cover/",
         avatarAction: "http://localhost:9000/dealers/avatar/"
     },
-    autoInput: {
-        alt : "店面",
-    },
     avatar: {
-        url: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        url: "image/defaultAvatar.png",
     },
-    homePageImageUrl: "url(http://img.jiuzheng.com/pic/s/53/c7/53c79f851522da7f2b032a44.jpg)",
+    homePageImageUrl: "url(http://localhost:9000/image/defaultLogInCover.png)",
     url: {
         root: "http://localhost:9000/",
         logIn: "http://localhost:9000/login/admin",

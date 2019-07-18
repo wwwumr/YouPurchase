@@ -3,6 +3,7 @@ package com.sjtu.adminanddealer.config;
 import com.sjtu.adminanddealer.mvc.RedisSessionInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @author Chuyuxuan
  */
 @Configuration
+@EnableWebMvc
 public class WebSessionConfig extends WebMvcConfigurationSupport {
     @Bean
     public RedisSessionInterceptor getSessionInterceptor()

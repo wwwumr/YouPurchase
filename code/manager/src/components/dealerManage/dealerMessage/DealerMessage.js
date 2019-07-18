@@ -107,7 +107,7 @@ class DealerMessage extends React.Component {
                 <div 
                     style={{position: "relative", height: "100px", width: "100px", float: "left",}}
                 >
-                    <AvatarUpload avatar={ this.state.dealer.avatar } id={this.props.match.params.key} />
+                    <AvatarUpload id={this.props.match.params.key} />
                 </div>
                 <Input addonBefore="用户名"  style={{ marginBottom : "10px", width: "60%", float: "right"}}
                     value={ this.state.dealer.userName } 

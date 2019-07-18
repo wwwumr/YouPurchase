@@ -1,11 +1,14 @@
 import React from 'react';
-import { Input, message, Popconfirm, Button } from 'antd';
+import { Input, message, Popconfirm, Button, TimePicker } from 'antd';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 //import shopMock from '../../../mock/shopMock';
 import ImageUpload from './shopDetail/ImageUpload';
 import DealerAutoInput from './shopDetail/DealerAutoInput';
 import config from '../../../config/config';
+
+
 
 class ShopDetail extends React.Component {
     constructor(props) {
@@ -86,9 +89,10 @@ class ShopDetail extends React.Component {
 
     checkShop(shop, originShop) {
         if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.hours[0] !== originShop.hours[0]
-            || shop.hours[1] !== originShop.hours[1] || shop.storeName !== originShop.storeName
-            || shop.dealerName !== originShop.dealerName) {
+            || shop.hours[0] !== originShop.hours[0] || shop.hours[1] !== originShop.hours[1]
+            || shop.storeName !== originShop.storeName || shop.dealerName !== originShop.dealerName
+            
+            ) {
             
             return true;
         } 
@@ -102,7 +106,7 @@ class ShopDetail extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "30px", marginTop: "50px"}}
             >
-            <ImageUpload coverPic={this.state.shop.coverPicUrl} storeId={this.state.shop.key} />
+            <ImageUpload storeId={this.props.match.params.key} />
             </div>
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}
@@ -199,6 +203,17 @@ class ShopDetail extends React.Component {
                 >
                 确认修改
                 </Button>
+                <TimePicker 
+                    value = {this.state.shop.hours[0]}
+                    format = "HH:mm"
+                    onChange={(time) => {
+                        var shop = this.state.shop;
+                        shop.hours[0] = time;
+                        this.setState({
+                            shop: shop,
+                        })
+                    }} 
+                />;
             </div>
         </div>
         );

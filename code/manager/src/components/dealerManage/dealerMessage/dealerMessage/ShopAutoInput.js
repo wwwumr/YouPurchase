@@ -16,7 +16,7 @@ function renderOption(item) {
             <span style={{marginLeft: "20px"}} >
                 <img style={{height: "40px"}} 
                     src={config.url.root+item.coverPicUrl} 
-                    alt={config.autoInput.alt} 
+                    alt="店面"
                 />
             </span>
             <span className="global-search-item-desc" style={{marginLeft: "30px"}}>

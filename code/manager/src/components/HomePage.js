@@ -7,7 +7,11 @@ const { Title } = Typography;
 class HomePage extends React.Component {
 
     componentDidMount() {
-        this.props.changeBg()
+        this.props.changeBg("setImage");
+    }
+
+    componentWillUnmount() {
+        this.props.changeBg("initial");
     }
 
     LogInForm = (props) => {

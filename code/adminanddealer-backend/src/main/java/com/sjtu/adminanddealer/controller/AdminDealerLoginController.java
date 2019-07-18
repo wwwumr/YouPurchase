@@ -3,6 +3,8 @@ package com.sjtu.adminanddealer.controller;
 import com.sjtu.adminanddealer.entity.Admin;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
+import com.sun.org.apache.xpath.internal.SourceTree;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,7 @@ public class AdminDealerLoginController {
         if (admin != null) {
             session.setAttribute("loginUserId", admin.getAdminId());
             session.setAttribute("loginType","ADMIN");
+            session.setAttribute("userName", admin.getUserName());
             adminDealerLoginService.addSessionIdToRedis("loginUser:"+admin.getAdminId(),session.getId());
 //            session.setAttribute("admin", admin);
             return "ADMIN";
@@ -46,6 +49,7 @@ public class AdminDealerLoginController {
         if (dealer != null) {
             session.setAttribute("loginUserId", dealer.getDealerId());
             session.setAttribute("loginUserType","DEALER");
+            session.setAttribute("userName", dealer.getUserName());
             adminDealerLoginService.addSessionIdToRedis("loginUser:"+dealer.getDealerId(), session.getId());
             // session.setAttribute("dealer", dealer);
             return "DEALER";
@@ -59,23 +63,22 @@ public class AdminDealerLoginController {
         // session.removeAttribute("dealer");
         // session.removeAttribute("admin");
         Long id = (Long)session.getAttribute("loginUserId");
-        if(id!=null){
+        //if(id!=null){
             session.removeAttribute("loginUserId");
             session.removeAttribute("loginUserType");
+            session.removeAttribute("userName");
             adminDealerLoginService.deleteSessionId("loginUser:"+id);
-        }
+        //}
         return "LOGOUT";
     }
 
-    // TODO: 这里需要修改实现方式
     @GetMapping("/login/userName")
     public String getUserNameFromSession(HttpSession session) {
-        if (session.getAttribute("admin") != null) {
-            return ((Admin) session.getAttribute("admin")).getUserName();
-        } else if (session.getAttribute("dealer") != null) {
-            return ((Dealer) session.getAttribute("dealer")).getUserName();
+        String userName = (String)session.getAttribute("userName");
+        if(userName!=null){
+            return userName;
         } else {
-            return "NULL";
+            return "";
         }
     }
 

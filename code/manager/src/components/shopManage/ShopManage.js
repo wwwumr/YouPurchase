@@ -20,7 +20,6 @@ class ShopManage extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementById("background").style.backgroundImage="none";
         /* axios */
         axios.get(config.url.stores)
             .then((res) => {
