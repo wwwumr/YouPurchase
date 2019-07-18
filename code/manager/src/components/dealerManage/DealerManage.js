@@ -138,13 +138,13 @@ class DealerManage extends React.Component {
 
     removeDealer = () => {
         let dealerData = this.state.dealerData;
-        var tmpArray = new Array();
+        let count = 0;
         this.state.selectedRows.forEach(element => {
             if(element.storeName !== null){
-                tmpArray.push(element);
+                count++;
             }
         });
-        if(tmpArray.length > 0){
+        if(count > 0){
             message.warn("选中存在已经被授权经营的经销商，暂时无法删除")
             return;
         } else {

@@ -91,7 +91,7 @@ class ShopAutoInput extends React.Component {
                 dataSource={dataSource.map(renderOption)}
                 onSelect={ this.handleSelect }
                 onSearch={ this.handleSearch }
-                disabled={ this.props.storeName !== null }
+                disabled={ this.props.storeName !== null && this.props.storeName !== ''}
             >
                 <Input
                     suffix={

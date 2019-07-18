@@ -14,8 +14,8 @@ class ShopDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            shop: config.shop.originShop,
-            originShop: config.shop.originShop,
+            shop: Object.assign({}, config.shop.originShop),
+            originShop: Object.assign({}, config.shop.originShop),
         }
     }
 
@@ -23,9 +23,7 @@ class ShopDetail extends React.Component {
         const key = this.props.match.params.key;
         /* axios function */
         axios.get(config.url.stores + key).then((res) => {
-            const hours = Object.assign([], res.data.hours);
             const originShop = Object.assign({}, res.data);
-            originShop.hours = hours;
             this.setState({
                 shop: res.data,
                 originShop: originShop,
@@ -42,18 +40,18 @@ class ShopDetail extends React.Component {
     /* 最终提交修改信息的函数 */
     handleChange = () => {
         const shop = this.state.shop;
-        /*delete shop["coverPicUrl"];
-        delete shop["dealerName"];*/
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
             /* axios */
-            // var shop = this.state.shop
             axios.put(config.url.stores, 
                     shop
                 ).then((res) => {
                     if (res.data < 0) {
                         message.error("修改失败");
                     } else {
+                        this.setState({
+                            originShop: Object.assign({}, shop),
+                        })
                         message.success("修改成功");
                     }
                 })
@@ -68,13 +66,17 @@ class ShopDetail extends React.Component {
                 if (res.data !== "unbind") {
                     message.error("解除授权失败");
                 } else {
-                    message.success("授权已取消");
                     var shop = this.state.shop;
                     shop.dealerName = "";
                     shop.dealerId = null;
+                    var originShop = this.state.originShop;
+                    originShop.dealerId = null;
+                    originShop.dealerName = '';
                     this.setState({
                         shop: shop,
+                        originShop: originShop,
                     })
+                    message.success("授权已取消");
                 }
             })
         /** 
@@ -89,11 +91,9 @@ class ShopDetail extends React.Component {
 
     checkShop(shop, originShop) {
         if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.hours[0] !== originShop.hours[0] || shop.hours[1] !== originShop.hours[1]
+            || shop.startHour !== originShop.startHour || shop.endHour !== originShop.endHour
             || shop.storeName !== originShop.storeName || shop.dealerName !== originShop.dealerName
-            
             ) {
-            
             return true;
         } 
         return false;
@@ -141,21 +141,29 @@ class ShopDetail extends React.Component {
                         })
                     }}
                 />
-                <Input addonBefore="营业时间" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
-                    value={ this.state.shop.hours[0] } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.hours[0] = e.target.value;
+                <span style={{display: "inline-block", width: "20%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                营业时间
+                </span>
+                <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "35%"}}
+                    value={ moment(this.state.shop.startHour, "HH:mm") }
+                    format="HH:mm"
+                    onChange = {(t) => {
+                        let shop = this.state.shop;
+                        shop.startHour = t ? t.format("HH:mm") : "00:00";
                         this.setState({
                             shop: shop,
                         })
                     }}
                 />
-                <Input addonBefore="结束时间" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
-                    value={ this.state.shop.hours[1] }
-                    onChange = {(e) => {
+                <span style={{display: "inline-block", width: "10%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                 ~ 
+                </span>
+                <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "35%"}}  
+                    value={ moment(this.state.shop.endHour ? this.state.shop.endHour : "00:00", "HH:mm") }
+                    format="HH:mm"
+                    onChange = {(t) => {
                         var shop = this.state.shop;
-                        shop.hours[1] = e.target.value;
+                        shop.endHour = t ? t.format("HH:mm") : "00:00";
                         this.setState({
                             shop: shop,
                         })
@@ -176,7 +184,9 @@ class ShopDetail extends React.Component {
                     取消授权
                     </Button>
                 </Popconfirm>
-                <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}} >
+                <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}} 
+                    disabled = {!this.state.shop.dealerName}
+                >
                     <Link 
                         to = {{
                             pathname: "/dealerManage/dealerMessage/",
@@ -203,17 +213,6 @@ class ShopDetail extends React.Component {
                 >
                 确认修改
                 </Button>
-                <TimePicker 
-                    value = {this.state.shop.hours[0]}
-                    format = "HH:mm"
-                    onChange={(time) => {
-                        var shop = this.state.shop;
-                        shop.hours[0] = time;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }} 
-                />;
             </div>
         </div>
         );
