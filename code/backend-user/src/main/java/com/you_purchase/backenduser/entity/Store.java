@@ -40,7 +40,11 @@ public class Store {
 
     private Date openHourEnd;
 
+    // 表示店铺是否有经销商管理
     private boolean attached;
+
+    // 店铺的配送方式：0表示自己配送，1表示使用外部配送（蜂鸟）
+    private Integer deliveryType;
 
     @OneToOne
     @JsonIgnoreProperties(value = {"store"})
@@ -56,7 +60,7 @@ public class Store {
     public Store() {
     }
 
-    public Store(String storeName, String coverPicUrl, String address, double longitude, double latitude, String contact, Date openHourStart, Date openHourEnd, boolean attached, Dealer dealer, List<Commodity> commodityList) {
+    public Store(String storeName, String coverPicUrl, String address, double longitude, double latitude, String contact, Date openHourStart, Date openHourEnd, boolean attached, Integer deliveryType, Dealer dealer, List<Commodity> commodityList) {
         this.storeName = storeName;
         this.coverPicUrl = coverPicUrl;
         this.address = address;
@@ -66,6 +70,7 @@ public class Store {
         this.openHourStart = openHourStart;
         this.openHourEnd = openHourEnd;
         this.attached = attached;
+        this.deliveryType = deliveryType;
         this.dealer = dealer;
         this.commodityList = commodityList;
     }
@@ -151,6 +156,14 @@ public class Store {
         this.attached = attached;
     }
 
+    public Integer getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
     public Dealer getDealer() {
         return dealer;
     }
@@ -170,7 +183,7 @@ public class Store {
     // 这里override toString()方法是因为在有些时候调用时，防止出现无限递归的情况
     @Override
     public String toString() {
-        if(this.getDealer()!=null){
+        if (this.getDealer() != null) {
             return "Store{" +
                     "storeId=" + storeId +
                     ", storeName='" + storeName + '\'' +
@@ -182,7 +195,8 @@ public class Store {
                     ", openHourStart=" + openHourStart +
                     ", openHourEnd=" + openHourEnd +
                     ", attached=" + attached +
-                    ", dealer=" + dealer.getDealerId() +
+                    ", deliveryType=" + deliveryType +
+                    ", dealer=" + dealer +
                     ", commodityList=" + commodityList +
                     '}';
         } else {
@@ -197,6 +211,7 @@ public class Store {
                     ", openHourStart=" + openHourStart +
                     ", openHourEnd=" + openHourEnd +
                     ", attached=" + attached +
+                    ", deliveryType=" + deliveryType +
                     ", dealer=null" +
                     ", commodityList=" + commodityList +
                     '}';
@@ -205,4 +220,3 @@ public class Store {
     }
 
 }
-

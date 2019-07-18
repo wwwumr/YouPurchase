@@ -26,8 +26,9 @@ public class ElemeCreateOrderRequest extends AbstractRequest {
      * @throws JsonProcessingException
      * @throws IOException
      */
-    public String getData() throws IOException {
-        return URLUtils.getInstance().urlEncode(JsonUtils.getInstance().objectToJson(data));
+    public ElemeCreateRequestData getData() {
+//        return URLUtils.getInstance().urlEncode(JsonUtils.getInstance().objectToJson(data));
+        return data;
     }
 
     public void setData(ElemeCreateRequestData data) {

@@ -32,4 +32,6 @@ public class BaseService {
     protected FileUploadUtil fileUploadUtil;
     @Autowired
     protected  RestTemplate restTemplate;
+    @Autowired
+    protected DeliveryAddressDao deliveryAddressDao;
 }

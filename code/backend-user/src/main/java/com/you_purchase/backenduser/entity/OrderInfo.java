@@ -51,6 +51,9 @@ public class OrderInfo {
         this.setTotalPrice(orderInfoParameter.getTotalPrice());
         this.setCreateDate(orderInfoParameter.getCreateDate());
         this.setOrderItemList(orderInfoParameter.getOrderItemList());
+        this.setTarAddress(orderInfoParameter.getTarAddress());
+        this.setTarPeople(orderInfoParameter.getTarPeople());
+        this.setTarPhone(orderInfoParameter.getTarPhone());
     }
 
 
