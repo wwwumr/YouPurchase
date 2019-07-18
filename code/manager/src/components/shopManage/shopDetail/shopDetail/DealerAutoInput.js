@@ -58,6 +58,12 @@ class DealerAutoInput extends React.Component {
     }
 
     handleSearch = value => {
+        axios.get(config.url.unbindDealers)
+            .then((res) => {
+                this.setState({
+                    dealerData: res.data,
+                })
+            })
         if (value === "") {
             const dealerData = this.state.dealerData;
             this.setState({

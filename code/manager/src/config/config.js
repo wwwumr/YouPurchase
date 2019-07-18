@@ -1,13 +1,13 @@
 var config = {
-    shop:   {
-        shopUrl: "image/defaultStoreCover.png",
+    shop: {
         originShop: {
             key: null, 
             storeName: '', 
             address: '', 
             coverPicUrl: "image/defaultStoreCover.png", 
             contact: '', 
-            hours: [],
+            startHour: '',
+            endHour: '',
             dealerId: null,
             dealerName: "",
         }

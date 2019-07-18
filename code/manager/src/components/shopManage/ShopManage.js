@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Button, Icon, Modal, message } from 'antd';
+import { Table, Input, Button, Icon, Modal, message, TimePicker } from 'antd';
 import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 //import shopMock from '../../mock/shopMock'
 import config from '../../config/config';
+import moment from 'moment';
 
 class ShopManage extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class ShopManage extends React.Component {
             searchText: '',
             selectedRowKeys: [], // Check here to configure the default column
             selectedRows: [],
-            shop: config.shop.originShop,
+            shop: Object.assign({}, config.shop.originShop),
             visible: false,
         };
     }
@@ -96,7 +97,7 @@ class ShopManage extends React.Component {
 
     checkShop = (shop) => {
         if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
-            && shop.hours !== [] && shop.storeName !== ""){
+            && shop.startHour !== '' && shop.endHour !== '' && shop.storeName !== ""){
             return true;
         }
         return false;
@@ -116,9 +117,10 @@ class ShopManage extends React.Component {
                     shopData.push(shop);
                     this.setState({
                         shopData: shopData,
-                        shop: config.shop.originShop,
+                        shop: Object.assign({}, config.shop.originShop),
                         visible: false,
                     })
+                    message.success("添加成功")
                 })
         } else {
             message.error("所填不能为空");
@@ -127,36 +129,36 @@ class ShopManage extends React.Component {
 
     removeShop = () => {
         let shopData = this.state.shopData;
-        var tmpArray = new Array();
+        let count = 0;
         this.state.selectedRows.forEach(element => {
             if(element.dealerId !== null){
-                tmpArray.push(element);
+                count++;
             }
         });
-        if(tmpArray.length > 0){
+        if(count > 0){
             message.warn("选中的店铺中存在已经被授权管理的店铺，暂时无法删除")
             return;
-        } else {
-            axios.delete(config.url.stores,{data:this.state.selectedRowKeys})
-            .then((res)=>{
-                if(res.data==="DELETE"){
-                    this.state.selectedRowKeys.forEach(element => {
-                        shopData = shopData.filter((elem) => {
-                            return elem.key !== element;
-                        })
-                    });
-                    this.setState({ 
-                        shopData: shopData,
-                        selectedRowKeys: [],
-                    });
-                    message.info("删除成功")
-                }
-            })
-            .catch((error)=>{
-                console.log(error);
-                message.error("删除失败，请稍后重试");
-            })
-        }  
+        }
+        axios.delete(config.url.stores,{data:this.state.selectedRowKeys})
+        .then((res)=>{
+            if(res.data==="DELETE"){
+                this.state.selectedRowKeys.forEach(element => {
+                    shopData = shopData.filter((elem) => {
+                        return elem.key !== element;
+                    })
+                });
+                this.setState({ 
+                    shopData: shopData,
+                    selectedRowKeys: [],
+                });
+                message.info("删除成功")
+            }
+        })
+        .catch((error)=>{
+            console.log(error);
+            message.error("删除失败，请稍后重试");
+        })
+          
     };
 
 
@@ -186,9 +188,11 @@ class ShopManage extends React.Component {
                     key: '4',
                 },{
                     title: '营业时间',
-                    dataIndex: 'hours',
+                    dataIndex: 'startHour',
                     key: '5',
-                    render: text => <p>{text[0]+" ~ "+text[1]}</p>
+                    render: (text, row, index) => {
+                        return <p>{row.startHour+" ~ "+row.endHour}</p>
+                    }
                 },{
                     title: "修改信息",
                     dataIndex: "key",
@@ -257,22 +261,34 @@ class ShopManage extends React.Component {
                                 this.setState({ shop: shop })
                             }}>
                         </Input> 
-                        <Input  addonBefore="营业开始时间" style={{margin:"10px"}}
-                            value={this.state.shop.hours[0]}
-                            onChange= {(e) => {
+                        <span style={{position: "relative", display: "inline-block", left: 9, width: "30%", marginTop: 10, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                        营业时间
+                        </span>
+                        <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "30%", left: 9}}
+                            value={ moment(this.state.shop.startHour ? this.state.shop.startHour : "00:00", "HH:mm") }
+                            format="HH:mm"
+                            onChange = {(t) => {
                                 let shop = this.state.shop;
-                                shop.hours[0] = e.target.value;
-                                this.setState({ shop: shop })
-                            }}>
-                        </Input>
-                        <Input  addonBefore="营业结束时间" style={{margin:"10px"}}
-                            value={this.state.shop.hours[1]}
-                            onChange= {(e) => {
-                                let shop = this.state.shop;
-                                shop.hours[1] = e.target.value;
-                                this.setState({ shop: shop })
-                            }}>
-                        </Input>
+                                shop.startHour = t ? t.format("HH:mm") : "00:00";
+                                this.setState({
+                                    shop: shop,
+                                })
+                            }}
+                        />
+                        <span style={{position: "relative", display: "inline-block", width: "10%", left: 9, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                        ~ 
+                        </span>
+                        <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "30%", left: 9}}  
+                            value={ moment(this.state.shop.endHour ? this.state.shop.endHour : "00:00", "HH:mm") }
+                            format="HH:mm"
+                            onChange = {(t) => {
+                                var shop = this.state.shop;
+                                shop.endHour = t ? t.format("HH:mm") : "00:00";
+                                this.setState({
+                                    shop: shop,
+                                })
+                            }}
+                        />
                     </div>
                     </Modal>
                     {/* 选中条目 */}
