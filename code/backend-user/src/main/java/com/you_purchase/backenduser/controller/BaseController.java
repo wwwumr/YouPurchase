@@ -1,5 +1,6 @@
 package com.you_purchase.backenduser.controller;
 
+import com.you_purchase.backenduser.service.DeliveryAddressService;
 import com.you_purchase.backenduser.service.GradeService;
 import com.you_purchase.backenduser.service.OrderInfoService;
 import com.you_purchase.backenduser.service.UserService;
@@ -13,4 +14,6 @@ public class BaseController {
     protected OrderInfoService orderInfoService;
     @Autowired
     protected GradeService gradeService;
+    @Autowired
+    protected DeliveryAddressService deliveryAddressService;
 }

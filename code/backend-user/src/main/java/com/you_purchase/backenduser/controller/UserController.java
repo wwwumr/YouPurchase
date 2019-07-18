@@ -18,7 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController extends BaseController {
 
     //用户注册
-/*    @RequestMapping(value = "/user/reg",method = RequestMethod.POST)
+    /*
+   @RequestMapping(value = "/user/reg",method = RequestMethod.POST)
     public
     @ResponseBody
     @ApiOperation(value = "用户注册")

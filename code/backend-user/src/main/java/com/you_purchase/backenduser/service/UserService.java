@@ -148,17 +148,23 @@ public class UserService extends BaseService{
     public long SmsRegister(SmsParameter smsParameter){
      Message msg = smsDao.findByMessageId(smsParameter.getMsgId());
      System.out.println("开始验证");
+     System.out.println(msg.getCode());
      if(!msg.getCode().equals(smsParameter.getCode())){
          System.out.println("验证码错误");
          return -403;
      }
-     if(smsParameter.getTime() - msg.getTime()>300){
+     System.out.println("Yes here");
+     if(smsParameter.getTime() - msg.getTime()>300  || smsParameter.getTime() <= msg.getTime()){
          System.out.println("验证码超时");
          return -402;
      }
+        System.out.println("Yes here2s");
      User user =new User();
      user.setPhone(smsParameter.getPhone());
-     user.setValid(false);
+     user.setPassword(smsParameter.getPassword());
+     user.setValid(true);
+        user.setLongitude(0);
+        user.setLatitude(0);
      userDao.save(user);
      long id = user.getUserId();
      return id;
