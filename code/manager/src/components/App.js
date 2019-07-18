@@ -58,11 +58,11 @@ class App extends React.Component {
                             this.state.userName !== '' &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
-                                    <Link to="/">
-                                        <Avatar size={45} 
-                                            src={config.url.root + config.avatar.url} 
-                                        />
-                                    </Link>
+                                
+                                    <Avatar size={45} 
+                                        src={config.url.root + config.avatar.url} 
+                                    />
+                                
                                 </Menu.Item>
                                 <Menu.Item key="2"><Link to="/" onClick={()=>{
                                     this.setUserName('')

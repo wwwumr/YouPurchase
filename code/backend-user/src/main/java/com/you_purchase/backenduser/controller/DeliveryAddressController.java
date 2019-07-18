@@ -12,7 +12,7 @@ import java.util.List;
  * @author Chuyuxuan
  */
 @RestController
-@RequestMapping("/delivery/address")
+@RequestMapping("/delivery")
 public class DeliveryAddressController extends BaseController {
 
     /**
@@ -20,7 +20,7 @@ public class DeliveryAddressController extends BaseController {
      * @param userId 用户id
      * @return 所有收货地址的列表
      */
-    @GetMapping
+    @GetMapping("/address")
     public List<DeliveryAddress> getAllAddressByUser(@RequestParam("userId")Long userId){
         return deliveryAddressService.getDeliveryAddressByuserId(userId);
     }
@@ -30,7 +30,7 @@ public class DeliveryAddressController extends BaseController {
      * @param parameter 前端发送的数据
      * @return SAVED
      */
-    @PostMapping
+    @PostMapping("/address")
     public String addNewAddress(@RequestBody DeliveryAddressParameter parameter){
         deliveryAddressService.addAddress(parameter);
         return "SAVED";
@@ -41,7 +41,7 @@ public class DeliveryAddressController extends BaseController {
      * @param parameter 前端发送的数据
      * @return UPDATE
      */
-    @PutMapping
+    @PutMapping("/address")
     public String updateAddress(@RequestBody DeliveryAddressParameter parameter){
         deliveryAddressService.updateAddress(parameter);
         return "UPDATE";
@@ -52,9 +52,16 @@ public class DeliveryAddressController extends BaseController {
      * @param deliveryAddressId 需要删除的id
      * @return DELETE
      */
-    @DeleteMapping
+    @DeleteMapping("/address")
     public String deleteAddress(@RequestParam Long deliveryAddressId){
         deliveryAddressService.deleteAddress(deliveryAddressId);
         return "DELETE";
+    }
+
+    @GetMapping
+    public String createDeliveryOrderCallback(@RequestParam("orderId")Long orderId){
+        System.out.println("create order callback, orderId:"+orderId);
+        orderInfoService.OrderInfoModify(orderId, 2);
+        return "ORDER_ON_DELIVERY";
     }
 }

@@ -53,9 +53,9 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 1. 重构hashhistory为browserhistory
 2. 用户名、storeId、dealerId用session记录（登录状态管理，刷新后不消失登录状态）ok
 3. 用webpack打包 https://blog.csdn.net/DFF1993/article/details/80267149
-4. 在经销商、商店信息修改页面，搜索授权的操作易用性很差，操作起来不直观也不方便
-5. 在经销商管理页面，同一页面（不跳转）先授权商店，然后取消授权，下面的搜索框出现disable的状态
-6. 当经销商或者商店未授权时，查看信息的按钮不是disable状态，会跳转到空页面
+4. 在经销商、商店信息修改页面，搜索授权的操作易用性很差，操作起来不直观也不方便 
+5. 在经销商管理页面，同一页面（不跳转）先授权商店，然后取消授权，下面的搜索框出现disable的状态  ok
+6. 当经销商或者商店未授权时，查看信息的按钮不是disable状态，会跳转到空页面      ok
 7. 莫名其妙的会请求一些[https:/zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png]这种请求，应该是在config中的默认设置，可以换成自己的url ok
-8. 商店管理页面，新增后表单不清空,连续添加key改成相同的
-9. 时间格式验证 
+8. 商店管理页面，新增后表单不清空,连续添加key改成相同的 ok
+9. 时间格式验证 ok

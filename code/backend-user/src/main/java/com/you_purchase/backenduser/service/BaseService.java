@@ -33,5 +33,5 @@ public class BaseService {
     @Autowired
     protected  RestTemplate restTemplate;
     @Autowired
-    protected  DeliveryAddressDao deliveryAddressDao;
+    protected DeliveryAddressDao deliveryAddressDao;
 }

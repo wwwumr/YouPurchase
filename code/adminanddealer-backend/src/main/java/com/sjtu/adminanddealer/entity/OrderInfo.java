@@ -1,105 +1,84 @@
 package com.sjtu.adminanddealer.entity;
 
-import com.sjtu.adminanddealer.parameter.OrderPostParameter;
-import lombok.Data;
-
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 订单对应的实体类
- *
- * @author Chuyuxuan
- */
-@Data
 @Entity
 public class OrderInfo {
-
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "orderInfoId")
-    private Long orderInfoId;
-
-    private String storeName;
-
-    //订单状态
-    @Column(length = 5)
-    private String status;
-
-    private String userName;
+    private long orderInfoId;
 
     private long userId;
 
-    private Date createTime;
+    private long storeId;
+    //执行状态，0：未支付 1：待发货 2：配送中 3：已送达
+    private int status;
+
+    //收货者信息
+    private String tarPeople;
+
+    private String tarAddress;
+
+    private String tarPhone;
+
+    private String createDate;
 
     private double totalPrice;
-
-    @OneToMany
-    @JoinColumn(name = "orderItemId")
-    private List<OrderItem> orderItemList;
-
-    //是否可用
+    //订单是否可用
     private boolean valid;
 
+    private boolean judged;
 
-    /*
-     * Deng Xiao
-     * */
-    //获取订单信息并设置
-    public void setOrderInfo(OrderPostParameter orderPostParameter) {
-        this.setStatus("已接单");
-        this.setTotalPrice(orderPostParameter.getTotalPrice());
-        this.setUserId(orderPostParameter.getUserId());
-        this.setOrderItemList(orderPostParameter.getOrderItemList());
-        this.setCreateTime(orderPostParameter.getCreateTime());
-        this.setStoreName(orderPostParameter.getStoreName());
-        this.setValid(true);
-
-    }
-
+    @OneToMany(targetEntity = OrderItem.class)
+    @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
+            inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
+    private List<OrderItem> orderItemList = new ArrayList<>();
 
     //getter and setter
 
-
-    public boolean isValid() {
-        return valid;
+    public String getTarPeople() {
+        return tarPeople;
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    public void setTarPeople(String tarPeople) {
+        this.tarPeople = tarPeople;
     }
 
-    public Long getOrderInfoId() {
+    public String getTarAddress() {
+        return tarAddress;
+    }
+
+    public void setTarAddress(String tarAddress) {
+        this.tarAddress = tarAddress;
+    }
+
+    public String getTarPhone() {
+        return tarPhone;
+    }
+
+    public void setTarPhone(String tarPhone) {
+        this.tarPhone = tarPhone;
+    }
+
+    public boolean isJudged() {
+        return judged;
+    }
+
+    public void setJudged(boolean judged) {
+        this.judged = judged;
+    }
+
+    public long getOrderInfoId() {
         return orderInfoId;
     }
 
-    public void setOrderInfoId(Long orderInfoId) {
+    public void setOrderInfoId(long orderInfoId) {
         this.orderInfoId = orderInfoId;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public long getUserId() {
@@ -110,12 +89,28 @@ public class OrderInfo {
         this.userId = userId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public long getStoreId() {
+        return storeId;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     public double getTotalPrice() {
@@ -124,6 +119,14 @@ public class OrderInfo {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
     public List<OrderItem> getOrderItemList() {

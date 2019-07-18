@@ -1,7 +1,11 @@
 package com.you_purchase.backenduser.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.entity.DeliveryAddress;
+import com.you_purchase.backenduser.entity.OrderInfo;
+import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.parameter.DeliveryAddressParameter;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +51,26 @@ public class DeliveryAddressService extends BaseService {
         if(deliveryAddressDao.existsById(deliveryAddressId)){
             deliveryAddressDao.deleteById(deliveryAddressId);
         }
+    }
+
+    public void thirdDeliveryAfterPay(Long orderInfoId){
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
+        if(orderInfo!=null){
+            Store store = storeDao.findByStoreId(orderInfo.getStoreId());
+            JSONObject json = new JSONObject();
+            json.put("partner_order_code", orderInfoId);
+            json.put("notify_url", "http://localhost:9000/delivery");
+            json.put("receiver_name", orderInfo.getTarPeople());
+            json.put("receiver_phone", orderInfo.getTarPhone());
+            json.put("receiver_address", orderInfo.getTarAddress());
+            json.put("transport_name", store.getStoreName());
+            json.put("transport_address", store.getAddress());
+            json.put("transport_tel", store.getContact());
+            json.put("transport_longitude", store.getLongitude());
+            json.put("transport_latitude", store.getLatitude());
+            String postUrl = "http://localhost:9002/order";
+            ResponseEntity<JSONObject> response = restTemplate.postForEntity(postUrl, json, JSONObject.class);
+        }
+
     }
 }
