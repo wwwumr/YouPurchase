@@ -65,9 +65,8 @@ public class StoreControllerTest {
         json.put("key", 1L);
         json.put("coverPicUrl", "image/default");
 
-        String[] hours = {"8:00", "19:00"};
         StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
-                hours, null);
+                "8:00", "19:00", null);
         given(this.storeService.addAStore(storeParameter)).willReturn(json);
 
         this.mockMvc.perform(post("/stores").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(storeParameter)))
@@ -76,9 +75,8 @@ public class StoreControllerTest {
 
     @Test
     public void testUpdateStore() throws Exception {
-        String[] hours = {"8:00", "19:00"};
         StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
-                hours, null);
+                "8:00", "19:00", null);
         storeParameter.setKey(1L);
         this.mockMvc.perform(put("/stores").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(storeParameter)))
                 .andExpect(status().isOk()).andExpect(content().json("{\"key\":1}"));

@@ -18,7 +18,9 @@ public class StoreDTO {
     private String contact;
 
     /*总共有两个元素,hour[0]营业开始时间,hours[1]结束时间,格式均为HH:mm*/
-    private String[] hours;
+    private String startHour;
+
+    private String endHour;
 
     private Integer dealerId;
 
@@ -30,13 +32,14 @@ public class StoreDTO {
     public StoreDTO() {
     }
 
-    public StoreDTO(Long key, String storeName, String address, String coverPicUrl, String contact, String[] hours, Integer dealerId, String dealerName, Integer deliveryType) {
+    public StoreDTO(Long key, String storeName, String address, String coverPicUrl, String contact, String startHour, String endHour, Integer dealerId, String dealerName, Integer deliveryType) {
         this.key = key;
         this.storeName = storeName;
         this.address = address;
         this.coverPicUrl = coverPicUrl;
         this.contact = contact;
-        this.hours = hours;
+        this.startHour = startHour;
+        this.endHour = endHour;
         this.dealerId = dealerId;
         this.dealerName = dealerName;
         this.deliveryType = deliveryType;
@@ -83,12 +86,20 @@ public class StoreDTO {
         this.contact = contact;
     }
 
-    public String[] getHours() {
-        return hours;
+    public String getStartHour() {
+        return startHour;
     }
 
-    public void setHours(String[] hours) {
-        this.hours = hours;
+    public void setStartHour(String startHour) {
+        this.startHour = startHour;
+    }
+
+    public String getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
     }
 
     public Integer getDealerId() {

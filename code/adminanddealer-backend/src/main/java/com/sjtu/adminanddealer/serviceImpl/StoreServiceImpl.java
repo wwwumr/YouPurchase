@@ -61,8 +61,8 @@ public class StoreServiceImpl implements StoreService {
             }
             String startHour = dateFormat.format(s.getOpenHourStart());
             String endHour = dateFormat.format(s.getOpenHourEnd());
-            String[] hours = {startHour, endHour};
-            storeDTO.setHours(hours);
+            storeDTO.setStartHour(startHour);
+            storeDTO.setEndHour(endHour);
             storeDTO.setDeliveryType(s.getDeliveryType());
 
             storeDTOList.add(storeDTO);
@@ -80,11 +80,10 @@ public class StoreServiceImpl implements StoreService {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm");
         String startHour = dateFormat.format(store.getOpenHourStart());
         String endHour = dateFormat.format(store.getOpenHourEnd());
-        String[] hours = {startHour, endHour};
 
         if (store.getDealer() != null) {
             StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
-                    store.getCoverPicUrl(), store.getContact(), hours,
+                    store.getCoverPicUrl(), store.getContact(), startHour, endHour,
                     store.getDealer().getDealerId().intValue(), store.getDealer().getUserName(), store.getDeliveryType());
             return dto;
         } else {
@@ -94,7 +93,8 @@ public class StoreServiceImpl implements StoreService {
             dto.setAddress(store.getAddress());
             dto.setCoverPicUrl(store.getCoverPicUrl());
             dto.setContact(store.getContact());
-            dto.setHours(hours);
+            dto.setStartHour(startHour);
+            dto.setEndHour(endHour);
             dto.setDeliveryType(store.getDeliveryType());
             return dto;
         }
@@ -113,8 +113,8 @@ public class StoreServiceImpl implements StoreService {
         store.setLatitude(0.0);
         store.setContact(storeParameter.getContact());
         store.setAttached(false);
-        Date start = castStringToDate(storeParameter.getHours()[0]);
-        Date end = castStringToDate(storeParameter.getHours()[1]);
+        Date start = castStringToDate(storeParameter.getStartHour());
+        Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
         store.setDeliveryType(0);
@@ -133,8 +133,8 @@ public class StoreServiceImpl implements StoreService {
         store.setContact(storeParameter.getContact());
         store.setStoreName(storeParameter.getStoreName());
         store.setAddress(storeParameter.getAddress());
-        Date start = castStringToDate(storeParameter.getHours()[0]);
-        Date end = castStringToDate(storeParameter.getHours()[1]);
+        Date start = castStringToDate(storeParameter.getStartHour());
+        Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
 
@@ -185,8 +185,8 @@ public class StoreServiceImpl implements StoreService {
 
             String startHour = dateFormat.format(s.getOpenHourStart());
             String endHour = dateFormat.format(s.getOpenHourEnd());
-            String[] hours = {startHour, endHour};
-            storeDTO.setHours(hours);
+            storeDTO.setStartHour(startHour);
+            storeDTO.setEndHour(endHour);
 
             storeDTOList.add(storeDTO);
 

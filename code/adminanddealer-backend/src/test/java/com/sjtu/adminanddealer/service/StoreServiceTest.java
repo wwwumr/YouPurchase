@@ -121,8 +121,8 @@ public class StoreServiceTest {
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
-        String[] hours = {"7:00", "21:00"};
-        storeParameter.setHours(hours);
+        storeParameter.setStartHour("7:00");
+        storeParameter.setEndHour("21:00");
         given(this.storeDao.addAStore(any())).willReturn(1L);
 
         JSONObject json = storeService.addAStore(storeParameter);
@@ -137,8 +137,8 @@ public class StoreServiceTest {
         storeParameter.setStoreName("postname");
         storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
-        String[] hours = {"7:00", "21:00"};
-        storeParameter.setHours(hours);
+        storeParameter.setStartHour("7:00");
+        storeParameter.setEndHour("21:00");
 
         given(this.storeDao.getStoreByStoreId(1L)).willReturn(new Store());
         // 由于update的函数返回类型是void所以无法mock，这里就是测试调用传值是否有问题

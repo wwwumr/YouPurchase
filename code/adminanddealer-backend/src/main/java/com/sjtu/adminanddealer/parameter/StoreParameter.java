@@ -15,7 +15,9 @@ public class StoreParameter {
 
     private String contact;
 
-    private String[] hours;
+    private String startHour;
+
+    private String endHour;
 
     private Long dealerId;
 
@@ -23,13 +25,13 @@ public class StoreParameter {
     public StoreParameter() {
     }
 
-    public StoreParameter(Long key, String storeName, String address,
-                          String contact, String[] hours, Long dealerId) {
+    public StoreParameter(Long key, String storeName, String address, String contact, String startHour, String endHour, Long dealerId) {
         this.key = key;
         this.storeName = storeName;
         this.address = address;
         this.contact = contact;
-        this.hours = hours;
+        this.startHour = startHour;
+        this.endHour = endHour;
         this.dealerId = dealerId;
     }
 
@@ -66,12 +68,20 @@ public class StoreParameter {
         this.contact = contact;
     }
 
-    public String[] getHours() {
-        return hours;
+    public String getStartHour() {
+        return startHour;
     }
 
-    public void setHours(String[] hours) {
-        this.hours = hours;
+    public void setStartHour(String startHour) {
+        this.startHour = startHour;
+    }
+
+    public String getEndHour() {
+        return endHour;
+    }
+
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
     }
 
     public Long getDealerId() {
