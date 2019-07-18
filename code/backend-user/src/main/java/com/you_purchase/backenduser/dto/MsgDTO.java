@@ -1,5 +1,7 @@
 package com.you_purchase.backenduser.dto;
 
+import com.you_purchase.backenduser.Sms.Message;
+
 public class MsgDTO {
     private long msgId;
 
@@ -8,6 +10,15 @@ public class MsgDTO {
     private String code;
 
     private String phone;
+
+    public  MsgDTO(Message message){
+        if(message != null){
+            this.setMsgId(message.getMessageId());
+            this.setCode(message.getCode());
+            this.setPhone(message.getPhone());
+            this.setTime(message.getTime());
+        }
+    }
 
 
 

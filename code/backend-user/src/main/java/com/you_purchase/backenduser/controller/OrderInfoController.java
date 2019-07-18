@@ -72,10 +72,12 @@ public class OrderInfoController extends BaseController{
     int OrderInfoModify(long orderInfoId,int status){
         return  orderInfoService.OrderInfoModify(orderInfoId,status);
     }
+
     //订单取消
     @RequestMapping(value = "/order/delete",method = RequestMethod.GET)
     public
     @ResponseBody
+    @ApiOperation(value = "删除订单")
     int OrderInfoDelete(long orderInfoId){
         return orderInfoService.OrderInfoDelete(orderInfoId);
     }

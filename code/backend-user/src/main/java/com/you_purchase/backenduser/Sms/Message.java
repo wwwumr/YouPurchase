@@ -17,6 +17,8 @@ public class Message {
 
     private long time;
 
+    private String createTime;
+
     public void setSmsInfo(String phone,String code,long time){
         this.setPhone(phone);
         this.setTime(time);

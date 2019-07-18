@@ -19,7 +19,42 @@ public class OrderInfoParameter {
 
     private String createDate;
 
+    private String tarPeople;
+
+    private String tarAddress;
+
+    private String tarPhone;
+
     private List<OrderItem> orderItemList;
+
+
+
+
+    //getter and setter
+
+    public String getTarPeople() {
+        return tarPeople;
+    }
+
+    public void setTarPeople(String tarPeople) {
+        this.tarPeople = tarPeople;
+    }
+
+    public String getTarAddress() {
+        return tarAddress;
+    }
+
+    public void setTarAddress(String tarAddress) {
+        this.tarAddress = tarAddress;
+    }
+
+    public String getTarPhone() {
+        return tarPhone;
+    }
+
+    public void setTarPhone(String tarPhone) {
+        this.tarPhone = tarPhone;
+    }
 
     public long getUserId() {
         return userId;

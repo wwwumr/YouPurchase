@@ -21,6 +21,13 @@ public class OrderInfo {
     //执行状态，0：未支付 1：待发货 2：配送中 3：已送达
     private int status;
 
+    //收货者信息
+    private String tarPeople;
+
+    private String tarAddress;
+
+    private String tarPhone;
+
     private String createDate;
 
     private double totalPrice;
@@ -50,6 +57,30 @@ public class OrderInfo {
 
 
     //getter and setter
+
+    public String getTarPeople() {
+        return tarPeople;
+    }
+
+    public void setTarPeople(String tarPeople) {
+        this.tarPeople = tarPeople;
+    }
+
+    public String getTarAddress() {
+        return tarAddress;
+    }
+
+    public void setTarAddress(String tarAddress) {
+        this.tarAddress = tarAddress;
+    }
+
+    public String getTarPhone() {
+        return tarPhone;
+    }
+
+    public void setTarPhone(String tarPhone) {
+        this.tarPhone = tarPhone;
+    }
 
     public boolean isJudged() {
         return judged;

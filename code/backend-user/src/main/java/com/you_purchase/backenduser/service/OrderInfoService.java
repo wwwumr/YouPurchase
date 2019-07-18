@@ -41,8 +41,7 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setCreateDate(s.getCreateDate());
             orderInfoDTO.setJudged(s.isJudged());
-            User user = userDao.findByUserId(s.getUserId());
-            orderInfoDTO.setUserName(user.getUserName());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());
             //获取对应订单id的所有商品
@@ -66,8 +65,7 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             Store store = storeDao.findByStoreId(s.getStoreId());
-            User user = userDao.findByUserId(s.getUserId());
-            orderInfoDTO.setUserName(user.getUserName());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setStoreName(store.getStoreName());
             List<OrderItem> orderItemList = orderItemDao.findByOrderInfo(s.getOrderInfoId());
             orderInfoDTO.setOrderItemList(orderItemList);

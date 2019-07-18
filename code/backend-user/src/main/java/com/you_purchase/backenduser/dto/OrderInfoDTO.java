@@ -13,7 +13,7 @@ public class OrderInfoDTO {
 
     private String storeName;
 
-    private String userName;
+    private String tarPeople;
 
     private double totalPrice;
 
@@ -28,9 +28,15 @@ public class OrderInfoDTO {
 
 
 
-
-
     //getter and setter
+
+    public String getTarPeople() {
+        return tarPeople;
+    }
+
+    public void setTarPeople(String tarPeople) {
+        this.tarPeople = tarPeople;
+    }
 
     public boolean isJudged() {
         return judged;
@@ -62,14 +68,6 @@ public class OrderInfoDTO {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public double getTotalPrice() {

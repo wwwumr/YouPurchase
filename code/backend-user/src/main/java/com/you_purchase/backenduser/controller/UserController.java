@@ -1,5 +1,6 @@
 package com.you_purchase.backenduser.controller;
 
+import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.parameter.SmsParameter;
@@ -71,7 +72,7 @@ public class UserController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "用户获取注册验证码")
-    int GetCode(String phone) throws Exception {
+    MsgDTO GetCode(String phone) throws Exception {
         return userService.GetCode(phone);
     }
 

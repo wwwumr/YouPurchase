@@ -115,11 +115,11 @@ public class UserService extends BaseService{
     private String apiUrl = "https://sms_developer.zhenzikj.com";
     private String appId = "102064";
     private String appSecret = "a280ea22-e4d6-4a2b-a564-85c62434616f";
-    public int GetCode(String phone) throws Exception {
+    public MsgDTO GetCode(String phone) throws Exception {
         User user = userDao.findByPhoneAndValid(phone,true);
         if(user != null){
             System.out.println( "该手机已注册");
-            return 403;
+            return null;
         }
         try{
             JSONObject json = null;
@@ -130,18 +130,18 @@ public class UserService extends BaseService{
             String result = client.send(phone, "您的验证码为:" + code + "，该码有效期为5分钟，该码只能使用一次!");
             json = JSONObject.parseObject(result);
             if(json.getIntValue("code")!=0){
-                return 402;
+                return null;
             }
             //保存相关信息，并存入创建时间
             Message message = new Message();
             long time = System.currentTimeMillis()/1000;
             message.setSmsInfo(phone,code,time);
             smsDao.save(message);
-            return 200;
+            return new MsgDTO(message);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return 200;
+        return null;
     }
 
     //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
