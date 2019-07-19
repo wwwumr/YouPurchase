@@ -1,15 +1,22 @@
 import React from 'react'
 import { Typography } from 'antd';
 import WrappedNormalLoginForm from './homePage/WrappedNormalLoginForm';
-import bgimage from '../config/homePageBgImg';
+import config from '../config/config';
 
 const { Title } = Typography;
 
 class HomePage extends React.Component {
 
+    /* 进入主页时开始加载图片 */
     componentDidMount() {
-        document.getElementById("background").style.backgroundImage=bgimage;
+        this.props.changeBg(config.homePage.imageUrl);
     }
+
+    /* 退出主页去除背景图片 */
+    componentWillUnmount() {
+        this.props.changeBg(config.homePage.originBgCmd);
+    }
+
 
     render() {
         return (
@@ -18,11 +25,11 @@ class HomePage extends React.Component {
                     <Title level={1} style={{color: "white"}} > 欢迎登录优邻购商品管理系统 </Title>  
                     <div style={{ position:'relative', left:'37%', width: '25%', fontWeight: "bold"}}>
                         <WrappedNormalLoginForm
-                            setUserName = { this.props.setUserName } 
+                            setUserMessage = { this.props.setUserMessage } 
                         />
                     </div>
                 </div>
-            </div> 
+            </div>  
         );
     }
 }

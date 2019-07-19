@@ -1,7 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
-import avatar from '../../../config/avatar';
-import dealer from '../../../config/dealer';
+import config from '../../../config/config';
 
 
 
@@ -12,12 +11,12 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-    if (avatar.validFormat.indexOf(file.type) < 0) {
+    if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
         message.error('上传的图片应为jpg或png格式!');
         return false;
     }
 
-    if (file.size > avatar.maxCapicity) {
+    if (file.size > config.uploadImage.maxCapicity) {
         message.error('图片大小不应超过2MB!');
         return false;
     }
@@ -30,13 +29,13 @@ class AvatarUpload extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: dealer.avatarUrl,
+            imageUrl: '',
         };
         
     }
 
-    componentWillMount() {
-        var avatar = this.props.avatar ? this.props.avatar : dealer.avatarUrl;
+    componentDidMount() {
+        var avatar = this.props.avatar ? this.props.avatar : config.dealer.avatar;
         this.setState({
             imageUrl: avatar,
         })
@@ -73,7 +72,7 @@ class AvatarUpload extends React.Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action= {avatar.action}
+                action= {config.uploadImage.storeAction}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "125px", height: "125px", 
@@ -86,7 +85,7 @@ class AvatarUpload extends React.Component {
                     <div
                         style={{position: "relative", width: "115px", height: "115px", marginLeft: "-2px", marginTop: "-2px"}}
                     >
-                    <img src={this.state.imageUrl} alt="avatar" 
+                    <img src={this.state.imageUrl} alt="店面" 
                         style={{position: "relative", width: "100%", height: "100%"}} 
                     /> 
                     </div>

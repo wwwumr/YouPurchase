@@ -1,44 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { Input, Button } from 'antd';
-//import axios from 'axios';
-//import dealerData from '../../../mock/dealerMock';
+import axios from 'axios';
 import AvatarUpload from './accountManage/AvatarUpload';
-import dealer from '../../config/dealer';
-import dealerData from '../../mock/dealerMock';
+import config from '../../config/config';
 
 class AccountManage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dealer: dealer.originDealer,
-            originDealer: dealer.originDealer,
+            dealer: Object.assign({}, config.dealer.originDealer),
+            originDealer: Object.assign({}, config.dealer.originDealer),
         }
     }
 
     componentDidMount() {
+        const key = this.props.match.params.key;
         
-        document.getElementById("background").style.backgroundImage="none";
-        const userName = this.props.match.params.userName;
-        
-        /* axios function 
-        axios.get(config.url.dealers+key)
+        /* axios function */
+        axios
+            .get(config.url.dealers + key)
             .then((res) => {
                 this.setState({
                     dealer: res.data,
                     originDealer: Object.assign({}, res.data),
                 })
             })
-        */
-        /* mock */
-        const dealers = dealerData;
-        const dealer = dealers.find((elem) => {
-            return elem.userName === userName;
-        })
-        this.setState({
-            dealer: dealer,
-            originDealer: dealer,
-        })
+        
     }
 
     checkChange = () => {

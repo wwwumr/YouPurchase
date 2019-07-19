@@ -1,48 +1,40 @@
 import React from 'react';
 import { Input, message, Button } from 'antd';
 //import { Link } from 'react-router-dom/cjs/react-router-dom';
-//import axios from 'axios';
-import shopMock from '../../mock/shopMock';
+import axios from 'axios';
 import ImageUpload from './storeManage/ImageUpload';
-import shop from '../../config/shop';
+import config from '../../config/config';
 
 class StoreManage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            shop: shop.originShop,
-            originShop: shop.originShop,
+            shop: Object.assign({}, config.shop.originShop),
+            originShop: Object.assign({}, config.shop.originShop),
         }
     }
 
+    /* 获取商店信息 */
     componentDidMount() {
-        
-        /* axios function 
-        axios.get(config.url.stores + key).then((res) => {
-            this.setState({
-                shop: res.data,
-                originShop: res.data,
+        console.log(this.props.storeId)
+        axios
+            .get(config.url.stores + this.props.storeId)
+            .then((res) => {
+                this.setState({
+                    shop: Object.assign({}, res.data),
+                    originShop: Object.assign({}, res.data),
+                })
             })
-        })*/
-        
-        /* */
-        var shop = shopMock.find((elem)=> {
-            return elem.dealerName === this.props.match.params.userName;
-        })
-        this.setState({
-            shop: shop,
-            originShop: Object.assign({}, shop),
-        })
     }
 
     /* 最终提交修改信息的函数 */
-    handleChange = () => {
+    handleSubmit = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
-            /* axios 
-            var shop = this.state.shop
-            axios.put(config.url.stores, 
+            /* 商店经过信息修改 */
+            axios
+                .put(config.url.stores, 
                     shop
                 ).then((res) => {
                     if (res.data < 0) {
@@ -50,16 +42,29 @@ class StoreManage extends React.Component {
                     } else {
                         message.success("修改成功");
                     }
-                })*/
-            message.info("修改")
+                })
         }   
     }
 
+    handleChange = (e, info) => {
+        var shop = this.state.shop;
+        shop[info] = e.target.value;
+        this.setState({
+            shop: shop,
+        })
+    } 
 
+    
+    /**
+     * @description 检查店铺是否经过修改
+     * @param  { Store } shop
+     * @param  { Store } originShop
+     * @returns true if modified, otherwise false
+     */
     checkShop(shop, originShop) {
         if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.hours[0] !== originShop.hours[0]
-            || shop.hours[1] !== originShop.hours[1] || shop.storeName !== originShop.storeName
+            || shop.startHour !== originShop.startHour
+            || shop.endHour !== originShop.endHour || shop.storeName !== originShop.storeName
             || shop.dealerName !== originShop.dealerName) {
             alert("修改成功");
             return true;
@@ -81,53 +86,23 @@ class StoreManage extends React.Component {
             >
                 <Input addonBefore="店名"  style={{ marginBottom : "15px" }}
                     value={ this.state.shop.storeName } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.storeName = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "storeName") }}
                 />
                 <Input addonBefore="地址"  style={{marginBottom: "15px"}}
                     value={ this.state.shop.address } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.address = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "address") }}
                 />
                 <Input addonBefore="联系方式" style={{marginBottom: "15px"}}
                     value={ this.state.shop.contact }  
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.contact = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "contact") }}
                 />
                 <Input addonBefore="营业时间" style={{display: "inline-block", marginBottom: "15px", width: "50%"}}  
-                    value={ this.state.shop.hours[0] } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.hours[0] = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
+                    value={ this.state.shop.startHour } 
+                    onChange = {(e) => { this.handleChange(e, "startHour") }}
                 />
                 <Input addonBefore="结束时间" style={{display: "inline-block", marginBottom: "15px", width: "50%"}}  
-                    value={ this.state.shop.hours[1] }
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.hours[1] = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
+                    value={ this.state.shop.endHour }
+                    onChange = {(e) => { this.handleChange(e, "endHour") }}
                 />
                 <Input addonBefore="经销商" style={{display: "inline-block", marginBottom: "20px"}}  
                     value={ this.state.shop.dealerName }
@@ -135,7 +110,7 @@ class StoreManage extends React.Component {
                     placeholder="无"
                 />
                 <Button 
-                    onClick = { this.handleChange } 
+                    onClick = { this.handleSubmit } 
                 >
                 确认修改
                 </Button>

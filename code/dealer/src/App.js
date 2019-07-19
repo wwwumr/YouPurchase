@@ -2,35 +2,107 @@ import React from 'react';
 import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import { hashHistory } from 'react-dom'
 import 'antd/dist/antd.css';
-import { Layout, Menu, Avatar } from 'antd';
-import avatar from './config/avatar';
+import { Layout, Menu, Avatar, message } from 'antd';
+import axios from 'axios';
+import { createHashHistory } from 'history';
 import HomePage from './components/HomePage'
-import ShopManage from './components/storeManage/StoreManage';
+import StoreManage from './components/storeManage/StoreManage';
 import OrderManage from './components/orderManage/OrderManage';
 import GoodsManage from './components/goodsManage/GoodsManage';
 import AccountManage from './components/accountManage/AccountManage'
 import Goods from './components/goodsManage/goods/Goods';
+import config from './config/config';
 
 const { Header, Content, Footer} = Layout;
+const history = createHashHistory();
 
+/**
+ * 控制路由跳转及页面布局的根组件
+ */
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: "",
-            logIn: false,
+            dealer: Object.assign({}, config.dealer.originDealer),
+        }
+    }
+    
+    /**
+     * @description 从Session中取得userName,在刷新时保证用户名不丢失
+     */
+    componentDidMount() {
+        axios
+            .get(config.url.userId)
+            .then(res => {
+                if (res.data !== null) {
+                    axios
+                        .get(config.url.dealers + res.data)
+                        .then(response => {
+                            this.setState({
+                                dealer: response.data,
+                            })
+                        })
+                }
+            })
+    }
+
+    
+    /**
+     * @description 退出登录并消除session
+     */
+    handleLogout = () => {
+        axios.get(config.url.logOut);
+        this.setState({
+            dealer: Object.assign({}, config.dealer.originDealer),
+        });
+    }
+
+    /** 
+     * @description 改变页面背景,进入时有图片,退出时撤销图片 
+     * @param  { String } cmd
+     */
+    changeBg = (cmd) => {
+        if (cmd !== config.homePage.originBgCmd) {
+            document.getElementById("background").style.backgroundImage
+            = "url(" + config.homePage.imageUrl + ")";
+        } else {
+            document.getElementById("background").style.backgroundImage
+            = config.homePage.originBgCmd;
         }
     }
 
-    componentDidMount() {
-        
-    }
-
-    setUserName = (userName) => {
-        this.setState({
-            userName : userName,
-            logIn: true
-        });
+    
+    /**
+     * @description 登录成功时设置用户信息
+     * @param  {String} userName
+     * @param  {String} password
+     */
+    setUserMessage = (userName, password) => {
+        axios
+            .get(config.url.logIn, {
+                params: {
+                    userName: userName,
+                    password: password,
+                }
+            })
+            .then(res => {
+                const dealerMessage = res.data;
+                if (dealerMessage.key !== null && dealerMessage.key !== '') {
+                    /* 成功时设置用户名并跳转 */
+                    this.setState({
+                        dealer: dealerMessage,
+                    }, () => {
+                        history.push({
+                            pathname: "/storeManage/",
+                        });
+                        console.log(this.state.dealer);
+                        message.success("登录成功");
+                    });                    
+                } else {
+                    /* 失败提示失败 */
+                    message.error("用户名或密码错误")
+                }
+            })
     }
 
     render() {
@@ -40,32 +112,39 @@ class App extends React.Component {
                 {/* 账户管理、店铺信息管理、货物管理、订单管理 */}
                     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                         <div className="logo" />
+                        {/* 登录并拥有店铺的经销商 */}
                         {
-                            this.state.userName !== '' &&
+                            this.state.dealer.key !== null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
-                                    <Link to="/">
-                                        <Avatar size={45} 
-                                            src={avatar.defaultUrl} 
-                                        />
-                                    </Link>
+                                    <Avatar size={45} 
+                                        src={ this.props.avatar } 
+                                    />
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                <Link to={"/accountManage/"+this.state.userName} >{this.state.userName}</Link>
+                                <Link to={"/accountManage/"} >{this.state.userName}</Link>
                                 </Menu.Item>
                                 <Menu.Item key="3">
-                                <Link to={"/storeManage/"+this.state.userName} >店铺管理</Link>
+                                <Link to={"/storeManage/"} >店铺管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="4">
-                                <Link to={"/goodsManage/"+this.state.userName} >货物管理</Link>
+                                <Link to={"/goodsManage/"} >货物管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="5">
-                                <Link to={"/orderManage/"+this.state.userName} >订单管理</Link>
+                                <Link to={"/orderManage/"} >订单管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="6" style={{float: "right"}} >
+                                <Link to={"/"} 
+                                    onClick = { this.handleLogout } 
+                                >
+                                退出登录
+                                </Link>
                                 </Menu.Item>
                             </Menu>
                         }
+                        {/* 未登录的经销商 */}
                         {
-                            this.state.userName === '' &&
+                            this.state.dealer.key === null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
                                     <Link to="/"><Avatar size={45} >未登录</Avatar></Link>
@@ -78,12 +157,19 @@ class App extends React.Component {
         
                             <Switch>
                                 <Route exact path = "/" 
-                                    render = { () => <HomePage setUserName={ this.setUserName } /> }
+                                    render = { () => <HomePage 
+                                        setUserMessage={ this.setUserMessage } 
+                                        changeBg = {this.changeBg}
+                                    /> }
                                 />    
-                                <Route exact path = "/storeManage/:userName" component={ ShopManage } />
-                                <Route exact path = "/orderManage/:userName" component={ OrderManage } />
-                                <Route exact path = "/goodsManage/:userName" component={ GoodsManage } />
-                                <Route exact path = "/accountManage/:userName" component={ AccountManage } />
+                                <Route exact path = "/storeManage/" 
+                                    render = {() => <StoreManage 
+                                        storeId={ this.state.dealer.storeId } 
+                                    />} 
+                                />
+                                <Route exact path = "/orderManage/" component={ OrderManage } />
+                                <Route exact path = "/goodsManage/" component={ GoodsManage } />
+                                <Route exact path = "/accountManage/" component={ AccountManage } />
                                 <Route exact path = "/goods/:id" component={ Goods } />
                             </Switch>
                         
