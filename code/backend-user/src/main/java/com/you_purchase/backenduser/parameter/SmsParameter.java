@@ -9,10 +9,19 @@ public class SmsParameter {
 
     private long time;
 
-
+    private String password;
 
 
     //getter and setter
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public long getMsgId() {
         return msgId;
     }

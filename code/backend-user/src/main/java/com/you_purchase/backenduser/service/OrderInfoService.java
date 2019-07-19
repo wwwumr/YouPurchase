@@ -30,12 +30,17 @@ public class OrderInfoService extends BaseService {
     public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
         //带有用户id的订单+带有订单id的商品
         List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
+        System.out.println(orderInfos.size());
         if(orderInfos == null){
             return null;
+        }
+        for(int i=0;i<orderInfos.size();i++){
+            System.out.println(orderInfos.get(i).getOrderInfoId());
         }
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应用户id的所有订单
         for(OrderInfo s:orderInfos){
+            System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
@@ -46,6 +51,7 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setStoreName(store.getStoreName());
             //获取对应订单id的所有商品
             List<OrderItem> orderItems = orderItemDao.findByOrderInfo(s.getOrderInfoId());
+            System.out.println(orderItems.size());
             orderInfoDTO.setOrderItemList(orderItems);
             orderInfoDTOS.add(orderInfoDTO);
         }
@@ -60,6 +66,7 @@ public class OrderInfoService extends BaseService {
             return null;
         }
         for(OrderInfo s:orderInfos){
+
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setCreateDate(s.getCreateDate());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
