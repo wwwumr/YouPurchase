@@ -15,6 +15,10 @@ public class OrderInfoDTO {
 
     private String tarPeople;
 
+    private  String tarPhone;
+
+    private String  tarAddress;
+
     private double totalPrice;
 
     private String createDate;
@@ -29,6 +33,22 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+
+    public String getTarPhone() {
+        return tarPhone;
+    }
+
+    public void setTarPhone(String tarPhone) {
+        this.tarPhone = tarPhone;
+    }
+
+    public String getTarAddress() {
+        return tarAddress;
+    }
+
+    public void setTarAddress(String tarAddress) {
+        this.tarAddress = tarAddress;
+    }
 
     public String getTarPeople() {
         return tarPeople;

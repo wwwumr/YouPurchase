@@ -11,9 +11,7 @@ public class OrderItem {
     @Column(name = "orderItemId")
     private Long orderItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "orderInfoId")
-    private OrderInfo orderInfo;
+    private long orderInfoId;
 
     @OneToOne
     @JoinColumn(name = "commodityId")
@@ -35,12 +33,12 @@ public class OrderItem {
         this.orderItemId = orderItemId;
     }
 
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
+    public long getOrderInfoId() {
+        return orderInfoId;
     }
 
-    public void setOrderInfo(OrderInfo orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
     }
 
     public Commodity getCommodity() {

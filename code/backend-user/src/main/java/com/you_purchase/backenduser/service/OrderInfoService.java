@@ -47,10 +47,12 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setCreateDate(s.getCreateDate());
             orderInfoDTO.setJudged(s.isJudged());
             orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());
             //获取对应订单id的所有商品
-            List<OrderItem> orderItems = orderItemDao.findByOrderInfo(s.getOrderInfoId());
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
             System.out.println(orderItems.size());
             orderInfoDTO.setOrderItemList(orderItems);
             orderInfoDTOS.add(orderInfoDTO);
@@ -72,9 +74,13 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             Store store = storeDao.findByStoreId(s.getStoreId());
+            System.out.println("tarBegin");
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            System.out.println("tarEnd");
             orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setStoreName(store.getStoreName());
-            List<OrderItem> orderItemList = orderItemDao.findByOrderInfo(s.getOrderInfoId());
+            List<OrderItem> orderItemList = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
             orderInfoDTO.setOrderItemList(orderItemList);
             orderInfoDTOS.add(orderInfoDTO);
         }

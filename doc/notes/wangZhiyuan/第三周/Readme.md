@@ -1,0 +1,12 @@
+## 第三周工作总结
+### 工作进度
+- 完成了注册页面的编写
+- 完成了上传头像功能的编写
+- 完成了下单功能的编写
+- 完成了店铺评价
+- 完成领导打包
+### 学习日志
+- 学习了jest的编写
+- 学习了百度地图在android的使用(文件夹/doc/notes/wangZhiyuan/第三周/BaiduMap)
+- 学习了调用手机设备和读取手机内部存储(文件夹/doc/notes/wangZhiyuan/第三周/media)
+- 学习了在运行时授权和读取手机内部存储的设置(文件夹/doc/notes/wangZhiyuan/第三周/androidsharedata)

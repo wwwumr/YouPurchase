@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface OrderItemDao extends CrudRepository<OrderItem,String> {
-    public List<OrderItem> findByOrderInfo(long orderInfoId);
+    public List<OrderItem> findByOrderInfoId(long orderInfoId);
 }
