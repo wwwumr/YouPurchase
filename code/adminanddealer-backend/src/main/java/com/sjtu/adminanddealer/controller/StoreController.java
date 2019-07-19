@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 /**
@@ -148,12 +147,13 @@ public class StoreController {
 
     /**
      * 修改店铺的配送方式接口
-     * @param type 配送方式，0表示自己配送；1表示外部配送
+     *
+     * @param type    配送方式，0表示自己配送；1表示外部配送
      * @param storeId 店铺id
      * @return UPDATE
      */
     @GetMapping("/delivery")
-    public String updateDelivery(@RequestParam("deliveryType")Integer type, @RequestParam("storeId") Long storeId){
+    public String updateDelivery(@RequestParam("deliveryType") Integer type, @RequestParam("storeId") Long storeId) {
         storeService.updateStoreDeliveryType(type, storeId);
         return "UPDATE";
     }

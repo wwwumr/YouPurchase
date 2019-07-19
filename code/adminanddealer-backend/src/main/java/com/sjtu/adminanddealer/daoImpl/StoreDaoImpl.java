@@ -76,7 +76,7 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public void updateStoreDeliveryType(Integer type, Long storeId) {
-        if(storeRepository.existsById(storeId)){
+        if (storeRepository.existsById(storeId)) {
             storeRepository.updateStoreDelivery(type, storeId);
         }
     }

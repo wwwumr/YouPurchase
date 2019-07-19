@@ -8,9 +8,11 @@ import com.sjtu.adminanddealer.entity.Commodity;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
+import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,14 @@ public class CommodityServiceImpl implements CommodityService {
     @Value("${commodityDefaultCoverPicUrl}")
     private String DEFAULT_COMMODITY_COVER;
 
+    @Autowired
+    private FileUploadUtil fileUploadUtil;
+
     @Override
     public List<CommodityDTO> getAllCommoditiesByStore(Long storeId) {
         List<Commodity> commodityList = commodityDao.getAllCommodityByStore(storeId);
         List<CommodityDTO> commodityDTOS = new ArrayList<>();
-        if(commodityList==null){
+        if (commodityList == null) {
             return commodityDTOS;
         }
         for (Commodity c : commodityList
@@ -120,5 +125,31 @@ public class CommodityServiceImpl implements CommodityService {
             commodityDao.updateCommodity(commodity);
         }
         return dtos;
+    }
+
+    @Override
+    public String updateCommodityCoverPic(MultipartFile file, Long commodityId, String coverPicUrl) {
+        if (coverPicUrl.equals(this.DEFAULT_COMMODITY_COVER)) {
+            String newUrl = fileUploadUtil.saveFile(file);
+            commodityDao.updateCommodityCoverPic(newUrl, commodityId);
+            return newUrl;
+        } else {
+            String newUrl = fileUploadUtil.saveFile(file);
+            commodityDao.updateCommodityCoverPic(newUrl, commodityId);
+            // 把原来存在的文件删除
+            int i = fileUploadUtil.deleteFile(coverPicUrl);
+            /// debug
+//            System.out.println(i);
+            return newUrl;
+        }
+    }
+
+    @Override
+    public String addCommodityPics(MultipartFile file, Long commodityId) {
+        String newPicUrl = fileUploadUtil.saveFile(file);
+        Commodity commodity = commodityDao.getCommodityById(commodityId);
+        commodity.getCommodityPicUrls().add(newPicUrl);
+        commodityDao.updateCommodity(commodity);
+        return newPicUrl;
     }
 }

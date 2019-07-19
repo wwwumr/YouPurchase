@@ -55,4 +55,9 @@ public class CommodityDaoImpl implements CommodityDao {
             commodityRepository.deleteCommodityByCommodityId(commodityId);
         }
     }
+
+    @Override
+    public void updateCommodityCoverPic(String newCoverUrl, Long commodityId) {
+        commodityRepository.updateCommodityCoverUrl(newCoverUrl, commodityId);
+    }
 }

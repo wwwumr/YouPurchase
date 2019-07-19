@@ -5,6 +5,7 @@ import com.sjtu.adminanddealer.DTO.CommodityDTO;
 import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,4 +64,9 @@ public interface CommodityService {
     List<CommodityShortageDTO> checkCommodityRemaining(List<CommodityCheckParameter> checkParameterList);
 
     List<CommodityShortageDTO> decreaseCommodityInventory(List<CommodityCheckParameter> commodityList);
+
+    String updateCommodityCoverPic(MultipartFile file, Long commodityId, String coverPicUrl);
+
+    String addCommodityPics(MultipartFile file, Long commodityId);
+
 }

@@ -84,7 +84,7 @@ public interface StoreService {
     /**
      * 修改店铺的配送方式
      *
-     * @param type 配送方式，0代表自己配送；1代表外部配送（蜂鸟）
+     * @param type    配送方式，0代表自己配送；1代表外部配送（蜂鸟）
      * @param storeId 店铺id
      */
     void updateStoreDeliveryType(Integer type, Long storeId);

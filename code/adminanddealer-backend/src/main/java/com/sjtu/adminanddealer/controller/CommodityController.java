@@ -8,6 +8,7 @@ import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,11 +102,52 @@ public class CommodityController {
         return dtos;
     }
 
+    /**
+     * 修改商品的默认图片
+     *
+     * @param file        图片
+     * @param commodityId 商品id
+     * @param coverPicUrl 原来的图片路径
+     * @return 成功返回新图片的url，失败返回error
+     */
+    @PostMapping("/commodities/cover")
+    public String updateCommodityCoverPic(@RequestParam("file") MultipartFile file, @RequestParam("key") Long commodityId,
+                                          @RequestParam("coverPicUrl") String coverPicUrl) {
+        return commodityService.updateCommodityCoverPic(file, commodityId, coverPicUrl);
+    }
+
+    /**
+     * 添加商品的描述图片
+     *
+     * @param file        图片
+     * @param commodityId 商品id
+     * @param picUrl      图片原url
+     * @return 成功返回新图片的url， 失败返回error
+     */
+    @PostMapping("/commodities/pics")
+    public String addCommodityPics(@RequestParam("file") MultipartFile file, @RequestParam("key") Long commodityId,
+                                   @RequestParam("picUrl") String picUrl) {
+
+        return commodityService.addCommodityPics(file, commodityId);
+    }
+
+    /**
+     * 检查商品库存
+     *
+     * @param data 一个list，里面的数据为所有需要检查的商品id和需要的数量
+     * @return 有库存不足的商品时，返回id和对应的实际库存
+     */
     @PostMapping("/commodities/remaining/check")
     public List<CommodityShortageDTO> checkRemaining(@RequestBody List<CommodityCheckParameter> data) {
         return commodityService.checkCommodityRemaining(data);
     }
 
+    /**
+     * 检查商品库存并直接减少库存
+     *
+     * @param data 一个list，里面的数据为所有需要检查的商品id和需要的数量
+     * @return 有库存不足的商品时，返回id和对应的实际库存
+     */
     @PostMapping("/commodities/remaining")
     public List<CommodityShortageDTO> reduceCommodityInventory(@RequestBody List<CommodityCheckParameter> data) {
         return commodityService.decreaseCommodityInventory(data);

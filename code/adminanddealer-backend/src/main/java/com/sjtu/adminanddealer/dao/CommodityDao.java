@@ -49,4 +49,12 @@ public interface CommodityDao {
      */
     void deleteCommodity(Long commodityId);
 
+    /**
+     * 修改商品的封面图片
+     *
+     * @param newCoverUrl 新图片的路径
+     * @param commodityId 商品id
+     */
+    void updateCommodityCoverPic(String newCoverUrl, Long commodityId);
+
 }
