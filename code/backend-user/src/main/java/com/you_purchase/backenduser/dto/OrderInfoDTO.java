@@ -25,7 +25,7 @@ public class OrderInfoDTO {
 
     private boolean judged;
 
-    List<OrderItem> orderItemList;
+    List<OrderListDTO> orderItemList;
 
 
 
@@ -33,6 +33,13 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+    public List<OrderListDTO> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderListDTO> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
 
     public String getTarPhone() {
         return tarPhone;
@@ -64,14 +71,6 @@ public class OrderInfoDTO {
 
     public void setJudged(boolean judged) {
         this.judged = judged;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
     }
 
     public long getOrderInfoId() {

@@ -51,50 +51,23 @@ public class OrderInfoService extends BaseService {
         for(OrderInfo s:orderInfos){
             System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setCreateDate(s.getCreateDate());
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setJudged(s.isJudged());
-            orderInfoDTO.setTarPeople(s.getTarPeople());
-            orderInfoDTO.setTarPhone(s.getTarPhone());
-            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setCreateDate(s.getCreateDate());
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());
-            //获取对应订单id的所有商品
-            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            System.out.println(orderItems.size());
-            orderInfoDTO.setOrderItemList(orderItems);
-            orderInfoDTOS.add(orderInfoDTO);
-        }
-        return orderInfoDTOS;
-    }
-
-    //店家查看不同执行状态的订单
-    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter){
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
-        List<OrderInfoDTO> orderInfoDTOS =new ArrayList<>();
-        if(orderInfos == null){
-            return null;
-        }
-        for(OrderInfo s:orderInfos){
-
-            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setCreateDate(s.getCreateDate());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            Store store = storeDao.findByStoreId(s.getStoreId());
-            System.out.println("tarBegin");
-            orderInfoDTO.setTarPhone(s.getTarPhone());
-            orderInfoDTO.setTarAddress(s.getTarAddress());
-            System.out.println("tarEnd");
-            orderInfoDTO.setTarPeople(s.getTarPeople());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            List<OrderItem> orderItemList = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            orderInfoDTO.setOrderItemList(orderItemList);
+            //获取对应订单id的所有商品
+            List<OrderListDTO> orderListDTOS = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            orderInfoDTO.setOrderItemList(orderListDTOS);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;
     }
+
 
     //店家修改订单执行状态
     public int OrderInfoModify(long orderInfoId,int status){
