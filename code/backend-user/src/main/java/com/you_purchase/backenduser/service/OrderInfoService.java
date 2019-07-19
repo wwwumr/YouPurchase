@@ -6,7 +6,7 @@ import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
-import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.dto.OrderListDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
@@ -22,6 +22,15 @@ public class OrderInfoService extends BaseService {
     public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter){
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderInfo(orderInfoParameter);
+        long orderInfoId = orderInfo.getOrderInfoId();
+        for(OrderListDTO s: orderInfoParameter.getOrderItemList()){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setAmount(s.getAmount());
+            orderItem.setCommodityId(s.getCommodityId());
+            orderItem.setPrice(s.getPrice());
+            orderItem.setOrderInfoId(orderInfoId);
+            orderItemDao.save(orderItem);
+        }
         orderInfoDao.save(orderInfo);
         return new OrderPayDTO(orderInfo);
     }

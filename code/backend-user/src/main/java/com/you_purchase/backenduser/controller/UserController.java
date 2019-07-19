@@ -36,6 +36,17 @@ public class UserController extends BaseController {
         return userService.UserModify(userModifyParameter);
     }
 
+    //用户修改头像
+    @PostMapping("/user/photo")
+    public String updateUserPhoto(@RequestParam("file") MultipartFile file, @RequestParam("key") Long userId,
+                                     @RequestParam("photo") String photo) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newPhoto = userService.UpdateUserPhoto(file,userId,photo);
+        return newPhoto;
+    }
+
     //用户登陆
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
     public
@@ -54,19 +65,6 @@ public class UserController extends BaseController {
         return userService.UserCheck(userId);
     }
 
-
-
-    //用户更新头像
-    @PostMapping("/user/photo")
-    @ApiOperation(value = "用户更新头像")
-    public String UpdateUserPhoto(@RequestParam("file") MultipartFile file, @RequestParam("key") Long userId,
-                                  @RequestParam("photo") String photo) {
-        if (file == null) {
-            return "ERROR";
-        }
-        String newAvatar = userService.UpdateUserPhoto(file,userId,photo);
-        return newAvatar;
-    }
 
     //用户获取短信验证码
     @RequestMapping(value = "/user/getMsg",method = RequestMethod.GET)
