@@ -36,6 +36,9 @@ public class OrderInfo {
 
     private boolean judged;
 
+    @JoinColumn(name = "deliveryAddressId")
+    private Long deliveryAddressId;
+
     @OneToMany(targetEntity = OrderItem.class)
     @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
             inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
@@ -54,6 +57,7 @@ public class OrderInfo {
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
         this.setTarPhone(orderInfoParameter.getTarPhone());
+        this.setDeliveryAddressId(orderInfoParameter.getDeliveryAddressId());
     }
 
 
@@ -155,5 +159,13 @@ public class OrderInfo {
 
     public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
+    }
+
+    public Long getDeliveryAddressId() {
+        return deliveryAddressId;
+    }
+
+    public void setDeliveryAddressId(Long deliveryAddressId) {
+        this.deliveryAddressId = deliveryAddressId;
     }
 }

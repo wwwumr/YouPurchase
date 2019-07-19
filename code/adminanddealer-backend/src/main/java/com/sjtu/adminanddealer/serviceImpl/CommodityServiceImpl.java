@@ -2,8 +2,10 @@ package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
+import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
 import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,5 +86,39 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void deleteCommodity(Long commodityId) {
         commodityDao.deleteCommodity(commodityId);
+    }
+
+    @Override
+    public List<CommodityShortageDTO> checkCommodityRemaining(List<CommodityCheckParameter> checkParameterList) {
+        List<CommodityShortageDTO> dtos = new ArrayList<>();
+        for (CommodityCheckParameter c : checkParameterList
+        ) {
+            Commodity commodity = commodityDao.getCommodityById(c.getCommodityId());
+            // 当商品余量不足时，加入list
+            if (commodity != null && commodity.getRemaining() < c.getDemandAmount()) {
+                dtos.add(new CommodityShortageDTO(c.getCommodityId(), commodity.getRemaining()));
+            }
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<CommodityShortageDTO> decreaseCommodityInventory(List<CommodityCheckParameter> commodityList) {
+        List<CommodityShortageDTO> dtos = new ArrayList<>();
+        for (CommodityCheckParameter c : commodityList
+        ) {
+            Commodity commodity = commodityDao.getCommodityById(c.getCommodityId());
+            if (commodity == null) {
+                continue;
+            }
+            // 当商品余量不足时，加入list
+            if (commodity.getRemaining() < c.getDemandAmount()) {
+                dtos.add(new CommodityShortageDTO(c.getCommodityId(), commodity.getRemaining()));
+            }
+            commodity.setRemaining(commodity.getRemaining() - c.getDemandAmount());
+            commodity.setInventory(commodity.getInventory() - c.getDemandAmount());
+            commodityDao.updateCommodity(commodity);
+        }
+        return dtos;
     }
 }

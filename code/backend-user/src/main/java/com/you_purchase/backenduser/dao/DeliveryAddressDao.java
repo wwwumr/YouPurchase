@@ -6,6 +6,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
+/**
+ * @author Chuyuxuan
+ */
 public interface DeliveryAddressDao extends CrudRepository<DeliveryAddress, Long> {
     List<DeliveryAddress> getDeliveryAddressesByUserId(Long userId);
 

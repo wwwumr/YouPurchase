@@ -2,6 +2,8 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
+import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
+import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,16 @@ public class CommodityController {
             }
         }
         return dtos;
+    }
+
+    @PostMapping("/commodities/remaining/check")
+    public List<CommodityShortageDTO> checkRemaining(@RequestBody List<CommodityCheckParameter> data) {
+        return commodityService.checkCommodityRemaining(data);
+    }
+
+    @PostMapping("/commodities/remaining")
+    public List<CommodityShortageDTO> reduceCommodityInventory(@RequestBody List<CommodityCheckParameter> data) {
+        return commodityService.decreaseCommodityInventory(data);
     }
 
 }

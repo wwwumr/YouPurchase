@@ -2,6 +2,8 @@ package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
+import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
+import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 
 import java.util.List;
@@ -51,4 +53,14 @@ public interface CommodityService {
      * @param commodityId 商品id
      */
     void deleteCommodity(Long commodityId);
+
+    /**
+     * 检查商品的库存
+     *
+     * @param checkParameterList 需要进行检查的商品
+     * @return 如果所有商品都满足库存放回空列表，否则加入对应的CommodityShortageDTO
+     */
+    List<CommodityShortageDTO> checkCommodityRemaining(List<CommodityCheckParameter> checkParameterList);
+
+    List<CommodityShortageDTO> decreaseCommodityInventory(List<CommodityCheckParameter> commodityList);
 }

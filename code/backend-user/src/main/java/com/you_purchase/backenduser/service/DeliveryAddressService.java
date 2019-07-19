@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 配送地址逻辑
+ *
+ * @author Chuyuxuan
+ */
 @Service
 public class DeliveryAddressService extends BaseService {
 
@@ -57,12 +62,15 @@ public class DeliveryAddressService extends BaseService {
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if(orderInfo!=null){
             Store store = storeDao.findByStoreId(orderInfo.getStoreId());
+            DeliveryAddress address = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(orderInfo.getDeliveryAddressId());
             JSONObject json = new JSONObject();
             json.put("partner_order_code", orderInfoId);
             json.put("notify_url", "http://localhost:9000/delivery");
             json.put("receiver_name", orderInfo.getTarPeople());
             json.put("receiver_phone", orderInfo.getTarPhone());
             json.put("receiver_address", orderInfo.getTarAddress());
+            json.put("receiver_longitude", address.getLongitude());
+            json.put("receiver_latitude", address.getLatitude());
             json.put("transport_name", store.getStoreName());
             json.put("transport_address", store.getAddress());
             json.put("transport_tel", store.getContact());

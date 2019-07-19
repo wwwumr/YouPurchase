@@ -6,6 +6,8 @@ public class CreateOrderRequest {
     private String receiver_name;
     private String receiver_phone;
     private String receiver_address;
+    private double receiver_longitude;
+    private double receiver_latitude;
     private String transport_name;
     private String transport_address;
     private String transport_tel;
@@ -15,15 +17,14 @@ public class CreateOrderRequest {
     public CreateOrderRequest() {
     }
 
-    public CreateOrderRequest(String partner_order_code, String notify_url, String receiver_name,
-                              String receiver_phone, String receiver_address, String transport_name,
-                              String transport_address, String transport_tel,
-                              double transport_longitude, double transport_latitude) {
+    public CreateOrderRequest(String partner_order_code, String notify_url, String receiver_name, String receiver_phone, String receiver_address, double receiver_longitude, double receiver_latitude, String transport_name, String transport_address, String transport_tel, double transport_longitude, double transport_latitude) {
         this.partner_order_code = partner_order_code;
         this.notify_url = notify_url;
         this.receiver_name = receiver_name;
         this.receiver_phone = receiver_phone;
         this.receiver_address = receiver_address;
+        this.receiver_longitude = receiver_longitude;
+        this.receiver_latitude = receiver_latitude;
         this.transport_name = transport_name;
         this.transport_address = transport_address;
         this.transport_tel = transport_tel;
@@ -71,6 +72,22 @@ public class CreateOrderRequest {
         this.receiver_address = receiver_address;
     }
 
+    public double getReceiver_longitude() {
+        return receiver_longitude;
+    }
+
+    public void setReceiver_longitude(double receiver_longitude) {
+        this.receiver_longitude = receiver_longitude;
+    }
+
+    public double getReceiver_latitude() {
+        return receiver_latitude;
+    }
+
+    public void setReceiver_latitude(double receiver_latitude) {
+        this.receiver_latitude = receiver_latitude;
+    }
+
     public String getTransport_name() {
         return transport_name;
     }
@@ -109,5 +126,23 @@ public class CreateOrderRequest {
 
     public void setTransport_latitude(double transport_latitude) {
         this.transport_latitude = transport_latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "CreateOrderRequest{" +
+                "partner_order_code='" + partner_order_code + '\'' +
+                ", notify_url='" + notify_url + '\'' +
+                ", receiver_name='" + receiver_name + '\'' +
+                ", receiver_phone='" + receiver_phone + '\'' +
+                ", receiver_address='" + receiver_address + '\'' +
+                ", receiver_longitude=" + receiver_longitude +
+                ", receiver_latitude=" + receiver_latitude +
+                ", transport_name='" + transport_name + '\'' +
+                ", transport_address='" + transport_address + '\'' +
+                ", transport_tel='" + transport_tel + '\'' +
+                ", transport_longitude=" + transport_longitude +
+                ", transport_latitude=" + transport_latitude +
+                '}';
     }
 }

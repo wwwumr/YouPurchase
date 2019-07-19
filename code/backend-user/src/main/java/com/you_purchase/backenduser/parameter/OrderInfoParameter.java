@@ -1,7 +1,9 @@
 package com.you_purchase.backenduser.parameter;
 
+import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 
+import javax.persistence.JoinColumn;
 import java.util.List;
 
 
@@ -27,7 +29,8 @@ public class OrderInfoParameter {
 
     private List<OrderItem> orderItemList;
 
-
+    @JoinColumn(name = "deliveryAddressId")
+    private Long deliveryAddressId;
 
 
     //getter and setter
@@ -96,8 +99,13 @@ public class OrderInfoParameter {
         this.orderItemList = orderItemList;
     }
 
+    public Long getDeliveryAddressId() {
+        return deliveryAddressId;
+    }
 
-
+    public void setDeliveryAddressId(Long deliveryAddressId) {
+        this.deliveryAddressId = deliveryAddressId;
+    }
 
     //getter and setter
 }
