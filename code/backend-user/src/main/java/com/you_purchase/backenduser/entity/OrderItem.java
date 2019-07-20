@@ -1,6 +1,8 @@
 package com.you_purchase.backenduser.entity;
 
 
+import com.you_purchase.backenduser.dto.OrderListDTO;
+
 import javax.persistence.*;
 
 
@@ -11,22 +13,25 @@ public class OrderItem {
     @Column(name = "orderItemId")
     private Long orderItemId;
 
-    @ManyToOne
-    @JoinColumn(name = "orderInfoId")
-    private OrderInfo orderInfo;
+    private long orderInfoId;
 
-    @OneToOne
-    @JoinColumn(name = "commodityId")
-    private Commodity commodity;
+    private long commodityId;
 
     private Integer amount;
 
-    @Column(scale = 2)
     private Double price;
 
 
-
     //getter and setter
+
+    public long getCommodityId() {
+        return commodityId;
+    }
+
+    public void setCommodityId(long commodityId) {
+        this.commodityId = commodityId;
+    }
+
     public Long getOrderItemId() {
         return orderItemId;
     }
@@ -35,21 +40,14 @@ public class OrderItem {
         this.orderItemId = orderItemId;
     }
 
-    public OrderInfo getOrderInfo() {
-        return orderInfo;
+    public long getOrderInfoId() {
+        return orderInfoId;
     }
 
-    public void setOrderInfo(OrderInfo orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
     }
 
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
-    }
 
     public Integer getAmount() {
         return amount;

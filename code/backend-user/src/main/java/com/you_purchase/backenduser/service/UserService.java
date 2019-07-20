@@ -24,6 +24,8 @@ import java.util.Random;
 
 @Service
 public class UserService extends BaseService{
+
+
 /*    //用户注册
     public UserInfoDTO UserReg(UserRegParameter userRegParameter){
         User user = userDao.findByPhoneAndValid(userRegParameter.getPhone(),true);

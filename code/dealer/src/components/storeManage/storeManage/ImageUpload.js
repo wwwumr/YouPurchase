@@ -1,8 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
-import shop from '../../../config/shop';
-import avatar from '../../../config/avatar';
-import url from '../../../config/url';
+import config from '../../../config/config';
 
 
 function getBase64(img, callback) {
@@ -12,12 +10,12 @@ function getBase64(img, callback) {
 }
 
 function beforeUpload(file) {
-    if (avatar.validFormat.indexOf(file.type) < 0) {
+    if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
         message.error('上传的图片应为jpg或png格式!');
         return false;
     }
 
-    if (file.size > avatar.maxCapicity) {
+    if (file.size > config.uploadImage.maxCapicity) {
         message.error('图片大小不应超过2MB!');
         return false;
     }
@@ -30,12 +28,12 @@ class ImageUpload extends React.Component {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: shop.originShop.coverPicUrl,
+            imageUrl: '',
         };
     }
 
     componentWillMount() {
-        var coverPic = this.props.coverPic ? this.props.coverPic : shop.originShop.coverPicUrl;
+        var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.originShop.coverPicUrl;
         this.setState({
             imageUrl: coverPic,
         })
@@ -72,7 +70,7 @@ class ImageUpload extends React.Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action= {avatar.action}
+                action= {config.uploadImage.storeAction}
                 data={{"key": this.props.storeId, "coverPicUrl": this.props.coverPic}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
@@ -82,7 +80,7 @@ class ImageUpload extends React.Component {
                 {/* action之后重构 */}
                 {
                     this.state.imageUrl ?
-                    <img src={url+this.state.imageUrl} alt="avatar" 
+                    <img src={config.url.root + this.state.imageUrl} alt="店面" 
                         style={{position: "relative", width: "100%", height: "90%"}}
                     /> 
                     : uploadButton

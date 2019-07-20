@@ -39,11 +39,6 @@ public class OrderInfo {
     @JoinColumn(name = "deliveryAddressId")
     private Long deliveryAddressId;
 
-    @OneToMany(targetEntity = OrderItem.class)
-    @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
-            inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
-    private List<OrderItem> orderItemList = new ArrayList<>();
-
 
     public void setOrderInfo(OrderInfoParameter orderInfoParameter){
         this.setValid(true);
@@ -53,7 +48,6 @@ public class OrderInfo {
         this.setStoreId(orderInfoParameter.getStoreId());
         this.setTotalPrice(orderInfoParameter.getTotalPrice());
         this.setCreateDate(orderInfoParameter.getCreateDate());
-        this.setOrderItemList(orderInfoParameter.getOrderItemList());
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
         this.setTarPhone(orderInfoParameter.getTarPhone());
@@ -151,14 +145,6 @@ public class OrderInfo {
 
     public void setValid(boolean valid) {
         this.valid = valid;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
     }
 
     public Long getDeliveryAddressId() {

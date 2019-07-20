@@ -6,7 +6,7 @@ import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
-import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.dto.OrderListDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
@@ -22,6 +22,15 @@ public class OrderInfoService extends BaseService {
     public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter){
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderInfo(orderInfoParameter);
+        long orderInfoId = orderInfo.getOrderInfoId();
+        for(OrderListDTO s: orderInfoParameter.getOrderItemList()){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setAmount(s.getAmount());
+            orderItem.setCommodityId(s.getCommodityId());
+            orderItem.setPrice(s.getPrice());
+            orderItem.setOrderInfoId(orderInfoId);
+            orderItemDao.save(orderItem);
+        }
         orderInfoDao.save(orderInfo);
         return new OrderPayDTO(orderInfo);
     }
@@ -42,44 +51,23 @@ public class OrderInfoService extends BaseService {
         for(OrderInfo s:orderInfos){
             System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setCreateDate(s.getCreateDate());
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setJudged(s.isJudged());
-            orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setCreateDate(s.getCreateDate());
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());
-            //获取对应订单id的所有商品
-            List<OrderItem> orderItems = orderItemDao.findByOrderInfo(s.getOrderInfoId());
-            System.out.println(orderItems.size());
-            orderInfoDTO.setOrderItemList(orderItems);
-            orderInfoDTOS.add(orderInfoDTO);
-        }
-        return orderInfoDTOS;
-    }
-
-    //店家查看不同执行状态的订单
-    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter){
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
-        List<OrderInfoDTO> orderInfoDTOS =new ArrayList<>();
-        if(orderInfos == null){
-            return null;
-        }
-        for(OrderInfo s:orderInfos){
-
-            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setCreateDate(s.getCreateDate());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setTarPeople(s.getTarPeople());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            List<OrderItem> orderItemList = orderItemDao.findByOrderInfo(s.getOrderInfoId());
-            orderInfoDTO.setOrderItemList(orderItemList);
+            //获取对应订单id的所有商品
+            List<OrderListDTO> orderListDTOS = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            orderInfoDTO.setOrderItemList(orderListDTOS);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;
     }
+
 
     //店家修改订单执行状态
     public int OrderInfoModify(long orderInfoId,int status){

@@ -2,17 +2,18 @@ import React from 'react';
 import { Input, message, Button, Radio,  } from 'antd';
 //import axios from 'axios';
 import goodsMock from '../../../mock/goodsMock';
-import goodsConfig from '../../../config/goods';
 import ImageUpload from './goods/ImageUpload';
+import config from '../../../config/config';
 
 const { TextArea } = Input;
 
 class Goods extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
-            goods: goodsConfig.originGoods,
-            originGoods: goodsConfig.originGoods,
+            goods: Object.assign({}, config.goods.originGoods),
+            originGoods: Object.assign({}, config.goods.originGoods),
         }
     }
 
@@ -32,7 +33,9 @@ class Goods extends React.Component {
         })
     }
 
-    /* 最终提交修改信息的函数 */
+    /**
+     * 最终提交修改信息的函数
+     */
     handleChange = () => {
         const goods = this.state.goods;
         const originGoods = this.state.originGoods;
@@ -42,7 +45,11 @@ class Goods extends React.Component {
         }   
     }
 
-
+    /**
+     * 检查店铺是否有更改
+     * @param { Object } goods 
+     * @param { Object } originGoods 
+     */
     checkShop(goods, originGoods) {
         if (true) {
             alert("修改成功");

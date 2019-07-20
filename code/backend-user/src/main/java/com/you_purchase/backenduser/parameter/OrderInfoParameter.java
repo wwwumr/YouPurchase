@@ -1,12 +1,11 @@
 package com.you_purchase.backenduser.parameter;
 
+import com.you_purchase.backenduser.dto.OrderListDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 
 import javax.persistence.JoinColumn;
 import java.util.List;
-
-
 
 /*
 * 用户下订单传递的数据
@@ -27,13 +26,20 @@ public class OrderInfoParameter {
 
     private String tarPhone;
 
-    private List<OrderItem> orderItemList;
+    private List<OrderListDTO> orderItemList;
 
     @JoinColumn(name = "deliveryAddressId")
     private Long deliveryAddressId;
 
 
     //getter and setter
+    public List<OrderListDTO> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderListDTO> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
 
     public String getTarPeople() {
         return tarPeople;
@@ -89,14 +95,6 @@ public class OrderInfoParameter {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
     }
 
     public Long getDeliveryAddressId() {

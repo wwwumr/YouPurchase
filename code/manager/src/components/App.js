@@ -64,11 +64,14 @@ class App extends React.Component {
                                     />
                                 
                                 </Menu.Item>
-                                <Menu.Item key="2"><Link to="/" onClick={()=>{
+                                <Menu.Item key="2"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
+                                <Menu.Item key="3"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
+                                <Menu.Item key="4" style={{float: "right"}}><Link to="/" onClick={()=>{
                                     this.setUserName('')
-                                }}>退出登录</Link></Menu.Item> 
-                                <Menu.Item key="3"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
-                                <Menu.Item key="4"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
+                                }}>
+                                退出登录
+                                </Link>
+                                </Menu.Item> 
                             </Menu>
                         }
                         {

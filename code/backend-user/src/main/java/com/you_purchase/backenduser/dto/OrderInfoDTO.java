@@ -15,13 +15,17 @@ public class OrderInfoDTO {
 
     private String tarPeople;
 
+    private  String tarPhone;
+
+    private String  tarAddress;
+
     private double totalPrice;
 
     private String createDate;
 
     private boolean judged;
 
-    List<OrderItem> orderItemList;
+    List<OrderListDTO> orderItemList;
 
 
 
@@ -29,6 +33,29 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+    public List<OrderListDTO> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderListDTO> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
+
+    public String getTarPhone() {
+        return tarPhone;
+    }
+
+    public void setTarPhone(String tarPhone) {
+        this.tarPhone = tarPhone;
+    }
+
+    public String getTarAddress() {
+        return tarAddress;
+    }
+
+    public void setTarAddress(String tarAddress) {
+        this.tarAddress = tarAddress;
+    }
 
     public String getTarPeople() {
         return tarPeople;
@@ -44,14 +71,6 @@ public class OrderInfoDTO {
 
     public void setJudged(boolean judged) {
         this.judged = judged;
-    }
-
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
-    }
-
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
     }
 
     public long getOrderInfoId() {

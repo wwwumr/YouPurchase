@@ -1,68 +1,57 @@
 package com.sjtu.adminanddealer.entity;
 
-import com.sjtu.adminanddealer.parameter.UserRegisterParameter;
 
-import javax.persistence.*;
+import com.sjtu.adminanddealer.parameter.UserModifyParameter;
+import com.sjtu.adminanddealer.parameter.UserRegParameter;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-/**
- * 用户类对应的实体类
- *
- * @author Chuyuxuan
- */
 @Entity
 public class User {
-
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private long userId;
 
-    @Column(nullable = false, unique = true, length = 30)
     private String userName;
 
-    @Column(nullable = false, length = 30)
     private String password;
 
-    //地址
-    @Column(length = 30, nullable = false)
-    private String address;
-
-    //经度
-    private double longitude;
-
-    //纬度
-    private double latitude;
-
-    @Column(length = 11)
     private String phone;
 
-    //头像路径
-    @Column(length = 256)
+    private String address;
+
+    private double latitude;
+
+    private double longitude;
+
     private String photo;
-
-    //注册日期
-    private String regDate;
-
-    //状态
+    //用户是否可用
     private boolean valid;
 
-    //是否有效
-    private boolean status;
+    private String regDate;
+
+    private String gender;
 
 
-    public void setInfo(UserRegisterParameter userRegisterParameter) {
-        this.setUserName(userRegisterParameter.getUserName());
-        this.setPassword(userRegisterParameter.getPassword());
-        this.setAddress(userRegisterParameter.getAddress());
-        this.setPhone(userRegisterParameter.getPhone());
-        this.setLatitude(userRegisterParameter.getLatitude());
-        this.setLongitude(userRegisterParameter.getLongitude());
-        this.setRegDate(userRegisterParameter.getRegDate());
-        this.setPhoto("");
+    public void setReg(UserRegParameter userRegParameter) {
+        this.setPhone(userRegParameter.getPhone());
+        this.setRegDate(userRegParameter.getRegDate());
+    }
+
+    public void setInfo(UserModifyParameter userModifyParameter) {
+        this.setAddress(userModifyParameter.getAddress());
+        this.setGender(userModifyParameter.getGender());
+        this.setLatitude(userModifyParameter.getLatitude());
+        this.setLongitude(userModifyParameter.getLongitude());
+        this.setPassword(userModifyParameter.getPassword());
+        this.setUserName(userModifyParameter.getUserName());
+        this.setPhone(userModifyParameter.getPhone());
         this.setValid(true);
-        this.setStatus(true);
     }
 
     public boolean pwdConfirm(String pwd) {
@@ -74,37 +63,7 @@ public class User {
 
 
     //getter and setter
-    public boolean isStatus() {
-        return status;
-    }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public boolean isValid() {
-        return valid;
-    }
-
-    public void setValid(boolean valid) {
-        this.valid = valid;
-    }
 
     public long getUserId() {
         return userId;
@@ -130,6 +89,14 @@ public class User {
         this.password = password;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -138,12 +105,20 @@ public class User {
         this.address = address;
     }
 
-    public String getPhone() {
-        return phone;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPhoto() {
@@ -154,6 +129,14 @@ public class User {
         this.photo = photo;
     }
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
     public String getRegDate() {
         return regDate;
     }
@@ -162,5 +145,11 @@ public class User {
         this.regDate = regDate;
     }
 
+    public String getGender() {
+        return gender;
+    }
 
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

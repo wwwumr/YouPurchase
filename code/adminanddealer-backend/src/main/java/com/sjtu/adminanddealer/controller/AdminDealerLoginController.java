@@ -1,13 +1,14 @@
 package com.sjtu.adminanddealer.controller;
 
+import com.sjtu.adminanddealer.DTO.DealerDTO;
+import com.sjtu.adminanddealer.DTO.UserLoginDTO;
 import com.sjtu.adminanddealer.entity.Admin;
 import com.sjtu.adminanddealer.entity.Dealer;
+import com.sjtu.adminanddealer.entity.User;
+import com.sjtu.adminanddealer.parameter.UserLoginParameter;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,16 +23,15 @@ public class AdminDealerLoginController {
     private AdminDealerLoginService adminDealerLoginService;
 
     @GetMapping("/login/admin")
-    public String adminLogin(@RequestParam("userName") String userName,
-                             @RequestParam("password") String password,
+    public String adminLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
                              HttpSession session) {
         Admin admin = adminDealerLoginService.getAdminByUserNameAndPassword(userName, password);
         if (admin != null) {
             session.setAttribute("loginUserId", admin.getAdminId());
             session.setAttribute("loginType", "ADMIN");
             session.setAttribute("userName", admin.getUserName());
+            session.setAttribute("userId", admin.getAdminId());
             adminDealerLoginService.addSessionIdToRedis("loginUser:" + admin.getAdminId(), session.getId());
-//            session.setAttribute("admin", admin);
             return "ADMIN";
         } else {
             return "ERROR";
@@ -39,33 +39,44 @@ public class AdminDealerLoginController {
     }
 
     @GetMapping("/login/dealer")
-    public String dealerLogin(@RequestParam("userName") String userName,
-                              @RequestParam("password") String password,
-                              HttpSession session) {
+    public DealerDTO dealerLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
+                                 HttpSession session) {
         Dealer dealer = adminDealerLoginService.getDealerByUserNameAndPassword(userName, password);
         if (dealer != null) {
             session.setAttribute("loginUserId", dealer.getDealerId());
             session.setAttribute("loginUserType", "DEALER");
             session.setAttribute("userName", dealer.getUserName());
+            session.setAttribute("userId", dealer.getDealerId());
             adminDealerLoginService.addSessionIdToRedis("loginUser:" + dealer.getDealerId(), session.getId());
-            // session.setAttribute("dealer", dealer);
-            return "DEALER";
-        } else {
-            return "ERROR";
+            DealerDTO dto = new DealerDTO(dealer.getDealerId(), dealer.getUserName(), dealer.getAvatar(), dealer.getAddress(),
+                    dealer.getRealName(), dealer.getContact(), (dealer.getStore() != null) ? dealer.getStore().getStoreId() : null,
+                    (dealer.getStore() != null) ? dealer.getStore().getStoreName() : null, null);
+            return dto;
         }
+        return new DealerDTO();
+    }
+
+    @PostMapping("/login/user")
+    public UserLoginDTO userLogin(@RequestBody UserLoginParameter parameter, HttpSession session) {
+        User user = adminDealerLoginService.getUserByPhoneAndPassword(parameter.getPhone(), parameter.getPassword());
+        if (user != null) {
+            session.setAttribute("loginUserId", user.getUserId());
+            session.setAttribute("loginUserType", "USER");
+            session.setAttribute("userName", user.getUserName());
+            adminDealerLoginService.addSessionIdToRedis("loginUser:" + user.getUserId(), session.getId());
+            return new UserLoginDTO(200, user);
+        }
+        return new UserLoginDTO(404, null);
     }
 
     @GetMapping("/logout")
     public String adminDealerLogOut(HttpSession session) {
-        // session.removeAttribute("dealer");
-        // session.removeAttribute("admin");
         Long id = (Long) session.getAttribute("loginUserId");
-        //if(id!=null){
         session.removeAttribute("loginUserId");
         session.removeAttribute("loginUserType");
         session.removeAttribute("userName");
+        session.removeAttribute("userId");
         adminDealerLoginService.deleteSessionId("loginUser:" + id);
-        //}
         return "LOGOUT";
     }
 
@@ -74,9 +85,17 @@ public class AdminDealerLoginController {
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
             return userName;
-        } else {
-            return "";
         }
+        return "";
+    }
+
+    @GetMapping("/login/userId")
+    public Long getUserIdFromSession(HttpSession session) {
+        Long id = (Long) session.getAttribute("loginUserId");
+        if (id != null) {
+            return id;
+        }
+        return null;
     }
 
 }

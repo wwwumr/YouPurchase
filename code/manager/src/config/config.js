@@ -1,3 +1,4 @@
+var root = "http://localhost:9000/";
 var config = {
     shop: {
         originShop: {
@@ -23,37 +24,27 @@ var config = {
             storeName: "",
             password: "",
             avatar: "image/dealerDefaultAvatar.png",
-        },
-        postDealer: {
-            key: null,
-            userName: "",
-            address: "",
-            realName: "",
-            contact: "",
-            storeId: null,
-            storeName: "",
-            password: "",
         }
     },
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
-        storeAction: "http://localhost:9000/stores/cover/",
-        avatarAction: "http://localhost:9000/dealers/avatar/"
+        storeAction: root + "stores/cover/",
+        avatarAction: root + "dealers/avatar/"
     },
     avatar: {
         url: "image/defaultAvatar.png",
     },
-    homePageImageUrl: "url(http://localhost:9000/image/defaultLogInCover.png)",
+    homePageImageUrl: "url(" + root + "image/defaultLogInCover.png)",
     url: {
-        root: "http://localhost:9000/",
-        logIn: "http://localhost:9000/login/admin",
-        stores: "http://localhost:9000/stores/",
-        dealers: "http://localhost:9000/dealers/",
-        newdealer: "http://localhost:9000/dealers/",
-        unbindDealers: "http://localhost:9000/dealers/unbindDealers",
-        unbindStores: "http://localhost:9000/stores/unbindStores",
-        updateStoreCover: "http://localhost:9000/stores/cover",
+        root: root,
+        logIn: root + "login/admin",
+        stores: root + "stores/",
+        dealers: root + "dealers/",
+        newdealer: root + "dealers/",
+        unbindDealers: root + "dealers/unbindDealers",
+        unbindStores: root + "stores/unbindStores",
+        updateStoreCover: root + "stores/cover",
     }
 }
 

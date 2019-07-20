@@ -17,15 +17,16 @@ import java.io.IOException;
  * @author Chuyuxuan
  */
 @RestController
-@Api(tags = "头像获取")
+@RequestMapping("/image")
 public class ImageController {
-
+    /*
+     * 数据库中所有的图片url，都是image/123456.jpg这种格式
+     * 这样在前端请求的时候，用主机的root路径加上这个字符串就可以请求到相应图片了 */
 
     @Value("${imageBaseDirectory}")
     private String IMAGE_BASE_DIRECTORY;
 
-    @ApiOperation(value = "用户获取头像")
-    @GetMapping(value = "/user/getPhoto/{picUrl}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @GetMapping(value = "/{picUrl:.+}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
         File file = null;
         FileInputStream inputStream = null;

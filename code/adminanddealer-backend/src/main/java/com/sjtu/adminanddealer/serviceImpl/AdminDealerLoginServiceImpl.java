@@ -2,8 +2,10 @@ package com.sjtu.adminanddealer.serviceImpl;
 
 import com.sjtu.adminanddealer.dao.AdminDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
+import com.sjtu.adminanddealer.dao.UserDao;
 import com.sjtu.adminanddealer.entity.Admin;
 import com.sjtu.adminanddealer.entity.Dealer;
+import com.sjtu.adminanddealer.entity.User;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,6 +24,9 @@ public class AdminDealerLoginServiceImpl implements AdminDealerLoginService {
     private DealerDao dealerDao;
 
     @Autowired
+    private UserDao userDao;
+
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
@@ -32,6 +37,16 @@ public class AdminDealerLoginServiceImpl implements AdminDealerLoginService {
     @Override
     public Dealer getDealerByUserNameAndPassword(String userName, String password) {
         return dealerDao.getDealerByUserNameAndPassword(userName, password);
+    }
+
+    @Override
+    public User getUserByUserNameAndPassword(String userName, String password) {
+        return userDao.getUserByUserNameAndPassword(userName, password);
+    }
+
+    @Override
+    public User getUserByPhoneAndPassword(String phone, String password) {
+        return userDao.getUserByPhoneAndPassword(phone, password);
     }
 
     @Override

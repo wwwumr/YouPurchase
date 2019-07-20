@@ -1,14 +1,16 @@
+
 import React from 'react';
 import { Card, Button, Typography, Tooltip, message, Input, Modal, Radio } from 'antd';
 import goodsMock from '../../mock/goodsMock';
-import goodsConfig from '../../config/goods';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import config from '../../config/config';
 
 const { Paragraph } = Typography;
 const { TextArea } = Input;
 
-class GoodsManage extends React.Component {
 
+class GoodsManage extends React.Component {
+    
     constructor(props) {
         super(props);
         
@@ -16,7 +18,7 @@ class GoodsManage extends React.Component {
             goodsList: [],
             deleteing: false,
             visible: false,
-            goods: goodsConfig.originGoods,
+            goods: Object.assign({}, config.goods.originGoods),
             value: 1,
         }
     }
