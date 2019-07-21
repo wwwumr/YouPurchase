@@ -15,6 +15,8 @@ import config from './config/config';
 
 const { Header, Content, Footer} = Layout;
 const history = createHashHistory();
+var CancelToken = axios.CancelToken;
+var source = CancelToken.source();
 
 /**
  * 控制路由跳转及页面布局的根组件
@@ -23,6 +25,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            key: null,
             dealer: Object.assign({}, config.dealer.originDealer),
         }
     }
@@ -34,16 +37,28 @@ class App extends React.Component {
         axios
             .get(config.url.userId)
             .then(res => {
-                if (res.data !== null) {
+                if (res.data !== null && res.data !== '') {
+                    this.setState({
+                        key: res.data,
+                    })
+                    /* 进一步请求经销商 */
                     axios
-                        .get(config.url.dealers + res.data)
+                        .get(config.url.dealers + res.data,  {
+                            cancelToken: source.token
+                        })
                         .then(response => {
                             this.setState({
                                 dealer: response.data,
                             })
                         })
+                        .catch(e => {
+                            if (e.response.status !== 401) {
+                                console.log(e.message);
+                            }
+                        })
                 }
-            })
+            }) 
+                        
     }
 
     
@@ -93,9 +108,8 @@ class App extends React.Component {
                         dealer: dealerMessage,
                     }, () => {
                         history.push({
-                            pathname: "/storeManage/",
+                            pathname: "/accountManage/" + this.state.key,
                         });
-                        console.log(this.state.dealer);
                         message.success("登录成功");
                     });                    
                 } else {
@@ -114,15 +128,15 @@ class App extends React.Component {
                         <div className="logo" />
                         {/* 登录并拥有店铺的经销商 */}
                         {
-                            this.state.dealer.key !== null &&
+                            this.state.dealer.key !== null && this.state.dealer.storeId !== null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
                                     <Avatar size={45} 
-                                        src={ this.props.avatar } 
+                                        src={ config.url.root + this.state.dealer.avatar } 
                                     />
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                <Link to={"/accountManage/"} >{this.state.userName}</Link>
+                                <Link to={"/accountManage/" + this.state.key} >账户管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="3">
                                 <Link to={"/storeManage/"} >店铺管理</Link>
@@ -162,14 +176,10 @@ class App extends React.Component {
                                         changeBg = {this.changeBg}
                                     /> }
                                 />    
-                                <Route exact path = "/storeManage/" 
-                                    render = {() => <StoreManage 
-                                        storeId={ this.state.dealer.storeId } 
-                                    />} 
-                                />
+                                <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} getId={() =>{return this.state.dealer.storeId}} /> } />
                                 <Route exact path = "/orderManage/" component={ OrderManage } />
                                 <Route exact path = "/goodsManage/" component={ GoodsManage } />
-                                <Route exact path = "/accountManage/" component={ AccountManage } />
+                                <Route exact path = "/accountManage/:dealerId" component={ AccountManage } />
                                 <Route exact path = "/goods/:id" component={ Goods } />
                             </Switch>
                         

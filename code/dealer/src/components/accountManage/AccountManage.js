@@ -15,8 +15,7 @@ class AccountManage extends React.Component {
     }
 
     componentDidMount() {
-        const key = this.props.match.params.key;
-        
+        const key = this.props.match.params.dealerId;
         /* axios function */
         axios
             .get(config.url.dealers + key)
@@ -135,7 +134,7 @@ class AccountManage extends React.Component {
                 >
                     <Link 
                         to = {{
-                            pathname: "/storeManage/"+this.props.match.params.userName,
+                            pathname: "/storeManage/",
                             storeId: this.state.dealer.storeId,
                         }}
                     >

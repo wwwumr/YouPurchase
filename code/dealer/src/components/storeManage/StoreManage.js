@@ -16,14 +16,26 @@ class StoreManage extends React.Component {
 
     /* 获取商店信息 */
     componentDidMount() {
-        console.log(this.props.storeId)
         axios
-            .get(config.url.stores + this.props.storeId)
-            .then((res) => {
-                this.setState({
-                    shop: Object.assign({}, res.data),
-                    originShop: Object.assign({}, res.data),
-                })
+            .get(config.url.dealers + this.props.getId())        
+            .then(response => {
+                axios
+                    .get(config.url.stores + response.data.storeId)
+                    .then((res) => {
+                        this.setState({
+                            shop: Object.assign({}, res.data),
+                            originShop: Object.assign({}, res.data),
+                        })
+                    })
+                    .catch(err => {
+                        if (err.response) {
+                            console.log(err.response.statusText)
+                        }
+                    })
+
+            })
+            .catch(res => {
+                console.log(res.message)
             })
     }
 
