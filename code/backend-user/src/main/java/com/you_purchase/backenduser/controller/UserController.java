@@ -9,9 +9,12 @@ import com.you_purchase.backenduser.parameter.UserModifyParameter;
 import com.you_purchase.backenduser.parameter.UserRegParameter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.*;
 
 @RestController
 @Api(tags = "用户相关接口")
@@ -98,5 +101,24 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation(value = "用户支付")
     public */
+
+
+    //用户获取Base64图片
+    @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户上传Base64")
+    int UploadPhoto(long userId,String photo){
+        return userService.UploadPhoto(userId,photo);
+    }
+
+    //用户获取Base64图片
+    @RequestMapping(value = "/user/getPhoto",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户获取Base")
+    String GetPhoto(long userId){
+        return userService.GetPhoto(userId);
+    }
 
 }
