@@ -31,10 +31,12 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
                 String loginSessionId = redisTemplate.opsForValue().get("loginUser:" + (long) session.getAttribute("loginUserId"));
                 if (loginSessionId != null && loginSessionId.equals(session.getId())) {
                     String origin = request.getHeader("Origin");
+                    /*
                     response.setHeader("Access-Control-Allow-Origin", origin);
                     response.setHeader("Access-Control-Allow-Methods", "*");
                     response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
                     response.setHeader("Access-Control-Allow-Credentials", "true");
+                    */
                     return true;
                 }
             } catch (Exception e) {
@@ -50,11 +52,12 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String origin = request.getHeader("Origin");
+        /*
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-
+        */
         try {
 
             response.sendError(401, "用户未登录");

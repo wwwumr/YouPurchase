@@ -75,6 +75,14 @@ public class Commodity {
         this.commodityInfo = commodityInfo;
     }
 
+    public String getCommodityCoverPicUrl(){
+        return this.commodityCoverPicUrl;
+    }
+
+    public void setCommodityCoverPicUrl(String commodityCoverPicUrl){
+        this.commodityCoverPicUrl = commodityCoverPicUrl;
+    }
+
     public List<String> getCommodityPicUrls() {
         return commodityPicUrls;
     }

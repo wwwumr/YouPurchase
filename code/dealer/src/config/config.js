@@ -69,8 +69,9 @@ var config = {
         unbindStores: root + "stores/unbindStores/",
         updateStoreCover: root + "stores/cover/",
         store: root + "stores/dealer/store/",
-        goods: root + "stores/commodities/",
+        storeGoods: root + "stores/commodities/",
         dealer: root + "dealers/dealer",
+        goods: root + "commodities/"
     },
 }
 
