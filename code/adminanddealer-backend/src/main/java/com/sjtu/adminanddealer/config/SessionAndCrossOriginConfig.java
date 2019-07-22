@@ -47,6 +47,20 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
     }
 
     @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        //设置允许跨域的路径
+        registry.addMapping("/**")
+                //设置允许跨域请求的域名
+                .allowedOrigins("*")
+                //是否允许证书 不再默认开启
+                .allowCredentials(true)
+                //设置允许的方法
+                .allowedMethods("*")
+                //跨域允许时间
+                .maxAge(3600);
+    }
+
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 所有api开头的访问都要进入RedisSessionInterceptor拦截器进行登录验证，并排除login接口(全路径)。
         // 必须写成链式，分别设置的话会创建多个拦截器。
@@ -64,18 +78,4 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
 
     }
 
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        //设置允许跨域的路径
-        registry.addMapping("/**")
-                //设置允许跨域请求的域名
-                .allowedOrigins("*")
-                //是否允许证书 不再默认开启
-                .allowCredentials(true)
-                //设置允许的方法
-                .allowedMethods("*")
-                //跨域允许时间
-                .maxAge(3600);
-    }
 }
