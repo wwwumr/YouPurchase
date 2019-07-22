@@ -1,5 +1,6 @@
 package com.you_purchase.backenduser.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
@@ -41,13 +42,11 @@ public class UserController extends BaseController {
 
     //用户修改头像
     @PostMapping("/user/photo")
-    public String updateUserPhoto(@RequestParam("file") MultipartFile file, @RequestParam("key") Long userId,
-                                     @RequestParam("photo") String photo) {
-        if (file == null) {
-            return "ERROR";
-        }
-        String newPhoto = userService.UpdateUserPhoto(file,userId,photo);
-        return newPhoto;
+    public String updateUserPhoto(@RequestBody JSONObject data) {
+        String newPhotoBase64 = data.getString("photo");
+        Long userId = data.getLong("userId");
+        userService.UpdateUserPhoto(newPhotoBase64, userId);
+        return "UPDATE";
     }
 
     //用户登陆

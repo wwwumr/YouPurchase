@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,20 @@ public class CommodityController {
     @GetMapping("/stores/{storeId}/commodities")
     public List<CommodityDTO> getCommodityFromStore(@PathVariable("storeId") Long storeId) {
         return commodityService.getAllCommoditiesByStore(storeId);
+    }
+
+    /**
+     * 经销商登录后，session中存在着storeId，可以从这个信息取得店铺的商品信息
+     *
+     * @param session session
+     * @return 所有在这个经销商店铺中所有商品的信息
+     */
+    @GetMapping("/stores/commodities")
+    public List<CommodityDTO> getCommoditiesFromStoreInSession(HttpSession session) {
+        if (session.getAttribute("storeId") != null) {
+            return commodityService.getAllCommoditiesByStore((Long) session.getAttribute("storeId"));
+        }
+        return null;
     }
 
     /**
