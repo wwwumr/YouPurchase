@@ -159,18 +159,6 @@ public class UserService extends BaseService{
     }
 
 
-
-/*
-    // 修改用户头像
-    public void UpdateUserPhoto(String newPhotoBase64, Long userId){
-        User user = userDao.findByUserIdAndValid(userId,true);
-        user.setPhoto(newPhotoBase64);
-        userDao.save(user);
-    }
-*/
-
-
-
     //用户上传头像
     public String UploadPhoto(UserPhotoParameter userPhotoParameter){
         User user = userDao.findByUserIdAndValid(userPhotoParameter.getUserId(),true);

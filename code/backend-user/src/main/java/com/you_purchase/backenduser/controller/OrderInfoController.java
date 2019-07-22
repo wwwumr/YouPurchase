@@ -36,17 +36,6 @@ public class OrderInfoController extends BaseController{
         return orderInfoService.OrderPay(payParameter);
     }
 
-    //模拟第三方接口,确认具体支付方式后删除
-/*
-    @RequestMapping(value = "/order/thirdPay",method = RequestMethod.POST)
-    public
-    @ResponseBody
-    @ApiOperation(value = "第三方模拟接口")
-    PayParameter ThirdPay(@RequestBody PayParameter payParameter){
-        return orderInfoService.ThirdPay(payParameter);
-    }
-*/
-
 
     //用户查看订单
     @RequestMapping(value = "/order/userCheck",method = RequestMethod.POST)
