@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -156,6 +157,20 @@ public class StoreController {
     public String updateDelivery(@RequestParam("deliveryType") Integer type, @RequestParam("storeId") Long storeId) {
         storeService.updateStoreDeliveryType(type, storeId);
         return "UPDATE";
+    }
+
+    /**
+     * 经销商登陆后，从session中用storeId获取店铺的信息
+     *
+     * @param session session
+     * @return 店铺信息
+     */
+    @GetMapping("/dealer/store")
+    public StoreDTO getStoreInfo(HttpSession session) {
+        if (session.getAttribute("storeId") != null) {
+            return storeService.getStoreByStoreId((Long) session.getAttribute("storeId"));
+        }
+        return null;
     }
 
 }

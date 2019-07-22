@@ -81,21 +81,11 @@ public class UserService extends BaseService{
         return new UserLoginDTO(200,user);
     }
 
-    public String UpdateUserPhoto(MultipartFile file,long userId,String photo){
+    // 修改用户头像
+    public void UpdateUserPhoto(String newPhotoBase64, Long userId){
         User user = userDao.findByUserIdAndValid(userId,true);
-        if(photo.equals(this.userDefaultAvatarUrl)){
-            String newPhoto = fileUploadUtil.saveFile(file);
-            user.setPhoto(newPhoto);
-            userDao.save(user);
-            return newPhoto;
-        }
-        else{
-            String newPhoto = fileUploadUtil.saveFile(file);
-            user.setPhoto(newPhoto);
-            userDao.save(user);
-            fileUploadUtil.deleteFile(photo);
-            return newPhoto;
-        }
+        user.setPhoto(newPhotoBase64);
+        userDao.save(user);
     }
 
     //禁用某个用户
