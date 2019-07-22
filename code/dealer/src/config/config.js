@@ -71,7 +71,8 @@ var config = {
         store: root + "stores/dealer/store/",
         storeGoods: root + "stores/commodities/",
         dealer: root + "dealers/dealer/",
-        goods: root + "commodities/"
+        goods: root + "commodities/",
+        updateGoodsCover: root + "commodities/cover/"
     },
 }
 
