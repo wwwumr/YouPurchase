@@ -1,5 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
+import axios from 'axios';
 import config from '../../../config/config';
 
 
@@ -29,14 +30,21 @@ class ImageUpload extends React.Component {
         this.state = {
             loading: false,
             imageUrl: '',
+            storeId: null,
         };
     }
 
     componentWillMount() {
-        var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.originShop.coverPicUrl;
-        this.setState({
-            imageUrl: coverPic,
-        })
+        axios   
+            .get(config.url.store)
+            .then(res => {
+                if (res.data !== null && res.data !== ''){
+                    this.setState({
+                        imageUrl: res.data.coverPicUrl,
+                        storeId: res.data.key,
+                    })
+                }
+            })
     }
     
     handleChange = info => {
@@ -45,13 +53,10 @@ class ImageUpload extends React.Component {
                 return;
             }
         if (info.file.status === 'done') {
-        // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl: imageUrl,
-                    loading: false,
-                }),
-            );
+            this.setState({
+                imageUrl: info.file.response,
+                loading: false,
+            })
         }
     };
     
@@ -71,7 +76,7 @@ class ImageUpload extends React.Component {
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.storeAction}
-                data={{"key": this.props.storeId, "coverPicUrl": this.props.coverPic}}
+                data={{"key": this.state.storeId, "coverPicUrl": this.state.coverPic}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "400px", height: "300px", 

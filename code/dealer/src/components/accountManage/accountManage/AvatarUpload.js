@@ -1,8 +1,7 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip } from 'antd';
+import axios from 'axios';
 import config from '../../../config/config';
-
-
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -29,16 +28,24 @@ class AvatarUpload extends React.Component {
         super(props);
         this.state = {
             loading: false,
+            dealerId: null, 
             imageUrl: '',
         };
         
     }
 
     componentDidMount() {
-        var avatar = this.props.avatar ? this.props.avatar : config.dealer.avatar;
-        this.setState({
-            imageUrl: avatar,
-        })
+        axios   
+            .get(config.url.dealer)
+            .then(res => {
+                if (res.data !== null && res.data !== ''){
+                    this.setState({
+                        imageUrl: config.url.root + res.data.avatar,
+                        dealerId: res.data.key,
+                    })
+                }
+                
+            })
     }
     
     handleChange = info => {
@@ -48,12 +55,10 @@ class AvatarUpload extends React.Component {
             }
         if (info.file.status === 'done') {
         // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                imageUrl: imageUrl,
+            this.setState({
+                imageUrl: info.file.response,
                 loading: false,
-                }),
-            );
+            });
         }
     };
     
@@ -68,12 +73,12 @@ class AvatarUpload extends React.Component {
         return (
         <Tooltip placement="topLeft" title="更换头像">
             <Upload
-                name="avatar"
+                name="file"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.avatarAction}
-                data={{}}
+                data={{"avatar": this.state.imageUrl, "key": this.state.dealerId}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "125px", height: "125px", 
@@ -86,7 +91,7 @@ class AvatarUpload extends React.Component {
                     <div
                         style={{position: "relative", width: "115px", height: "115px", marginLeft: "-2px", marginTop: "-2px"}}
                     >
-                    <img src={this.state.imageUrl} alt="头像" 
+                    <img src={ config.url.root + this.state.imageUrl} alt="头像" 
                         style={{position: "relative", width: "100%", height: "100%"}} 
                     /> 
                     </div>

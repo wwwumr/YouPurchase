@@ -1,5 +1,6 @@
 import React from 'react';
 import { Upload, Icon, message, Tooltip, Modal } from 'antd';
+import axios from 'axios';
 import config from '../../../../config/config';
 
 
@@ -29,6 +30,7 @@ class ImageUpload extends React.Component {
         this.state = {
             loading: false,
             imageUrl: '',
+            goodsId: null,
             previewVisible: false,
             previewImage: '',
             fileList: [
@@ -43,10 +45,18 @@ class ImageUpload extends React.Component {
     }
 
     componentWillMount() {
-        var coverPic = this.props.coverPic ? this.props.coverPic : config.shop.originShop.coverPicUrl;
-        this.setState({
-            imageUrl: coverPic,
-        })
+        let key = this.props.goodsId;
+        axios   
+            .get(config.url.goods + key)
+            .then(res => {
+                if (res.data !== null && res.data !== ''){
+                    this.setState({
+                        imageUrl: res.data.commodityCoverPicUrl,
+                        goodsId: res.data.key,
+                    })
+                }
+                
+            })
     }
 
     handleCancel = () => this.setState({ previewVisible: false });
@@ -68,13 +78,10 @@ class ImageUpload extends React.Component {
                 return;
             }
         if (info.file.status === 'done') {
-        // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl: imageUrl,
-                    loading: false,
-                }),
-            );
+            this.setState({
+                imageUrl: info.file.response,
+                loading: false,
+            });
         }
     };
     
@@ -102,7 +109,7 @@ class ImageUpload extends React.Component {
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.goodsAction}
-                data={{"key": this.props.storeId, "coverPicUrl": this.props.coverPic}}
+                data={{"key": this.props.goodsId, "coverPicUrl": this.state.imageUrl}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "330px", height: "300px", 
@@ -111,7 +118,7 @@ class ImageUpload extends React.Component {
                 {/* action之后重构 */}
                 {
                     this.state.imageUrl ?
-                    <img src={this.state.imageUrl} alt="头像" 
+                    <img src={ config.url.root + this.state.imageUrl} alt="头像" 
                         style={{position: "relative", width: "100%", height: "90%"}}
                     /> 
                     : uploadButton
