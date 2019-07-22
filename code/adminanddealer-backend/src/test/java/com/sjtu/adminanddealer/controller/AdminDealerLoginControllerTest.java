@@ -65,6 +65,7 @@ public class AdminDealerLoginControllerTest {
     }
 
     @Test
+    @Ignore
     public void testDealerLogin() throws Exception {
         given(this.adminDealerLoginService.getDealerByUserNameAndPassword("user", "password"))
                 .willReturn(new Dealer());

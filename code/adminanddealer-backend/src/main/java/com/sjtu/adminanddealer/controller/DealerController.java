@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -100,5 +101,20 @@ public class DealerController {
         }
         String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
         return newAvatar;
+    }
+
+    /**
+     * 经销商登录后，用session里面的信息获取经销商的信息
+     *
+     * @param session session
+     * @return 经销商信息
+     */
+    @GetMapping("/dealer")
+    public DealerDTO getDealerInfo(HttpSession session) {
+        if (session.getAttribute("loginUserId") != null
+                && ((String) session.getAttribute("loginUserType")).equals("DEALER")) {
+            return dealerService.getDealerByDealerId((Long) session.getAttribute("loginUserId"));
+        }
+        return null;
     }
 }
