@@ -1,5 +1,6 @@
 # 经销商页面
 
-GET /stores/{storeId}/commodities
+待做:
 
-GET /commodities/{id}
+1. 删除时关联集未删除
+2. 换头像时需要加session

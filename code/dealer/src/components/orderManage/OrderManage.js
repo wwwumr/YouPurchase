@@ -1,15 +1,25 @@
 import React from 'react';
-
+/*
+import { Table, Input, Button, Icon, Modal, message, TimePicker } from 'antd';
+import axios from 'axios';
+*/
 
 class OrderManage extends React.Component {
 
-    componentDidMount() {}
+    /*
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderList: [],
+        }
+    }*/
+
+    componentDidMount() {
+    }
 
     render() {
         return (
-            <p>
-                hello
-            </p>
+            <h1>hello</h1>
         );
     }
 }

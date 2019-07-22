@@ -44,6 +44,10 @@ class StoreManage extends React.Component {
                     if (res.data < 0) {
                         message.error("修改失败");
                     } else {
+                        let shop = this.state.shop;
+                        this.setState({
+                            originShop: Object.assign({}, shop),
+                        })
                         message.success("修改成功");
                     }
                 })
@@ -75,7 +79,6 @@ class StoreManage extends React.Component {
             || shop.startHour !== originShop.startHour
             || shop.endHour !== originShop.endHour || shop.storeName !== originShop.storeName
             || shop.dealerName !== originShop.dealerName) {
-            alert("修改成功");
             return true;
         } 
         return false;

@@ -66,13 +66,14 @@ class AvatarUpload extends React.Component {
         );
 
         return (
-        <Tooltip placement="topLeft" title="更换店面图片">
+        <Tooltip placement="topLeft" title="更换头像">
             <Upload
                 name="avatar"
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action= {config.uploadImage.storeAction}
+                action= {config.uploadImage.avatarAction}
+                data={{}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "125px", height: "125px", 
@@ -85,7 +86,7 @@ class AvatarUpload extends React.Component {
                     <div
                         style={{position: "relative", width: "115px", height: "115px", marginLeft: "-2px", marginTop: "-2px"}}
                     >
-                    <img src={this.state.imageUrl} alt="店面" 
+                    <img src={this.state.imageUrl} alt="头像" 
                         style={{position: "relative", width: "100%", height: "100%"}} 
                     /> 
                     </div>

@@ -71,7 +71,7 @@ public class CommodityServiceImpl implements CommodityService {
             Commodity commodity = new Commodity();
             commodity.setCommodityInfo(commodityParameter.getCommodityInfo());
             commodity.setInventory(commodityParameter.getInventory());
-            commodity.setOnShelves(false);
+            commodity.setOnShelves(commodityParameter.isOnShelves());
             commodity.setPrice(commodityParameter.getPrice());
             commodity.setRemaining(commodityParameter.getRemaining());
             commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);

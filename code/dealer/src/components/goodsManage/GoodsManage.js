@@ -16,7 +16,6 @@ class GoodsManage extends React.Component {
         
         this.state = {
             goodsList: [],
-            deleteList: [],
             visible: false,
             goods: Object.assign({}, config.goods.originGoods),
             value: 1,
@@ -37,17 +36,6 @@ class GoodsManage extends React.Component {
             })
     }
 
-    componentWillUnmount() {
-        axios
-            .delete(config.url.goods, {
-                data: this.state.deleteList,
-            })
-            .then(() => {
-                this.setState({
-                    deleteList: [].concat(),
-                })
-            })
-    }
     /**
      * @description 删除商品的按钮触发的事件
      * @param  { event } e
@@ -57,12 +45,21 @@ class GoodsManage extends React.Component {
         let goodsList = this.state.goodsList.filter((elem) => {
             return elem.key !== key;
         })
-        let deleteList = this.state.deleteList;
-        deleteList.push(key);
         this.setState({
             goodsList: goodsList,
-            deleteList: deleteList,
         })
+        axios
+            .delete(config.url.goods, {
+                data: [key],
+            })
+            .then(res => {
+                if (res.data && res.data === "DELETE") {
+                    message.success("删除成功");
+                }
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
     }
     /**
      * @description 新增商品的触发事件
