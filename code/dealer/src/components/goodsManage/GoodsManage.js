@@ -84,6 +84,19 @@ class GoodsManage extends React.Component {
         })
         message.success("增加成功")
     }
+
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+     handleChange = (e, info) => {
+        let goods = this.state.goods;
+        goods[info] = e.target.value;
+        this.setState({ 
+            goods: goods 
+        })
+    }
     
     
     /**
@@ -91,11 +104,14 @@ class GoodsManage extends React.Component {
      * @param { goods } elem
      */
     GoodsItems(elem) {
-        return <Card key={elem.key.toString()} style={{ margin: "20px", height: 330, width: 210, display: "inline-block", }}>
+        return (
+        <Card key={elem.key} 
+            style={{ margin: "20px", height: 330, width: 210, display: "inline-block", }}
+        >
             <Link to={"/goods/" + elem.key}>
                 <img alt="商品图片" src={config.url.root + elem.commodityCoverPicUrl} style={{ width: 200, height: 200, marginLeft: -20, marginTop: -20 }} />
             </Link>
-            <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key.toString()}>
+            <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key}>
 
                 <Link to={"/goods/" + elem.key}>
                     <Paragraph ellipsis={true}>
@@ -127,7 +143,7 @@ class GoodsManage extends React.Component {
                     删除商品
                 </Button>
             </div>
-        </Card>;
+        </Card>);
     }
 
     render() {
@@ -163,34 +179,18 @@ class GoodsManage extends React.Component {
                         {/* 商品信息输入 */}
                         <TextArea placeholder="商品信息描述" style={{margin:"10px"}}
                             value={this.state.goods.commodityInfo} 
-                            onChange= {(e) => {
-                                let goods = this.state.goods;
-                                goods.commodityInfo = e.target.value;
-                                this.setState({ goods: goods })
-                            }}>
+                            onChange= {(e) => {this.handleChange(e, "commodityInfo")}}>
                         </TextArea>
                         <Input  addonBefore="商品价格" style={{margin:"10px"}}
                             value={this.state.goods.price}
-                            onChange= {(e) => {
-                                let goods = this.state.goods;
-                                goods.price = e.target.value;
-                                this.setState({ goods: goods })
-                            }}>
+                            onChange= {(e) => {this.handleChange(e, "price")}}>
                         </Input>
                         <Input  addonBefore="商品库存" style={{margin:"10px"}}
                             value={this.state.goods.inventory}
-                            onChange= {(e) => {
-                                let goods = this.state.goods;
-                                goods.inventory = e.target.value;
-                                this.setState({ goods: goods })
-                            }}>
+                            onChange= {(e) => {this.handleChange(e, "inventory")}}>
                         </Input> 
                         <Radio.Group value={this.state.goods.onShelves}
-                            onChange= {(e) => {
-                                let goods = this.state.goods;
-                                goods.onShelves = e.target.value;
-                                this.setState({ goods: goods })
-                            }}
+                            onChange= {(e) => {this.handleChange(e, "onShelves")}}
                         >
                             <Radio value={true} defaultChecked={true}>上架</Radio>
                             <Radio value={false}>不上架</Radio>
@@ -198,11 +198,7 @@ class GoodsManage extends React.Component {
                         <Input  addonBefore="上架数量" style={{margin:"10px"}}
                             value={this.state.goods.remaining}
                             disabled={!this.state.goods.onShelves}
-                            onChange= {(e) => {
-                                let goods = this.state.goods;
-                                goods.remaining = e.target.value;
-                                this.setState({ goods: goods })
-                            }}>
+                            onChange= {(e) => {this.handleChange(e, "remaining")}}>
                         </Input>
                     </div>
                     </Modal>

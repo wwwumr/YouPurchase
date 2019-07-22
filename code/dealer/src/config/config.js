@@ -34,7 +34,7 @@ var config = {
             "key": null,
             "price": null,
             "commodityInfo": "",
-            "commodityCoverPicUrl": "image/commodityDefaultPic.jpg",
+            "commodityCoverPicUrl": "image/defaultCommodityPic.png",
             "commodityPicUrls": [].concat(),
             "onShelves": true,
             "inventory": null,
@@ -70,7 +70,7 @@ var config = {
         updateStoreCover: root + "stores/cover/",
         store: root + "stores/dealer/store/",
         storeGoods: root + "stores/commodities/",
-        dealer: root + "dealers/dealer",
+        dealer: root + "dealers/dealer/",
         goods: root + "commodities/"
     },
 }
