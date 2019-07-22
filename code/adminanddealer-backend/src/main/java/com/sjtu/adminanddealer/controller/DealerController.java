@@ -95,11 +95,11 @@ public class DealerController {
 
     @PostMapping("/avatar")
     public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
-                                     @RequestParam("key")Long dealerId) {
+                                     @RequestParam("key") Long dealerId) {
         if (file == null) {
             return "ERROR";
         }
-        String newAvatar = dealerService.updateDealerAvatar(file, (Long)session.getAttribute("loginUserId"), avatar);
+        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
         return newAvatar;
     }
 

@@ -2,6 +2,8 @@ package com.you_purchase.backenduser.dto;
 
 import com.you_purchase.backenduser.entity.OrderInfo;
 
+import java.util.List;
+
 public class OrderPayDTO {
     private  long orderPayId;
 
@@ -9,13 +11,16 @@ public class OrderPayDTO {
 
     private double totalPrice;
 
+    private List<CommodityShortageDTO> shortageDTOS;
 
-    public OrderPayDTO(OrderInfo orderInfo){
+
+    public OrderPayDTO(OrderInfo orderInfo, List<CommodityShortageDTO> dtos){
         if(orderInfo != null){
             this.setOrderPayId(orderInfo.getOrderInfoId());
             this.setCreateDate(orderInfo.getCreateDate());
             this.setTotalPrice(orderInfo.getTotalPrice());
         }
+        this.shortageDTOS = dtos;
     }
 
 
@@ -43,5 +48,13 @@ public class OrderPayDTO {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public List<CommodityShortageDTO> getShortageDTOS() {
+        return shortageDTOS;
+    }
+
+    public void setShortageDTOS(List<CommodityShortageDTO> shortageDTOS) {
+        this.shortageDTOS = shortageDTOS;
     }
 }

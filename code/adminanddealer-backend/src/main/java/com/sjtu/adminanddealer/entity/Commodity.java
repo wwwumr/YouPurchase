@@ -75,11 +75,11 @@ public class Commodity {
         this.commodityInfo = commodityInfo;
     }
 
-    public String getCommodityCoverPicUrl(){
+    public String getCommodityCoverPicUrl() {
         return this.commodityCoverPicUrl;
     }
 
-    public void setCommodityCoverPicUrl(String commodityCoverPicUrl){
+    public void setCommodityCoverPicUrl(String commodityCoverPicUrl) {
         this.commodityCoverPicUrl = commodityCoverPicUrl;
     }
 

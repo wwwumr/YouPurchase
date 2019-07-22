@@ -1,7 +1,5 @@
 package com.sjtu.adminanddealer.config;
 
-import com.sjtu.adminanddealer.entity.Dealer;
-import com.sjtu.adminanddealer.entity.User;
 import com.sjtu.adminanddealer.interceptor.AdminInterceptor;
 import com.sjtu.adminanddealer.interceptor.DealerInterceptor;
 import com.sjtu.adminanddealer.interceptor.RedisSessionInterceptor;
@@ -60,14 +58,14 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
-    /*
+    /**/
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 所有api开头的访问都要进入RedisSessionInterceptor拦截器进行登录验证，并排除login接口(全路径)。
         // 必须写成链式，分别设置的话会创建多个拦截器。
         // 必须写成getSessionInterceptor()，否则SessionInterceptor中的@Autowired会无效
         List<String> adminPathPatterns = asList("/admin/**", "/stores/**", "/dealers/**");
-        List<String> dealerPathPatterns = asList("/stores/delivery","/stores/dealer/store");
+        List<String> dealerPathPatterns = asList("/stores/delivery", "/stores/dealer/store");
 
         registry.addInterceptor(getSessionInterceptor())
                 .addPathPatterns("/commodities/**")
@@ -78,6 +76,6 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/logout");
 
     }
-    */
+
 
 }

@@ -57,8 +57,9 @@ public interface CommodityService {
 
     /**
      * 删除一个列表的商品
+     *
      * @param commodityIds 商品的id
-     * @param storeId session中存放的店铺id，需要从该店铺中把相应商品删除
+     * @param storeId      session中存放的店铺id，需要从该店铺中把相应商品删除
      */
     void deleteCommodities(List<Long> commodityIds, Long storeId);
 

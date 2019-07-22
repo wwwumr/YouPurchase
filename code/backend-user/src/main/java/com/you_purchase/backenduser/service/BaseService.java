@@ -36,6 +36,8 @@ public class BaseService {
     protected  RestTemplate restTemplate;
     @Autowired
     protected DeliveryAddressDao deliveryAddressDao;
+    @Autowired
+    protected CommodityDao commodityDao;
 
     //第三方支付
     protected class Weixin{

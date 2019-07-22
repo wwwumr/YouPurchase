@@ -23,6 +23,9 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         //无论访问的地址是不是正确的，都进行登录验证，登录成功后的访问再进行分发，404的访问自然会进入到错误控制器中
         HttpSession session = request.getSession();
         if (session.getAttribute("loginUserId") != null) {
@@ -32,12 +35,12 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
                 if (loginSessionId != null && loginSessionId.equals(session.getId())) {
                     response.setContentType("application/json");
                     String origin = request.getHeader("Origin");
-                    
+
                     response.setHeader("Access-Control-Allow-Origin", origin);
                     response.setHeader("Access-Control-Allow-Methods", "*");
                     response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
                     response.setHeader("Access-Control-Allow-Credentials", "true");
-                    
+
                     return true;
                 }
             } catch (Exception e) {
@@ -53,12 +56,12 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String origin = request.getHeader("Origin");
-        
+
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        
+
         try {
 
             response.sendError(401, "用户未登录");

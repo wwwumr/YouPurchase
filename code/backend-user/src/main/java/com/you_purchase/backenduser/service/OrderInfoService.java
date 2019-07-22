@@ -1,17 +1,17 @@
 package com.you_purchase.backenduser.service;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.you_purchase.backenduser.dto.CommodityShortageDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.dto.OrderListDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
+import com.you_purchase.backenduser.entity.Commodity;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
-import com.you_purchase.backenduser.dto.OrderListDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,29 +19,45 @@ import java.util.List;
 
 @Service
 public class OrderInfoService extends BaseService {
+    //支付订单
+    private String apiUrl = "weixin";
+    private String appId = "287613";
+    private String appSecret = "dj812-ej192-d912-d19dn291";
+
     //用户新增订单
-    public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter){
+    public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter) {
         OrderInfo orderInfo = new OrderInfo();
+        List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
         orderInfo.setOrderInfo(orderInfoParameter);
         long orderInfoId = orderInfo.getOrderInfoId();
-        for(OrderListDTO s: orderInfoParameter.getOrderItemList()){
-            OrderItem orderItem = new OrderItem();
-            orderItem.setAmount(s.getAmount());
-            orderItem.setCommodityId(s.getCommodityId());
-            orderItem.setPrice(s.getPrice());
-            orderItem.setOrderInfoId(orderInfoId);
-            orderItemDao.save(orderItem);
+        for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
+            Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
+            Integer amount = s.getAmount();
+            if (commodity.getRemaining() >= amount) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.setAmount(s.getAmount());
+                orderItem.setCommodityId(s.getCommodityId());
+                orderItem.setPrice(s.getPrice());
+                orderItem.setOrderInfoId(orderInfoId);
+                orderItemDao.save(orderItem);
+                commodity.setRemaining(commodity.getRemaining() - amount);
+                commodity.setInventory(commodity.getInventory() - amount);
+                commodityDao.save(commodity);
+            } else {
+                shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
+            }
+
         }
         orderInfoDao.save(orderInfo);
-        return new OrderPayDTO(orderInfo);
+        return new OrderPayDTO(orderInfo, shortageDTOS);
     }
 
     //用户查看不同执行状态的订单
-    public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
+    public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter) {
         //带有用户id的订单+带有订单id的商品
-        List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
+        List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(), orderInfoCheckParameter.getStatus(), true);
         //System.out.println(orderInfos.size());
-        if(orderInfos == null){
+        if (orderInfos == null) {
             return null;
         }
         /*for(int i=0;i<orderInfos.size();i++){
@@ -49,7 +65,7 @@ public class OrderInfoService extends BaseService {
         }*/
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应用户id的所有订单
-        for(OrderInfo s:orderInfos){
+        for (OrderInfo s : orderInfos) {
             //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setTarPhone(s.getTarPhone());
@@ -69,16 +85,15 @@ public class OrderInfoService extends BaseService {
         return orderInfoDTOS;
     }
 
-
     //商家查看所有订单
-    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter){
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(orderInfoCheckParameter.getId(),true);
-        if(orderInfos == null){
+    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter) {
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(orderInfoCheckParameter.getId(), true);
+        if (orderInfos == null) {
             return null;
         }
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应商户id的所有订单
-        for(OrderInfo s:orderInfos){
+        for (OrderInfo s : orderInfos) {
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
@@ -97,11 +112,10 @@ public class OrderInfoService extends BaseService {
         return orderInfoDTOS;
     }
 
-
     //店家修改订单执行状态
-    public int OrderInfoModify(long orderInfoId,int status){
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
-        if(orderInfo == null){
+    public int OrderInfoModify(long orderInfoId, int status) {
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
+        if (orderInfo == null) {
             //System.out.println("不存在该订单");
             return 403;
         }
@@ -109,10 +123,11 @@ public class OrderInfoService extends BaseService {
         orderInfoDao.save(orderInfo);
         return 200;
     }
+
     //取消订单
-    public int OrderInfoDelete(long orderInfoId){
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
-        if(orderInfo == null){
+    public int OrderInfoDelete(long orderInfoId) {
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
+        if (orderInfo == null) {
             //System.out.println("不存在该订单");
             return 403;
         }
@@ -120,29 +135,25 @@ public class OrderInfoService extends BaseService {
         return 200;
     }
 
-    //支付订单
-    private String apiUrl = "weixin";
-    private String appId = "287613";
-    private String appSecret = "dj812-ej192-d912-d19dn291";
-    public int OrderPay(PayParameter payParameter){
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(),true);
-        if(orderInfo == null){
+    public int OrderPay(PayParameter payParameter) {
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(), true);
+        if (orderInfo == null) {
             return 403;
         }
-        try{
+        try {
             //第三方支付
-            Weixin client = new Weixin(apiUrl,appId,appSecret);
+            Weixin client = new Weixin(apiUrl, appId, appSecret);
             String result = client.send(payParameter);
-            if(result.equals("success")){
+            if (result.equals("success")) {
                 orderInfo.setStatus(1);
                 orderInfoDao.save(orderInfo);
                 return 200;
 
             }
-        }catch (Exception e){
-                e.printStackTrace();
-            }
-            return 403;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return 403;
+    }
 
 }

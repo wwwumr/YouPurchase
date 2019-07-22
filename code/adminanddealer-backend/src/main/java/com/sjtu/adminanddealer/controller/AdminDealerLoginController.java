@@ -7,6 +7,8 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.User;
 import com.sjtu.adminanddealer.parameter.UserLoginParameter;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +19,14 @@ import javax.servlet.http.HttpSession;
  */
 @CrossOrigin
 @RestController
+@Api(tags = "管理员、经销商、用户登录相关")
 public class AdminDealerLoginController {
 
     @Autowired
     private AdminDealerLoginService adminDealerLoginService;
 
     @GetMapping("/login/admin")
+    @ApiOperation(value = "管理员登录")
     public String adminLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
                              HttpSession session) {
         Admin admin = adminDealerLoginService.getAdminByUserNameAndPassword(userName, password);

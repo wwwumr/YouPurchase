@@ -1,7 +1,6 @@
 package com.sjtu.adminanddealer.entity;
 
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 

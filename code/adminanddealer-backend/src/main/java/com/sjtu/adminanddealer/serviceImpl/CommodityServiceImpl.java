@@ -67,7 +67,7 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public JSONObject addACommodity(CommodityParameter commodityParameter, Long storeId) {
         JSONObject json = new JSONObject();
-        if(storeId!=null){
+        if (storeId != null) {
             Commodity commodity = new Commodity();
             commodity.setCommodityInfo(commodityParameter.getCommodityInfo());
             commodity.setInventory(commodityParameter.getInventory());
@@ -105,12 +105,12 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void deleteCommodities(List<Long> commodityIds, Long storeId) {
-        if(storeId==null){
+        if (storeId == null) {
             return;
         }
         Store store = storeDao.getStoreByStoreId(storeId);
-        for (Long id:commodityIds
-             ) {
+        for (Long id : commodityIds
+        ) {
             store.getCommodityList().remove(commodityDao.getCommodityById(id));
             commodityDao.deleteCommodity(id);
         }
