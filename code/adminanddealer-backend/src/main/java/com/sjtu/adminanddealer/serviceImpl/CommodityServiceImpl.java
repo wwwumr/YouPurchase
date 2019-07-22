@@ -111,8 +111,8 @@ public class CommodityServiceImpl implements CommodityService {
         Store store = storeDao.getStoreByStoreId(storeId);
         for (Long id:commodityIds
              ) {
-            commodityDao.deleteCommodity(id);
             store.getCommodityList().remove(commodityDao.getCommodityById(id));
+            commodityDao.deleteCommodity(id);
         }
         storeDao.updateStore(store);
     }

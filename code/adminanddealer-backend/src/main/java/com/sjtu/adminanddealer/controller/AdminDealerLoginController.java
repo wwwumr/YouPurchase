@@ -49,8 +49,9 @@ public class AdminDealerLoginController {
             session.setAttribute("userId", dealer.getDealerId());
             if (dealer.getStore() == null) {
                 session.setAttribute("storeId", null);
+            } else {
+                session.setAttribute("storeId", dealer.getStore().getStoreId());
             }
-            session.setAttribute("storeId", dealer.getStore().getStoreId());
             adminDealerLoginService.addSessionIdToRedis("loginUser:" + dealer.getDealerId(), session.getId());
             DealerDTO dto = new DealerDTO(dealer.getDealerId(), dealer.getUserName(), dealer.getAvatar(), dealer.getAddress(),
                     dealer.getRealName(), dealer.getContact(), (dealer.getStore() != null) ? dealer.getStore().getStoreId() : null,

@@ -30,6 +30,7 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
                 //验证当前请求的session是否是已登录的session
                 String loginSessionId = redisTemplate.opsForValue().get("loginUser:" + (long) session.getAttribute("loginUserId"));
                 if (loginSessionId != null && loginSessionId.equals(session.getId())) {
+                    response.setContentType("application/json");
                     String origin = request.getHeader("Origin");
                     
                     response.setHeader("Access-Control-Allow-Origin", origin);

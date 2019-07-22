@@ -1,9 +1,9 @@
 package com.sjtu.adminanddealer.entity;
 
+
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class OrderInfo {
@@ -34,10 +34,9 @@ public class OrderInfo {
 
     private boolean judged;
 
-    @OneToMany(targetEntity = OrderItem.class)
-    @JoinTable(name = "storeCommodity", joinColumns = {@JoinColumn(name = "orderInfoId", referencedColumnName = "orderInfoId")},
-            inverseJoinColumns = {@JoinColumn(name = "orderItemId", referencedColumnName = "orderItemId")})
-    private List<OrderItem> orderItemList = new ArrayList<>();
+    @JoinColumn(name = "deliveryAddressId")
+    private Long deliveryAddressId;
+
 
     //getter and setter
 
@@ -129,11 +128,11 @@ public class OrderInfo {
         this.valid = valid;
     }
 
-    public List<OrderItem> getOrderItemList() {
-        return orderItemList;
+    public Long getDeliveryAddressId() {
+        return deliveryAddressId;
     }
 
-    public void setOrderItemList(List<OrderItem> orderItemList) {
-        this.orderItemList = orderItemList;
+    public void setDeliveryAddressId(Long deliveryAddressId) {
+        this.deliveryAddressId = deliveryAddressId;
     }
 }
