@@ -40,17 +40,17 @@ public class OrderInfoService extends BaseService {
     public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
         //带有用户id的订单+带有订单id的商品
         List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
-        System.out.println(orderInfos.size());
+        //System.out.println(orderInfos.size());
         if(orderInfos == null){
             return null;
         }
-        for(int i=0;i<orderInfos.size();i++){
+        /*for(int i=0;i<orderInfos.size();i++){
             System.out.println(orderInfos.get(i).getOrderInfoId());
-        }
+        }*/
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应用户id的所有订单
         for(OrderInfo s:orderInfos){
-            System.out.println(s.getOrderInfoId());
+            //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
@@ -74,7 +74,7 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoModify(long orderInfoId,int status){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
         if(orderInfo == null){
-            System.out.println("不存在该订单");
+            //System.out.println("不存在该订单");
             return 403;
         }
         orderInfo.setStatus(status);
@@ -85,7 +85,7 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoDelete(long orderInfoId){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
         if(orderInfo == null){
-            System.out.println("不存在该订单");
+            //System.out.println("不存在该订单");
             return 403;
         }
         orderInfo.setValid(false);

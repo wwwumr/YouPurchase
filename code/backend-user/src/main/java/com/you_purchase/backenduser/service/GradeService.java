@@ -46,7 +46,7 @@ public class GradeService extends BaseService {
     public int GradeDelete(long gradeId){
         Grade grade = gradeDao.findByGradeIdAndValid(gradeId,true);
         if(grade == null){
-            System.out.println("该评论不存在或已删除");
+            //System.out.println("该评论不存在或已删除");
             return 403;
         }
         grade.setValid(false);

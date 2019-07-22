@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
-import com.you_purchase.backenduser.parameter.SmsParameter;
-import com.you_purchase.backenduser.parameter.UserLoginParameter;
-import com.you_purchase.backenduser.parameter.UserModifyParameter;
-import com.you_purchase.backenduser.parameter.UserRegParameter;
+import com.you_purchase.backenduser.parameter.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.*;
+import java.io.IOException;
 
 @RestController
 @Api(tags = "用户相关接口")
@@ -40,14 +38,7 @@ public class UserController extends BaseController {
         return userService.UserModify(userModifyParameter);
     }
 
-    //用户修改头像
-    @PostMapping("/user/photo")
-    public String updateUserPhoto(@RequestBody JSONObject data) {
-        String newPhotoBase64 = data.getString("photo");
-        Long userId = data.getLong("userId");
-        userService.UpdateUserPhoto(newPhotoBase64, userId);
-        return "UPDATE";
-    }
+
 
     //用户登陆
     @RequestMapping(value = "/user/login",method = RequestMethod.POST)
@@ -119,5 +110,27 @@ public class UserController extends BaseController {
     String GetPhoto(long userId){
         return userService.GetPhoto(userId);
     }*/
+
+/*    //用户修改头像
+    @PostMapping("/user/photo")
+    public String updateUserPhoto(@RequestBody JSONObject data) {
+        String newPhotoBase64 = data.getString("photo");
+        Long userId = data.getLong("userId");
+        userService.UpdateUserPhoto(newPhotoBase64, userId);
+        return "UPDATE";
+    }*/
+
+    @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter){
+        return userService.UploadPhoto(userPhotoParameter);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/user/getPhoto", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    public String getPhoto(long userId) {
+            return userService.GetPhoto(userId);
+    }
 
 }
