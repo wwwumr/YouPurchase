@@ -108,7 +108,7 @@ class App extends React.Component {
                         dealer: dealerMessage,
                     }, () => {
                         history.push({
-                            pathname: "/accountManage/" + this.state.key,
+                            pathname: "/accountManage/" ,
                         });
                         message.success("登录成功");
                     });                    
@@ -136,7 +136,7 @@ class App extends React.Component {
                                     />
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                <Link to={"/accountManage/" + this.state.key} >账户管理</Link>
+                                <Link to={"/accountManage/"} >账户管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="3">
                                 <Link to={"/storeManage/"} >店铺管理</Link>
@@ -176,10 +176,10 @@ class App extends React.Component {
                                         changeBg = {this.changeBg}
                                     /> }
                                 />    
-                                <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} getId={() =>{return this.state.dealer.storeId}} /> } />
+                                <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} stotrId={this.state.dealer.storeId} /> } />
                                 <Route exact path = "/orderManage/" component={ OrderManage } />
                                 <Route exact path = "/goodsManage/" component={ GoodsManage } />
-                                <Route exact path = "/accountManage/:dealerId" component={ AccountManage } />
+                                <Route exact path = "/accountManage/" component={ AccountManage } />
                                 <Route exact path = "/goods/:id" component={ Goods } />
                             </Switch>
                         

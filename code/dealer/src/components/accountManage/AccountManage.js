@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
 import axios from 'axios';
 import AvatarUpload from './accountManage/AvatarUpload';
 import config from '../../config/config';
 
 class AccountManage extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,20 +15,26 @@ class AccountManage extends React.Component {
         }
     }
 
+    
+    /**
+     * @description 请求dealer信息
+     */
     componentDidMount() {
-        const key = this.props.match.params.dealerId;
-        /* axios function */
         axios
-            .get(config.url.dealers + key)
+            .get(config.url.dealer)
             .then((res) => {
                 this.setState({
                     dealer: res.data,
                     originDealer: Object.assign({}, res.data),
                 })
             })
-        
     }
 
+    
+    /**
+     * @description 检查用户是否修改信息
+     * @returns 改变则返回true
+     */
     checkChange = () => {
         const dealer = this.state.dealer;
         const originDealer = this.state.originDealer;
@@ -44,11 +51,14 @@ class AccountManage extends React.Component {
         return true;
     }
 
+    
+    /**
+     * @description 提交新的店铺信息
+     */
     handleChange = () => {
-        if (!this.checkChange()) {
+        if (!this.checkChange()) {//未改变
             return ;
         }
-        /* axios 
         var dealer = this.state.dealer;
         axios.put(config.url.dealers, 
                 dealer
@@ -58,7 +68,7 @@ class AccountManage extends React.Component {
                 } else {
                     message.success("修改成功");
                 }
-            })*/
+            })
     }
 
     render() {
