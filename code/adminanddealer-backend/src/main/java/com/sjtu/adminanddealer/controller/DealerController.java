@@ -92,12 +92,14 @@ public class DealerController {
     public List<DealerDTO> getAllUnbindDealer() {
         return dealerService.getAllUnbindDealers();
     }
+
     @PostMapping("/avatar")
-    public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar, HttpSession session) {
+    public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
+                                     @RequestParam("key")Long dealerId) {
         if (file == null) {
             return "ERROR";
         }
-        String newAvatar = dealerService.updateDealerAvatar(file, (Long)session.getAttribute("loginUserId"), avatar);
+        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
         return newAvatar;
     }
 
