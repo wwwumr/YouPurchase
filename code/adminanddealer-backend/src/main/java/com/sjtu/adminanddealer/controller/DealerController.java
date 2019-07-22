@@ -99,7 +99,7 @@ public class DealerController {
         if (file == null) {
             return "ERROR";
         }
-        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
+        String newAvatar = dealerService.updateDealerAvatar(file, (Long)session.getAttribute("loginUserId"), avatar);
         return newAvatar;
     }
 
