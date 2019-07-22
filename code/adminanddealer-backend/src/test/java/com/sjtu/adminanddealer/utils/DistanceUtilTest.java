@@ -2,9 +2,6 @@ package com.sjtu.adminanddealer.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.Assert.*;
 
 /**
  * 计算距离测试
@@ -20,9 +17,9 @@ public class DistanceUtilTest {
      */
     @Test
     public void getDistance() {
-        System.out.println(distanceUtil.getDistance(121.4374,31.022739,
-                121.457141,31.028182));
-        Assert.assertTrue(distanceUtil.getDistance(121.4374,31.022739,
-                121.457141,31.028182)<3);
+        System.out.println(distanceUtil.getDistance(121.4374, 31.022739,
+                121.457141, 31.028182));
+        Assert.assertTrue(distanceUtil.getDistance(121.4374, 31.022739,
+                121.457141, 31.028182) < 3);
     }
 }
