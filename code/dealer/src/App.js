@@ -156,9 +156,23 @@ class App extends React.Component {
                                 </Menu.Item>
                             </Menu>
                         }
+                        {/* 无店铺的经销商 */}
+                        {
+                            this.state.dealer.storeId === null && this.state.dealer.key !== null &&
+                            <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
+                                <Menu.Item key="1">
+                                    <Avatar size={45} 
+                                        src={ config.url.root + this.state.dealer.avatar } 
+                                    />
+                                </Menu.Item>
+                                <Menu.Item key="2">
+                                <Link to={"/accountManage/"} >账户管理</Link>
+                                </Menu.Item>
+                            </Menu>
+                        }
                         {/* 未登录的经销商 */}
                         {
-                            this.state.dealer.key === null &&
+                            this.state.dealer.key === null && this.state.dealer.storeId === null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
                                     <Link to="/"><Avatar size={45} >未登录</Avatar></Link>
@@ -168,21 +182,48 @@ class App extends React.Component {
                     </Header>
                     <Content style={{ padding: '0 50px', marginTop: 64,  }}>
                         <div id="background" style={{ background: '#fff', padding: 24, minHeight: 625, }} >
-        
-                            <Switch>
-                                <Route exact path = "/" 
-                                    render = { () => <HomePage 
-                                        setUserMessage={ this.setUserMessage } 
-                                        changeBg = {this.changeBg}
-                                    /> }
-                                />    
-                                <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} stotrId={this.state.dealer.storeId} /> } />
-                                <Route exact path = "/orderManage/" component={ OrderManage } />
-                                <Route exact path = "/goodsManage/" component={ GoodsManage } />
-                                <Route exact path = "/accountManage/" component={ AccountManage } />
-                                <Route exact path = "/goods/:id" component={ Goods } />
-                            </Switch>
-                        
+                            {/* 有店铺且登录后 */}
+                            {
+                                this.state.dealer.key !== null && this.state.dealer.storeId !== null &&
+                                <Switch>
+                                    <Route exact path = "/" 
+                                        render = { () => <HomePage 
+                                            setUserMessage={ this.setUserMessage } 
+                                            changeBg = {this.changeBg}
+                                        /> }
+                                    />    
+                                    <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} stotrId={this.state.dealer.storeId} /> } />
+                                    <Route exact path = "/orderManage/" component={ OrderManage } />
+                                    <Route exact path = "/goodsManage/" component={ GoodsManage } />
+                                    <Route exact path = "/accountManage/" component={ AccountManage } />
+                                    <Route exact path = "/goods/:id" component={ Goods } />
+                                </Switch>
+                            }
+                            {/* 无店铺的登陆经销商 */}
+                            {
+                                this.state.dealer.storeId === null && this.state.dealer.key !== null &&
+                                <Switch>
+                                    <Route exact path = "/" 
+                                        render = { () => <HomePage 
+                                            setUserMessage={ this.setUserMessage } 
+                                            changeBg = {this.changeBg}
+                                        /> }
+                                    />    
+                                    <Route exact path = "/accountManage/" component={ AccountManage } />
+                                </Switch>
+                            }  
+                            {/* 未登录经销商 */}
+                            {
+                                this.state.dealer.key === null &&  this.state.dealer.storeId === null &&
+                                <Switch>
+                                    <Route exact path = "/" 
+                                        render = { () => <HomePage 
+                                            setUserMessage={ this.setUserMessage } 
+                                            changeBg = {this.changeBg}
+                                        /> }
+                                    />    
+                                </Switch>
+                            }
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>YouPurchase @2019 Created by skr狠人</Footer>

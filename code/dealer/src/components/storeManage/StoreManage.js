@@ -17,29 +17,21 @@ class StoreManage extends React.Component {
     /* 获取商店信息 */
     componentDidMount() {
         axios
-            .get(config.url.dealers + this.props.getId())        
-            .then(response => {
-                axios
-                    .get(config.url.stores + response.data.storeId)
-                    .then((res) => {
-                        this.setState({
-                            shop: Object.assign({}, res.data),
-                            originShop: Object.assign({}, res.data),
-                        })
-                    })
-                    .catch(err => {
-                        if (err.response) {
-                            console.log(err.response.statusText)
-                        }
-                    })
-
+            .get(config.url.store)        
+            .then(res => {
+                this.setState({
+                    shop: res.data,
+                    originShop: Object.assign({}, res.data),
+                })
             })
-            .catch(res => {
-                console.log(res.message)
+            .catch(err => {
+                console.log(err.message)
             })
     }
 
-    /* 最终提交修改信息的函数 */
+    /**
+     * @description 提交新的店铺信息
+     */
     handleSubmit = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
@@ -58,6 +50,11 @@ class StoreManage extends React.Component {
         }   
     }
 
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
     handleChange = (e, info) => {
         var shop = this.state.shop;
         shop[info] = e.target.value;

@@ -39,7 +39,7 @@ public interface CommodityService {
      * @param commodityParameter 前端发送的商品数据
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
-    JSONObject addACommodity(CommodityParameter commodityParameter);
+    JSONObject addACommodity(CommodityParameter commodityParameter, Long storeId);
 
     /**
      * 修改一个商品的信息.
@@ -54,6 +54,13 @@ public interface CommodityService {
      * @param commodityId 商品id
      */
     void deleteCommodity(Long commodityId);
+
+    /**
+     * 删除一个列表的商品
+     * @param commodityIds 商品的id
+     * @param storeId session中存放的店铺id，需要从该店铺中把相应商品删除
+     */
+    void deleteCommodities(List<Long> commodityIds, Long storeId);
 
     /**
      * 检查商品的库存

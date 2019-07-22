@@ -1,4 +1,4 @@
-package com.sjtu.adminanddealer.mvc;
+package com.sjtu.adminanddealer.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,12 +12,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * 拦截器：验证是否登录以及登录的session是否匹配
+ * 拦截器：验证普通用户是否登录以及登录的session是否匹配
  *
  * @author Chuyuxuan
  */
 @Component
-public class RedisSessionInterceptor implements HandlerInterceptor {
+public class UserInterceptor implements HandlerInterceptor {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -25,7 +25,8 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //无论访问的地址是不是正确的，都进行登录验证，登录成功后的访问再进行分发，404的访问自然会进入到错误控制器中
         HttpSession session = request.getSession();
-        if (session.getAttribute("loginUserId") != null) {
+        if (session.getAttribute("loginUserId") != null &&
+                ((String)session.getAttribute("loginUserType")).equals("USER") ) {
             try {
                 //验证当前请求的session是否是已登录的session
                 String loginSessionId = redisTemplate.opsForValue().get("loginUser:" + (long) session.getAttribute("loginUserId"));
@@ -75,3 +76,4 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
     }
 
 }
+

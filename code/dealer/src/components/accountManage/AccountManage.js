@@ -29,7 +29,37 @@ class AccountManage extends React.Component {
                 })
             })
     }
-
+    
+    /**
+     * @description 提交新的经销商信息
+     */
+    handleSubmit = () => {
+        if (!this.checkChange()) {//未改变
+            return ;
+        }
+        var dealer = this.state.dealer;
+        axios.put(config.url.dealers, 
+                dealer
+            ).then((res) => {
+                if (res.data !== "saved") {
+                    message.error("修改失败");
+                } else {
+                    message.success("修改成功");
+                }
+            })
+    }
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+    handleChange = (e, info) => {
+        var dealer = this.state.dealer;
+        dealer[info] = e.target.value;
+        this.setState({
+            dealer: dealer,
+        })
+    }
     
     /**
      * @description 检查用户是否修改信息
@@ -51,26 +81,6 @@ class AccountManage extends React.Component {
         return true;
     }
 
-    
-    /**
-     * @description 提交新的店铺信息
-     */
-    handleChange = () => {
-        if (!this.checkChange()) {//未改变
-            return ;
-        }
-        var dealer = this.state.dealer;
-        axios.put(config.url.dealers, 
-                dealer
-            ).then((res) => {
-                if (res.data < 0) {
-                    message.error("修改失败");
-                } else {
-                    message.success("修改成功");
-                }
-            })
-    }
-
     render() {
         return(
         <div style={{position: "relative", textAlign: "center", left: "430px" }}>
@@ -81,58 +91,28 @@ class AccountManage extends React.Component {
                 <div 
                     style={{position: "relative", height: "100px", width: "100px", float: "left",}}
                 >
-                    <AvatarUpload avatar={ this.state.dealer.avatar } />
+                    <AvatarUpload avatar={ config.url.root +  this.state.dealer.avatar } />
                 </div>
                 <Input addonBefore="用户名"  style={{ marginBottom : "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.userName } 
                     disabled={true}
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.userName = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "userName") }}
                 />
                 <Input addonBefore="密码"  style={{marginBottom: "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.password } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.password = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "password") }}
                 />
                 <Input addonBefore="姓名"  style={{ marginBottom : "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.realName } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.realName = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "realName") }}
                 />
                 <Input addonBefore="地址"  style={{ marginBottom : "15px" }}
                     value={ this.state.dealer.address } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.address = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "address") }}
                 />
                 <Input addonBefore="联系方式" style={{marginBottom: "15px"}}
                     value={ this.state.dealer.contact }  
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.contact = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "contact") }}
                 />
                 <Input addonBefore="店铺" style={{display: "inline-block", marginBottom: "15px", width: "70%"}}  
                     value={ this.state.dealer.storeName }
@@ -145,14 +125,13 @@ class AccountManage extends React.Component {
                     <Link 
                         to = {{
                             pathname: "/storeManage/",
-                            storeId: this.state.dealer.storeId,
                         }}
                     >
                     查看信息
                     </Link>
                 </Button>
                 <Button style={{display: "inline-block", marginBottom: "15px", width: "30%", marginRight: "30px"}} 
-                    onClick = { this.handleChange } 
+                    onClick = { this.handleSubmit } 
                 >
                 确认修改
                 </Button>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, Button, Typography, Tooltip, message, Input, Modal, Radio } from 'antd';
-import goodsMock from '../../mock/goodsMock';
+import axios from 'axios';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import config from '../../config/config';
 
@@ -16,7 +16,7 @@ class GoodsManage extends React.Component {
         
         this.state = {
             goodsList: [],
-            deleteing: false,
+            deleteList: [],
             visible: false,
             goods: Object.assign({}, config.goods.originGoods),
             value: 1,
@@ -24,42 +24,116 @@ class GoodsManage extends React.Component {
     }
     
     
-    
+    /**
+     * @description 获取商品信息
+     */
     componentDidMount() {
-        this.setState({
-            goodsList: goodsMock,
-        })
+        axios
+            .get(config.url.storeGoods)
+            .then(res => {
+                this.setState({
+                    goodsList: res.data,
+                })
+            })
     }
 
-    handleClick = (e) => {
+    componentWillUnmount() {
+        axios
+            .delete(config.url.goods, {
+                data: this.state.deleteList,
+            })
+            .then(() => {
+                this.setState({
+                    deleteList: [].concat(),
+                })
+            })
+    }
+    /**
+     * @description 删除商品的按钮触发的事件
+     * @param  { event } e
+     */
+    handleRemove = (e) => {
         const key = parseInt(e.target.parentNode.className);
-        var goodsList = this.state.goodsList.filter((elem) => {
+        let goodsList = this.state.goodsList.filter((elem) => {
             return elem.key !== key;
         })
+        let deleteList = this.state.deleteList;
+        deleteList.push(key);
         this.setState({
             goodsList: goodsList,
+            deleteList: deleteList,
         })
     }
-
-    /* 新增商品时的确认函数 */
+    /**
+     * @description 新增商品的触发事件
+     */
     handleOk = () => {
-        
-        console.log(this.state.goods)
-        var goods = this.state.goods;
-        goods.key=this.state.goodsList.length + 1;
-        var goodsList = this.state.goodsList;
+        let goods = this.state.goods;
+        let goodsList = this.state.goodsList;
+        axios 
+            .post(config.url.goods, goods)
+            .then(res => {
+                goods.key = res.data.key;
+                goods.commodityCoverPicUrl = res.data.commodityCoverPicUrl;
+            })
         goodsList.push(this.state.goods);
         this.setState({
             goodsList: goodsList,
             visible: false,
+            goods: Object.assign({}, config.goods.originGoods),
         })
         message.success("增加成功")
+    }
+    
+    
+    /**
+     * @description 生成卡片模型展示商品
+     * @param { goods } elem
+     */
+    GoodsItems(elem) {
+        return <Card key={elem.key.toString()} style={{ margin: "20px", height: 330, width: 210, display: "inline-block", }}>
+            <Link to={"/goods/" + elem.key}>
+                <img alt="商品图片" src={config.url.root + elem.commodityCoverPicUrl} style={{ width: 200, height: 200, marginLeft: -20, marginTop: -20 }} />
+            </Link>
+            <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key.toString()}>
+
+                <Link to={"/goods/" + elem.key}>
+                    <Paragraph ellipsis={true}>
+                        <Tooltip title={elem.commodityInfo}>
+                            <font style={{ color: "blue" }}>
+                                {elem.commodityInfo}
+                            </font>
+                        </Tooltip>
+                    </Paragraph>
+                </Link>
+
+                <p style={{ margin: -2, marginTop: -10, marginLeft: 2 }}>
+                    <font style={{ color: "orange", fontSize: 20 }}>
+                        {"￥" + elem.price}
+                    </font>
+                </p>
+
+                <p style={{ margin: -2, marginLeft: 2 }}>
+                    {elem.onShelves ? "上架量:" + elem.remaining : "未上架"}
+                </p>
+
+                <p style={{ margin: -2, marginLeft: 2 }}>
+                    {"库存量:" + elem.inventory}
+                </p>
+
+                <Button size="small" type="primary" style={{ position: "absolute", display: "block", marginTop: -10, bottom: 1, right: 1 }} 
+                    onClick={this.handleRemove}
+                >
+                    删除商品
+                </Button>
+            </div>
+        </Card>;
     }
 
     render() {
         /* 卡片模型 */
         const GoodsList = this.state.goodsList.map((elem) => (
-            this.GoodsItems(elem)
+                this.GoodsItems(elem)
             )
         );
 
@@ -138,44 +212,7 @@ class GoodsManage extends React.Component {
         );
     }
 
-    /* 商品列表 */
-    GoodsItems(elem) {
-        return <Card key={elem.key.toString()} style={{ margin: "20px", height: 330, width: 210, display: "inline-block", }}>
-            <Link to={"/goods/" + elem.key}>
-                <img alt="商品图片" src={elem.commodityCoverPicUrl} style={{ width: 200, height: 200, marginLeft: -20, marginTop: -20 }} />
-            </Link>
-            <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key.toString()}>
-
-                <Link to={"/goods/" + elem.key}>
-                    <Paragraph ellipsis={true}>
-                        <Tooltip title={elem.commodityInfo}>
-                            <font style={{ color: "blue" }}>
-                                {elem.commodityInfo}
-                            </font>
-                        </Tooltip>
-                    </Paragraph>
-                </Link>
-
-                <p style={{ margin: -2, marginTop: -10, marginLeft: 2 }}>
-                    <font style={{ color: "orange", fontSize: 20 }}>
-                        {"￥" + elem.price}
-                    </font>
-                </p>
-
-                <p style={{ margin: -2, marginLeft: 2 }}>
-                    {elem.onShelves ? "上架量:" + elem.remaining : "未上架"}
-                </p>
-
-                <p style={{ margin: -2, marginLeft: 2 }}>
-                    {"库存量:" + elem.inventory}
-                </p>
-
-                <Button size="small" type="primary" style={{ position: "absolute", display: "block", marginTop: -10, bottom: 1, right: 1 }} onClick={this.handleClick}>
-                    删除商品
-                </Button>
-            </div>
-        </Card>;
-    }
+    
 }
 
 export default GoodsManage;

@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
 import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
 import com.sjtu.adminanddealer.dao.CommodityDao;
+import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
@@ -27,6 +29,9 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Autowired
     private CommodityDao commodityDao;
+
+    @Autowired
+    private StoreDao storeDao;
 
     @Value("${commodityDefaultCoverPicUrl}")
     private String DEFAULT_COMMODITY_COVER;
@@ -60,19 +65,24 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public JSONObject addACommodity(CommodityParameter commodityParameter) {
-        Commodity commodity = new Commodity();
-        commodity.setCommodityInfo(commodityParameter.getCommodityInfo());
-        commodity.setInventory(commodityParameter.getInventory());
-        commodity.setOnShelves(false);
-        commodity.setPrice(commodityParameter.getPrice());
-        commodity.setRemaining(commodityParameter.getRemaining());
-        commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
-        Long newId = commodityDao.addCommodity(commodity);
-
+    public JSONObject addACommodity(CommodityParameter commodityParameter, Long storeId) {
         JSONObject json = new JSONObject();
-        json.put("key", newId);
-        json.put("coverPicUrl", this.DEFAULT_COMMODITY_COVER);
+        if(storeId!=null){
+            Commodity commodity = new Commodity();
+            commodity.setCommodityInfo(commodityParameter.getCommodityInfo());
+            commodity.setInventory(commodityParameter.getInventory());
+            commodity.setOnShelves(false);
+            commodity.setPrice(commodityParameter.getPrice());
+            commodity.setRemaining(commodityParameter.getRemaining());
+            commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
+            Long newId = commodityDao.addCommodity(commodity, storeId);
+
+            json.put("key", newId);
+            json.put("coverPicUrl", this.DEFAULT_COMMODITY_COVER);
+            return json;
+        }
+        json.put("key", null);
+        json.put("coverPicUrl", null);
         return json;
     }
 
@@ -91,6 +101,20 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public void deleteCommodity(Long commodityId) {
         commodityDao.deleteCommodity(commodityId);
+    }
+
+    @Override
+    public void deleteCommodities(List<Long> commodityIds, Long storeId) {
+        if(storeId==null){
+            return;
+        }
+        Store store = storeDao.getStoreByStoreId(storeId);
+        for (Long id:commodityIds
+             ) {
+            commodityDao.deleteCommodity(id);
+            store.getCommodityList().remove(commodityDao.getCommodityById(id));
+        }
+        storeDao.updateStore(store);
     }
 
     @Override
