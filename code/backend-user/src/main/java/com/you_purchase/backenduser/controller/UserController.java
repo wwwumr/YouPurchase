@@ -19,16 +19,6 @@ import java.io.IOException;
 @Api(tags = "用户相关接口")
 public class UserController extends BaseController {
 
-    //用户注册
-    /*
-   @RequestMapping(value = "/user/reg",method = RequestMethod.POST)
-    public
-    @ResponseBody
-    @ApiOperation(value = "用户注册")
-    UserInfoDTO UserReg(@RequestBody UserRegParameter userRegParameter){
-        return userService.UserReg(userRegParameter);
-    }*/
-
     //用户信息修改
     @RequestMapping(value = "/user/modify",method = RequestMethod.POST)
     public
@@ -86,39 +76,6 @@ public class UserController extends BaseController {
         return userService.UserBlock(userId);
     }
 
-    //模拟用户支付，使用template调用虚拟接口
-/*    @RequestMapping(value = "/user/pay",method = RequestMethod.GET)
-    @ResponseBody
-    @ApiOperation(value = "用户支付")
-    public */
-
-
-/*    //用户获取Base64图片
-    @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.GET)
-    public
-    @ResponseBody
-    @ApiOperation(value = "用户上传Base64")
-    int UploadPhoto(long userId,String photo){
-        return userService.UploadPhoto(userId,photo);
-    }
-
-    //用户获取Base64图片
-    @RequestMapping(value = "/user/getPhoto",method = RequestMethod.GET)
-    public
-    @ResponseBody
-    @ApiOperation(value = "用户获取Base")
-    String GetPhoto(long userId){
-        return userService.GetPhoto(userId);
-    }*/
-
-/*    //用户修改头像
-    @PostMapping("/user/photo")
-    public String updateUserPhoto(@RequestBody JSONObject data) {
-        String newPhotoBase64 = data.getString("photo");
-        Long userId = data.getLong("userId");
-        userService.UpdateUserPhoto(newPhotoBase64, userId);
-        return "UPDATE";
-    }*/
 
     @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.POST)
     public
@@ -127,10 +84,6 @@ public class UserController extends BaseController {
         return userService.UploadPhoto(userPhotoParameter);
     }
 
-/*    @ResponseBody
-    @RequestMapping(value = "/user/getPhoto", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-    public String getPhoto(long userId) {
-            return userService.GetPhoto(userId);
-    }*/
+
 
 }

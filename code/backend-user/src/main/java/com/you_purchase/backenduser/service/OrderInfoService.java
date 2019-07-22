@@ -145,10 +145,4 @@ public class OrderInfoService extends BaseService {
             return 403;
         }
 
-
-/*    //模拟第三方服务
-    public PayParameter ThirdPay(PayParameter payParameter){
-        payParameter.setStatus(1);
-        return payParameter;
-    }*/
 }
