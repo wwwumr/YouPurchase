@@ -44,6 +44,10 @@ class AccountManage extends React.Component {
                 if (res.data !== "saved") {
                     message.error("修改失败");
                 } else {
+                    let dealer = this.state.dealer;
+                    this.setState({
+                        originDealer: Object.assign({}, dealer),
+                    })
                     message.success("修改成功");
                 }
             })
