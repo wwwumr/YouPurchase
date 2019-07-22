@@ -1,11 +1,19 @@
 package com.you_purchase.backenduser.entity;
 
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * 商品信息对应的实体类
+ *
+ * @author Chuyuxuan
+ */
+@Data
 @Entity
 public class Commodity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "commodityId")
@@ -18,7 +26,7 @@ public class Commodity {
 
     private String commodityCoverPicUrl;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "commodityPicUrls",
             joinColumns = {@JoinColumn(name = "commodityId", referencedColumnName = "commodityId")})
     private List<String> commodityPicUrls;
@@ -42,9 +50,7 @@ public class Commodity {
         this.remaining = remaining;
     }
 
-
-    //getter and setter
-
+    /* getter and setter */
     public Long getCommodityId() {
         return commodityId;
     }
@@ -67,14 +73,6 @@ public class Commodity {
 
     public void setCommodityInfo(String commodityInfo) {
         this.commodityInfo = commodityInfo;
-    }
-
-    public String getCommodityCoverPicUrl() {
-        return commodityCoverPicUrl;
-    }
-
-    public void setCommodityCoverPicUrl(String commodityCoverPicUrl) {
-        this.commodityCoverPicUrl = commodityCoverPicUrl;
     }
 
     public List<String> getCommodityPicUrls() {

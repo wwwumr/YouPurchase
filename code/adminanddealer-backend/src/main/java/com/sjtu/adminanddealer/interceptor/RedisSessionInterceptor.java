@@ -1,4 +1,4 @@
-package com.sjtu.adminanddealer.mvc;
+package com.sjtu.adminanddealer.interceptor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;

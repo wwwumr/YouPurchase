@@ -33,7 +33,7 @@ public interface CommodityDao {
      * @param commodity 需要持久化的商品
      * @return 保存成功返回商品的id，返回-1表示失败
      */
-    Long addCommodity(Commodity commodity);
+    Long addCommodity(Commodity commodity, Long storeId);
 
     /**
      * 更新数据库中商品的信息.

@@ -68,8 +68,9 @@ public class CommodityController {
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
     @PostMapping("/commodities")
-    public JSONObject addCommodity(@RequestBody CommodityParameter data) {
-        return commodityService.addACommodity(data);
+    public JSONObject addCommodity(@RequestBody CommodityParameter data, HttpSession session) {
+        Long storeId = (Long)session.getAttribute("storeId");
+        return commodityService.addACommodity(data, storeId);
     }
 
     /**
@@ -91,10 +92,9 @@ public class CommodityController {
      * @return DELETE
      */
     @DeleteMapping("/commodities")
-    public String deleteCommodities(@RequestBody List<Long> data) {
-        for (Long id : data) {
-            commodityService.deleteCommodity(id);
-        }
+    public String deleteCommodities(@RequestBody List<Long> data, HttpSession session) {
+        Long storeId = (Long)session.getAttribute("storeId");
+        commodityService.deleteCommodities(data, storeId);
         return "DELETE";
     }
 
