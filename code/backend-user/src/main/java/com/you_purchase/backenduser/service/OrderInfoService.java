@@ -70,6 +70,34 @@ public class OrderInfoService extends BaseService {
     }
 
 
+    //商家查看所有订单
+    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter){
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(orderInfoCheckParameter.getId(),true);
+        if(orderInfos == null){
+            return null;
+        }
+        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
+        //获取对应商户id的所有订单
+        for(OrderInfo s:orderInfos){
+            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setJudged(s.isJudged());
+            orderInfoDTO.setCreateDate(s.getCreateDate());
+            Store store = storeDao.findByStoreId(s.getStoreId());
+            orderInfoDTO.setStoreName(store.getStoreName());
+            orderInfoDTO.setTotalPrice(s.getTotalPrice());
+            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
+            //获取对应订单id的所有商品
+            List<OrderListDTO> orderListDTOS = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            orderInfoDTO.setOrderItemList(orderListDTOS);
+            orderInfoDTOS.add(orderInfoDTO);
+        }
+        return orderInfoDTOS;
+    }
+
+
     //店家修改订单执行状态
     public int OrderInfoModify(long orderInfoId,int status){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);

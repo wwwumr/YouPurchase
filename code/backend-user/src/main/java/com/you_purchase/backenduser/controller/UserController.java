@@ -127,10 +127,10 @@ public class UserController extends BaseController {
         return userService.UploadPhoto(userPhotoParameter);
     }
 
-    @ResponseBody
+/*    @ResponseBody
     @RequestMapping(value = "/user/getPhoto", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public String getPhoto(long userId) {
             return userService.GetPhoto(userId);
-    }
+    }*/
 
 }

@@ -99,6 +99,7 @@ public class BaseService {
             bos = new BufferedOutputStream(fos);
             bos.write(imageByte);
             User user = userDao.findByUserIdAndValid(userId,true);
+            directory = directory.substring(directory.indexOf("//")+2);
             user.setPhoto(directory);
             return 200;
         } catch (Exception e) {

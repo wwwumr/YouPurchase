@@ -1,7 +1,10 @@
 package com.you_purchase.backenduser.controller;
 
+import com.you_purchase.backenduser.dao.UserDao;
+import com.you_purchase.backenduser.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +29,13 @@ public class ImageController {
     @Value("${imageBaseDirectory}")
     private String IMAGE_BASE_DIRECTORY;
 
-    @GetMapping(value = "/{picUrl:.+}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public byte[] getImage(@PathVariable("picUrl") String picUrl) throws IOException {
+    @Autowired
+    private UserDao userDao;
+
+    @GetMapping(value = "/getPhoto", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    public byte[] getImage(long userId) throws IOException {
+        User user = userDao.findByUserIdAndValid(userId,true);
+        String picUrl = user.getPhoto();
         File file = null;
         FileInputStream inputStream = null;
         byte[] bytes = null;
