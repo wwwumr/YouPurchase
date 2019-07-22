@@ -162,4 +162,30 @@ public class UserService extends BaseService{
      return id;
     }
 
+
+
+    //Base64图片获取上传
+    public int UploadPhoto(long userId,String photo){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        if(user == null){
+            return 403;
+        }
+        user.setPhoto(photo);
+        return 200;
+    }
+
+
+    //获取Base64图片
+    public String GetPhoto(long userId){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        if(user == null){
+            return "faild";
+        }
+        return user.getPhoto();
+    }
+
+
+
+
+
 }
