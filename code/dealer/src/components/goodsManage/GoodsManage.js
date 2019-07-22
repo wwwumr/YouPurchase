@@ -18,7 +18,6 @@ class GoodsManage extends React.Component {
             goodsList: [],
             visible: false,
             goods: Object.assign({}, config.goods.originGoods),
-            value: 1,
         }
     }
     
@@ -71,15 +70,15 @@ class GoodsManage extends React.Component {
             .post(config.url.goods, goods)
             .then(res => {
                 goods.key = res.data.key;
-                goods.commodityCoverPicUrl = res.data.commodityCoverPicUrl;
+                goods.commodityCoverPicUrl = res.data.coverPicUrl;
+                goodsList.push(goods);
+                this.setState({
+                    goodsList: goodsList,
+                    visible: false,
+                    goods: Object.assign({}, config.goods.originGoods),
+                })
+                message.success("增加成功")
             })
-        goodsList.push(this.state.goods);
-        this.setState({
-            goodsList: goodsList,
-            visible: false,
-            goods: Object.assign({}, config.goods.originGoods),
-        })
-        message.success("增加成功")
     }
 
     /**
