@@ -3,7 +3,9 @@ package com.you_purchase.backenduser.BaseTest;
 
 
 //User底层逻辑测试
+import com.you_purchase.backenduser.dao.OrderInfoDao;
 import com.you_purchase.backenduser.dao.UserDao;
+import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
 import com.you_purchase.backenduser.parameter.UserRegParameter;
@@ -13,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,43 @@ public class UserBaseTest {
 
     @Autowired
     public UserDao userDao;
+
+    @Autowired
+    public OrderInfoDao orderInfoDao;
+
+
+    @Test
+    @Rollback(false)
+    public void insertOrderInfo(){
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setJudged(false);
+        orderInfo.setStatus(0);
+        orderInfo.setValid(true);
+        orderInfo.setCreateDate("01/01/2019");
+        orderInfo.setUserId(4000);
+        orderInfoDao.save(orderInfo);
+    }
+
+
+    @Test
+    @Rollback(false)
+    public void insertUser(){
+        User user = new User();
+        user.setValid(true);
+        user.setPhone("123456");
+        user.setUserName("Unname");
+        user.setPhoto(" ");
+        user.setPassword("123456");
+        user.setGender("female");
+        user.setLongitude(12.1);
+        user.setLatitude(11.1);
+        user.setAddress("Dratop");
+        userDao.save(user);
+    }
+
+
+
+
 
     @Test
     public void testDao1(){

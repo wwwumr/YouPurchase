@@ -4,6 +4,7 @@ package com.you_purchase.backenduser.service;
 import com.you_purchase.backenduser.Config.FileUploadUtil;
 import com.you_purchase.backenduser.dao.*;
 import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,50 @@ public class BaseService {
     @Autowired
     protected DeliveryAddressDao deliveryAddressDao;
 
+    //第三方支付
+    protected class Weixin{
+        private String url;
+
+        private String id;
+
+        private String secrect;
+
+        public Weixin(String url,String id,String secrect){
+            this.setId(id);
+            this.setSecrect(secrect);
+            this.setUrl(url);
+        }
+        public String  send(PayParameter payParameter){
+            payParameter.setStatus(1);
+            return "success";
+        }
+
+
+        //getter and setter
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getSecrect() {
+            return secrect;
+        }
+
+        public void setSecrect(String secrect) {
+            this.secrect = secrect;
+        }
+    }
 
 /*    protected int UploadPhoto(long userId,String photo){
         BufferedOutputStream bos = null;

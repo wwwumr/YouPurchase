@@ -32,11 +32,12 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户支付订单")
-    boolean OrderPay(@RequestBody  PayParameter payParameter){
+    int OrderPay(@RequestBody PayParameter payParameter){
         return orderInfoService.OrderPay(payParameter);
     }
 
     //模拟第三方接口,确认具体支付方式后删除
+/*
     @RequestMapping(value = "/order/thirdPay",method = RequestMethod.POST)
     public
     @ResponseBody
@@ -44,6 +45,7 @@ public class OrderInfoController extends BaseController{
     PayParameter ThirdPay(@RequestBody PayParameter payParameter){
         return orderInfoService.ThirdPay(payParameter);
     }
+*/
 
 
     //用户查看订单

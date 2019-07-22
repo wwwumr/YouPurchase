@@ -1,6 +1,7 @@
 package com.you_purchase.backenduser.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.entity.OrderInfo;
@@ -92,21 +93,34 @@ public class OrderInfoService extends BaseService {
     }
 
     //支付订单
-    public boolean OrderPay(PayParameter payParameter){
-        String url = "http://localhost:9000/order/thirdPay";
-        ResponseEntity<PayParameter> responseEntity = restTemplate.postForEntity(url,payParameter,PayParameter.class);
-        if(responseEntity.getBody().getStatus() == 1){
-            OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(responseEntity.getBody().getPayId(),true);
-            orderInfo.setStatus(1);
-            orderInfoDao.save(orderInfo);
-            return true;
+    private String apiUrl = "weixin";
+    private String appId = "287613";
+    private String appSecret = "dj812-ej192-d912-d19dn291";
+    public int OrderPay(PayParameter payParameter){
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(),true);
+        if(orderInfo == null){
+            return 403;
         }
-        return false;
-    }
+        try{
+            //第三方支付
+            Weixin client = new Weixin(apiUrl,appId,appSecret);
+            String result = client.send(payParameter);
+            if(result.equals("success")){
+                orderInfo.setStatus(1);
+                orderInfoDao.save(orderInfo);
+                return 200;
 
-    //模拟第三方服务
+            }
+        }catch (Exception e){
+                e.printStackTrace();
+            }
+            return 403;
+        }
+
+
+/*    //模拟第三方服务
     public PayParameter ThirdPay(PayParameter payParameter){
         payParameter.setStatus(1);
         return payParameter;
-    }
+    }*/
 }

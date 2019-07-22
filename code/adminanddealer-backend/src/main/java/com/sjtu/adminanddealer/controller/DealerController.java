@@ -91,7 +91,6 @@ public class DealerController {
     public List<DealerDTO> getAllUnbindDealer() {
         return dealerService.getAllUnbindDealers();
     }
-
     @PostMapping("/avatar")
     public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("key") Long dealerId,
                                      @RequestParam("avatar") String avatar) {

@@ -102,7 +102,7 @@ public class UserController extends BaseController {
     public */
 
 
-    //用户获取Base64图片
+/*    //用户获取Base64图片
     @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.GET)
     public
     @ResponseBody
@@ -118,6 +118,6 @@ public class UserController extends BaseController {
     @ApiOperation(value = "用户获取Base")
     String GetPhoto(long userId){
         return userService.GetPhoto(userId);
-    }
+    }*/
 
 }
