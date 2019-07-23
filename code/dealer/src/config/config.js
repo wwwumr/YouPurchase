@@ -1,4 +1,5 @@
 var root = "http://localhost:9000/";
+let root1 = "http://localhost:9001/";
 var config = {
     /* 商店信息模板 */ 
     shop: {
@@ -41,6 +42,18 @@ var config = {
             "remaining": null,
         },
     },
+    /* 订单信息 */
+    orderInfo: {
+        "orderInfoId": null,
+        "storeName": '',
+        "tarPeople": '',
+        "tarPhone": '',
+        "tarAddress": '',
+        "totalPrice": null,
+        "createDate": "",
+        "judged": false,
+        "orderItemList": []
+    },
     /* 头像、店面、货物图片上传配置 */
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
@@ -62,16 +75,18 @@ var config = {
         logOut: root + "logout/",
         userName: root + "login/userName/",
         userId: root + "login/userId",
-        stores: root +  "stores/",
         dealers: root + "dealers/",
         newdealer: root + "dealers/",
         unbindDealers: root + "dealers/unbindDealers/",
+        dealer: root + "dealers/dealer/",
+        stores: root +  "stores/",
         unbindStores: root + "stores/unbindStores/",
         updateStoreCover: root + "stores/cover/",
         store: root + "stores/dealer/store/",
         storeGoods: root + "stores/commodities/",
-        dealer: root + "dealers/dealer/",
-        goods: root + "commodities/"
+        goods: root + "commodities/",
+        updateGoodsCover: root + "commodities/cover/",
+        orderInfo: root1 + "order/storeCheck/",
     },
 }
 

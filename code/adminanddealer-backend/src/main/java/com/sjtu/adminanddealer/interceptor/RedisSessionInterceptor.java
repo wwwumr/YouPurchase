@@ -23,20 +23,26 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         //无论访问的地址是不是正确的，都进行登录验证，登录成功后的访问再进行分发，404的访问自然会进入到错误控制器中
         HttpSession session = request.getSession();
+        System.out.println("current sessionId:" + session.getId());
         if (session.getAttribute("loginUserId") != null) {
             try {
                 //验证当前请求的session是否是已登录的session
                 String loginSessionId = redisTemplate.opsForValue().get("loginUser:" + (long) session.getAttribute("loginUserId"));
+                System.out.println("redis session id" + loginSessionId);
                 if (loginSessionId != null && loginSessionId.equals(session.getId())) {
+                    response.setContentType("application/json");
                     String origin = request.getHeader("Origin");
-                    
+
                     response.setHeader("Access-Control-Allow-Origin", origin);
                     response.setHeader("Access-Control-Allow-Methods", "*");
                     response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
                     response.setHeader("Access-Control-Allow-Credentials", "true");
-                    
+
                     return true;
                 }
             } catch (Exception e) {
@@ -52,12 +58,12 @@ public class RedisSessionInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
         String origin = request.getHeader("Origin");
-        
+
         response.setHeader("Access-Control-Allow-Origin", origin);
         response.setHeader("Access-Control-Allow-Methods", "*");
         response.setHeader("Access-Control-Allow-Headers", "Origin,Content-Type,Accept,token,X-Requested-With");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        
+
         try {
 
             response.sendError(401, "用户未登录");

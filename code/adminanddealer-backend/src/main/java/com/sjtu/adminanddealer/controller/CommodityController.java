@@ -69,7 +69,7 @@ public class CommodityController {
      */
     @PostMapping("/commodities")
     public JSONObject addCommodity(@RequestBody CommodityParameter data, HttpSession session) {
-        Long storeId = (Long)session.getAttribute("storeId");
+        Long storeId = (Long) session.getAttribute("storeId");
         return commodityService.addACommodity(data, storeId);
     }
 
@@ -93,7 +93,7 @@ public class CommodityController {
      */
     @DeleteMapping("/commodities")
     public String deleteCommodities(@RequestBody List<Long> data, HttpSession session) {
-        Long storeId = (Long)session.getAttribute("storeId");
+        Long storeId = (Long) session.getAttribute("storeId");
         commodityService.deleteCommodities(data, storeId);
         return "DELETE";
     }

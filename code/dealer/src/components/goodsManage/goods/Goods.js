@@ -96,8 +96,7 @@ class Goods extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "0px", marginTop: "20px", marginLeft: "50px"}}
             >
-            <ImageUpload coverPic={config.url.root + this.state.goods.commodityCoverPicUrl } 
-                storeId={this.props.match.params.id} 
+            <ImageUpload goodsId={this.props.match.params.id} 
             />
             </div>
             <div 

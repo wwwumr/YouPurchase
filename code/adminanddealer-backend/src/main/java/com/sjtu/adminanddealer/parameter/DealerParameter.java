@@ -86,4 +86,13 @@ public class DealerParameter {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public Long getStoreId() {
+        return this.storeId;
+    }
+
+    public void setStoreId(Long storeId) {
+        this.storeId= storeId;
+    }
+
 }

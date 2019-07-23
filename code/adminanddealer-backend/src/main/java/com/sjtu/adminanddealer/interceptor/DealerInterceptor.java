@@ -26,7 +26,7 @@ public class DealerInterceptor implements HandlerInterceptor {
         //无论访问的地址是不是正确的，都进行登录验证，登录成功后的访问再进行分发，404的访问自然会进入到错误控制器中
         HttpSession session = request.getSession();
         if (session.getAttribute("loginUserId") != null &&
-                ((String)session.getAttribute("loginUserType")).equals("DEALER") ) {
+                ((String) session.getAttribute("loginUserType")).equals("DEALER")) {
             try {
                 //验证当前请求的session是否是已登录的session
                 String loginSessionId = redisTemplate.opsForValue().get("loginUser:" + (long) session.getAttribute("loginUserId"));
