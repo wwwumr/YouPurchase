@@ -1,7 +1,9 @@
 package com.sjtu.adminanddealer.service;
 
 import com.sjtu.adminanddealer.dao.CommodityDao;
+import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -33,6 +36,15 @@ public class CommodityServiceTest {
 
     @MockBean
     private CommodityDao commodityDao;
+
+    @MockBean
+    private StoreDao storeDao;
+
+    @MockBean
+    private FileUploadUtil fileUploadUtil;
+
+    @MockBean
+    private StringRedisTemplate redisTemplate;
 
     @Test
     public void testDI() throws Exception {

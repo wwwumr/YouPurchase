@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.service;
 
 import com.sjtu.adminanddealer.dao.AdminDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
+import com.sjtu.adminanddealer.dao.UserDao;
 import com.sjtu.adminanddealer.entity.Admin;
 import com.sjtu.adminanddealer.entity.Dealer;
 import org.junit.Assert;
@@ -36,6 +37,9 @@ public class AdminDealerLoginServiceTest {
 
     @MockBean
     private AdminDao adminDao;
+
+    @MockBean
+    private UserDao userDao;
 
     @MockBean
     private StringRedisTemplate stringRedisTemplate;

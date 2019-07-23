@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 
 import java.util.List;
 
@@ -56,5 +57,51 @@ public interface CommodityDao {
      * @param commodityId 商品id
      */
     void updateCommodityCoverPic(String newCoverUrl, Long commodityId);
+
+    /**
+     * 通过店铺与商品类别得到所有商品
+     *
+     * @param storeId   店铺id
+     * @param classInfo 商品类别
+     * @return 包含符合条件的商品信息的列表
+     */
+    List<Commodity> getCommodityByClass(Long storeId, String classInfo);
+
+    /**
+     * 通过id获取商品类别的信息
+     *
+     * @param commodityClassId 商品类别id
+     * @return 对应的商品类别信息
+     */
+    CommodityClass getCommodityClassById(Long commodityClassId);
+
+    /**
+     * 获取一个店铺中所有的商品类别
+     *
+     * @param storeId 店铺id
+     * @return 对应店铺所有商品类别
+     */
+    List<CommodityClass> getCommodityClassesByStore(Long storeId);
+
+    /**
+     * 添加一个新的商品类别
+     *
+     * @param commodityClass 新的商品类别
+     */
+    void addNewCommodityClass(CommodityClass commodityClass);
+
+    /**
+     * 修改一个新的商品类别
+     *
+     * @param commodityClass 修改后的商品类别信息
+     */
+    void updateCommodityClass(CommodityClass commodityClass);
+
+    /**
+     * 删除一个商品类别
+     *
+     * @param commodityClassId 需要删除的商品类别id
+     */
+    void deleteCommodityClass(Long commodityClassId);
 
 }

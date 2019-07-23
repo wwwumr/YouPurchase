@@ -168,4 +168,6 @@ public class CommodityController {
         return commodityService.decreaseCommodityInventory(data);
     }
 
+    //TODO: 有关商品类别的controller
+
 }
