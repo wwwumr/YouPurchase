@@ -2,6 +2,7 @@ package com.you_purchase.backenduser.dto;
 
 import com.you_purchase.backenduser.dao.OrderInfoDao;
 import com.you_purchase.backenduser.dao.UserDao;
+import com.you_purchase.backenduser.entity.Commodity;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.User;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class OrderInfoDTO {
     private long orderInfoId;
+
+    private long storeId;
 
     private String storeName;
 
@@ -25,19 +28,24 @@ public class OrderInfoDTO {
 
     private boolean judged;
 
-    List<OrderListDTO> orderItemList;
-
-
-
+    List<Commodity> orderItemList;
 
 
 
     //getter and setter
-    public List<OrderListDTO> getOrderItemList() {
+    public long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
+    }
+
+    public List<Commodity> getOrderItemList() {
         return orderItemList;
     }
 
-    public void setOrderItemList(List<OrderListDTO> orderItemList) {
+    public void setOrderItemList(List<Commodity> orderItemList) {
         this.orderItemList = orderItemList;
     }
 
