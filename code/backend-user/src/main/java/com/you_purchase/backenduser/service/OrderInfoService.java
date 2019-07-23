@@ -1,9 +1,9 @@
 package com.you_purchase.backenduser.service;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
+import com.you_purchase.backenduser.entity.Commodity;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
@@ -23,17 +23,19 @@ public class OrderInfoService extends BaseService {
     public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter){
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setOrderInfo(orderInfoParameter);
-        long orderInfoId = orderInfo.getOrderInfoId();
+        orderInfoDao.save(orderInfo);
+        OrderPayDTO orderPayDTO = new OrderPayDTO(orderInfo);
+        long id = orderPayDTO.getOrderPayId();
+        System.out.println(id);
         for(OrderListDTO s: orderInfoParameter.getOrderItemList()){
             OrderItem orderItem = new OrderItem();
             orderItem.setAmount(s.getAmount());
             orderItem.setCommodityId(s.getCommodityId());
             orderItem.setPrice(s.getPrice());
-            orderItem.setOrderInfoId(orderInfoId);
+            orderItem.setOrderInfoId(id);
             orderItemDao.save(orderItem);
         }
-        orderInfoDao.save(orderInfo);
-        return new OrderPayDTO(orderInfo);
+        return orderPayDTO;
     }
 
     //用户查看不同执行状态的订单
@@ -52,6 +54,7 @@ public class OrderInfoService extends BaseService {
         for(OrderInfo s:orderInfos){
             //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+            orderInfoDTO.setStoreId(s.getStoreId());
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());
@@ -62,8 +65,14 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             //获取对应订单id的所有商品
-            List<OrderListDTO> orderListDTOS = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            orderInfoDTO.setOrderItemList(orderListDTOS);
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            List<Commodity> orderItemList = new ArrayList<>();
+            for(OrderItem o:orderItems){
+                Commodity commodity = new Commodity();
+                commodity = commodityDao.findByCommodityId(o.getCommodityId());
+                orderItemList.add(commodity);
+            }
+            orderInfoDTO.setOrderItemList(orderItemList);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;
@@ -81,6 +90,7 @@ public class OrderInfoService extends BaseService {
         for(OrderInfo s:orderInfos){
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setStoreId(s.getStoreId());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setJudged(s.isJudged());
@@ -90,8 +100,14 @@ public class OrderInfoService extends BaseService {
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             //获取对应订单id的所有商品
-            List<OrderListDTO> orderListDTOS = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            orderInfoDTO.setOrderItemList(orderListDTOS);
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            List<Commodity> orderItemList = new ArrayList<>();
+            for(OrderItem o:orderItems){
+                Commodity commodity = new Commodity();
+                commodity = commodityDao.findByCommodityId(o.getCommodityId());
+                orderItemList.add(commodity);
+            }
+            orderInfoDTO.setOrderItemList(orderItemList);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;

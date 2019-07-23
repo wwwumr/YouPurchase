@@ -15,6 +15,10 @@ public class OrderItem {
 
     private long orderInfoId;
 
+/*    @OneToOne
+    @JoinColumn(name ="commodityId" )
+    private Commodity commodity;*/
+
     private long commodityId;
 
     private Integer amount;
@@ -31,6 +35,16 @@ public class OrderItem {
     public void setCommodityId(long commodityId) {
         this.commodityId = commodityId;
     }
+
+
+
+/*    public Commodity getCommodity() {
+        return commodity;
+    }
+
+    public void setCommodity(Commodity commodity) {
+        this.commodity = commodity;
+    }*/
 
     public Long getOrderItemId() {
         return orderItemId;
