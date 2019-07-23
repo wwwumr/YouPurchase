@@ -3,11 +3,6 @@ import { Upload, Icon, message, Tooltip } from 'antd';
 import axios from 'axios';
 import config from '../../../config/config';
 
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
 
 function beforeUpload(file) {
     if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
@@ -40,7 +35,7 @@ class AvatarUpload extends React.Component {
             .then(res => {
                 if (res.data !== null && res.data !== ''){
                     this.setState({
-                        imageUrl: config.url.root + res.data.avatar,
+                        imageUrl: res.data.avatar,
                         dealerId: res.data.key,
                     })
                 }

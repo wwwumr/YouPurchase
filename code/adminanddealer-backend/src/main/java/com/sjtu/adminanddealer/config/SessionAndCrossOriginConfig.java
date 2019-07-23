@@ -58,7 +58,7 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
-    /**/
+    /*
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 所有api开头的访问都要进入RedisSessionInterceptor拦截器进行登录验证，并排除login接口(全路径)。
@@ -75,7 +75,7 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/login/**")
                 .excludePathPatterns("/logout");
 
-    }
+    }*/
 
 
 }
