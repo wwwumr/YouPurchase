@@ -2,7 +2,9 @@ package com.you_purchase.backenduser.dao;
 
 import com.you_purchase.backenduser.entity.OrderInfo;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -15,6 +17,11 @@ public interface OrderInfoDao extends CrudRepository<OrderInfo,String> {
     public List<OrderInfo> findByUserIdAndStatusAndValid(long userId,int status,boolean valid);
     //商家查看所有订单
     public  List<OrderInfo> findByStoreIdAndValid(long storeId,boolean valid);
+    //商家查看各种状态订单
+    public List<OrderInfo> findByStoreIdAndStatusAndValid(long storeId,int status,boolean valid);
+    //商家查询某时间段的
+   public List<OrderInfo> findByStoreIdAndCreateDateIsGreaterThanEqualAndCreateDateIsLessThanEqual(
+           long storeId,Date start,Date end);
 
 
 }

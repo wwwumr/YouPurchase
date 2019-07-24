@@ -5,6 +5,7 @@ import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,8 @@ public class OrderInfo {
 
     private String tarPhone;
 
-    private String createDate;
+    //yyyy-MM-dd HH-mm-ss
+    private Date createDate;
 
     private double totalPrice;
     //订单是否可用
@@ -40,14 +42,14 @@ public class OrderInfo {
     private Long deliveryAddressId;
 
 
-    public void setOrderInfo(OrderInfoParameter orderInfoParameter){
+    public void setOrderInfo(OrderInfoParameter orderInfoParameter,Date date){
         this.setValid(true);
         this.setJudged(false);
         this.setStatus(0);
         this.setUserId(orderInfoParameter.getUserId());
         this.setStoreId(orderInfoParameter.getStoreId());
         this.setTotalPrice(orderInfoParameter.getTotalPrice());
-        this.setCreateDate(orderInfoParameter.getCreateDate());
+        this.setCreateDate(date);
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
         this.setTarPhone(orderInfoParameter.getTarPhone());
@@ -123,11 +125,11 @@ public class OrderInfo {
         this.status = status;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

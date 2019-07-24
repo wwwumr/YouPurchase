@@ -2,22 +2,23 @@ package com.you_purchase.backenduser.dto;
 
 import com.you_purchase.backenduser.entity.OrderInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderPayDTO {
     private  long orderPayId;
 
-    private  String createDate;
+    private String createDate;
 
     private double totalPrice;
 
     private List<CommodityShortageDTO> shortageDTOS;
 
 
-    public OrderPayDTO(OrderInfo orderInfo, List<CommodityShortageDTO> dtos){
+    public OrderPayDTO(OrderInfo orderInfo, List<CommodityShortageDTO> dtos,String createDate){
         if(orderInfo != null){
             this.setOrderPayId(orderInfo.getOrderInfoId());
-            this.setCreateDate(orderInfo.getCreateDate());
+            this.setCreateDate(createDate);
             this.setTotalPrice(orderInfo.getTotalPrice());
         }
         this.shortageDTOS = dtos;
