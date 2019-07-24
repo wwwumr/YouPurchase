@@ -6,6 +6,7 @@ import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
 import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
@@ -175,5 +176,45 @@ public class CommodityServiceImpl implements CommodityService {
         commodity.getCommodityPicUrls().add(newPicUrl);
         commodityDao.updateCommodity(commodity);
         return newPicUrl;
+    }
+
+    @Override
+    public List<CommodityDTO> getCommoditiesByStoreAndClass(Long storeId, String classInfo) {
+        List<Commodity> commodityList = commodityDao.getCommodityByClass(storeId, classInfo);
+        List<CommodityDTO> commodityDTOS = new ArrayList<>();
+        if (commodityList == null) {
+            return commodityDTOS;
+        }
+        for (Commodity c : commodityList
+        ) {
+            CommodityDTO commodityDTO = new CommodityDTO(c);
+        }
+        return commodityDTOS;
+    }
+
+    @Override
+    public List<CommodityClass> getCommodityClassInStore(Long storeId) {
+        return commodityDao.getCommodityClassesByStore(storeId);
+    }
+
+    @Override
+    public Long addNewCommodityClass(String classInfo, Long storeId) {
+        CommodityClass commodityClass = new CommodityClass();
+        commodityClass.setClassInfo(classInfo);
+        commodityClass.setStoreId(storeId);
+        commodityDao.addNewCommodityClass(commodityClass);
+        return commodityClass.getCommodityClassId();
+    }
+
+    @Override
+    public void updateCommodityClass(Long commodityClassId, String newClassInfo) {
+        CommodityClass commodityClass = commodityDao.getCommodityClassById(commodityClassId);
+        commodityClass.setClassInfo(newClassInfo);
+        commodityDao.updateCommodityClass(commodityClass);
+    }
+
+    @Override
+    public void deleteCommodityClass(Long commodityClassId) {
+        commodityDao.deleteCommodity(commodityClassId);
     }
 }

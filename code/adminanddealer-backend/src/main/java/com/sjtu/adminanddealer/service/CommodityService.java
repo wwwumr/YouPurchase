@@ -3,6 +3,7 @@ package com.sjtu.adminanddealer.service;
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
 import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,7 +16,6 @@ import java.util.List;
  * @author Chuyuxuan
  */
 public interface CommodityService {
-    // 上架商品
 
     /**
      * 获取一个店铺的所有商品
@@ -71,10 +71,70 @@ public interface CommodityService {
      */
     List<CommodityShortageDTO> checkCommodityRemaining(List<CommodityCheckParameter> checkParameterList);
 
+    /**
+     * 下订单后减少商品的库存
+     *
+     * @param commodityList 需要减少库存的商品
+     * @return 如果每个商品的余量都充足，返回一个空的列表；如果有余量不足的，返回该商品的id和实际余量
+     */
     List<CommodityShortageDTO> decreaseCommodityInventory(List<CommodityCheckParameter> commodityList);
 
+    /**
+     * 更新商品的封面图片
+     * @param file 新封面图片
+     * @param commodityId 商品id
+     * @param coverPicUrl 原来的图片在数据库中的保存字段
+     * @return 返回新的图片在数据库中保存的字段
+     */
     String updateCommodityCoverPic(MultipartFile file, Long commodityId, String coverPicUrl);
 
+    /**
+     * 添加商品的其他描述图片
+     * @param file 新添加的图片
+     * @param commodityId 商品id
+     * @return 新的图片在数据库中的字段
+     */
     String addCommodityPics(MultipartFile file, Long commodityId);
+
+    /**
+     * 通过店铺以及商品类别获取商品信息
+     *
+     * @param storeId   店铺id
+     * @param classInfo 商品类别
+     * @return 包含所有满足条件的商品列表
+     */
+    List<CommodityDTO> getCommoditiesByStoreAndClass(Long storeId, String classInfo);
+
+    /**
+     * 获取一个店铺中所有的商品类别
+     *
+     * @param storeId 店铺id
+     * @return 该店铺中所有商品类别信息
+     */
+    List<CommodityClass> getCommodityClassInStore(Long storeId);
+
+    /**
+     * 店铺中新增商品类别
+     *
+     * @param classInfo 新增的商品类别信息
+     * @param storeId   店铺id
+     * @return 新建商品类别的id
+     */
+    Long addNewCommodityClass(String classInfo, Long storeId);
+
+    /**
+     * 修改商品类别的信息
+     *
+     * @param commodityClassId 商品类别id
+     * @param newClassInfo     新的商品类别信息
+     */
+    void updateCommodityClass(Long commodityClassId, String newClassInfo);
+
+    /**
+     * 删除商品类别信息
+     *
+     * @param commodityClassId 商品类别id
+     */
+    void deleteCommodityClass(Long commodityClassId);
 
 }

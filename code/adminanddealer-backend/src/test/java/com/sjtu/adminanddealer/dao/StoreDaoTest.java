@@ -36,11 +36,11 @@ public class StoreDaoTest {
      * `dealer` (`dealer_id`, `address`, `attached`, `avatar`, `contact`, `password`, `real_name`, `user_name`, `store_id`)
      *          (22, 'SJTU EAST#15', false, 'image/21f99283.jpg', '1238888', '123456', 'zhangsan', 'sjtu', null)
      *          (24, 'ECNU #5', false, 'image/320392039.jpg', '3456666', 'abc123', 'lisi', 'ecnu', null)
-     *          (25, 'SJTU #37', true, 'image/defaultAvatar.jpg', '12345678', 'qwerasdf', 'zhangwuji', 'wuji', 24)
+     *          (250, 'SJTU #37', true, 'image/defaultAvatar.jpg', '12345678', 'qwerasdf', 'zhangwuji', 'wuji', 24)
      * in table:
      * `store` (`store_id`, `address`, `attached`, `contact`, `cover_pic_url`, `latitude`, `longitude`, `open_hour_end`, `open_hour_start`, `store_name`, `dealer_id`)
-     *         (24, 'JianChuan Road', true, '020-999888', 'image/idfosnfds.jpg', 123.4324, 40.131, '2019-07-10 09:00:21', '2019-07-10 17:00:35', 'JinGongMen', 25)
-     *         (23, 'Dongchuan Road 800', false, '123456', 'image/sjtu.jpg', 12, 34.099, '2019-07-10 08:00:56', '2019-07-10 23:00:06', 'SJTU', null)
+     *         (231, 'JianChuan Road', true, '020-999888', 'image/idfosnfds.jpg', 123.4324, 40.131, '2019-07-10 09:00:21', '2019-07-10 17:00:35', 'JinGongMen', 25)
+     *         (204, 'Dongchuan Road 800', false, '123456', 'image/sjtu.jpg', 12, 34.099, '2019-07-10 08:00:56', '2019-07-10 23:00:06', 'SJTU', null)
      *
      * */
 
@@ -53,8 +53,8 @@ public class StoreDaoTest {
     public void testGetAllStores() throws Exception {
         List<Store> stores = storeDao.getAllStores();
         Assert.assertNotNull(stores);
-        Assert.assertEquals(stores.get(0).getStoreId().longValue(), 23L);
-        Assert.assertEquals(stores.get(1).getStoreId().longValue(), 24L);
+        Assert.assertEquals(stores.get(0).getStoreId().longValue(), 204L);
+        Assert.assertEquals(stores.get(1).getStoreId().longValue(), 231L);
 
     }
 
@@ -62,7 +62,7 @@ public class StoreDaoTest {
     public void testGetStoreByStoreId() throws Exception {
         Store store1 = storeDao.getStoreByStoreId(1L);
         Assert.assertNull(store1);
-        Store store2 = storeDao.getStoreByStoreId(24L);
+        Store store2 = storeDao.getStoreByStoreId(231L);
         Assert.assertEquals(store2.getAddress(), "JianChuan Road");
         Assert.assertEquals(store2.getContact(), "020-999888");
         Assert.assertEquals(store2.getCoverPicUrl(), "image/idfosnfds.jpg");
@@ -94,7 +94,7 @@ public class StoreDaoTest {
 
     @Test
     public void testUpdateStore() throws Exception {
-        Store store = storeDao.getStoreByStoreId(23L);
+        Store store = storeDao.getStoreByStoreId(204L);
         // origin Dongchuan Road 800 set to Shanghai Station
         store.setAddress("Shanghai Station");
         storeDao.updateStore(store);
@@ -115,8 +115,8 @@ public class StoreDaoTest {
     // 这个测试需要和下面一个测试testUnbind一起进行
     @Test
     public void testBind() throws Exception {
-        storeDao.bindDealerStore(22L, 23L);
-        Store store = storeDao.getStoreByStoreId(23L);
+        storeDao.bindDealerStore(22L, 204L);
+        Store store = storeDao.getStoreByStoreId(204L);
         Assert.assertTrue(store.isAttached());
 
     }
@@ -124,8 +124,8 @@ public class StoreDaoTest {
     // 这个测试需要和上面一个测试testBind一起进行
     @Test
     public void testUnbind() throws Exception {
-        storeDao.unbindDealerStore(22L, 23L);
-        Store store1 = storeDao.getStoreByStoreId(23L);
+        storeDao.unbindDealerStore(22L, 204L);
+        Store store1 = storeDao.getStoreByStoreId(204L);
         Assert.assertFalse(store1.isAttached());
     }
 }

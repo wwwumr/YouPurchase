@@ -19,19 +19,25 @@ public class StoreParameter {
 
     private String endHour;
 
+    private Integer deliveryType;
+
+    private double deliveryRange;
+
     private Long dealerId;
 
     /* constructor */
     public StoreParameter() {
     }
 
-    public StoreParameter(Long key, String storeName, String address, String contact, String startHour, String endHour, Long dealerId) {
+    public StoreParameter(Long key, String storeName, String address, String contact, String startHour, String endHour, Integer deliveryType, double deliveryRange, Long dealerId) {
         this.key = key;
         this.storeName = storeName;
         this.address = address;
         this.contact = contact;
         this.startHour = startHour;
         this.endHour = endHour;
+        this.deliveryType = deliveryType;
+        this.deliveryRange = deliveryRange;
         this.dealerId = dealerId;
     }
 
@@ -82,6 +88,22 @@ public class StoreParameter {
 
     public void setEndHour(String endHour) {
         this.endHour = endHour;
+    }
+
+    public Integer getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public double getDeliveryRange() {
+        return deliveryRange;
+    }
+
+    public void setDeliveryRange(double deliveryRange) {
+        this.deliveryRange = deliveryRange;
     }
 
     public Long getDealerId() {

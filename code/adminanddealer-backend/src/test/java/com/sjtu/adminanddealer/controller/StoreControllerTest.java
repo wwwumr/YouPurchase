@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
@@ -44,6 +45,9 @@ public class StoreControllerTest {
     @MockBean
     private StoreService storeService;
 
+    @MockBean
+    private StringRedisTemplate redisTemplate;
+
     @Test
     public void testDI() throws Exception {
         Assert.assertNotNull(storeController);
@@ -66,7 +70,7 @@ public class StoreControllerTest {
         json.put("coverPicUrl", "image/default");
 
         StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
-                "8:00", "19:00", null);
+                "8:00", "19:00", 1, 8.0, null);
         given(this.storeService.addAStore(storeParameter)).willReturn(json);
 
         this.mockMvc.perform(post("/stores").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(storeParameter)))
@@ -76,7 +80,7 @@ public class StoreControllerTest {
     @Test
     public void testUpdateStore() throws Exception {
         StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
-                "8:00", "19:00", null);
+                "8:00", "19:00", 0, 5.0, null);
         storeParameter.setKey(1L);
         this.mockMvc.perform(put("/stores").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(storeParameter)))
                 .andExpect(status().isOk()).andExpect(content().json("{\"key\":1}"));
