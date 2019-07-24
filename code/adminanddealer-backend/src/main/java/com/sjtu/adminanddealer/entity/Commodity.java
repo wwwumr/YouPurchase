@@ -37,6 +37,10 @@ public class Commodity {
 
     private Integer remaining;
 
+    @ManyToOne
+    @JoinColumn(name = "commodityClassId")
+    private CommodityClass commodityClass;
+
     /* constructor */
     public Commodity() {
     }

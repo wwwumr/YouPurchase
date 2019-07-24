@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @author Chuyuxuan
  */
@@ -21,5 +23,8 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long> {
     @Query(value = "update `commodity` set `commodity_cover_pic_url`=:coverPicUrl " +
             "where `commodity_id`=:commodityId ", nativeQuery = true)
     void updateCommodityCoverUrl(@Param("coverPicUrl") String newUrl, @Param("commodityId") Long comodityId);
+
+    List<Commodity> getCommoditiesByCommodityClass_StoreIdAndCommodityClass_ClassInfo(Long storeId, String classInfo);
+
 
 }

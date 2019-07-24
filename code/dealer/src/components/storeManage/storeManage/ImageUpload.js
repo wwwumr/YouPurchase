@@ -71,6 +71,7 @@ class ImageUpload extends React.Component {
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.storeAction}
+                withCredentials={true}
                 data={{"key": this.state.storeId, "coverPicUrl": this.state.coverPic}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}

@@ -69,6 +69,7 @@ class AvatarUpload extends React.Component {
                 className="avatar-uploader"
                 showUploadList={false}
                 action= {config.uploadImage.avatarAction}
+                withCredentials={true}
                 data={{"key": this.props.id, "avatar": this.props.avatar}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}

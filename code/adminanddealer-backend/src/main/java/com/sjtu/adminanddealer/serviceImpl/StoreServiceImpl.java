@@ -64,6 +64,7 @@ public class StoreServiceImpl implements StoreService {
             storeDTO.setStartHour(startHour);
             storeDTO.setEndHour(endHour);
             storeDTO.setDeliveryType(s.getDeliveryType());
+            storeDTO.setDeliveryRange(s.getDeliveryRange());
 
             storeDTOList.add(storeDTO);
 
@@ -84,7 +85,8 @@ public class StoreServiceImpl implements StoreService {
         if (store.getDealer() != null) {
             StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
                     store.getCoverPicUrl(), store.getContact(), startHour, endHour,
-                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName(), store.getDeliveryType());
+                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName(),
+                    store.getDeliveryType(), store.getDeliveryRange());
             return dto;
         } else {
             StoreDTO dto = new StoreDTO();
@@ -96,6 +98,7 @@ public class StoreServiceImpl implements StoreService {
             dto.setStartHour(startHour);
             dto.setEndHour(endHour);
             dto.setDeliveryType(store.getDeliveryType());
+            dto.setDeliveryRange(store.getDeliveryRange());
             return dto;
         }
     }
@@ -117,7 +120,9 @@ public class StoreServiceImpl implements StoreService {
         Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
-        store.setDeliveryType(0);
+        // TODO: 前端新建时到底时设为默认值还是从前端传值
+        store.setDeliveryType(storeParameter.getDeliveryType());
+        store.setDeliveryRange(storeParameter.getDeliveryRange());
         Long newId = storeDao.addAStore(store);
 
         JSONObject jsonObject = new JSONObject();
@@ -137,6 +142,8 @@ public class StoreServiceImpl implements StoreService {
         Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
+        store.setDeliveryType(storeParameter.getDeliveryType());
+        store.setDeliveryRange(storeParameter.getDeliveryRange());
 
         storeDao.updateStore(store);
     }
@@ -187,6 +194,8 @@ public class StoreServiceImpl implements StoreService {
             String endHour = dateFormat.format(s.getOpenHourEnd());
             storeDTO.setStartHour(startHour);
             storeDTO.setEndHour(endHour);
+            storeDTO.setDeliveryType(s.getDeliveryType());
+            storeDTO.setDeliveryRange(s.getDeliveryRange());
 
             storeDTOList.add(storeDTO);
 

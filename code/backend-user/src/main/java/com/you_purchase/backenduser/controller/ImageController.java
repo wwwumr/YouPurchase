@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author Chuyuxuan
  */
 @RestController
-@RequestMapping("/image")
+@Api(tags = "图片获取")
 public class ImageController {
     /*
      * 数据库中所有的图片url，都是image/123456.jpg这种格式
@@ -32,7 +32,9 @@ public class ImageController {
     @Autowired
     private UserDao userDao;
 
-    @GetMapping(value = "/getPhoto", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+
+    @GetMapping(value = "/user/getPhoto", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    @ApiOperation(value = "用户获取头像")
     public byte[] getImage(long userId) throws IOException {
         User user = userDao.findByUserIdAndValid(userId,true);
         String picUrl = user.getPhoto();

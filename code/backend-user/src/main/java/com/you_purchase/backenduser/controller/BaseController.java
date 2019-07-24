@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BaseController {
     @Autowired
     protected UserService userService;
-
     @Autowired
     protected OrderInfoService orderInfoService;
     @Autowired
