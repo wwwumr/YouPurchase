@@ -11,6 +11,7 @@ import OrderManage from './components/orderManage/OrderManage';
 import GoodsManage from './components/goodsManage/GoodsManage';
 import AccountManage from './components/accountManage/AccountManage'
 import Goods from './components/goodsManage/goods/Goods';
+import MapTest from './components/test/MapTest';
 import config from './config/config';
 
 const { Header, Content, Footer} = Layout;
@@ -177,6 +178,11 @@ class App extends React.Component {
                                 <Menu.Item key="1">
                                     <Link to="/"><Avatar size={45} >未登录</Avatar></Link>
                                 </Menu.Item>
+                                <Menu.Item>
+                                <Link to={"/test"} >
+                                测试组件
+                                </Link>
+                                </Menu.Item>
                             </Menu>
                         }
                     </Header>
@@ -221,7 +227,8 @@ class App extends React.Component {
                                             setUserMessage={ this.setUserMessage } 
                                             changeBg = {this.changeBg}
                                         /> }
-                                    />    
+                                    /> 
+                                    <Route exact path = "/test/" component={ MapTest } />
                                 </Switch>
                             }
                         </div>
