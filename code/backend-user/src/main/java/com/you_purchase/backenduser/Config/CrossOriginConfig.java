@@ -1,3 +1,4 @@
+/*
 package com.you_purchase.backenduser.Config;
 
 import org.springframework.context.annotation.Configuration;
@@ -5,12 +6,14 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+*/
 /**
  * 使用session拦截请求，未登录的用户无法访问到接口
  * 增加跨域配置，便于前后端调试
  *
  * @author Chuyuxuan
- */
+ *//*
+
 @Configuration
 @EnableWebMvc
 public class CrossOriginConfig implements WebMvcConfigurer {
@@ -30,3 +33,4 @@ public class CrossOriginConfig implements WebMvcConfigurer {
     }
 
 }
+*/

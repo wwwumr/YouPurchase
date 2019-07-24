@@ -2,12 +2,13 @@ package com.you_purchase.backenduser.dto;
 
 import com.you_purchase.backenduser.entity.OrderInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public class OrderPayDTO {
     private  long orderPayId;
 
-    private  String createDate;
+    private String createDate;
 
     private double totalPrice;
 

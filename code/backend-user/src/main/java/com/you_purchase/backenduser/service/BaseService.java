@@ -3,7 +3,8 @@ package com.you_purchase.backenduser.service;
 //import com.you_purchase.backenduser.Config.FileUploadUtil;
 import com.you_purchase.backenduser.Config.FileUploadUtil;
 import com.you_purchase.backenduser.dao.*;
-import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,12 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -38,6 +45,64 @@ public class BaseService {
     protected DeliveryAddressDao deliveryAddressDao;
     @Autowired
     protected CommodityDao commodityDao;
+
+
+
+    //检查日期格式
+    private static boolean isLegalDate(String sdate) {
+        int legalLen = 19;
+        if(sdate == null || sdate.length() !=legalLen ){
+            return false;
+        }
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+            Date date = formatter.parse(sdate);
+            return sdate.equals(formatter.format(date));
+        } catch (ParseException e) {
+            return false;
+        }
+    }
+
+    //orderCheck
+    protected List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
+        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
+        //获取对应用户id的所有订单
+        for (OrderInfo s : orderInfos) {
+            //System.out.println(s.getOrderInfoId());
+            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+            orderInfoDTO.setStoreId(s.getStoreId());
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setJudged(s.isJudged());
+            boolean legalDate = isLegalDate(s.getCreateDate());
+            if(legalDate == false){
+                return null;
+            }
+            orderInfoDTO.setCreateDate(s.getCreateDate());
+            Store store = storeDao.findByStoreId(s.getStoreId());
+            orderInfoDTO.setStoreName(store.getStoreName());
+            orderInfoDTO.setTotalPrice(s.getTotalPrice());
+            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
+            //获取对应订单id的所有商品
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            List<Commodity> orderItemList = new ArrayList<>();
+            for(OrderItem o:orderItems){
+                Commodity commodity = new Commodity();
+                commodity = commodityDao.findByCommodityId(o.getCommodityId());
+                orderItemList.add(commodity);
+            }
+            orderInfoDTO.setOrderItemList(orderItemList);
+            orderInfoDTOS.add(orderInfoDTO);
+        }
+        return orderInfoDTOS;
+    }
+
+
+
+
+
+
 
     //第三方支付
     protected class Weixin{

@@ -5,6 +5,7 @@ import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,7 @@ public class OrderInfo {
 
     private String tarPhone;
 
+    //yyyy-MM-dd HH-mm-ss
     private String createDate;
 
     private double totalPrice;

@@ -56,6 +56,15 @@ public class OrderInfoController extends BaseController{
         return orderInfoService.OrderStoreCheck(orderInfoCheckParameter);
     }
 
+    //商家查看不同状态订单
+    @RequestMapping(value = "/order/storeStatusCheck",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "商家查看不同状态订单")
+    List<OrderInfoDTO> OrderStoreStatusCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
+        return orderInfoService.OrderStoreStatusCheck(orderInfoCheckParameter);
+    }
+
     //商家修改订单状态
     @RequestMapping(value = "/order/modify",method = RequestMethod.GET)
     public

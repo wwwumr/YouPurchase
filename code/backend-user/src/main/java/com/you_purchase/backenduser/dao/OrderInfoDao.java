@@ -15,6 +15,8 @@ public interface OrderInfoDao extends CrudRepository<OrderInfo,String> {
     public List<OrderInfo> findByUserIdAndStatusAndValid(long userId,int status,boolean valid);
     //商家查看所有订单
     public  List<OrderInfo> findByStoreIdAndValid(long storeId,boolean valid);
+    //商家查看各种状态订单
+    public List<OrderInfo> findByStoreIdAndStatusAndValid(long storeId,int status,boolean valid);
 
 
 }
