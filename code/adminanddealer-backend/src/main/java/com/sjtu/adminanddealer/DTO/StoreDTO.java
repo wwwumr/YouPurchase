@@ -1,5 +1,10 @@
 package com.sjtu.adminanddealer.DTO;
 
+import com.sjtu.adminanddealer.entity.Store;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 /**
  * 前端需要的商店信息格式
  *
@@ -46,6 +51,23 @@ public class StoreDTO {
         this.dealerName = dealerName;
         this.deliveryType = deliveryType;
         this.deliveryRange = deliveryRange;
+    }
+
+    public StoreDTO(Store store) {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        this.key = store.getStoreId();
+        this.storeName = store.getStoreName();
+        this.address = store.getAddress();
+        this.coverPicUrl = store.getCoverPicUrl();
+        this.contact = store.getContact();
+        this.startHour = dateFormat.format(store.getOpenHourStart());
+        this.endHour = dateFormat.format(store.getOpenHourEnd());
+        if (store.getDealer() != null) {
+            this.dealerId = store.getDealer().getDealerId().intValue();
+            this.dealerName = store.getDealer().getUserName();
+        }
+        this.deliveryType = store.getDeliveryType();
+        this.deliveryRange = store.getDeliveryRange();
     }
 
     /* getter and setter */

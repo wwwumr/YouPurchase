@@ -1,6 +1,9 @@
 package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
@@ -173,4 +176,22 @@ public class StoreController {
         return null;
     }
 
+    // TODO: 这里的api还需要改一下，注释加上
+    @GetMapping("/test/distance")
+    public List<DistanceSortedStoreDTO> getStoreSortedByDistance(@RequestParam("longitude") double longitude,
+                                                                 @RequestParam("latitude") double latitude) {
+        return storeService.getStoresByDistance(longitude, latitude);
+    }
+
+    @GetMapping("/test/sales")
+    public List<SalesSortedStoreDTO> getStoreSortedBySales(@RequestParam("longitude") double longitude,
+                                                           @RequestParam("latitude") double latitude) {
+        return storeService.getStoresBySales(longitude, latitude);
+    }
+
+    @GetMapping("/test/score")
+    public List<GradeSortedStoreDTO> getStoreSortedByScore(@RequestParam("longitude") double longitude,
+                                                           @RequestParam("latitude") double latitude) {
+        return storeService.getStoreByScore(longitude, latitude);
+    }
 }

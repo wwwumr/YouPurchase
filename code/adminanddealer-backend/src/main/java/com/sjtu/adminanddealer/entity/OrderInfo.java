@@ -3,6 +3,7 @@ package com.sjtu.adminanddealer.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class OrderInfo {
@@ -25,7 +26,8 @@ public class OrderInfo {
 
     private String tarPhone;
 
-    private String createDate;
+    //yyyy-MM-dd HH-mm-ss
+    private Date createDate;
 
     private double totalPrice;
     //订单是否可用
@@ -103,11 +105,11 @@ public class OrderInfo {
         this.status = status;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

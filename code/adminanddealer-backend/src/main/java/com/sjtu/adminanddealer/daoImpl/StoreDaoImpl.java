@@ -2,12 +2,17 @@ package com.sjtu.adminanddealer.daoImpl;
 
 import com.google.common.collect.Lists;
 import com.sjtu.adminanddealer.dao.StoreDao;
+import com.sjtu.adminanddealer.entity.OrderInfo;
 import com.sjtu.adminanddealer.entity.Store;
+import com.sjtu.adminanddealer.repository.GradeRepository;
+import com.sjtu.adminanddealer.repository.OrderInfoRepository;
 import com.sjtu.adminanddealer.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +25,12 @@ public class StoreDaoImpl implements StoreDao {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    @Autowired
+    private OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    private GradeRepository gradeRepository;
 
     @Override
     public List<Store> getAllStores() {
@@ -79,5 +90,29 @@ public class StoreDaoImpl implements StoreDao {
         if (storeRepository.existsById(storeId)) {
             storeRepository.updateStoreDelivery(type, storeId);
         }
+    }
+
+    @Override
+    public Integer getStoreRecentSales(Long storeId) {
+        Calendar rightNow = Calendar.getInstance();
+
+        // 当前的日期
+        Date end = rightNow.getTime();
+        rightNow.add(Calendar.MONTH, -1);
+
+        // 一个月之前的日期
+        Date start = rightNow.getTime();
+        List<OrderInfo> orderInfos = orderInfoRepository.getOrderInfosByStoreIdAndCreateDateBetween(storeId, start, end);
+        return orderInfos.size();
+    }
+
+    @Override
+    public double getStoreAvgScore(Long storeId) {
+        Object o = gradeRepository.getStoreAvgScore(storeId);
+        System.out.println(o);
+        if (o == null) {
+            return 0;
+        }
+        return (double) o;
     }
 }

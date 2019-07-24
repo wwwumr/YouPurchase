@@ -85,4 +85,20 @@ public interface StoreDao {
      * @param storeId 店铺id
      */
     void updateStoreDeliveryType(Integer type, Long storeId);
+
+    /**
+     * 获取一个店铺近一个月的订单数
+     *
+     * @param storeId 店铺id
+     * @return 店铺近一个月的订单数
+     */
+    Integer getStoreRecentSales(Long storeId);
+
+    /**
+     * 获取一个店铺的平均评分
+     *
+     * @param storeId 店铺id
+     * @return 店铺的平均评分
+     */
+    double getStoreAvgScore(Long storeId);
 }

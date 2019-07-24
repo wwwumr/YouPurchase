@@ -1,17 +1,13 @@
 package com.sjtu.adminanddealer.entity;
 
 
-import com.sjtu.adminanddealer.parameter.GradeParameter;
-import lombok.Data;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-/*
- * 用户评论对应实体类
- * */
 @Entity
-@Data
 public class Grade {
 
     @Id
@@ -19,46 +15,37 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long gradeId;
 
-    private String userName;
-
-    private String storeName;
-
     private long userId;
 
     private long storeId;
 
-    @Column(length = 256)
-    private String context;
+    private long orderInfoId;
 
-    @Column(length = 1)
-    //0-10
     private double score;
 
-    private String gradeTime;
+    private String content;
 
-    //是否可用
+    private String createDate;
+
     private boolean valid;
-
-    public void setInfo(GradeParameter gradeParameter) {
-        this.setContext(gradeParameter.getContext());
-        this.setScore(gradeParameter.getScore());
-        this.setValid(true);
-        this.setStoreName(gradeParameter.getStoreName());
-        this.setUserName(gradeParameter.getUserName());
-        this.setUserId(gradeParameter.getUserId());
-        this.setStoreId(gradeParameter.getStoreId());
-        this.setGradeTime(gradeParameter.getGradeTime());
-    }
 
 
     //getter and setter
 
-    public String getGradeTime() {
-        return gradeTime;
+    public long getOrderInfoId() {
+        return orderInfoId;
     }
 
-    public void setGradeTime(String gradeTime) {
-        this.gradeTime = gradeTime;
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     public boolean isValid() {
@@ -77,22 +64,6 @@ public class Grade {
         this.gradeId = gradeId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getStoreName() {
-        return storeName;
-    }
-
-    public void setStoreName(String storeName) {
-        this.storeName = storeName;
-    }
-
     public long getUserId() {
         return userId;
     }
@@ -109,19 +80,19 @@ public class Grade {
         this.storeId = storeId;
     }
 
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
     public double getScore() {
         return score;
     }
 
     public void setScore(double score) {
         this.score = score;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

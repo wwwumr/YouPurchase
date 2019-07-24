@@ -29,8 +29,10 @@ public class Store {
     @Column(nullable = false)
     private String address;
 
+    // 经度
     private double longitude;
 
+    // 纬度
     private double latitude;
 
     @Column(nullable = false)

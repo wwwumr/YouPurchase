@@ -1,6 +1,9 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
@@ -8,18 +11,18 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
+import com.sjtu.adminanddealer.utils.DistanceUtil;
 import com.sjtu.adminanddealer.utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * StoreService的实现类.
@@ -49,22 +52,7 @@ public class StoreServiceImpl implements StoreService {
         storeArrayList = storeDao.getAllStores();
         for (Store s : storeArrayList
         ) {
-            StoreDTO storeDTO = new StoreDTO();
-            storeDTO.setKey(s.getStoreId());
-            storeDTO.setStoreName(s.getStoreName());
-            storeDTO.setAddress(s.getAddress());
-            storeDTO.setContact(s.getContact());
-            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
-            if (s.getDealer() != null) {
-                storeDTO.setDealerId(s.getDealer().getDealerId().intValue());
-                storeDTO.setDealerName(s.getDealer().getUserName());
-            }
-            String startHour = dateFormat.format(s.getOpenHourStart());
-            String endHour = dateFormat.format(s.getOpenHourEnd());
-            storeDTO.setStartHour(startHour);
-            storeDTO.setEndHour(endHour);
-            storeDTO.setDeliveryType(s.getDeliveryType());
-            storeDTO.setDeliveryRange(s.getDeliveryRange());
+            StoreDTO storeDTO = new StoreDTO(s);
 
             storeDTOList.add(storeDTO);
 
@@ -78,29 +66,82 @@ public class StoreServiceImpl implements StoreService {
         if (store == null) {
             return new StoreDTO();
         }
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        String startHour = dateFormat.format(store.getOpenHourStart());
-        String endHour = dateFormat.format(store.getOpenHourEnd());
 
-        if (store.getDealer() != null) {
-            StoreDTO dto = new StoreDTO(store.getStoreId(), store.getStoreName(), store.getAddress(),
-                    store.getCoverPicUrl(), store.getContact(), startHour, endHour,
-                    store.getDealer().getDealerId().intValue(), store.getDealer().getUserName(),
-                    store.getDeliveryType(), store.getDeliveryRange());
-            return dto;
-        } else {
-            StoreDTO dto = new StoreDTO();
-            dto.setKey(store.getStoreId());
-            dto.setStoreName(store.getStoreName());
-            dto.setAddress(store.getAddress());
-            dto.setCoverPicUrl(store.getCoverPicUrl());
-            dto.setContact(store.getContact());
-            dto.setStartHour(startHour);
-            dto.setEndHour(endHour);
-            dto.setDeliveryType(store.getDeliveryType());
-            dto.setDeliveryRange(store.getDeliveryRange());
-            return dto;
+        return new StoreDTO(store);
+    }
+
+    @Override
+    public List<DistanceSortedStoreDTO> getStoresByDistance(double userLongitude, double userLatitude) {
+        List<Store> storeList = storeDao.getAllStores();
+        List<DistanceSortedStoreDTO> dtos = new ArrayList<>();
+        DistanceUtil distanceUtil = new DistanceUtil();
+        for (Store s : storeList
+        ) {
+            double deliveryRange = s.getDeliveryRange();
+            double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
+            if (deliveryRange >= distance) {
+                DistanceSortedStoreDTO dto = new DistanceSortedStoreDTO(distance, new StoreDTO(s));
+                dtos.add(dto);
+            }
         }
+        Collections.sort(dtos, new Comparator<DistanceSortedStoreDTO>() {
+
+            @Override
+            public int compare(DistanceSortedStoreDTO o1, DistanceSortedStoreDTO o2) {
+                return Double.compare(o1.getDistance(), o2.getDistance());
+            }
+        });
+        return dtos;
+    }
+
+    @Override
+    public List<SalesSortedStoreDTO> getStoresBySales(double userLongitude, double userLatitude) {
+        List<Store> storeList = storeDao.getAllStores();
+        List<SalesSortedStoreDTO> dtos = new ArrayList<>();
+        DistanceUtil distanceUtil = new DistanceUtil();
+        for (Store s : storeList
+        ) {
+            double deliveryRange = s.getDeliveryRange();
+            double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
+            if (deliveryRange >= distance) {
+                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
+                SalesSortedStoreDTO dto = new SalesSortedStoreDTO(recentSales, new StoreDTO(s));
+                dtos.add(dto);
+            }
+        }
+        Collections.sort(dtos, new Comparator<SalesSortedStoreDTO>() {
+
+            @Override
+            public int compare(SalesSortedStoreDTO o1, SalesSortedStoreDTO o2) {
+                return Integer.compare(o2.getSales(), o1.getSales());
+            }
+        });
+        return dtos;
+    }
+
+    @Override
+    public List<GradeSortedStoreDTO> getStoreByScore(double userLongitude, double userLatitude) {
+        List<Store> storeList = storeDao.getAllStores();
+        List<GradeSortedStoreDTO> dtos = new ArrayList<>();
+        DistanceUtil distanceUtil = new DistanceUtil();
+        for (Store s : storeList
+        ) {
+            double deliveryRange = s.getDeliveryRange();
+            double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
+            if (deliveryRange >= distance) {
+                BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
+                double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                GradeSortedStoreDTO dto = new GradeSortedStoreDTO(avgScore, new StoreDTO(s));
+                dtos.add(dto);
+            }
+        }
+        Collections.sort(dtos, new Comparator<GradeSortedStoreDTO>() {
+            @Override
+            public int compare(GradeSortedStoreDTO o1, GradeSortedStoreDTO o2) {
+                return Double.compare(o2.getGrade(), o1.getGrade());
+            }
+        });
+        return dtos;
     }
 
     @Override
