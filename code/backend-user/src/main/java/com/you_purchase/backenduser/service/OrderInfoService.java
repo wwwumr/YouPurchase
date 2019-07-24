@@ -11,11 +11,13 @@ import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
+import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,7 +28,12 @@ public class OrderInfoService extends BaseService {
     public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter) {
         OrderInfo orderInfo = new OrderInfo();
         List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-        orderInfo.setOrderInfo(orderInfoParameter);
+        String sDate = orderInfoParameter.getCreateDate();
+        if(isLegalDate(sDate) == false){
+            return null;
+        }
+        Date date = strToDate(sDate);
+        orderInfo.setOrderInfo(orderInfoParameter,date);
         long orderInfoId = orderInfo.getOrderInfoId();
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
@@ -46,7 +53,7 @@ public class OrderInfoService extends BaseService {
             }
         }
         orderInfoDao.save(orderInfo);
-        return new OrderPayDTO(orderInfo, shortageDTOS);
+        return new OrderPayDTO(orderInfo, shortageDTOS,sDate);
     }
 
     //用户查看不同执行状态的订单
@@ -86,9 +93,6 @@ public class OrderInfoService extends BaseService {
             orderInfoDTOS.add(orderInfoDTO);
         }*/
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
-        if(orderInfos == null){
-            return null;
-        }
         return orderInfoDTOS;
     }
 
@@ -99,9 +103,6 @@ public class OrderInfoService extends BaseService {
             return null;
         }
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
-        if(orderInfos == null){
-            return null;
-        }
         return orderInfoDTOS;
     }
 
@@ -112,10 +113,28 @@ public class OrderInfoService extends BaseService {
             return null;
         }
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
+        return orderInfoDTOS;
+    }
+
+    //商家查看不同日期段内的订单
+    public List<OrderInfoDTO> OrderStoreDateCheck(OrderInfoDateCheckParameter orderInfoDateCheckParameter){
+        String start = orderInfoDateCheckParameter.getsDate();
+        String end = orderInfoDateCheckParameter.geteDate();
+        if(isLegalDate(start) == false){
+            return null;
+        }
+        if(isLegalDate(end) == false){
+            return null;
+        }
+        Date sDate = strToDate(start);
+        Date eDate = strToDate(end);
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndCreateDateIsGreaterThanEqualAndCreateDateIsLessThanEqual(
+                orderInfoDateCheckParameter.getStoreId(),sDate,eDate);
         if(orderInfos == null){
             return null;
         }
-        return orderInfoDTOS;
+        List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
+        return  orderInfoDTOS;
     }
 
 

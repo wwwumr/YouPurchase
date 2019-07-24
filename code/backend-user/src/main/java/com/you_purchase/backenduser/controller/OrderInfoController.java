@@ -4,6 +4,7 @@ package com.you_purchase.backenduser.controller;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
+import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import com.you_purchase.backenduser.service.OrderInfoService;
@@ -63,6 +64,15 @@ public class OrderInfoController extends BaseController{
     @ApiOperation(value = "商家查看不同状态订单")
     List<OrderInfoDTO> OrderStoreStatusCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
         return orderInfoService.OrderStoreStatusCheck(orderInfoCheckParameter);
+    }
+
+    //商家查看指定时间段的订单
+    @RequestMapping(value = "/order/storeTimeCheck",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "商家查看指定时段的订单")
+    List<OrderInfoDTO> OrderStoreDateCheck(@RequestBody OrderInfoDateCheckParameter orderInfoDateCheckParameter){
+        return orderInfoService.OrderStoreDateCheck(orderInfoDateCheckParameter);
     }
 
     //商家修改订单状态

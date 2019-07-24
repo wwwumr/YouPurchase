@@ -15,10 +15,10 @@ public class OrderPayDTO {
     private List<CommodityShortageDTO> shortageDTOS;
 
 
-    public OrderPayDTO(OrderInfo orderInfo, List<CommodityShortageDTO> dtos){
+    public OrderPayDTO(OrderInfo orderInfo, List<CommodityShortageDTO> dtos,String createDate){
         if(orderInfo != null){
             this.setOrderPayId(orderInfo.getOrderInfoId());
-            this.setCreateDate(orderInfo.getCreateDate());
+            this.setCreateDate(createDate);
             this.setTotalPrice(orderInfo.getTotalPrice());
         }
         this.shortageDTOS = dtos;

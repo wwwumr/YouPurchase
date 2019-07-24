@@ -8,6 +8,7 @@ import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,10 +47,30 @@ public class BaseService {
     @Autowired
     protected CommodityDao commodityDao;
 
+    //日期转换String-Date
+    protected Date strToDate(String sDate){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(sDate);
+            return date;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    //Date-String
+    protected String datToStr(Date sDate){
+        String date;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date = formatter.format(sDate);
+        return  date;
+    }
+
 
 
     //检查日期格式
-    private static boolean isLegalDate(String sdate) {
+    protected static boolean isLegalDate(String sdate) {
         int legalLen = 19;
         if(sdate == null || sdate.length() !=legalLen ){
             return false;
@@ -75,11 +96,8 @@ public class BaseService {
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setJudged(s.isJudged());
-            boolean legalDate = isLegalDate(s.getCreateDate());
-            if(legalDate == false){
-                return null;
-            }
-            orderInfoDTO.setCreateDate(s.getCreateDate());
+            String date = datToStr(s.getCreateDate());
+            orderInfoDTO.setCreateDate(date);
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
