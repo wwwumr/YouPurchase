@@ -1,7 +1,9 @@
 package com.sjtu.adminanddealer.repository;
 
 import com.sjtu.adminanddealer.entity.CommodityClass;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +18,8 @@ public interface CommodityClassRepository extends CrudRepository<CommodityClass,
 
     List<CommodityClass> getCommodityClassesByStoreId(Long storeId);
 
+    @Transactional
+    @Modifying
     void deleteCommodityClassByCommodityClassId(Long commodityClassId);
 
 

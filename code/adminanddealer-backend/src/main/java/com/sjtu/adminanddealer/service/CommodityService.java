@@ -81,7 +81,8 @@ public interface CommodityService {
 
     /**
      * 更新商品的封面图片
-     * @param file 新封面图片
+     *
+     * @param file        新封面图片
      * @param commodityId 商品id
      * @param coverPicUrl 原来的图片在数据库中的保存字段
      * @return 返回新的图片在数据库中保存的字段
@@ -90,7 +91,8 @@ public interface CommodityService {
 
     /**
      * 添加商品的其他描述图片
-     * @param file 新添加的图片
+     *
+     * @param file        新添加的图片
      * @param commodityId 商品id
      * @return 新的图片在数据库中的字段
      */

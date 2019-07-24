@@ -92,7 +92,7 @@ public class DealerParameter {
     }
 
     public void setStoreId(Long storeId) {
-        this.storeId= storeId;
+        this.storeId = storeId;
     }
 
 }

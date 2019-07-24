@@ -188,6 +188,7 @@ public class CommodityServiceImpl implements CommodityService {
         for (Commodity c : commodityList
         ) {
             CommodityDTO commodityDTO = new CommodityDTO(c);
+            commodityDTOS.add(commodityDTO);
         }
         return commodityDTOS;
     }
@@ -215,6 +216,6 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Override
     public void deleteCommodityClass(Long commodityClassId) {
-        commodityDao.deleteCommodity(commodityClassId);
+        commodityDao.deleteCommodityClass(commodityClassId);
     }
 }
