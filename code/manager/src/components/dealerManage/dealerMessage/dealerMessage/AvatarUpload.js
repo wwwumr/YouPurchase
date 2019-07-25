@@ -30,7 +30,7 @@ class AvatarUpload extends React.Component {
 
     componentDidMount() {
         axios
-            .get(config.url.dealers + this.props.id)
+            .get(config.url.getDealer + this.props.id)
             .then(res => {
                 console.log(res.data)
                 this.setState({

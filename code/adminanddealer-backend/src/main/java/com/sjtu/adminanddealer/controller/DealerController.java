@@ -61,7 +61,7 @@ public class DealerController {
      * @param data 前端发送的修改后的经销商信息
      * @return 修改成功返回“saved”
      */
-    @PutMapping("/api/a/dealers")
+    @PutMapping("/api/ad/dealers")
     public String updateDealer(@RequestBody DealerParameter data) {
         dealerService.updateDealer(data);
         return "saved";

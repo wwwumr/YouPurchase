@@ -58,10 +58,10 @@ var config = {
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
-        storeAction: root + "stores/cover/",
-        avatarAction: root + "dealers/avatar/",
-        goodsAction: root + "commodities/cover/",
-        goodsPicsAction: root + "commodities/pics/",
+        storeAction: root + "api/ad/stores/cover/",
+        avatarAction: root + "api/ad/dealers/avatar/",
+        goodsAction: root + "api/d/commodities/cover/",
+        goodsPicsAction: root + "api/d/commodities/pics/",
     },
     /* 主页背景图片与默认背景 */
     homePage: {
@@ -70,22 +70,28 @@ var config = {
     },
     /* 后端接口 */
     url: {
+        /* root */
         root: root,
         logIn: root + "login/dealer/",
         logOut: root + "logout/",
         userName: root + "login/userName/",
         userId: root + "login/userId",
-        dealers: root + "dealers/",
-        newdealer: root + "dealers/",
-        unbindDealers: root + "dealers/unbindDealers/",
-        dealer: root + "dealers/dealer/",
-        stores: root +  "stores/",
-        unbindStores: root + "stores/unbindStores/",
-        updateStoreCover: root + "stores/cover/",
-        store: root + "stores/dealer/store/",
-        storeGoods: root + "stores/commodities/",
-        goods: root + "commodities/",
-        updateGoodsCover: root + "commodities/cover/",
+        dealers: root + "api/ad/dealers/",
+        /* 经销商信息接口 */
+        unbindDealers: root + "api/a/dealers/unbindDealers/",
+        dealer: root + "api/d/dealers/dealer/",
+        /* 商店接口 */
+        stores: root +  "api/ad/stores/",
+        unbindStores: root + "api/a/stores/unbindStores/",
+        updateStoreCover: root + "api/ad/stores/cover/",
+        store: root + "api/d/stores/dealer/store/",
+        /* 货物接口 */
+        storeGoods: root + "api/d/stores/commodities/",
+        goods: root + "api/du/commodities/",
+        goodsP: root + "api/d/commodities/",
+        updateGoodsCover: root + "api/d/commodities/cover/",
+        /* root1 */
+        root1: root1,
         orderInfo: root1 + "order/storeCheck/",
     },
 }
