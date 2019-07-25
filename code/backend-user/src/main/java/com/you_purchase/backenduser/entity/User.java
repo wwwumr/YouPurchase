@@ -7,6 +7,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 @Entity
 public class User {
     @Id
@@ -30,16 +32,13 @@ public class User {
     //用户是否可用
     private boolean valid;
 
-    private String regDate;
+    private Date regDate;
 
     private String gender;
 
 
 
-    public void setReg(UserRegParameter userRegParameter){
-        this.setPhone(userRegParameter.getPhone());
-        this.setRegDate(userRegParameter.getRegDate());
-    }
+
 
     public void setInfo(UserModifyParameter userModifyParameter){
         this.setAddress(userModifyParameter.getAddress());
@@ -138,11 +137,11 @@ public class User {
         this.valid = valid;
     }
 
-    public String getRegDate() {
+    public Date getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(String regDate) {
+    public void setRegDate(Date regDate) {
         this.regDate = regDate;
     }
 

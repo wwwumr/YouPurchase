@@ -4,6 +4,9 @@ import com.you_purchase.backenduser.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 @ApiModel(description = "用户实体")
 public class UserInfoDTO {
@@ -35,7 +38,10 @@ public class UserInfoDTO {
             this.setPhone(user.getPhone());
             this.setUserName(user.getUserName());
             this.setPhoto(user.getPhoto());
-            this.setRegDate(user.getRegDate());
+            Date sDate = user.getRegDate();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String  date = formatter.format(sDate);
+            this.setRegDate(date);
             this.setGender(user.getGender());
         }
     }

@@ -37,15 +37,23 @@ public class OrderInfoController extends BaseController{
         return orderInfoService.OrderPay(payParameter);
     }
 
-
     //用户查看订单
     @RequestMapping(value = "/order/userCheck",method = RequestMethod.POST)
     public
     @ResponseBody
-    @ApiOperation(value = "用户查看订单")
+    @ApiOperation(value = "用户查看所有订单")
     List<OrderInfoDTO> OrderUserCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
-        System.out.println(orderInfoCheckParameter.getId());
         return orderInfoService.OrderUserCheck(orderInfoCheckParameter);
+    }
+
+    //用户查状态看订单
+    @RequestMapping(value = "/order/userStatusCheck",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户查看订单")
+    List<OrderInfoDTO> OrderUserStatusCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
+        System.out.println(orderInfoCheckParameter.getId());
+        return orderInfoService.OrderUserStatusCheck(orderInfoCheckParameter);
     }
 
     //商家查看订单

@@ -57,44 +57,26 @@ public class OrderInfoService extends BaseService {
     }
 
     //用户查看不同执行状态的订单
-    public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter) {
+    public List<OrderInfoDTO> OrderUserStatusCheck(OrderInfoCheckParameter orderInfoCheckParameter) {
         //带有用户id的订单+带有订单id的商品
         List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndStatusAndValid(orderInfoCheckParameter.getId(), orderInfoCheckParameter.getStatus(), true);
         if (orderInfos == null) {
             return null;
         }
-        /*for(int i=0;i<orderInfos.size();i++){
-            System.out.println(orderInfos.get(i).getOrderInfoId());
-        }*/
-  /*      List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
-        //获取对应用户id的所有订单
-        for (OrderInfo s : orderInfos) {
-            //System.out.println(s.getOrderInfoId());
-            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setStoreId(s.getStoreId());
-            orderInfoDTO.setTarPhone(s.getTarPhone());
-            orderInfoDTO.setTarAddress(s.getTarAddress());
-            orderInfoDTO.setTarPeople(s.getTarPeople());
-            orderInfoDTO.setJudged(s.isJudged());
-            orderInfoDTO.setCreateDate(s.getCreateDate());
-            Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            //获取对应订单id的所有商品
-            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            List<Commodity> orderItemList = new ArrayList<>();
-            for(OrderItem o:orderItems){
-                Commodity commodity = new Commodity();
-                commodity = commodityDao.findByCommodityId(o.getCommodityId());
-                orderItemList.add(commodity);
-            }
-            orderInfoDTO.setOrderItemList(orderItemList);
-            orderInfoDTOS.add(orderInfoDTO);
-        }*/
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
         return orderInfoDTOS;
     }
+
+
+    public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
+        List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndValid(orderInfoCheckParameter.getId(),true);
+        if(orderInfos ==null){
+            return null;
+        }
+        List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
+        return orderInfoDTOS;
+    }
+
 
     //商家查看所有订单
     public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter) {

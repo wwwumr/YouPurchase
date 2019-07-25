@@ -2,6 +2,7 @@ package com.you_purchase.backenduser.service;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
@@ -12,11 +13,11 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import javax.xml.ws.spi.http.HttpHandler;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 @Service
@@ -48,6 +49,7 @@ public class UserService extends BaseService{
 
         if(user == null){
             //System.out.println("不存在该用户");
+            Constrain.log("不存在该用户");
             return new UserLoginDTO(404,null);
         }
         if(user.pwdConfirm(userLoginParameter.getPassword())){
@@ -147,8 +149,12 @@ public class UserService extends BaseService{
      user.setPhone(smsParameter.getPhone());
      user.setPassword(smsParameter.getPassword());
      user.setValid(true);
-        user.setLongitude(0);
-        user.setLatitude(0);
+     user.setLongitude(0);
+     user.setLatitude(0);
+     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+     String now = formatter.format(new Date());
+     Date regDate = strToDate(now);
+     user.setRegDate(regDate);
      userDao.save(user);
      long id = user.getUserId();
      return id;
