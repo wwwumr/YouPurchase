@@ -41,7 +41,7 @@ class Goods extends React.Component {
             return false;
         }   
         axios
-            .put(config.url.goods, this.state.goods)
+            .put(config.url.goodsP, this.state.goods)
             .then(res => {
                 if (res.data && res.data === "UPDATE") {
                     message.success("修改完成")

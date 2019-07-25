@@ -39,12 +39,17 @@ var config = {
     url: {
         root: root,
         logIn: root + "login/admin",
-        stores: root + "stores/",
-        dealers: root + "dealers/",
-        newdealer: root + "dealers/",
-        unbindDealers: root + "dealers/unbindDealers",
-        unbindStores: root + "stores/unbindStores",
-        updateStoreCover: root + "stores/cover",
+        stores: root + "api/a/stores/",
+        putStore: root + "api/ad/stores/",
+        oneStore: root + "api/au/stores/",
+        storeUnbind: root + "api/a/stores/unbind/",
+        dealers: root + "api/a/dealers/",
+        newdealer: root + "api/a/dealers/",
+        getDealer: root + "api/ad/dealers/",
+        putDealer: root + "api/ad/dealers/",
+        unbindDealers: root + "api/a/dealers/unbindDealers",
+        unbindStores: root + "api/a/stores/unbindStores",
+        updateStoreCover: root + "api/ad/stores/cover",
     }
 }
 

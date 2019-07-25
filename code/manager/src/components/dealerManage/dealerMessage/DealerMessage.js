@@ -21,23 +21,13 @@ class DealerMessage extends React.Component {
         const key = this.props.match.params.key;
         
         /* axios function */
-        axios.get(config.url.dealers+key)
+        axios.get(config.url.getDealer+key)
             .then((res) => {
                 this.setState({
                     dealer: res.data,
                     originDealer: Object.assign({}, res.data),
                 })
             })
-        
-        /* mock 
-        const dealers = dealerData;
-        const dealer = dealers.find((elem) => {
-            return elem.key === key;
-        })
-        this.setState({
-            dealer: dealer,
-            originDealer: dealer,
-        })*/
     }
 
     checkChange = () => {
@@ -62,7 +52,7 @@ class DealerMessage extends React.Component {
         }
         /* axios */
         var dealer = this.state.dealer;
-        axios.put(config.url.dealers, 
+        axios.put(config.url.putDealer, 
                 dealer
             ).then((res) => {
                 if (res.data !== "saved" ) {
@@ -75,7 +65,12 @@ class DealerMessage extends React.Component {
 
     handleUnbind = () => {
         /* axios function */
-        axios.get(config.url.stores+"unbind?dealerId="+this.state.dealer.key+"&storeId="+this.state.dealer.storeId)
+        axios.get(config.url.storeUnbind, {
+                params: {
+                    dealerId: this.state.dealer.key,
+                    storeId: this.state.dealer.storeId
+                }
+            })
             .then((res) => {
                 if (res.data < 0) {
                     message.error("解除授权失败");
@@ -88,13 +83,6 @@ class DealerMessage extends React.Component {
                     })
                 }
             })
-        /** 
-        message.info("授权已取消");
-        var dealer = this.state.dealer;
-        dealer.storeName = "";
-        this.setState({
-            dealer: dealer,
-        })*/
     }
 
     render() {
