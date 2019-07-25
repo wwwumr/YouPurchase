@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Commodity;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,11 +53,10 @@ public class CommodityDaoTest {
     public void testGetAllCommodityByStore() throws Exception {
         List<Commodity> commodityList = commodityDao.getAllCommodityByStore(204L);
         Assert.assertNotNull(commodityList);
-        Assert.assertEquals(commodityList.size(), 2);
+        Assert.assertEquals(commodityList.size(), 4);
         Assert.assertNotNull(commodityList.get(0));
         Assert.assertNotNull(commodityList.get(1));
-        Assert.assertEquals(commodityList.get(0).getCommodityId().longValue(), 200L);
-        Assert.assertEquals(commodityList.get(1).getCommodityId().longValue(), 201L);
+
     }
 
     @Test
@@ -70,6 +70,52 @@ public class CommodityDaoTest {
         Assert.assertEquals(commodity.getInventory().intValue(), 200);
         Assert.assertEquals(commodity.getPrice(), 234, 0.01);
 
+        Commodity commodity1 = commodityDao.getCommodityById(1000L);
+        Assert.assertNull(commodity1);
+
     }
 
+    @Test
+    public void testAddUpdateDeleteCommodity() throws Exception {
+        Commodity commodity = new Commodity();
+        commodity.setPrice(12.5);
+        commodity.setInventory(100);
+        commodity.setRemaining(40);
+        commodity.setOnShelves(true);
+        commodity.setCommodityCoverPicUrl("image/hello");
+        commodity.setCommodityInfo("shangpininxi");
+        commodityDao.addCommodity(commodity, 204L);
+
+        Assert.assertNotNull(commodity.getCommodityId());
+        commodity.setCommodityInfo("changed");
+        commodityDao.updateCommodity(commodity);
+
+        commodityDao.deleteCommodity(commodity.getCommodityId());
+
+    }
+
+    @Test
+    public void testCommodityClass() throws Exception {
+        CommodityClass commodityClass1 = new CommodityClass();
+        commodityClass1.setClassInfo("水果");
+        commodityClass1.setStoreId(204L);
+        CommodityClass commodityClass2 = new CommodityClass();
+        commodityClass2.setClassInfo("酒水");
+        commodityClass2.setStoreId(204L);
+        CommodityClass commodityClass3 = new CommodityClass();
+        commodityClass3.setClassInfo("零食");
+        commodityClass3.setStoreId(204L);
+
+        commodityDao.addNewCommodityClass(commodityClass1);
+        commodityDao.addNewCommodityClass(commodityClass2);
+        commodityDao.addNewCommodityClass(commodityClass3);
+
+        commodityDao.getCommodityClassesByStore(204L);
+
+        commodityClass1.setClassInfo("蔬菜");
+        commodityDao.updateCommodityClass(commodityClass1);
+
+        commodityDao.deleteCommodityClass(commodityClass2.getCommodityClassId());
+
+    }
 }
