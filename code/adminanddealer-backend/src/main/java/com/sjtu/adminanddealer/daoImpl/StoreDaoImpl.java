@@ -1,6 +1,5 @@
 package com.sjtu.adminanddealer.daoImpl;
 
-import com.google.common.collect.Lists;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.OrderInfo;
 import com.sjtu.adminanddealer.entity.Store;
@@ -35,7 +34,7 @@ public class StoreDaoImpl implements StoreDao {
     @Override
     public List<Store> getAllStores() {
         /*使用Google的库直接把Iterable类转化为List*/
-        return Lists.newArrayList(storeRepository.findAll());
+        return storeRepository.findAll();
     }
 
     @Override

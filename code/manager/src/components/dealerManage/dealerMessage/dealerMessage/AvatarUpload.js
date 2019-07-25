@@ -32,6 +32,7 @@ class AvatarUpload extends React.Component {
         axios
             .get(config.url.dealers + this.props.id)
             .then(res => {
+                console.log(res.data)
                 this.setState({
                     imageUrl: res.data.avatar,
                 })
@@ -70,7 +71,7 @@ class AvatarUpload extends React.Component {
                 showUploadList={false}
                 action= {config.uploadImage.avatarAction}
                 withCredentials={true}
-                data={{"key": this.props.id, "avatar": this.props.avatar}}
+                data={{"key": this.props.id, "avatar": this.state.imageUrl}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
                 style={{position: "relative",display: "block", width: "100px", height: "100px", 

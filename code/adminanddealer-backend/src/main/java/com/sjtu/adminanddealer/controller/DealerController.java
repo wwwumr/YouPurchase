@@ -17,7 +17,6 @@ import java.util.List;
  * @author Chuyuxuan
  */
 @RestController
-@RequestMapping("/dealers")
 public class DealerController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class DealerController {
      *
      * @return 所有经销商信息的JSON数组
      */
-    @GetMapping
+    @GetMapping("/api/a/dealers")
     public List<DealerDTO> getAllDealers() {
         return dealerService.getAllDealers();
     }
@@ -39,7 +38,7 @@ public class DealerController {
      * @param dealerId 经销商id
      * @return 对应id的经销商信息
      */
-    @GetMapping("/{dealerId}")
+    @GetMapping("/api/ad/dealers/{dealerId}")
     public DealerDTO getDealerByDealerId(@PathVariable("dealerId") Long dealerId) {
         return dealerService.getDealerByDealerId(dealerId);
     }
@@ -50,7 +49,7 @@ public class DealerController {
      * @param data 解析类型为DealerRequestDTO
      * @return 一个JSON, 包括新建的经销商id和头像url ,格式为{"key" : long, "avatar" : String}
      */
-    @PostMapping
+    @PostMapping("/api/a/dealers")
     public JSONObject addNewDealer(@RequestBody DealerParameter data) {
 
         return dealerService.addADealer(data);
@@ -62,7 +61,7 @@ public class DealerController {
      * @param data 前端发送的修改后的经销商信息
      * @return 修改成功返回“saved”
      */
-    @PutMapping
+    @PutMapping("/api/a/dealers")
     public String updateDealer(@RequestBody DealerParameter data) {
         dealerService.updateDealer(data);
         return "saved";
@@ -74,7 +73,7 @@ public class DealerController {
      * @param data 前端发送的需要删除的经销商数据，类型为包含Long的Array
      * @return 删除成功返回DELETE
      */
-    @DeleteMapping
+    @DeleteMapping("/api/a/dealers")
     public String deleteDealer(@RequestBody List<Long> data) {
         for (Long id : data
         ) {
@@ -88,12 +87,12 @@ public class DealerController {
      *
      * @return 所有没有店铺绑定的经销商列表
      */
-    @GetMapping("/unbindDealers")
+    @GetMapping("/api/a/dealers/unbindDealers")
     public List<DealerDTO> getAllUnbindDealer() {
         return dealerService.getAllUnbindDealers();
     }
 
-    @PostMapping("/avatar")
+    @PostMapping("/api/ad/dealers/avatar")
     public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
                                      @RequestParam("key") Long dealerId) {
         if (file == null) {
@@ -109,7 +108,7 @@ public class DealerController {
      * @param session session
      * @return 经销商信息
      */
-    @GetMapping("/dealer")
+    @GetMapping("/api/d/dealers/dealer")
     public DealerDTO getDealerInfo(HttpSession session) {
         if (session.getAttribute("loginUserId") != null
                 && ((String) session.getAttribute("loginUserType")).equals("DEALER")) {
