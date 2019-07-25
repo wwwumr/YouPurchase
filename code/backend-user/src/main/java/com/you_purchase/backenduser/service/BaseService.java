@@ -92,6 +92,7 @@ public class BaseService {
             //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setStoreId(s.getStoreId());
+            orderInfoDTO.setStatus(s.getStatus());
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());

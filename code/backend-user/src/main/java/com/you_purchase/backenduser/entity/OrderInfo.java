@@ -29,7 +29,7 @@ public class OrderInfo {
 
     private String tarPhone;
 
-    //yyyy-MM-dd HH-mm-ss
+    //yyyy-MM-dd HH:mm:ss
     private Date createDate;
 
     private double totalPrice;

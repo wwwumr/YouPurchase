@@ -1,11 +1,10 @@
-/*
 package com.you_purchase.backenduser.BaseTest;
 
 
 
 //User底层逻辑测试
-import com.you_purchase.backenduser.dao.OrderInfoDao;
-import com.you_purchase.backenduser.dao.UserDao;
+import com.you_purchase.backenduser.dao.*;
+import com.you_purchase.backenduser.entity.Commodity;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
@@ -21,6 +20,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Transactional
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -30,103 +34,92 @@ public class UserBaseTest {
 
     @Autowired
     public UserDao userDao;
-
     @Autowired
     public OrderInfoDao orderInfoDao;
+    @Autowired
+    public OrderItemDao orderItemDao;
+    @Autowired
+    public StoreDao storeDao;
+    @Autowired
+    public CommodityDao commodityDao;
+    @Autowired
+    public DeliveryAddressDao deliveryAddressDao;
+    @Autowired
+    public GradeDao gradeDao;
 
 
-    @Test
-    @Rollback(false)
-    public void insertOrderInfo(){
-        OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setJudged(false);
-        orderInfo.setStatus(0);
-        orderInfo.setValid(true);
-        orderInfo.setCreateDate("01/01/2019");
-        orderInfo.setUserId(4000);
-        orderInfoDao.save(orderInfo);
+    //日期转换String-Date
+    public Date strToDate(String sDate){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        try {
+            date = formatter.parse(sDate);
+            return date;
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    //Date-String
+    public String datToStr(Date sDate){
+        String date;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date = formatter.format(sDate);
+        return  date;
     }
 
 
+
     @Test
-    @Rollback(false)
+    public void dateTest(){
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(currentTime);
+        ParsePosition pos = new ParsePosition(8);
+        Date currentTime_2 = formatter.parse(dateString, pos);
+        System.out.println(currentTime_2);
+    }
+
+    @Test
     public void insertUser(){
         User user = new User();
-        user.setValid(true);
-        user.setPhone("123456");
-        user.setUserName("Unname");
+        user.setRegDate(new Date());
+        user.setAddress("东川路800");
+        user.setLatitude(12.1);
+        user.setLongitude(21.4);
+        user.setGender("女");
+        user.setUserName("芙利德");
+        user.setPassword("189846230");
         user.setPhoto(" ");
-        user.setPassword("123456");
-        user.setGender("female");
-        user.setLongitude(12.1);
-        user.setLatitude(11.1);
-        user.setAddress("Dratop");
+        user.setPhone("05663216");
+        user.setValid(true);
         userDao.save(user);
     }
 
-
-
-
-
     @Test
-    public void testDao1(){
-        User user1 = userDao.findByUserIdAndValid(5,true);
-        Assert.assertNotNull(user1);
-        Assert.assertEquals(user1.getAddress(),"亚诺尔隆德");
-        Assert.assertEquals(user1.getRegDate(),"01/02/2019");
-        Assert.assertEquals(user1.getGender(),"男");
-        Assert.assertEquals(user1.getPassword(),"999999");
-        Assert.assertEquals(user1.getUserName(),"沙立万");
+    @Rollback(false)
+    public void insertCommodity(){
+        Commodity commodity = new Commodity();
+        commodity.setInventory(500);
+        commodity.setRemaining(100);
+        commodity.setPrice(10000);
+        commodity.setOnShelves(true);
+        commodity.setCommodityInfo("龙鳞楔形石");
+        commodityDao.save(commodity);
     }
 
-    @Test
-    public void testDao2(){
-        User user = userDao.findByPhoneAndValid("123456",true);
-        Assert.assertNotNull(user);
-        Assert.assertEquals(user.getGender(),"男");
-        Assert.assertEquals(user.getUserId(),5);
-    }
 
-    @Test
-    public void testAddUser(){
-        User user = new User();
-        UserRegParameter userRegParameter = new UserRegParameter();
-        userRegParameter.setPhone("000000");
-        userRegParameter.setRegDate("11/07/2019");
-        user.setUserId(11);
-        user.setReg(userRegParameter);
-        userDao.save(user);
-        User user1 = userDao.findByUserId(11);
-        Assert.assertEquals(user1.getPhone(),"000000");
-        Assert.assertEquals(user1.getRegDate(),"11/07/2019");
-        Assert.assertEquals(user1.isValid(),false);
-    }
-    @Test
-    public void testSetInfo(){
-        UserModifyParameter userModifyParameter  = new UserModifyParameter();
-        userModifyParameter.setAddress("法兰要塞");
-        userModifyParameter.setUserId(6);
-        User user = userDao.findByUserIdAndValid(userModifyParameter.getUserId(),true);
-        user.setInfo(userModifyParameter);
-        userDao.save(user);
-        User user1 = userDao.findByUserIdAndValid(6,true);
-        Assert.assertEquals(user1.getAddress(),"法兰要塞");
-    }
-    @Test
-    public void testModifyInfo(){
-        User user = userDao.findByUserId(11);
-        UserModifyParameter userModifyParameter = new UserModifyParameter();
-        userModifyParameter.setAddress("无主墓地");
-        userModifyParameter.setGender("男");
-        user.setInfo(userModifyParameter);
-        userDao.save(user);
-        User user1 = userDao.findByUserId(11);
-        Assert.assertEquals(user1.getAddress(),"无主墓地");
-        Assert.assertEquals(user1.getGender(),"男");
-        Assert.assertEquals(user1.isValid(),true);
-    }
+
+
+
+
+
+
+
+
+
+
 
 
 
 }
-*/

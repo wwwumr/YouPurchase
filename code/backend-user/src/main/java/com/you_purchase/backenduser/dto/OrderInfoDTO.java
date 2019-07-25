@@ -15,6 +15,8 @@ public class OrderInfoDTO {
 
     private long storeId;
 
+    private int status;
+
     private String storeName;
 
     private String tarPeople;
@@ -34,6 +36,15 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public long getStoreId() {
         return storeId;
     }
