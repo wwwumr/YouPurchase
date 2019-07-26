@@ -2,12 +2,14 @@ import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-//import dealerMock from '../../../../mock/dealerMock';
 import config from '../../../../config/config';
 
 const { Option } = AutoComplete;
 
-
+/**
+ * @description 经销商下拉栏
+ * @param  {dealer} item
+ */
 function renderOption(item) {
     return (
         <Option key={item.userName} text={item.userName}>
@@ -38,11 +40,14 @@ function renderOption(item) {
 }
 
 class DealerAutoInput extends React.Component {
+
     state = {
         dataSource: [],
         dealerData: [],
     };
-
+    /**
+     * @description 获取未绑定经销商的信息
+     */
     componentWillMount() {
         axios.get(config.url.unbindDealers)
             .then((res) => {
@@ -50,14 +55,13 @@ class DealerAutoInput extends React.Component {
                     dealerData: res.data,
                 })
             })
-        /*
-        this.setState({
-            dealerData: dealerMock,
-        })
-        */
     }
 
-    handleSearch = value => {
+    /**
+     * @description 根据关键词搜索
+     * @param  {string} value
+     */
+    handleSearch = (value) => {
         axios.get(config.url.unbindDealers)
             .then((res) => {
                 this.setState({
@@ -80,6 +84,10 @@ class DealerAutoInput extends React.Component {
         })
     };
 
+    /**
+     * @description 选中后将经销商放到店铺信息
+     * @param  {string} name
+     */
     handleSelect = (name) => {
         const dealer = this.state.dealerData.find((elem) => {
             return elem.userName === name;

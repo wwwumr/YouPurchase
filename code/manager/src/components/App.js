@@ -21,30 +21,54 @@ class App extends React.Component {
         super(props);
         this.state = {
             userName : '',
-            logIn: false
         }
     }
-
+    /**
+     * @description 刷新页面时重新获取userName
+     */
     componentDidMount() {
-        /* 刷新时重新获取用户名信息 */
-        axios.get(config.url.root + "login/userName").then((res) => {
-            this.setUserName(res.data)
-        })
+        axios
+            .get(config.url.root + "login/userName")
+            .then((res) => {
+                if (res.data.type === config.homePage.adminLogIn) {
+                    this.setUserName(res.data.userName);
+                }
+            })
+            .catch(err => {
+                if (err.response) {
+                    console.log(err.message)
+                }
+            })
     }
 
-    /* 当userName不为空时设置userName, 否则改为退出登录 */
+    /**
+     * @description 当userName不为空时设置userName, 否则改为退出登录
+     * @param   {String } userName
+     */
     setUserName = (userName) => {
         if (userName !== '' && userName !== null ) {
             this.setState({
                 userName : userName,
-                logIn: true,
             });
         } else {
             axios.get(config.url.root+"logout");
             this.setState({
                 userName : '',
-                logIn: false,
             });
+        }
+    }
+
+    /** 
+     * @description 改变页面背景,进入时有图片,退出时撤销图片 
+     * @param  { String } cmd
+     */
+    changeBg = (cmd) => {
+        if (cmd !== config.homePage.originBgCmd) {
+            document.getElementById("background").style.backgroundImage
+            = "url(" + config.homePage.homePageImageUrl + ")";
+        } else {
+            document.getElementById("background").style.backgroundImage
+            = config.homePage.originBgCmd;
         }
     }
 
@@ -52,30 +76,32 @@ class App extends React.Component {
         return (
             <HashRouter history= {hashHistory} >
                 <Layout>
+                    {/* 导航条 */}
                     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                         <div className="logo" />
+                        {/* 登录后管理员 */}
                         {
-                            this.state.userName !== '' &&
+                            this.state.userName !== '' && this.state.userName !== null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
-                                
                                     <Avatar size={45} 
                                         src={config.url.root + config.avatar.url} 
                                     />
-                                
                                 </Menu.Item>
                                 <Menu.Item key="2"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
                                 <Menu.Item key="3"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
-                                <Menu.Item key="4" style={{float: "right"}}><Link to="/" onClick={()=>{
-                                    this.setUserName('')
-                                }}>
-                                退出登录
-                                </Link>
+                                <Menu.Item key="4" style={{float: "right"}}>
+                                    <Link to="/" onClick={()=>{
+                                        this.setUserName('')
+                                    }}>
+                                    退出登录
+                                    </Link>
                                 </Menu.Item> 
                             </Menu>
                         }
+                        {/* 未登录管理员 */}
                         {
-                            this.state.userName === '' &&
+                            (this.state.userName === '' || this.state.userName === null) &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
                                 <Menu.Item key="1">
                                     <Link to="/"><Avatar size={45} >未登录</Avatar></Link>
@@ -83,33 +109,41 @@ class App extends React.Component {
                             </Menu>
                         }
                     </Header>
+                    {/* 页面主要内容 */}
                     <Content style={{ padding: '0 50px', marginTop: 64, minHeight:"625px" }}>
                         <div id="background" style={{ background: '#fff', padding: 24, minHeight: 625, }} >
-        
+                        {/* 登录后管理员 */}
+                        {
+                            this.state.userName !== '' && this.state.userName !== null &&
                             <Switch>
                                 <Route exact path = "/" 
                                     render = { () => 
                                     <HomePage 
-                                        fn={ this.setUserName } 
-                                        logIn={this.state.logIn} 
-                                        changeBg={ (str) => {
-                                            let node = document.getElementById("background");
-                                            if (str === "initial") {
-                                                node.style.backgroundImage = "initial";
-                                            } else {
-                                                node.style.backgroundImage = config.homePageImageUrl;
-                                            }
-                                        }}
-                                    /> }
+                                        setUserName={ this.setUserName } 
+                                        changeBg={ this.changeBg }
+                                    />}
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
                                 <Route exact path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>
-                                
+                              
                             </Switch>
-                        
+                        }
+                        {/* 未登录管理员 */}
+                        {
+                            (this.state.userName === '' || this.state.userName === null) &&
+                            <Switch>
+                                <Route path = "/" 
+                                    render = { () => 
+                                    <HomePage 
+                                        setUserName={ this.setUserName } 
+                                        changeBg={ this.changeBg }
+                                    />}
+                                />
+                            </Switch>
+                        }
                         </div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>YouPurchase @2019 Created by skr狠人</Footer>

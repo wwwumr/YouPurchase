@@ -8,25 +8,32 @@ const history = createHashHistory();
 
 class NormalLoginForm extends React.Component {
 
-    handleSubmit = e => {
+    /**
+     * @description 检查登录合法性并更新用户名
+     * @param  {event} e
+     */
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                /* 检查用户名合法性 */
-                axios.get(config.url.logIn + "?userName=" + values.username + "&password=" + values.password)
+                axios
+                    .get(config.url.logIn, {
+                        params: {
+                            userName: values.username,
+                            password: values.password,
+                        }
+                    })
                     .then((res) => {
                         if (res.data === "ADMIN") {
-                            /* 设置用户名并跳转 */
-                            this.props.fn(values.username);
+                            /* 若是管理员账号则设置用户名并跳转 */
+                            this.props.setUserName(values.username);
                             history.push({
                                 pathname: "/shopManage/",
                             });
                         } else {
                             message.error("用户名或密码错误")
                         }
-                    })
-
-                            
+                    })       
             }
         });
         

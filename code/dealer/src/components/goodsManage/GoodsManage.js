@@ -33,6 +33,9 @@ class GoodsManage extends React.Component {
                     goodsList: res.data,
                 })
             })
+            .catch(err => {
+                console.log(err.message)
+            })
     }
 
     /**
@@ -144,7 +147,7 @@ class GoodsManage extends React.Component {
 
     render() {
         /* 卡片模型 */
-        const GoodsList = this.state.goodsList.map((elem) => (
+        const GoodsList = this.state.goodsList.length === 0 ? '': this.state.goodsList.map((elem) => (
                 this.GoodsItems(elem)
             )
         );

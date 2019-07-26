@@ -1,19 +1,31 @@
 import React from 'react'
 import { Typography } from 'antd';
 import WrappedNormalLoginForm from './homePage/WrappedNormalLoginForm';
+import config from '../config/config';
 
 const { Title } = Typography;
 
 class HomePage extends React.Component {
 
+    /**
+     * @description 进登录页面时加载图片
+     */
     componentDidMount() {
-        this.props.changeBg("setImage");
+        this.props.changeBg(config.homePage.changeBgCmd);
     }
 
+    /**
+     * @description 离开登录页面时去除图片
+     */
     componentWillUnmount() {
-        this.props.changeBg("initial");
+        this.props.changeBg(config.homePage.originBgCmd);
     }
 
+    
+    /**
+     * @description 包装登录表单
+     * @param  {Props} props
+     */
     LogInForm = (props) => {
         return (
             <div style={{ 
@@ -23,7 +35,7 @@ class HomePage extends React.Component {
                 fontWeight: "bold",
             }}>
                 <WrappedNormalLoginForm
-                    fn = { props.fn }
+                    setUserName = { props.setUserName }
                 />
             </div>
         );
@@ -34,7 +46,7 @@ class HomePage extends React.Component {
         return (
             <div style={{ position:"relative", top:'100px', textAlign:'center' }}>  
                 <Title level={1} style={{color: "white"}} > 欢迎登录优邻购管理系统 </Title>  
-                <this.LogInForm fn={this.props.fn} />
+                <this.LogInForm setUserName={this.props.setUserName} />
             </div> 
         );
     }
