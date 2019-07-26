@@ -21,6 +21,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Date;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -63,8 +65,8 @@ public class DealerControllerTest {
 
     @Test
     public void testGetDealerByDealerId() throws Exception {
-        DealerDTO dto = new DealerDTO(1L, "user", "image/f3920f.jpg", "England",
-                "Ed", "12345555", null, null, "123pass");
+        DealerDTO dto = new DealerDTO(1L, "user", "image/f3920f.jpg", 1,
+                new Date(), "12345555", null, null, "123pass");
         given(this.dealerService.getDealerByDealerId(1L)).willReturn(dto);
 
         this.mockMvc.perform(get("/api/ad/dealers/1")).andExpect(status().isOk())
@@ -79,8 +81,8 @@ public class DealerControllerTest {
         jsonObject.put("key", 1L);
         jsonObject.put("avatar", "image/avatar");
 
-        DealerParameter dealerParameter = new DealerParameter(null, "user", "Shanghai", "jiang",
-                "123456", "password", null);
+        DealerParameter dealerParameter = new DealerParameter(null, "user", 0, new Date(), "jiang",
+                "123456", null);
         given(this.dealerService.addADealer(dealerParameter)).willReturn(jsonObject);
         this.mockMvc.perform(post("/api/a/dealers").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(dealerParameter)))
                 .andExpect(status().isOk()).andExpect(content().json(jsonObject.toJSONString()));

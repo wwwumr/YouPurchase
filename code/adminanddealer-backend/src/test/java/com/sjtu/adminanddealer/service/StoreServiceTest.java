@@ -203,7 +203,7 @@ public class StoreServiceTest {
     @Test
     public void testBindStoreDealer() throws Exception {
         /* mock */
-        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", 0, new Date(), "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer2.setDealerId(2L);
         given(this.dealerDao.getDealerById(2L)).willReturn(dealer2);

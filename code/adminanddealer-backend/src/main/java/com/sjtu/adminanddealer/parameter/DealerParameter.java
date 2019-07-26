@@ -2,6 +2,8 @@ package com.sjtu.adminanddealer.parameter;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * 前端发送新建或修改一个经销商的数据格式
  *
@@ -13,13 +15,13 @@ public class DealerParameter {
 
     private String userName;
 
-    private String address;
+    private Integer gender;
+
+    private Date birthday;
 
     private String realName;
 
     private String contact;
-
-    private String password;
 
     private Long storeId;
 
@@ -27,14 +29,13 @@ public class DealerParameter {
     public DealerParameter() {
     }
 
-    public DealerParameter(Long key, String userName, String address, String realName,
-                           String contact, String password, Long storeId) {
+    public DealerParameter(Long key, String userName, Integer gender, Date birthday, String realName, String contact, Long storeId) {
         this.key = key;
         this.userName = userName;
-        this.address = address;
+        this.gender = gender;
+        this.birthday = birthday;
         this.realName = realName;
         this.contact = contact;
-        this.password = password;
         this.storeId = storeId;
     }
 
@@ -55,12 +56,20 @@ public class DealerParameter {
         this.userName = userName;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getRealName() {
@@ -77,14 +86,6 @@ public class DealerParameter {
 
     public void setContact(String contact) {
         this.contact = contact;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Long getStoreId() {

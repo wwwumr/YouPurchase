@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -65,9 +66,9 @@ public class DealerServiceTest {
 
     @Test
     public void testGetAllDealers() throws Exception {
-        Dealer dealer1 = new Dealer("dealerName", "1234", "addr", "zhangsan",
+        Dealer dealer1 = new Dealer("dealerName", "1234", 1, new Date(), "zhangsan",
                 "12348888", "image/232323.jpg", true, null);
-        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", 0, new Date(), "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer1.setDealerId(1L);
         dealer2.setDealerId(2L);
@@ -86,14 +87,14 @@ public class DealerServiceTest {
 
     @Test
     public void testGetDealerByDealerId() throws Exception {
-        Dealer dealer1 = new Dealer("dealerName", "1234", "addr", "zhangsan",
+        Dealer dealer1 = new Dealer("dealerName", "1234", 1, new Date(), "zhangsan",
                 "12348888", "image/232323.jpg", true, null);
         dealer1.setDealerId(1L);
         Store store = new Store();
         store.setStoreName("robot/s");
         dealer1.setStore(store);
 
-        Dealer dealer2 = new Dealer("dealername2", "12345", "addr2", "zhangsi",
+        Dealer dealer2 = new Dealer("dealername2", "12345", 0, new Date(), "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer2.setDealerId(2L);
 
@@ -110,10 +111,10 @@ public class DealerServiceTest {
     public void testAddAndUpdateAndDelete() throws Exception {
         DealerParameter dealerParameter = new DealerParameter();
         dealerParameter.setUserName("zhang qiang");
-        dealerParameter.setAddress("addr.");
+        dealerParameter.setGender(1);
+        dealerParameter.setBirthday(new Date());
         dealerParameter.setContact("0371-7898888");
         dealerParameter.setRealName("zhang san");
-        dealerParameter.setPassword("123456");
 
         given(this.dealerDao.addADealer(any())).willReturn(22L);
         JSONObject json = dealerService.addADealer(dealerParameter);
@@ -134,7 +135,7 @@ public class DealerServiceTest {
 
     @Test
     public void testGetAllUnbindDealers() throws Exception {
-        Dealer dealer = new Dealer("dealername2", "12345", "addr2", "zhangsi",
+        Dealer dealer = new Dealer("dealername2", "12345", 0, new Date(), "zhangsi",
                 "12347777", "image/2ewe323.jpg", false, null);
         dealer.setDealerId(2L);
         ArrayList<Dealer> unbindDealers = new ArrayList<>();
