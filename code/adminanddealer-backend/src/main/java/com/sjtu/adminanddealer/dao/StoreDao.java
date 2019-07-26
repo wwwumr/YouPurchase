@@ -86,6 +86,8 @@ public interface StoreDao {
      */
     void updateStoreDeliveryType(Integer type, Long storeId);
 
+    // TODO: unit test
+
     /**
      * 获取一个店铺近一个月的订单数
      *

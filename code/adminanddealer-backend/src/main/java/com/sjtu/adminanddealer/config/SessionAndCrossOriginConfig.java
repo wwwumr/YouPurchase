@@ -71,7 +71,7 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/swagger/**").addResourceLocations("classpath:/statics/swagger/");
     }
 
-    /*
+    /**/
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 所有api开头的访问都要进入RedisSessionInterceptor拦截器进行登录验证，并排除login接口(全路径)。
@@ -93,7 +93,7 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
         registry.addInterceptor(getDealerUserInterceptor())
                 .addPathPatterns("/api/du/**");
 
-    }*/
+    }
 
 
 }

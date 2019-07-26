@@ -101,7 +101,7 @@ public class StoreDaoTest {
         Assert.assertEquals(store.getAddress(), "Shanghai Station");
     }
 
-    @Ignore
+
     @Test
     public void testGetAllUnbindStore() throws Exception {
         // 由于加上了transactional的原因，导致这次的获取在运行时有读取的冲突，导致测试结果错误
@@ -109,7 +109,7 @@ public class StoreDaoTest {
         List<Store> unbindStores = storeDao.getAllUnbindStore();
         Assert.assertNotNull(unbindStores);
         System.out.println(unbindStores);
-        Assert.assertTrue(unbindStores.size() == 0);
+        Assert.assertTrue(unbindStores.size() != 0);
     }
 
     // 这个测试需要和下面一个测试testUnbind一起进行
@@ -127,5 +127,26 @@ public class StoreDaoTest {
         storeDao.unbindDealerStore(22L, 204L);
         Store store1 = storeDao.getStoreByStoreId(204L);
         Assert.assertFalse(store1.isAttached());
+    }
+
+    @Test
+    public void testUploadCoverAndDeliveryType() throws Exception {
+        Store store = new Store();
+        store.setStoreName("Sname");
+        store.setCoverPicUrl("image/2323.gif");
+        store.setAddress("HuaPing Road");
+        store.setLatitude(123.4342);
+        store.setLongitude(34.3232);
+        store.setContact("020-11113333");
+        store.setAttached(false);
+        store.setOpenHourStart(new Date());
+        store.setOpenHourEnd(new Date());
+        store.setDeliveryType(0);
+        store.setDeliveryRange(5);
+        Long newId = storeDao.addAStore(store);
+        storeDao.updateStoreCoverPic(newId, "newPicUrl");
+        storeDao.updateStoreDeliveryType(1, newId);
+
+        storeDao.deleteStore(newId);
     }
 }

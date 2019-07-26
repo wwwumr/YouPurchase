@@ -1,5 +1,6 @@
 package com.sjtu.adminanddealer.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.UserLoginDTO;
 import com.sjtu.adminanddealer.entity.Admin;
@@ -90,21 +91,25 @@ public class AdminDealerLoginController {
     }
 
     @GetMapping("/login/userName")
-    public String getUserNameFromSession(HttpSession session) {
+    public JSONObject getUserNameFromSession(HttpSession session) {
+        JSONObject json = new JSONObject();
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
-            return userName;
+            json.put("userName", userName);
+            json.put("type", (String) session.getAttribute("loginUserType"));
         }
-        return "";
+        return json;
     }
 
     @GetMapping("/login/userId")
-    public Long getUserIdFromSession(HttpSession session) {
+    public JSONObject getUserIdFromSession(HttpSession session) {
+        JSONObject json = new JSONObject();
         Long id = (Long) session.getAttribute("loginUserId");
         if (id != null) {
-            return id;
+            json.put("id", id);
+            json.put("type", (String) session.getAttribute("loginUserType"));
         }
-        return null;
+        return json;
     }
 
 }
