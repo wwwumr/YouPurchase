@@ -67,6 +67,8 @@ var config = {
     homePage: {
         imageUrl: root +"image/defaultLogInCover.png",
         originBgCmd: "initial",
+        adminLogIn: "ADMIN",
+        dealerLogIn: "DEALER",
     },
     /* 后端接口 */
     url: {

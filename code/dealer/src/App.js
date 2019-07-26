@@ -38,13 +38,13 @@ class App extends React.Component {
         axios
             .get(config.url.userId)
             .then(res => {
-                if (res.data !== null && res.data !== '') {
+                if (res.data !== null && res.data !== '' && res.data.type === config.homePage.dealerLogIn) {
                     this.setState({
-                        key: res.data,
+                        key: res.data.id,
                     })
                     /* 进一步请求经销商 */
                     axios
-                        .get(config.url.dealers + res.data,  {
+                        .get(config.url.dealers + res.data.id,  {
                             cancelToken: source.token
                         })
                         .then(response => {
@@ -53,12 +53,17 @@ class App extends React.Component {
                             })
                         })
                         .catch(e => {
-                            if (e.response.status !== 401) {
+                            if (e.response && e.response.status !== 401) {
                                 console.log(e.message);
                             }
                         })
                 }
             }) 
+            .catch(err => {
+                if (err.response) {
+                    console.log(err.message);
+                }
+            })
                         
     }
 
@@ -118,6 +123,9 @@ class App extends React.Component {
                     message.error("用户名或密码错误")
                 }
             })
+            .catch(err => {
+                console.log(err.message)
+            })
     }
 
     render() {
@@ -131,23 +139,27 @@ class App extends React.Component {
                         {
                             this.state.dealer.key !== null && this.state.dealer.storeId !== null &&
                             <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
+                                {/* 左浮动 */}
                                 <Menu.Item key="1">
                                     <Avatar size={45} 
                                         src={ config.url.root + this.state.dealer.avatar } 
                                     />
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                <Link to={"/accountManage/"} >账户管理</Link>
-                                </Menu.Item>
-                                <Menu.Item key="3">
-                                <Link to={"/storeManage/"} >店铺管理</Link>
-                                </Menu.Item>
-                                <Menu.Item key="4">
                                 <Link to={"/goodsManage/"} >货物管理</Link>
                                 </Menu.Item>
-                                <Menu.Item key="5">
+                                <Menu.Item key="3">
                                 <Link to={"/orderManage/"} >订单管理</Link>
                                 </Menu.Item>
+                                <Menu.Item key="4">
+                                <Link to={"/storeManage/"} >店铺管理</Link>
+                                </Menu.Item>
+                                <Menu.Item key="0">
+                                <Link to={"/test"} >
+                                测试组件
+                                </Link>
+                                </Menu.Item>
+                                {/* 右浮动 */}
                                 <Menu.Item key="6" style={{float: "right"}} >
                                 <Link to={"/"} 
                                     onClick = { this.handleLogout } 
@@ -155,6 +167,10 @@ class App extends React.Component {
                                 退出登录
                                 </Link>
                                 </Menu.Item>
+                                <Menu.Item key="5" style={{float: "right"}} >
+                                <Link to={"/accountManage/"} >账户管理</Link>
+                                </Menu.Item>
+                                
                             </Menu>
                         }
                         {/* 无店铺的经销商 */}
@@ -178,11 +194,6 @@ class App extends React.Component {
                                 <Menu.Item key="1">
                                     <Link to="/"><Avatar size={45} >未登录</Avatar></Link>
                                 </Menu.Item>
-                                <Menu.Item>
-                                <Link to={"/test"} >
-                                测试组件
-                                </Link>
-                                </Menu.Item>
                             </Menu>
                         }
                     </Header>
@@ -198,11 +209,12 @@ class App extends React.Component {
                                             changeBg = {this.changeBg}
                                         /> }
                                     />    
-                                    <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} stotrId={this.state.dealer.storeId} /> } />
+                                    <Route path = "/storeManage" component={ props => <StoreManage {...props} stotrId={this.state.dealer.storeId} /> } />
                                     <Route exact path = "/orderManage/" component={ OrderManage } />
-                                    <Route exact path = "/goodsManage/" component={ GoodsManage } />
+                                    <Route path = "/goodsManage/" component={ GoodsManage } />
                                     <Route exact path = "/accountManage/" component={ AccountManage } />
                                     <Route exact path = "/goods/:id" component={ Goods } />
+                                    <Route exact path = "/test/" component={ MapTest } />
                                 </Switch>
                             }
                             {/* 无店铺的登陆经销商 */}
@@ -222,13 +234,12 @@ class App extends React.Component {
                             {
                                 this.state.dealer.key === null &&  this.state.dealer.storeId === null &&
                                 <Switch>
-                                    <Route exact path = "/" 
+                                    <Route path = "/" 
                                         render = { () => <HomePage 
                                             setUserMessage={ this.setUserMessage } 
                                             changeBg = {this.changeBg}
                                         /> }
                                     /> 
-                                    <Route exact path = "/test/" component={ MapTest } />
                                 </Switch>
                             }
                         </div>

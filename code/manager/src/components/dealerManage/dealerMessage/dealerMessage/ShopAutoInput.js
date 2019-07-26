@@ -7,7 +7,10 @@ import config from '../../../../config/config';
 
 const { Option } = AutoComplete;
 
-/* 菜单中展示的信息 */
+/**
+ * @description 菜单中展示的信息
+ * @param  {Shop} item
+ */
 function renderOption(item) {
     return (
         
@@ -34,7 +37,6 @@ function renderOption(item) {
     );
 }
 
-/* 父组件传入setShop以改变storeName,传入style以改变样式 */
 
 class ShopAutoInput extends React.Component {
     state = {
@@ -42,6 +44,10 @@ class ShopAutoInput extends React.Component {
         shopData: [],
     };
 
+    
+    /**
+     * @description 加载未绑定商店信息
+     */
     componentDidMount() {
         axios.get(config.url.unbindStores)
             .then((res) => {
@@ -49,13 +55,13 @@ class ShopAutoInput extends React.Component {
                     shopData: res.data,
                 })
             })
-        /* 
-        this.setState({
-            shopData: shopMock,
-        })*/
     }
 
-    handleSearch = value => {
+    /**
+     * @description 搜索函数
+     * @param  {string} value
+     */
+    handleSearch = (value) => {
         if (value === "") {
             this.setState({
                 dataSource: this.state.shopData,
@@ -70,6 +76,10 @@ class ShopAutoInput extends React.Component {
         })
     };
 
+    /**
+     * @description 选中后更新绑定信息但不提交
+     * @param  {string} name
+     */
     handleSelect = (name) => {
         var shop = this.state.shopData.find((elem) => {
             return elem.storeName === name;

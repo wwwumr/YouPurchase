@@ -69,7 +69,7 @@ class ImageUpload extends React.Component {
                     showUploadList={false}
                     action={config.uploadImage.storeAction}
                     withCredentials={true}
-                    data={{ "key": this.props.storeId, "coverPicUrl": this.props.coverPic }}
+                    data={{ "key": this.props.storeId, "coverPicUrl": this.state.imageUrl }}
                     beforeUpload={beforeUpload}
                     onChange={this.handleChange}
                     style={{

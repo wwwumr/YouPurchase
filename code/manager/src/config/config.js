@@ -29,13 +29,20 @@ var config = {
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
-        storeAction: root + "stores/cover/",
-        avatarAction: root + "dealers/avatar/"
+        storeAction: root + "api/ad/stores/cover/",
+        avatarAction: root + "api/ad/dealers/avatar/"
     },
     avatar: {
         url: "image/defaultAvatar.png",
     },
+    homePage: {
+        homePageImageUrl: root + "image/defaultLogInCover.png",
+        originBgCmd: "initial",
+        changeBgCmd: "change",
+        adminLogIn: "ADMIN",
+    },
     homePageImageUrl: "url(" + root + "image/defaultLogInCover.png)",
+    adminLogIn: "ADMIN",
     url: {
         root: root,
         logIn: root + "login/admin",

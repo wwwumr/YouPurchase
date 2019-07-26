@@ -5,6 +5,7 @@ import axios from 'axios';
 import AvatarUpload from './accountManage/AvatarUpload';
 import config from '../../config/config';
 
+
 class AccountManage extends React.Component {
 
     constructor(props) {
@@ -73,7 +74,6 @@ class AccountManage extends React.Component {
         const dealer = this.state.dealer;
         const originDealer = this.state.originDealer;
         if (
-            dealer.address === originDealer.address &&
             dealer.contact === originDealer.contact &&
             dealer.password === originDealer.password &&
             dealer.realName === originDealer.realName &&
@@ -88,6 +88,7 @@ class AccountManage extends React.Component {
     render() {
         return(
         <div style={{position: "relative", textAlign: "center", left: "430px" }}>
+            
             <h1 style={{position: "relative", right: "430px"}}>经销商信息</h1>
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px"}}
@@ -109,10 +110,6 @@ class AccountManage extends React.Component {
                 <Input addonBefore="姓名"  style={{ marginBottom : "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.realName } 
                     onChange = {(e) => { this.handleChange(e, "realName") }}
-                />
-                <Input addonBefore="地址"  style={{ marginBottom : "15px" }}
-                    value={ this.state.dealer.address } 
-                    onChange = {(e) => { this.handleChange(e, "address") }}
                 />
                 <Input addonBefore="联系方式" style={{marginBottom: "15px"}}
                     value={ this.state.dealer.contact }  

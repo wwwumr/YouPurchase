@@ -28,6 +28,9 @@ class AvatarUpload extends React.Component {
         
     }
 
+    /**
+     * @description 加载图片信息
+     */
     componentDidMount() {
         axios
             .get(config.url.getDealer + this.props.id)
@@ -37,16 +40,24 @@ class AvatarUpload extends React.Component {
                     imageUrl: res.data.avatar,
                 })
             })
+            .catch(err => {
+                if (err.response) {
+                    console.log(err.message);
+                }
+            })
 
     }
     
-    handleChange = info => {
+    /**
+     * @description 改变图片
+     * @param  {string} info
+     */
+    handleChange = (info) => {
         if (info.file.status === 'uploading') {
                 this.setState({ loading: true });
                 return;
             }
         if (info.file.status === 'done') {
-        // Get this url from response in real world.
         this.setState({
             imageUrl: info.file.response,
             loading: false,

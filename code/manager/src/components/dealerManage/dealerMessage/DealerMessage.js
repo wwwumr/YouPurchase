@@ -16,20 +16,30 @@ class DealerMessage extends React.Component {
         }
     }
 
+    /**
+     * @description 获取key并加载经销商信息
+     */
     componentDidMount() {
-        
         const key = this.props.match.params.key;
-        
-        /* axios function */
-        axios.get(config.url.getDealer+key)
+        axios
+            .get(config.url.getDealer+key)
             .then((res) => {
                 this.setState({
                     dealer: res.data,
                     originDealer: Object.assign({}, res.data),
                 })
             })
+            .catch(err => {
+                if (err.response) {
+                    console.log(err.message);
+                }
+            })
     }
 
+    /**
+     * @description 检查经销商信息是否变化
+     * @returns 变化 ? true : false
+     */
     checkChange = () => {
         const dealer = this.state.dealer;
         const originDealer = this.state.originDealer;
@@ -46,13 +56,16 @@ class DealerMessage extends React.Component {
         return true;
     }
 
+    /**
+     * @description 检查变化并更改经销商
+     */
     handleChange = () => {
         if (!this.checkChange()) {
             return ;
         }
-        /* axios */
         var dealer = this.state.dealer;
-        axios.put(config.url.putDealer, 
+        axios
+            .put(config.url.putDealer, 
                 dealer
             ).then((res) => {
                 if (res.data !== "saved" ) {
@@ -63,6 +76,9 @@ class DealerMessage extends React.Component {
             })
     }
 
+    /**
+     * @description 解绑经销商和店铺
+     */
     handleUnbind = () => {
         /* axios function */
         axios.get(config.url.storeUnbind, {

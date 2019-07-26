@@ -9,8 +9,8 @@ import DealerAutoInput from './shopDetail/DealerAutoInput';
 import config from '../../../config/config';
 
 
-
 class ShopDetail extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -18,10 +18,11 @@ class ShopDetail extends React.Component {
             originShop: Object.assign({}, config.shop.originShop),
         }
     }
-
+    /**
+     * @description 获取商店的key并加载商店信息
+     */
     componentDidMount() {
         const key = this.props.match.params.key;
-        /* axios function */
         axios.get(config.url.oneStore + key).then((res) => {
             const originShop = Object.assign({}, res.data);
             this.setState({
@@ -32,13 +33,15 @@ class ShopDetail extends React.Component {
         
     }
 
-    /* 最终提交修改信息的函数 */
+    /**
+     * @description 最终提交修改信息的函数 
+     */
     handleChange = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
-            /* axios */
-            axios.put(config.url.putStore, 
+            axios
+                .put(config.url.putStore, 
                     shop
                 ).then((res) => {
                     if (res.data < 0) {
@@ -50,12 +53,12 @@ class ShopDetail extends React.Component {
                         message.success("修改成功");
                     }
                 })
-            
         }   
     }
-
+    /**
+     * @description 接触经销商的店铺授权
+     */
     handleUnbind = () => {
-        /* axios function */
         axios
             .get(config.url.storeUnbind, {
                 params: {
@@ -82,6 +85,12 @@ class ShopDetail extends React.Component {
             })
     }
 
+    /**
+     * @description 检查商店信息是否被更改
+     * @param  {Shop} shop
+     * @param  {Shop} originShop
+     * @returns 变化了 ? true : false 
+     */
     checkShop(shop, originShop) {
         if (shop.address !== originShop.address || shop.contact !== originShop.contact
             || shop.startHour !== originShop.startHour || shop.endHour !== originShop.endHour

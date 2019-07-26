@@ -8,33 +8,38 @@ import config from '../../config/config';
 import moment from 'moment';
 
 class ShopManage extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
             shopData: [],
             searchText: '',
-            selectedRowKeys: [], // Check here to configure the default column
+            selectedRowKeys: [],
             selectedRows: [],
             shop: Object.assign({}, config.shop.originShop),
             visible: false,
         };
     }
 
+    /**
+     * @description 加载全部商店信息
+     */
     componentDidMount() {
-        /* axios */
-        axios.get(config.url.stores)
+        axios
+            .get(config.url.stores)
             .then((res) => {
                 this.setState({
                     shopData: res.data
                 })
             })
-        /* 
-        this.setState({
-            shopData: shopMock
-        })*/
     }
 
-    getColumnSearchProps = dataIndex => ({
+    
+    /**
+     * @description antd搜索函数
+     * @param  {int} dataIndex
+     */
+    getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
             <Input
@@ -84,17 +89,30 @@ class ShopManage extends React.Component {
         ),
     });
 
+    /**
+     * @description antd函数
+     * @param  {Array} selectedKeys
+     * @param  {func} confirm
+     */
     handleSearch = (selectedKeys, confirm) => {
         confirm();
         this.setState({ searchText: selectedKeys[0] });
     };
     
-    handleReset = clearFilters => {
+    /**
+     * @description antd函数
+     * @param  {func} clearFilters
+     */
+    handleReset = (clearFilters) => {
         clearFilters();
         this.setState({ searchText: '' });
     };
 
-
+    /**
+     * @description 检查商店是否信息不完整
+     * @param  {Shop} shop
+     * @returns : 完整 ? true : false
+     */ 
     checkShop = (shop) => {
         if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
             && shop.startHour !== '' && shop.endHour !== '' && shop.storeName !== ""){
@@ -102,15 +120,18 @@ class ShopManage extends React.Component {
         }
         return false;
     }
-
-    handleOk = e => {
-
+    
+    /**
+     * @description 新建商店
+     */
+    handleOk = () => {
         var shop = this.state.shop;
         /* 检查商店格式 */
         if (this.checkShop(shop)) {
             var shopData = this.state.shopData;
             /* 接收数据 */
-            axios.post(config.url.stores, this.state.shop)
+            axios
+                .post(config.url.stores, this.state.shop)
                 .then((res) => {
                     /* 前端更新 */
                     shop.key = res.data.key;
@@ -119,14 +140,36 @@ class ShopManage extends React.Component {
                         shopData: shopData,
                         shop: Object.assign({}, config.shop.originShop),
                         visible: false,
+                    }, () => {
+                        message.success("添加成功");
                     })
-                    message.success("添加成功")
+                })
+                .catch(err => {
+                    if (err.response) {
+                        console.log(err.message);
+                    }
                 })
         } else {
             message.error("所填不能为空");
         }
     };
 
+    /**
+     * @description 处理input的信息变化
+     * @param  {event} e
+     * @param  {string} info
+     */
+    handleChange = (e, info) => {
+        let shop = this.state.shop;
+        shop[info] = e.target.value;
+        this.setState({ 
+            shop: shop 
+        })
+    }
+    
+    /**
+     * @description 删除选定商店
+     */
     removeShop = () => {
         let shopData = this.state.shopData;
         let count = 0;
@@ -139,26 +182,26 @@ class ShopManage extends React.Component {
             message.warn("选中的店铺中存在已经被授权管理的店铺，暂时无法删除")
             return;
         }
-        axios.delete(config.url.stores,{data:this.state.selectedRowKeys})
-        .then((res)=>{
-            if(res.data==="DELETE"){
-                this.state.selectedRowKeys.forEach(element => {
-                    shopData = shopData.filter((elem) => {
-                        return elem.key !== element;
-                    })
-                });
-                this.setState({ 
-                    shopData: shopData,
-                    selectedRowKeys: [],
-                });
-                message.info("删除成功")
-            }
-        })
-        .catch((error)=>{
-            console.log(error);
-            message.error("删除失败，请稍后重试");
-        })
-          
+        axios
+            .delete(config.url.stores,{data:this.state.selectedRowKeys})
+            .then((res)=>{
+                if(res.data==="DELETE"){
+                    this.state.selectedRowKeys.forEach(element => {
+                        shopData = shopData.filter((elem) => {
+                            return elem.key !== element;
+                        })
+                    });
+                    this.setState({ 
+                        shopData: shopData,
+                        selectedRowKeys: [],
+                    });
+                    message.info("删除成功")
+                }
+            })
+            .catch((error)=>{
+                console.log(error);
+                message.error("删除失败，请稍后重试");
+            })
     };
 
 
@@ -239,27 +282,18 @@ class ShopManage extends React.Component {
                         {/* 选项按钮 */}
                         <Input addonBefore="店名" style={{margin:"10px"}}
                             value={this.state.shop.storeName} 
-                            onChange= {(e) => {
-                                let shop = this.state.shop;
-                                shop.storeName = e.target.value;
-                                this.setState({ shop: shop })
-                            }}>
+                            onChange= {(e) => { this.handleChange(e, "storeName") }}
+                        >
                         </Input>
                         <Input  addonBefore="店地址" style={{margin:"10px"}}
                             value={this.state.shop.address}
-                            onChange= {(e) => {
-                                let shop = this.state.shop;
-                                shop.address = e.target.value;
-                                this.setState({ shop: shop })
-                            }}>
+                            onChange= {(e) => { this.handleChange(e, "address") }}
+                        >
                         </Input>
                         <Input  addonBefore="店联系方式" style={{margin:"10px"}}
                             value={this.state.shop.contact}
-                            onChange= {(e) => {
-                                let shop = this.state.shop;
-                                shop.contact = e.target.value;
-                                this.setState({ shop: shop })
-                            }}>
+                            onChange= {(e) => { this.handleChange(e, "contact") }}
+                        >
                         </Input> 
                         <span style={{position: "relative", display: "inline-block", left: 9, width: "30%", marginTop: 10, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
                         营业时间

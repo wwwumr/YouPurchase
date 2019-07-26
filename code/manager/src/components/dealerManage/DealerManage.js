@@ -23,18 +23,17 @@ class DealerManage extends React.Component {
     ****          生命周期函数       ****
     ************************************/
 
+    /**
+     * @description 请求经销商数据
+     */
     componentWillMount() {
-        
-        /* mock模拟
-        this.setState({
-            dealerData: dealerMock,
-        })*/
-        /* 请求经销商数据 */
-        axios.get(config.url.dealers).then((res) => {
-            this.setState({
-                dealerData: res.data,
+        axios
+            .get(config.url.dealers)
+                .then((res) => {
+                this.setState({
+                    dealerData: res.data,
+                })
             })
-        })
     }
 
 
@@ -105,20 +104,19 @@ class DealerManage extends React.Component {
     /*****************************************
     ****           事件处理 函数           **** 
     *****************************************/
-    handleOk = e => {
-        /* 检查经销商账户合法性 */
+    /**
+     * @description 检查合法性并提交新增经销商
+     * @param  {event} e
+     */
+    handleOk = (e) => {
         var dealer = this.state.dealer;
         if (this.checkDealer(dealer)) {
-            /* 发送后端并更新前端 axios */
             axios.post(config.url.newdealer, dealer)
                 .then((res) => {
-                    // 这里所做的修改是后端返回数据格式变为{"key" : long, "avatar" : String}这种格式
+                    /* 后端返回数据格式变为{"key" : long, "avatar" : String}这种格式 */
                     if (res.data.key < 0) {
                         message.error("新用户创建失败");
                     } else {
-                        console.log(res.data);
-                        console.log(res.data.key);
-
                         dealer.key = res.data.key;
                         var dealerData = this.state.dealerData;
                         dealerData.push(dealer);
@@ -130,12 +128,19 @@ class DealerManage extends React.Component {
                         message.success("新用户创建成功");
                     }
                 })
-            
+                .catch(err => {
+                    if (err.response) {
+                        console.log(err.message);
+                    }
+                })
         } else {
-            alert("所填不能为空");
+            message.info("所填不能为空");
         }
     };
 
+    /**
+     * @description 删除未绑定店铺的经销商
+     */
     removeDealer = () => {
         let dealerData = this.state.dealerData;
         let count = 0;
@@ -166,12 +171,15 @@ class DealerManage extends React.Component {
                 }
             })
             .catch((error)=>{
-                message.error("删除失败，请稍后重试")
+                message.error(error.message)
             })
         }       
     };
     
-    /* 检查dealer是否合格 */
+    /**
+     * @description 检查dealer是否合格
+     * @param  {} dealer
+     */
     checkDealer = (dealer) => {
         if (dealer.userName !== "" && dealer.address !== "" && dealer.realName !== "" 
             && dealer.contact !== "" && dealer.password !== "" && dealer.avatar !== "") {
