@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Chuyuxuan
  */
+@Ignore
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @WebMvcTest(controllers = {AdminDealerLoginController.class})

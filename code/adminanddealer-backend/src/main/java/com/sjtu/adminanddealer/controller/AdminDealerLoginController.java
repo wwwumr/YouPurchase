@@ -1,5 +1,6 @@
 package com.sjtu.adminanddealer.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.DealerDTO;
 import com.sjtu.adminanddealer.DTO.UserLoginDTO;
 import com.sjtu.adminanddealer.entity.Admin;
@@ -7,6 +8,8 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.User;
 import com.sjtu.adminanddealer.parameter.UserLoginParameter;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +20,20 @@ import javax.servlet.http.HttpSession;
  */
 @CrossOrigin
 @RestController
+@Api(tags = "登录相关接口")
 public class AdminDealerLoginController {
 
     @Autowired
     private AdminDealerLoginService adminDealerLoginService;
 
     @GetMapping("/login/admin")
+    @ApiOperation(value = "管理员登录")
     public String adminLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
                              HttpSession session) {
         Admin admin = adminDealerLoginService.getAdminByUserNameAndPassword(userName, password);
         if (admin != null) {
             session.setAttribute("loginUserId", admin.getAdminId());
-            session.setAttribute("loginType", "ADMIN");
+            session.setAttribute("loginUserType", "ADMIN");
             session.setAttribute("userName", admin.getUserName());
             session.setAttribute("userId", admin.getAdminId());
             adminDealerLoginService.addSessionIdToRedis("loginUser:" + admin.getAdminId(), session.getId());
@@ -53,9 +58,7 @@ public class AdminDealerLoginController {
                 session.setAttribute("storeId", dealer.getStore().getStoreId());
             }
             adminDealerLoginService.addSessionIdToRedis("loginUser:" + dealer.getDealerId(), session.getId());
-            DealerDTO dto = new DealerDTO(dealer.getDealerId(), dealer.getUserName(), dealer.getAvatar(), dealer.getAddress(),
-                    dealer.getRealName(), dealer.getContact(), (dealer.getStore() != null) ? dealer.getStore().getStoreId() : null,
-                    (dealer.getStore() != null) ? dealer.getStore().getStoreName() : null, null);
+            DealerDTO dto = new DealerDTO(dealer);
             return dto;
         }
         return new DealerDTO();
@@ -86,21 +89,25 @@ public class AdminDealerLoginController {
     }
 
     @GetMapping("/login/userName")
-    public String getUserNameFromSession(HttpSession session) {
+    public JSONObject getUserNameFromSession(HttpSession session) {
+        JSONObject json = new JSONObject();
         String userName = (String) session.getAttribute("userName");
         if (userName != null) {
-            return userName;
+            json.put("userName", userName);
+            json.put("type", (String) session.getAttribute("loginUserType"));
         }
-        return "";
+        return json;
     }
 
     @GetMapping("/login/userId")
-    public Long getUserIdFromSession(HttpSession session) {
+    public JSONObject getUserIdFromSession(HttpSession session) {
+        JSONObject json = new JSONObject();
         Long id = (Long) session.getAttribute("loginUserId");
         if (id != null) {
-            return id;
+            json.put("id", id);
+            json.put("type", (String) session.getAttribute("loginUserType"));
         }
-        return null;
+        return json;
     }
 
 }

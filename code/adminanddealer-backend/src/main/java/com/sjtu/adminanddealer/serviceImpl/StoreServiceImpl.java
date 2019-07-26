@@ -9,6 +9,7 @@ import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
+import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
 import com.sjtu.adminanddealer.utils.DistanceUtil;
@@ -281,5 +282,14 @@ public class StoreServiceImpl implements StoreService {
             e.printStackTrace();
             return new Date();
         }
+    }
+
+    @Override
+    public void updateStoreAddress(StoreAddressParameter parameter, Long storeId) {
+        Store store = storeDao.getStoreByStoreId(storeId);
+        store.setAddress(parameter.getAddress());
+        store.setLatitude(parameter.getLatitude());
+        store.setLongitude(parameter.getLongitude());
+        storeDao.updateStore(store);
     }
 }

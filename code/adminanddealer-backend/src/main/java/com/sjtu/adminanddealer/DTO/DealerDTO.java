@@ -1,5 +1,9 @@
 package com.sjtu.adminanddealer.DTO;
 
+import com.sjtu.adminanddealer.entity.Dealer;
+
+import java.util.Date;
+
 /**
  * 返回前端的经销商数据格式
  *
@@ -13,7 +17,9 @@ public class DealerDTO {
 
     private String avatar;
 
-    private String address;
+    private Integer gender;
+
+    private Date birthday;
 
     private String realName;
 
@@ -23,22 +29,35 @@ public class DealerDTO {
 
     private String storeName;
 
-    private String password;
 
     /* constructor */
     public DealerDTO() {
     }
 
-    public DealerDTO(Long key, String userName, String avatar, String address, String realName, String contact, Long storeId, String storeName, String password) {
+    public DealerDTO(Long key, String userName, String avatar, Integer gender, Date birthday, String realName, String contact, Long storeId, String storeName) {
         this.key = key;
         this.userName = userName;
         this.avatar = avatar;
-        this.address = address;
+        this.gender = gender;
+        this.birthday = birthday;
         this.realName = realName;
         this.contact = contact;
         this.storeId = storeId;
         this.storeName = storeName;
-        this.password = password;
+    }
+
+    public DealerDTO(Dealer dealer) {
+        this.key = dealer.getDealerId();
+        this.userName = dealer.getUserName();
+        this.avatar = dealer.getAvatar();
+        this.gender = dealer.getGender();
+        this.birthday = dealer.getBirthday();
+        this.realName = dealer.getRealName();
+        this.contact = dealer.getContact();
+        if (dealer.getStore() != null) {
+            this.storeId = dealer.getStore().getStoreId();
+            this.storeName = dealer.getStore().getStoreName();
+        }
     }
 
     @Override
@@ -47,12 +66,12 @@ public class DealerDTO {
                 "key=" + key +
                 ", userName='" + userName + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", address='" + address + '\'' +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
                 ", realName='" + realName + '\'' +
                 ", contact='" + contact + '\'' +
                 ", storeId=" + storeId +
                 ", storeName='" + storeName + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 
@@ -81,12 +100,20 @@ public class DealerDTO {
         this.avatar = avatar;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getRealName() {
@@ -121,11 +148,4 @@ public class DealerDTO {
         this.storeName = storeName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

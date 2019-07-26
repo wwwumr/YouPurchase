@@ -22,7 +22,7 @@ class ShopDetail extends React.Component {
     componentDidMount() {
         const key = this.props.match.params.key;
         /* axios function */
-        axios.get(config.url.stores + key).then((res) => {
+        axios.get(config.url.oneStore + key).then((res) => {
             const originShop = Object.assign({}, res.data);
             this.setState({
                 shop: res.data,
@@ -30,11 +30,6 @@ class ShopDetail extends React.Component {
             })
         })
         
-        /* 
-        this.setState({
-            shop: shopMock[key],
-            originShop: Object.assign({}, shopMock[key]),
-        })*/
     }
 
     /* 最终提交修改信息的函数 */
@@ -43,7 +38,7 @@ class ShopDetail extends React.Component {
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
             /* axios */
-            axios.put(config.url.stores, 
+            axios.put(config.url.putStore, 
                     shop
                 ).then((res) => {
                     if (res.data < 0) {
@@ -61,7 +56,13 @@ class ShopDetail extends React.Component {
 
     handleUnbind = () => {
         /* axios function */
-        axios.get(config.url.stores+"unbind?dealerId="+this.state.shop.dealerId+"&storeId="+this.state.shop.key)
+        axios
+            .get(config.url.storeUnbind, {
+                params: {
+                    dealerId: this.state.shop.dealerId,
+                    storeId: this.state.shop.key,
+                }
+            })
             .then((res) => {
                 if (res.data !== "unbind") {
                     message.error("解除授权失败");
@@ -79,14 +80,6 @@ class ShopDetail extends React.Component {
                     message.success("授权已取消");
                 }
             })
-        /** 
-        message.info("授权已取消");
-        var dealer = this.state.dealer;
-        dealer.storeName = "";
-        dealer.storeId = null;
-        this.setState({
-            dealer: dealer,
-        })*/
     }
 
     checkShop(shop, originShop) {

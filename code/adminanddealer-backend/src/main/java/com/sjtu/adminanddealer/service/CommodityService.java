@@ -26,6 +26,14 @@ public interface CommodityService {
     List<CommodityDTO> getAllCommoditiesByStore(Long storeId);
 
     /**
+     * 获取一个店铺里所有上架的商品
+     *
+     * @param storeId 店铺id
+     * @return 包含所有属于这个商店的商品信息列表
+     */
+    List<CommodityDTO> getAllCommoditiesByStoreOnShelves(Long storeId);
+
+    /**
      * 通过一个商品的id找到商品信息
      *
      * @param commodityId 商品的id

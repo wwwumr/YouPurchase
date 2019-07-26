@@ -5,6 +5,7 @@ import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
+import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import java.util.List;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/stores")
 public class StoreController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class StoreController {
      * @return 所有商店信息的列表
      * @see StoreDTO
      */
-    @GetMapping
+    @GetMapping("/api/a/stores")
     public List<StoreDTO> getAllStores() {
         return storeService.getAllStores();
     }
@@ -44,7 +44,7 @@ public class StoreController {
      * @param storeId 店铺的id
      * @return 对应id的店铺信息
      */
-    @GetMapping("/{storeId}")
+    @GetMapping("/api/au/stores/{storeId}")
     public StoreDTO getStoreByStoreId(@PathVariable("storeId") Long storeId) {
         return storeService.getStoreByStoreId(storeId);
     }
@@ -55,7 +55,7 @@ public class StoreController {
      * @param data 前端Post的数据
      * @return 一个JSON，格式为{"key" : long, "coverPicUrl" : String}
      */
-    @PostMapping
+    @PostMapping("/api/a/stores")
     public JSONObject addStore(@RequestBody StoreParameter data) {
         return storeService.addAStore(data);
     }
@@ -66,7 +66,7 @@ public class StoreController {
      * @param data 前端PUT请求从requestBody发送的数据
      * @return JSON 格式为{"key" : long},返回的key为-1时代表失败
      */
-    @PutMapping
+    @PutMapping("/api/ad/stores")
     public JSONObject updateStore(@RequestBody StoreParameter data) {
         storeService.updateStore(data);
         storeService.bindDealerAndStore(data.getDealerId(), data.getKey());
@@ -82,7 +82,7 @@ public class StoreController {
      * @param data 前端传过来的需要删除的店铺Id列表
      * @return 删除成功返回DELETE
      */
-    @DeleteMapping
+    @DeleteMapping("/api/a/stores")
     public String deleteStore(@RequestBody List<Long> data) {
         for (Long id : data
         ) {
@@ -98,7 +98,7 @@ public class StoreController {
      * @param storeId  店铺id
      * @return
      */
-    @GetMapping("/bind")
+    @GetMapping("/api/a/stores/bind")
     public String bindDealerAndStore(@RequestParam("dealerId") Long dealerId,
                                      @RequestParam("storeId") Long storeId) {
         // TODO:当经销商或者商店已经被绑定时返回提示信息
@@ -113,7 +113,7 @@ public class StoreController {
      * @param storeId  店铺id
      * @return 解除绑定成功返回"unbind"
      */
-    @GetMapping("/unbind")
+    @GetMapping("/api/a/stores/unbind")
     public String unbindDealerAndStore(@RequestParam("dealerId") Long dealerId,
                                        @RequestParam("storeId") Long storeId) {
         storeService.unbindDealerAndStore(dealerId, storeId);
@@ -125,7 +125,7 @@ public class StoreController {
      *
      * @return 所有未绑定的店铺信息
      */
-    @GetMapping("/unbindStores")
+    @GetMapping("/api/a/stores/unbindStores")
     public List<StoreDTO> getAllUnbindStore() {
         return storeService.getAllUnbindStore();
     }
@@ -138,7 +138,7 @@ public class StoreController {
      * @param coverPicUrl 原来的封面url
      * @return 修改成功返回"update"
      */
-    @PostMapping("/cover")
+    @PostMapping("/api/ad/stores/cover")
     public String updateStoreCover(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
                                    @RequestParam("coverPicUrl") String coverPicUrl) {
         if (file == null) {
@@ -156,7 +156,7 @@ public class StoreController {
      * @param storeId 店铺id
      * @return UPDATE
      */
-    @GetMapping("/delivery")
+    @GetMapping("/api/ad/stores/delivery")
     public String updateDelivery(@RequestParam("deliveryType") Integer type, @RequestParam("storeId") Long storeId) {
         storeService.updateStoreDeliveryType(type, storeId);
         return "UPDATE";
@@ -168,7 +168,7 @@ public class StoreController {
      * @param session session
      * @return 店铺信息
      */
-    @GetMapping("/dealer/store")
+    @GetMapping("/api/d/stores/dealer/store")
     public StoreDTO getStoreInfo(HttpSession session) {
         if (session.getAttribute("storeId") != null) {
             return storeService.getStoreByStoreId((Long) session.getAttribute("storeId"));
@@ -176,22 +176,63 @@ public class StoreController {
         return null;
     }
 
-    // TODO: 这里的api还需要改一下，注释加上
-    @GetMapping("/test/distance")
+    /**
+     * 根据距离优先排序店铺
+     * 在用户端，用户用当前的坐标请求在配送范围内的商家，返回的列表根据距离由近到远排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
+    @GetMapping("/api/u/stores/distance")
     public List<DistanceSortedStoreDTO> getStoreSortedByDistance(@RequestParam("longitude") double longitude,
                                                                  @RequestParam("latitude") double latitude) {
         return storeService.getStoresByDistance(longitude, latitude);
     }
 
-    @GetMapping("/test/sales")
+    /**
+     * 根据销量优先排序店铺
+     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据销量从高到低排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
+    @GetMapping("/api/u/stores/sales")
     public List<SalesSortedStoreDTO> getStoreSortedBySales(@RequestParam("longitude") double longitude,
                                                            @RequestParam("latitude") double latitude) {
         return storeService.getStoresBySales(longitude, latitude);
     }
 
-    @GetMapping("/test/score")
+    /**
+     * 根据评价优先排序店铺
+     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据评价从高到低排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
+    @GetMapping("/api/u/stores/score")
     public List<GradeSortedStoreDTO> getStoreSortedByScore(@RequestParam("longitude") double longitude,
                                                            @RequestParam("latitude") double latitude) {
         return storeService.getStoreByScore(longitude, latitude);
+    }
+
+    /**
+     * 修改店铺的地址
+     * 经销商登录后，通过session中储存的店铺id和前端传过来的新的地址信息修改地址
+     *
+     * @param parameter 新的地址信息
+     * @param session   session
+     * @return string，成功返回UPDATE，失败返回ERROR
+     */
+    @PutMapping("/api/d/stores/address")
+    public String updateStoreAddress(@RequestBody StoreAddressParameter parameter, HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        if (storeId != null) {
+            storeService.updateStoreAddress(parameter, storeId);
+            return "UPDATE";
+        }
+        return "ERROR";
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sjtu.deliverymock.request.CreateOrderRequest;
 import com.sjtu.deliverymock.request.ElemeCreateOrderRequest;
 import com.sjtu.deliverymock.request.ElemeQueryCarrierRequest;
+import com.sjtu.deliverymock.request.QueryCarrierRequest;
 import com.sjtu.deliverymock.response.CarrierResponse;
 import com.sjtu.deliverymock.response.OrderCreateResponse;
 import com.sjtu.deliverymock.util.HttpClient;
@@ -46,9 +47,9 @@ public class TestController {
     // @PostMapping("/order/query")
 
     @PostMapping("/order/carrier")
-    public CarrierResponse queryCarrierPosition(@RequestBody ElemeQueryCarrierRequest data){
+    public CarrierResponse queryCarrierPosition(@RequestBody QueryCarrierRequest data){
         CarrierResponse response = new CarrierResponse(new CarrierResponse.CarrierData("13900003123",
-                "zhangsan",120.312,40.32));
+                "zhangsan",121.421945,31.036094));
         response.setCode("200");
         response.setMsg("接收成功");
         return response;
