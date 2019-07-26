@@ -45,19 +45,7 @@ public class DealerServiceImpl implements DealerService {
         List<DealerDTO> dtos = new ArrayList<>();
         for (Dealer d : dealerList
         ) {
-            DealerDTO dealerDto = new DealerDTO();
-            dealerDto.setKey(d.getDealerId());
-            dealerDto.setUserName(d.getUserName());
-            dealerDto.setAvatar(d.getAvatar());
-            dealerDto.setAddress(d.getAddress());
-            dealerDto.setRealName(d.getRealName());
-            dealerDto.setContact(d.getContact());
-            if (d.getStore() != null) {
-                dealerDto.setStoreName(d.getStore().getStoreName());
-            } else {
-                dealerDto.setStoreName(null);
-            }
-            dealerDto.setPassword(d.getPassword());
+            DealerDTO dealerDto = new DealerDTO(d);
             dtos.add(dealerDto);
         }
         return dtos;
@@ -69,26 +57,7 @@ public class DealerServiceImpl implements DealerService {
         if (dealer == null) {
             return null;
         }
-        DealerDTO dto = new DealerDTO();
-        if (dealer.getStore() != null) {
-            dto.setKey(dealer.getDealerId());
-            dto.setUserName(dealer.getUserName());
-            dto.setAvatar(dealer.getAvatar());
-            dto.setAddress(dealer.getAddress());
-            dto.setRealName(dealer.getRealName());
-            dto.setContact(dealer.getContact());
-            dto.setStoreName(dealer.getStore().getStoreName());
-            dto.setStoreId(dealer.getStore().getStoreId());
-            dto.setPassword(dealer.getPassword());
-        } else {
-            dto.setKey(dealer.getDealerId());
-            dto.setUserName(dealer.getUserName());
-            dto.setAvatar(dealer.getAvatar());
-            dto.setAddress(dealer.getAddress());
-            dto.setRealName(dealer.getRealName());
-            dto.setContact(dealer.getContact());
-            dto.setPassword(dealer.getPassword());
-        }
+        DealerDTO dto = new DealerDTO(dealer);
         return dto;
     }
 
@@ -96,9 +65,9 @@ public class DealerServiceImpl implements DealerService {
     public JSONObject addADealer(DealerParameter dealerParameter) {
         Dealer dealer = new Dealer();
         dealer.setUserName(dealerParameter.getUserName());
-        dealer.setAddress(dealerParameter.getAddress());
+        dealer.setGender(dealerParameter.getGender());
+        dealer.setBirthday(dealerParameter.getBirthday());
         dealer.setContact(dealerParameter.getContact());
-        dealer.setPassword(dealerParameter.getPassword());
         dealer.setRealName(dealerParameter.getRealName());
         dealer.setAvatar(this.dealerDefaultAvatarUrl);
         JSONObject jsonObject = new JSONObject();
@@ -112,9 +81,9 @@ public class DealerServiceImpl implements DealerService {
     public void updateDealer(DealerParameter dealerParameter) {
         Dealer dealer = dealerDao.getDealerById(dealerParameter.getKey());
         dealer.setRealName(dealerParameter.getRealName());
-        dealer.setPassword(dealerParameter.getPassword());
         dealer.setContact(dealerParameter.getContact());
-        dealer.setAddress(dealerParameter.getAddress());
+        dealer.setGender(dealerParameter.getGender());
+        dealer.setBirthday(dealerParameter.getBirthday());
         dealer.setUserName(dealerParameter.getUserName());
         storeDao.bindDealerStore(dealerParameter.getKey(), dealerParameter.getStoreId());
         dealerDao.updateDealer(dealer);
@@ -131,14 +100,7 @@ public class DealerServiceImpl implements DealerService {
         List<DealerDTO> dtos = new ArrayList<>();
         for (Dealer d : dealerList
         ) {
-            DealerDTO dealerDto = new DealerDTO();
-            dealerDto.setKey(d.getDealerId());
-            dealerDto.setUserName(d.getUserName());
-            dealerDto.setAvatar(d.getAvatar());
-            dealerDto.setAddress(d.getAddress());
-            dealerDto.setRealName(d.getRealName());
-            dealerDto.setContact(d.getContact());
-            dealerDto.setPassword(d.getPassword());
+            DealerDTO dealerDto = new DealerDTO(d);
             dtos.add(dealerDto);
         }
         return dtos;

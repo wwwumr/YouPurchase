@@ -5,6 +5,7 @@ import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
+import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -118,4 +119,12 @@ public interface StoreService {
      * @param storeId 店铺id
      */
     void updateStoreDeliveryType(Integer type, Long storeId);
+
+    /**
+     * 修改店铺的地址
+     *
+     * @param parameter 前端传来的参数
+     * @param storeId   店铺id
+     */
+    void updateStoreAddress(StoreAddressParameter parameter, Long storeId);
 }

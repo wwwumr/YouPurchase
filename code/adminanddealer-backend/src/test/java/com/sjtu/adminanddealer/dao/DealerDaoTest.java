@@ -54,7 +54,6 @@ public class DealerDaoTest {
         Dealer dealer2 = dealerDao.getDealerById(22L);
         Assert.assertEquals(dealer2.getDealerId().longValue(), 22L);
         Assert.assertEquals(dealer2.getUserName(), "sjtu");
-        Assert.assertEquals(dealer2.getAddress(), "SJTU EAST#15");
         Assert.assertEquals(dealer2.getAvatar(), "image/21f99283.jpg");
         Assert.assertEquals(dealer2.getContact(), "1238888");
         Assert.assertEquals(dealer2.isAttached(), false);
@@ -80,7 +79,6 @@ public class DealerDaoTest {
         Dealer dealer = new Dealer();
         dealer.setUserName("helloUser");
         dealer.setPassword("123");
-        dealer.setAddress("XuJiaHui");
         dealer.setRealName("ha");
         dealer.setContact("45677777");
         dealer.setAvatar("image/1.jpg");

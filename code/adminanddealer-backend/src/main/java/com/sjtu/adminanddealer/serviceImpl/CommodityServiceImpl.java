@@ -56,6 +56,23 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public List<CommodityDTO> getAllCommoditiesByStoreOnShelves(Long storeId) {
+        List<Commodity> commodityList = commodityDao.getAllCommodityByStore(storeId);
+        List<CommodityDTO> commodityDTOS = new ArrayList<>();
+        if (commodityList == null) {
+            return commodityDTOS;
+        }
+        for (Commodity c : commodityList
+        ) {
+            if (c.getOnShelves()) {
+                CommodityDTO dto = new CommodityDTO(c);
+                commodityDTOS.add(dto);
+            }
+        }
+        return commodityDTOS;
+    }
+
+    @Override
     public CommodityDTO getCommodityById(Long commodityId) {
         Commodity commodity = commodityDao.getCommodityById(commodityId);
         if (commodity != null) {

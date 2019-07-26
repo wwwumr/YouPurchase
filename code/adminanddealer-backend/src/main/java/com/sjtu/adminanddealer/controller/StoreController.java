@@ -5,6 +5,7 @@ import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
+import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,22 +176,63 @@ public class StoreController {
         return null;
     }
 
-    // TODO: 这里的api还需要改一下，注释加上
+    /**
+     * 根据距离优先排序店铺
+     * 在用户端，用户用当前的坐标请求在配送范围内的商家，返回的列表根据距离由近到远排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
     @GetMapping("/api/u/stores/distance")
     public List<DistanceSortedStoreDTO> getStoreSortedByDistance(@RequestParam("longitude") double longitude,
                                                                  @RequestParam("latitude") double latitude) {
         return storeService.getStoresByDistance(longitude, latitude);
     }
 
+    /**
+     * 根据销量优先排序店铺
+     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据销量从高到低排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
     @GetMapping("/api/u/stores/sales")
     public List<SalesSortedStoreDTO> getStoreSortedBySales(@RequestParam("longitude") double longitude,
                                                            @RequestParam("latitude") double latitude) {
         return storeService.getStoresBySales(longitude, latitude);
     }
 
-    @GetMapping("api/u/stores/score")
+    /**
+     * 根据评价优先排序店铺
+     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据评价从高到低排序
+     *
+     * @param longitude 用户坐标：经度
+     * @param latitude  用户坐标：纬度
+     * @return 返回对应的店铺信息列表
+     */
+    @GetMapping("/api/u/stores/score")
     public List<GradeSortedStoreDTO> getStoreSortedByScore(@RequestParam("longitude") double longitude,
                                                            @RequestParam("latitude") double latitude) {
         return storeService.getStoreByScore(longitude, latitude);
+    }
+
+    /**
+     * 修改店铺的地址
+     * 经销商登录后，通过session中储存的店铺id和前端传过来的新的地址信息修改地址
+     *
+     * @param parameter 新的地址信息
+     * @param session   session
+     * @return string，成功返回UPDATE，失败返回ERROR
+     */
+    @PutMapping("/api/d/stores/address")
+    public String updateStoreAddress(@RequestBody StoreAddressParameter parameter, HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        if (storeId != null) {
+            storeService.updateStoreAddress(parameter, storeId);
+            return "UPDATE";
+        }
+        return "ERROR";
     }
 }
