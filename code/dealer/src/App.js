@@ -209,9 +209,9 @@ class App extends React.Component {
                                             changeBg = {this.changeBg}
                                         /> }
                                     />    
-                                    <Route exact path = "/storeManage/" component={ props => <StoreManage props={props} stotrId={this.state.dealer.storeId} /> } />
+                                    <Route path = "/storeManage" component={ props => <StoreManage {...props} stotrId={this.state.dealer.storeId} /> } />
                                     <Route exact path = "/orderManage/" component={ OrderManage } />
-                                    <Route exact path = "/goodsManage/" component={ GoodsManage } />
+                                    <Route path = "/goodsManage/" component={ GoodsManage } />
                                     <Route exact path = "/accountManage/" component={ AccountManage } />
                                     <Route exact path = "/goods/:id" component={ Goods } />
                                     <Route exact path = "/test/" component={ MapTest } />
