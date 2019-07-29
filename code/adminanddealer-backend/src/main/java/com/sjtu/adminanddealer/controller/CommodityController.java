@@ -30,7 +30,7 @@ public class CommodityController {
      * @param storeId 商店的id
      * @return 所有在这个商店中所有商品的信息
      */
-    @GetMapping("/api/u/stores/{storeId}/commodities")
+    @GetMapping("/stores/{storeId}/commodities")
     public List<CommodityDTO> getCommodityFromStore(@PathVariable("storeId") Long storeId) {
         return commodityService.getAllCommoditiesByStoreOnShelves(storeId);
     }
@@ -77,7 +77,7 @@ public class CommodityController {
      * @param commodityId 商品id
      * @return 对应商品的信息，如果没有对应的id返回null
      */
-    @GetMapping("/api/u/commodities/{commodityId}")
+    @GetMapping("/commodities/{commodityId}")
     public CommodityDTO getCommodityByIdByUser(@PathVariable("commodityId") Long commodityId) {
         return commodityService.getCommodityById(commodityId);
     }
@@ -208,7 +208,7 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/u/commodity/classes")
+    @GetMapping("/commodity/classes")
     public List<CommodityClass> getAllClassesByUser(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
