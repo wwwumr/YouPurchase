@@ -44,6 +44,28 @@ public class DealerController {
     }
 
     /**
+     * 管理员通过经销商的id请求对应的经销商信息.
+     *
+     * @param dealerId 经销商id
+     * @return 对应id的经销商信息
+     */
+    @GetMapping("/api/a/dealers/{dealerId}")
+    public DealerDTO getDealerByDealerIdByAdmin(@PathVariable("dealerId") Long dealerId) {
+        return dealerService.getDealerByDealerId(dealerId);
+    }
+
+    /**
+     * 管理员通过经销商的id请求对应的经销商信息.
+     *
+     * @param dealerId 经销商id
+     * @return 对应id的经销商信息
+     */
+    @GetMapping("/api/d/dealers/{dealerId}")
+    public DealerDTO getDealerByDealerIdByDealer(@PathVariable("dealerId") Long dealerId) {
+        return dealerService.getDealerByDealerId(dealerId);
+    }
+
+    /**
      * 新建一个经销商.
      *
      * @param data 解析类型为DealerRequestDTO
@@ -63,6 +85,29 @@ public class DealerController {
      */
     @PutMapping("/api/ad/dealers")
     public String updateDealer(@RequestBody DealerParameter data) {
+        dealerService.updateDealer(data);
+        return "saved";
+    }
+
+    /**
+     * 管理员修改经销商信息.
+     *
+     * @param data 前端发送的修改后的经销商信息
+     * @return 修改成功返回“saved”
+     */
+    @PutMapping("/api/a/dealers")
+    public String updateDealerByAdmin(@RequestBody DealerParameter data) {
+        dealerService.updateDealer(data);
+        return "saved";
+    }
+    /**
+     * 经销商修改经销商信息.
+     *
+     * @param data 前端发送的修改后的经销商信息
+     * @return 修改成功返回“saved”
+     */
+    @PutMapping("/api/d/dealers")
+    public String updateDealerByDealer(@RequestBody DealerParameter data) {
         dealerService.updateDealer(data);
         return "saved";
     }
@@ -94,6 +139,26 @@ public class DealerController {
 
     @PostMapping("/api/ad/dealers/avatar")
     public String updateDealerAvatar(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
+                                     @RequestParam("key") Long dealerId) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
+        return newAvatar;
+    }
+
+    @PostMapping("/api/a/dealers/avatar")
+    public String updateDealerAvatarByAdmin(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
+                                     @RequestParam("key") Long dealerId) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newAvatar = dealerService.updateDealerAvatar(file, dealerId, avatar);
+        return newAvatar;
+    }
+
+    @PostMapping("/api/d/dealers/avatar")
+    public String updateDealerAvatarByDealer(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
                                      @RequestParam("key") Long dealerId) {
         if (file == null) {
             return "ERROR";

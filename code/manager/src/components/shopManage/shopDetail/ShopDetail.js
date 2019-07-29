@@ -23,7 +23,7 @@ class ShopDetail extends React.Component {
      */
     componentDidMount() {
         const key = this.props.match.params.key;
-        axios.get(config.url.oneStore + key).then((res) => {
+        axios.get(config.url.stores + key).then((res) => {
             const originShop = Object.assign({}, res.data);
             this.setState({
                 shop: res.data,
@@ -41,7 +41,7 @@ class ShopDetail extends React.Component {
         const originShop = this.state.originShop;
         if (this.checkShop(shop, originShop)) {
             axios
-                .put(config.url.putStore, 
+                .put(config.url.stores, 
                     shop
                 ).then((res) => {
                     if (res.data < 0) {

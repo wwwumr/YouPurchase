@@ -22,7 +22,7 @@ class DealerMessage extends React.Component {
     componentDidMount() {
         const key = this.props.match.params.key;
         axios
-            .get(config.url.getDealer+key)
+            .get(config.url.dealers+key)
             .then((res) => {
                 this.setState({
                     dealer: res.data,

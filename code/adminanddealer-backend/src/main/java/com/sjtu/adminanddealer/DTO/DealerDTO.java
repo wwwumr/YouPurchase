@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.DTO;
 
 import com.sjtu.adminanddealer.entity.Dealer;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ public class DealerDTO {
 
     private Integer gender;
 
-    private Date birthday;
+    private String birthday;
 
     private String realName;
 
@@ -34,7 +35,7 @@ public class DealerDTO {
     public DealerDTO() {
     }
 
-    public DealerDTO(Long key, String userName, String avatar, Integer gender, Date birthday, String realName, String contact, Long storeId, String storeName) {
+    public DealerDTO(Long key, String userName, String avatar, Integer gender, String birthday, String realName, String contact, Long storeId, String storeName) {
         this.key = key;
         this.userName = userName;
         this.avatar = avatar;
@@ -47,11 +48,12 @@ public class DealerDTO {
     }
 
     public DealerDTO(Dealer dealer) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.key = dealer.getDealerId();
         this.userName = dealer.getUserName();
         this.avatar = dealer.getAvatar();
         this.gender = dealer.getGender();
-        this.birthday = dealer.getBirthday();
+        this.birthday = formatter.format(dealer.getBirthday());
         this.realName = dealer.getRealName();
         this.contact = dealer.getContact();
         if (dealer.getStore() != null) {
@@ -108,11 +110,11 @@ public class DealerDTO {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

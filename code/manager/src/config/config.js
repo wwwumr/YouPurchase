@@ -29,8 +29,8 @@ var config = {
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
-        storeAction: root + "api/ad/stores/cover/",
-        avatarAction: root + "api/ad/dealers/avatar/"
+        storeAction: root + "api/a/stores/cover/",
+        avatarAction: root + "api/a/dealers/avatar/"
     },
     avatar: {
         url: "image/defaultAvatar.png",
@@ -47,16 +47,14 @@ var config = {
         root: root,
         logIn: root + "login/admin",
         stores: root + "api/a/stores/",
-        putStore: root + "api/ad/stores/",
-        oneStore: root + "api/au/stores/",
         storeUnbind: root + "api/a/stores/unbind/",
         dealers: root + "api/a/dealers/",
         newdealer: root + "api/a/dealers/",
-        getDealer: root + "api/ad/dealers/",
-        putDealer: root + "api/ad/dealers/",
+        getDealer: root + "api/a/dealers/",
+        putDealer: root + "api/a/dealers/",
         unbindDealers: root + "api/a/dealers/unbindDealers",
         unbindStores: root + "api/a/stores/unbindStores",
-        updateStoreCover: root + "api/ad/stores/cover",
+        updateStoreCover: root + "api/a/stores/cover",
     }
 }
 
