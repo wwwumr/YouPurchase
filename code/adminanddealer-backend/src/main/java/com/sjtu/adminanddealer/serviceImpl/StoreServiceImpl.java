@@ -87,7 +87,7 @@ public class StoreServiceImpl implements StoreService {
                 dtos.add(dto);
             }
         }
-        return null;
+        return dtos;
     }
 
 

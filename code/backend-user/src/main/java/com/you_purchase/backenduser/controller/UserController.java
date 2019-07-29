@@ -41,6 +41,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation(value = "用户登陆")
     UserLoginDTO UserLogin(@RequestBody  UserLoginParameter userLoginParameter){
+        System.out.println("start user Login");
         return userService.UserLogin(userLoginParameter);
     }
     //用户查看信息
