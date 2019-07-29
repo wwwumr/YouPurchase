@@ -1,9 +1,7 @@
 package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
@@ -23,7 +21,9 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * StoreService的实现类.
@@ -72,78 +72,24 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<DistanceSortedStoreDTO> getStoresByDistance(double userLongitude, double userLatitude) {
+    public List<SortedStoreDTO> getSortedStores(double userLongitude, double userLatitude) {
         List<Store> storeList = storeDao.getAllStores();
-        List<DistanceSortedStoreDTO> dtos = new ArrayList<>();
+        List<SortedStoreDTO> dtos = new ArrayList<>();
         DistanceUtil distanceUtil = new DistanceUtil();
-        for (Store s : storeList
-        ) {
-            double deliveryRange = s.getDeliveryRange();
-            double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
-            if (deliveryRange >= distance) {
-                DistanceSortedStoreDTO dto = new DistanceSortedStoreDTO(distance, new StoreDTO(s));
-                dtos.add(dto);
-            }
-        }
-        Collections.sort(dtos, new Comparator<DistanceSortedStoreDTO>() {
-
-            @Override
-            public int compare(DistanceSortedStoreDTO o1, DistanceSortedStoreDTO o2) {
-                return Double.compare(o1.getDistance(), o2.getDistance());
-            }
-        });
-        return dtos;
-    }
-
-    @Override
-    public List<SalesSortedStoreDTO> getStoresBySales(double userLongitude, double userLatitude) {
-        List<Store> storeList = storeDao.getAllStores();
-        List<SalesSortedStoreDTO> dtos = new ArrayList<>();
-        DistanceUtil distanceUtil = new DistanceUtil();
-        for (Store s : storeList
-        ) {
+        for (Store s : storeList) {
             double deliveryRange = s.getDeliveryRange();
             double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
             if (deliveryRange >= distance) {
                 Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
-                SalesSortedStoreDTO dto = new SalesSortedStoreDTO(recentSales, new StoreDTO(s));
-                dtos.add(dto);
-            }
-        }
-        Collections.sort(dtos, new Comparator<SalesSortedStoreDTO>() {
-
-            @Override
-            public int compare(SalesSortedStoreDTO o1, SalesSortedStoreDTO o2) {
-                return Integer.compare(o2.getSales(), o1.getSales());
-            }
-        });
-        return dtos;
-    }
-
-    @Override
-    public List<GradeSortedStoreDTO> getStoreByScore(double userLongitude, double userLatitude) {
-        List<Store> storeList = storeDao.getAllStores();
-        List<GradeSortedStoreDTO> dtos = new ArrayList<>();
-        DistanceUtil distanceUtil = new DistanceUtil();
-        for (Store s : storeList
-        ) {
-            double deliveryRange = s.getDeliveryRange();
-            double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
-            if (deliveryRange >= distance) {
                 BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
                 double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                GradeSortedStoreDTO dto = new GradeSortedStoreDTO(avgScore, new StoreDTO(s));
+                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
                 dtos.add(dto);
             }
         }
-        Collections.sort(dtos, new Comparator<GradeSortedStoreDTO>() {
-            @Override
-            public int compare(GradeSortedStoreDTO o1, GradeSortedStoreDTO o2) {
-                return Double.compare(o2.getGrade(), o1.getGrade());
-            }
-        });
-        return dtos;
+        return null;
     }
+
 
     @Override
     public JSONObject addAStore(StoreParameter storeParameter) {

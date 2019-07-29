@@ -1,9 +1,7 @@
 package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
@@ -33,32 +31,8 @@ public interface StoreService {
      */
     StoreDTO getStoreByStoreId(Long storeId);
 
-    /**
-     * 根据距离测算，把在配送范围内的店铺按距离排序
-     *
-     * @param userLatitude  用户所在的坐标：经度
-     * @param userLongitude 用户所在的坐标：纬度
-     * @return 所需要的以距离升序的列表
-     */
-    List<DistanceSortedStoreDTO> getStoresByDistance(double userLongitude, double userLatitude);
+    List<SortedStoreDTO> getSortedStores(double userLongitude, double userLatitude);
 
-    /**
-     * 根据最近的销量把在配送范围内的店铺降序排序
-     *
-     * @param userLatitude  用户所在的坐标：经度
-     * @param userLongitude 用户所在的坐标：纬度
-     * @return 以销量降序排序的店铺信息
-     */
-    List<SalesSortedStoreDTO> getStoresBySales(double userLongitude, double userLatitude);
-
-    /**
-     * 根据评价来对配送范围内的店铺排序
-     *
-     * @param userLatitude  用户所在的坐标：经度
-     * @param userLongitude 用户所在的坐标：纬度
-     * @return 以评价排序的店铺信息
-     */
-    List<GradeSortedStoreDTO> getStoreByScore(double userLongitude, double userLatitude);
 
     /**
      * 添加一个店铺，数据从前端发送，调用者为管理员

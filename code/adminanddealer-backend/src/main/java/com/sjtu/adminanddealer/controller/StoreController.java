@@ -1,9 +1,7 @@
 package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sjtu.adminanddealer.DTO.DistanceSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.GradeSortedStoreDTO;
-import com.sjtu.adminanddealer.DTO.SalesSortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
@@ -177,45 +175,17 @@ public class StoreController {
     }
 
     /**
-     * 根据距离优先排序店铺
-     * 在用户端，用户用当前的坐标请求在配送范围内的商家，返回的列表根据距离由近到远排序
+     * 店铺排序
+     * 给前端三个指标。在配送范围内的商家的距离，销量，评分
      *
      * @param longitude 用户坐标：经度
      * @param latitude  用户坐标：纬度
-     * @return 返回对应的店铺信息列表
+     * @return 一个包含SortedStoreDTO的列表
      */
-    @GetMapping("/api/u/stores/distance")
-    public List<DistanceSortedStoreDTO> getStoreSortedByDistance(@RequestParam("longitude") double longitude,
-                                                                 @RequestParam("latitude") double latitude) {
-        return storeService.getStoresByDistance(longitude, latitude);
-    }
-
-    /**
-     * 根据销量优先排序店铺
-     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据销量从高到低排序
-     *
-     * @param longitude 用户坐标：经度
-     * @param latitude  用户坐标：纬度
-     * @return 返回对应的店铺信息列表
-     */
-    @GetMapping("/api/u/stores/sales")
-    public List<SalesSortedStoreDTO> getStoreSortedBySales(@RequestParam("longitude") double longitude,
-                                                           @RequestParam("latitude") double latitude) {
-        return storeService.getStoresBySales(longitude, latitude);
-    }
-
-    /**
-     * 根据评价优先排序店铺
-     * 在用户端，用户用当前坐标请求在配送范围内的商家，返回的列表根据评价从高到低排序
-     *
-     * @param longitude 用户坐标：经度
-     * @param latitude  用户坐标：纬度
-     * @return 返回对应的店铺信息列表
-     */
-    @GetMapping("/api/u/stores/score")
-    public List<GradeSortedStoreDTO> getStoreSortedByScore(@RequestParam("longitude") double longitude,
-                                                           @RequestParam("latitude") double latitude) {
-        return storeService.getStoreByScore(longitude, latitude);
+    @GetMapping("/api/u/stores/sort")
+    public List<SortedStoreDTO> getSortedStores(@RequestParam("longitude") double longitude,
+                                                @RequestParam("latitude") double latitude) {
+        return storeService.getSortedStores(longitude, latitude);
     }
 
     /**
