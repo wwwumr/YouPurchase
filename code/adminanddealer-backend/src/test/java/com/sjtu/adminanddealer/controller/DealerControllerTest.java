@@ -66,7 +66,7 @@ public class DealerControllerTest {
     @Test
     public void testGetDealerByDealerId() throws Exception {
         DealerDTO dto = new DealerDTO(1L, "user", "image/f3920f.jpg", 1,
-                new Date(), "12345555", null, null, "123pass");
+                "2019-03-23", "12345555", null, null, "123pass");
         given(this.dealerService.getDealerByDealerId(1L)).willReturn(dto);
 
         this.mockMvc.perform(get("/api/ad/dealers/1")).andExpect(status().isOk())

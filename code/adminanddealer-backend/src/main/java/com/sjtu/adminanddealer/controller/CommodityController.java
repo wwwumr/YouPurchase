@@ -64,6 +64,28 @@ public class CommodityController {
     }
 
     /**
+     * 经销商根据商品的id获取商品的信息.
+     *
+     * @param commodityId 商品id
+     * @return 对应商品的信息，如果没有对应的id返回null
+     */
+    @GetMapping("/api/d/commodities/{commodityId}")
+    public CommodityDTO getCommodityByIdByDealer(@PathVariable("commodityId") Long commodityId) {
+        return commodityService.getCommodityById(commodityId);
+    }
+
+    /**
+     * 用户根据商品的id获取商品的信息.
+     *
+     * @param commodityId 商品id
+     * @return 对应商品的信息，如果没有对应的id返回null
+     */
+    @GetMapping("/api/u/commodities/{commodityId}")
+    public CommodityDTO getCommodityByIdByUser(@PathVariable("commodityId") Long commodityId) {
+        return commodityService.getCommodityById(commodityId);
+    }
+
+    /**
      * 新增商品信息的逻辑.
      *
      * @param data 前端发送的数据
@@ -149,30 +171,6 @@ public class CommodityController {
     }
 
     /**
-     * 检查商品库存
-     *
-     * @param data 一个list，里面的数据为所有需要检查的商品id和需要的数量
-     * @return 有库存不足的商品时，返回id和对应的实际库存
-     */
-    @PostMapping("/commodities/remaining/check")
-    @ApiOperation(value = "没有使用的接口")
-    public List<CommodityShortageDTO> checkRemaining(@RequestBody List<CommodityCheckParameter> data) {
-        return commodityService.checkCommodityRemaining(data);
-    }
-
-    /**
-     * 检查商品库存并直接减少库存
-     *
-     * @param data 一个list，里面的数据为所有需要检查的商品id和需要的数量
-     * @return 有库存不足的商品时，返回id和对应的实际库存
-     */
-    @PostMapping("/commodities/remaining")
-    @ApiOperation(value = "没有使用的接口")
-    public List<CommodityShortageDTO> reduceCommodityInventory(@RequestBody List<CommodityCheckParameter> data) {
-        return commodityService.decreaseCommodityInventory(data);
-    }
-
-    /**
      * 通过店铺id以及商品类别名获取商品信息
      *
      * @param storeId   店铺id
@@ -184,7 +182,6 @@ public class CommodityController {
         return commodityService.getCommoditiesByStoreAndClass(storeId, classInfo);
     }
 
-    //TODO: 有关商品类别的controller
 
     /**
      * 获取店铺中所有的商品类别
@@ -194,6 +191,28 @@ public class CommodityController {
      */
     @GetMapping("/api/du/commodity/classes")
     public List<CommodityClass> getAllClasses(@RequestParam("storeId") Long storeId) {
+        return commodityService.getCommodityClassInStore(storeId);
+    }
+
+    /**
+     * 经销商获取店铺中所有的商品类别
+     *
+     * @param storeId 店铺id
+     * @return 对应店铺中所有的商品类别
+     */
+    @GetMapping("/api/d/commodity/classes")
+    public List<CommodityClass> getAllClassesByDealer(@RequestParam("storeId") Long storeId) {
+        return commodityService.getCommodityClassInStore(storeId);
+    }
+
+    /**
+     * 用户获取店铺中所有的商品类别
+     *
+     * @param storeId 店铺id
+     * @return 对应店铺中所有的商品类别
+     */
+    @GetMapping("/api/u/commodity/classes")
+    public List<CommodityClass> getAllClassesByUser(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
 

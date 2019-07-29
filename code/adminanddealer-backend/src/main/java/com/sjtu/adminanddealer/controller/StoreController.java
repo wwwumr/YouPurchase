@@ -48,6 +48,28 @@ public class StoreController {
     }
 
     /**
+     * 管理员用店铺的id请求店铺的信息
+     *
+     * @param storeId 店铺的id
+     * @return 对应id的店铺信息
+     */
+    @GetMapping("/api/a/stores/{storeId}")
+    public StoreDTO getStoreByStoreIdByAdmin(@PathVariable("storeId") Long storeId) {
+        return storeService.getStoreByStoreId(storeId);
+    }
+
+    /**
+     * 用户用店铺的id请求店铺的信息
+     *
+     * @param storeId 店铺的id
+     * @return 对应id的店铺信息
+     */
+    @GetMapping("/api/u/stores/{storeId}")
+    public StoreDTO getStoreByStoreIdByUser(@PathVariable("storeId") Long storeId) {
+        return storeService.getStoreByStoreId(storeId);
+    }
+
+    /**
      * 新建一个店铺信息，数据内容以post请求
      *
      * @param data 前端Post的数据
@@ -66,6 +88,36 @@ public class StoreController {
      */
     @PutMapping("/api/ad/stores")
     public JSONObject updateStore(@RequestBody StoreParameter data) {
+        storeService.updateStore(data);
+        storeService.bindDealerAndStore(data.getDealerId(), data.getKey());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("key", data.getKey());
+        return jsonObject;
+    }
+
+    /**
+     * 修改一个店铺的信息
+     *
+     * @param data 前端PUT请求从requestBody发送的数据
+     * @return JSON 格式为{"key" : long},返回的key为-1时代表失败
+     */
+    @PutMapping("/api/a/stores")
+    public JSONObject updateStoreByAdmin(@RequestBody StoreParameter data) {
+        storeService.updateStore(data);
+        storeService.bindDealerAndStore(data.getDealerId(), data.getKey());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("key", data.getKey());
+        return jsonObject;
+    }
+
+    /**
+     * 修改一个店铺的信息
+     *
+     * @param data 前端PUT请求从requestBody发送的数据
+     * @return JSON 格式为{"key" : long},返回的key为-1时代表失败
+     */
+    @PutMapping("/api/d/stores")
+    public JSONObject updateStoreByDealer(@RequestBody StoreParameter data) {
         storeService.updateStore(data);
         storeService.bindDealerAndStore(data.getDealerId(), data.getKey());
         JSONObject jsonObject = new JSONObject();
@@ -148,6 +200,44 @@ public class StoreController {
     }
 
     /**
+     * 更新店铺的封面图片，调用者为管理员或者经销商.
+     *
+     * @param file        上传的新的图片文件
+     * @param storeId     需要修改的店铺id
+     * @param coverPicUrl 原来的封面url
+     * @return 修改成功返回"update"
+     */
+    @PostMapping("/api/a/stores/cover")
+    public String updateStoreCoverByAdmin(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
+                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newUrl = storeService.updateStoreCoverPic(file, storeId, coverPicUrl);
+        return newUrl;
+
+    }
+
+    /**
+     * 更新店铺的封面图片，调用者为管理员或者经销商.
+     *
+     * @param file        上传的新的图片文件
+     * @param storeId     需要修改的店铺id
+     * @param coverPicUrl 原来的封面url
+     * @return 修改成功返回"update"
+     */
+    @PostMapping("/api/d/stores/cover")
+    public String updateStoreCoverByDealer(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
+                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+        if (file == null) {
+            return "ERROR";
+        }
+        String newUrl = storeService.updateStoreCoverPic(file, storeId, coverPicUrl);
+        return newUrl;
+
+    }
+
+    /**
      * 修改店铺的配送方式接口
      *
      * @param type    配送方式，0表示自己配送；1表示外部配送
@@ -182,7 +272,7 @@ public class StoreController {
      * @param latitude  用户坐标：纬度
      * @return 一个包含SortedStoreDTO的列表
      */
-    @GetMapping("/api/u/stores/sort")
+    @GetMapping("/stores/sort")
     public List<SortedStoreDTO> getSortedStores(@RequestParam("longitude") double longitude,
                                                 @RequestParam("latitude") double latitude) {
         return storeService.getSortedStores(longitude, latitude);

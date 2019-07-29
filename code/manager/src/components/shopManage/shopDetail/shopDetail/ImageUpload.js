@@ -29,7 +29,7 @@ class ImageUpload extends React.Component {
 
     componentDidMount() {
         axios
-            .get(config.url.oneStore + this.props.storeId)
+            .get(config.url.stores + this.props.storeId)
             .then(res => {
                 this.setState({
                     imageUrl: res.data.coverPicUrl,
