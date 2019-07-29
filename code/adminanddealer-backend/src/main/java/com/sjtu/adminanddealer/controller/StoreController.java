@@ -288,7 +288,7 @@ public class StoreController {
     public StoreAddressDTO getStoreAddress(HttpSession session){
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId != null) {
-            storeService.getStoreAddress(storeId);
+            return storeService.getStoreAddress(storeId);
         }
         return new StoreAddressDTO();
     }

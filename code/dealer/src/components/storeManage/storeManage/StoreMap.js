@@ -6,7 +6,7 @@ import config from '../../../config/config';
 
 
 let AMapLoader = new AMapJS.AMapJSAPILoader({
-    key: "29e2ca8db90b7c1fa55dd09e4ce13414",
+    key: config.mapKey,
     v: "1.4.14", // 版本号
     params: {}, // 请求参数
     protocol: "https:" // 请求协议
@@ -28,22 +28,22 @@ export default class StoreMap extends React.Component {
     }
 
     componentDidMount() {
-                
-        /*axios 
+        axios 
             .get(config.url.getStorePos)
             .then((res) => {
                 this.setState({
                     latitude: res.data.latitude,
                     longitude: res.data.longitude,
                     address: res.data.address,
-                })*/
+                }, () => {
                 AMapLoader
                     .load()
                     .then(AMap => {
                         let map = new AMap.Map('container', {
                             resizeEnable: true, //是否监控地图容器尺寸变化
                             zoom: 11, //初始化地图层级
-                            center: [this.state.centerLng, this.state.centerLat],
+                            center: [this.state.longitude ? this.state.longitude : this.state.centerLng, 
+                                this.state.latitude ? this.state.latitude : this.state.centerLat],
                         });
                         
                         AMap.plugin(['AMap.Geocoder', 'AMap.ToolBar'], function () {
@@ -64,7 +64,9 @@ export default class StoreMap extends React.Component {
                             spinning: false,
                         })
                     })
-            //})
+                })
+                
+            })
     }
 
     getAddress = (e) => {
@@ -96,8 +98,8 @@ export default class StoreMap extends React.Component {
     render() {
         return (
         <div>
-            <div id="container" style={{ width: 600, height: 400 }}>
-                <Spin spinning={this.state.spinning} style={{ position: "relative", top: 150}}/>
+            <div id="container" style={{ width: 600, height: 400, border: "#000 solid 1px" }}>
+                <Spin spinning={this.state.spinning} style={{ position: "relative", top: 180}}/>
             </div>
             <div style={{ width: 600 }}>
             <Input addonBefore={"位置"} style={{width: 500, float: "left"}}

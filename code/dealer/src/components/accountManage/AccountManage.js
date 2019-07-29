@@ -77,10 +77,11 @@ class AccountManage extends React.Component {
         const originDealer = this.state.originDealer;
         if (
             dealer.contact === originDealer.contact &&
-            dealer.password === originDealer.password &&
+            dealer.gender === originDealer.gender &&
             dealer.realName === originDealer.realName &&
             dealer.storeId === originDealer.storeId &&
-            dealer.userName === originDealer.userName
+            dealer.userName === originDealer.userName &&
+            dealer.birthday === originDealer.birthday
             ){
                 return false;
             }
@@ -128,12 +129,12 @@ class AccountManage extends React.Component {
                 <span style={{display: "inline-block", width: "25%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
                 出生日期
                 </span>
-                <DatePicker defaultValue={moment('2015-01-01', "YYYY-MM-DD")} format={"YYYY-MM-DD"}
+                <DatePicker format={"YYYY-MM-DD"}
                     style = {{ marginBottom: 15, width: '75%', float: "right", textAlign: "center"}}
-                    value={ moment(this.state.dealer.birthday , "YYYY-MM-DD")}
+                    value={ moment(this.state.dealer.birthday ? this.state.dealer.birthday : moment().format("YYYY-MM-DD"), "YYYY-MM-DD") }
                     onChange = {(e) => {
                         var dealer = this.state.dealer;
-                        dealer["birthday"] = e ? e.format("YYYY-MM-DD") : "1999-01-01";
+                        dealer["birthday"] = e ? e.format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
                         this.setState({
                             dealer: dealer,
                         })

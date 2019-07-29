@@ -72,6 +72,8 @@ var config = {
         adminLogIn: "ADMIN",
         dealerLogIn: "DEALER",
     },
+    /* 高德地图的appkey */
+    mapKey: "29e2ca8db90b7c1fa55dd09e4ce13414",
     /* 后端接口 */
     url: {
         /* root */
