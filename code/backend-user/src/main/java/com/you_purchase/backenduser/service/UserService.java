@@ -44,18 +44,22 @@ public class UserService extends BaseService{
 
     //用户登陆
     public UserLoginDTO UserLogin(UserLoginParameter userLoginParameter){
-        //System.out.println("开始登陆");
+        System.out.println("开始登陆");
+        System.out.println("手机:"+userLoginParameter.getPhone());
         User user = userDao.findByPhoneAndValid(userLoginParameter.getPhone(),true);
-
+        System.out.println("用户获取成功");
         if(user == null){
-            //System.out.println("不存在该用户");
+            System.out.println("不存在该用户");
             Constrain.log("不存在该用户");
             return new UserLoginDTO(404,null);
         }
         if(user.pwdConfirm(userLoginParameter.getPassword())){
-            //System.out.println("登陆成功");
+            System.out.println("登陆成功");
+            //
+            System.out.println(user.getUserId());
             return new UserLoginDTO(200,user);
         }
+        System.out.println("开始返回信息");
         return new UserLoginDTO(403,null);
     }
     //用户修改信息

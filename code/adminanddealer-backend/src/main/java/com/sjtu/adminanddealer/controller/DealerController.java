@@ -100,6 +100,7 @@ public class DealerController {
         dealerService.updateDealer(data);
         return "saved";
     }
+
     /**
      * 经销商修改经销商信息.
      *
@@ -149,7 +150,7 @@ public class DealerController {
 
     @PostMapping("/api/a/dealers/avatar")
     public String updateDealerAvatarByAdmin(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
-                                     @RequestParam("key") Long dealerId) {
+                                            @RequestParam("key") Long dealerId) {
         if (file == null) {
             return "ERROR";
         }
@@ -159,7 +160,7 @@ public class DealerController {
 
     @PostMapping("/api/d/dealers/avatar")
     public String updateDealerAvatarByDealer(@RequestParam("file") MultipartFile file, @RequestParam("avatar") String avatar,
-                                     @RequestParam("key") Long dealerId) {
+                                             @RequestParam("key") Long dealerId) {
         if (file == null) {
             return "ERROR";
         }

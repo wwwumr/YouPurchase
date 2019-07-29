@@ -30,4 +30,9 @@ public class Receiver {
         log.info("MqReceiver3: {}", message);
     }
 
+    @RabbitListener(queuesToDeclare = @Queue("myQueue4"))
+    public void process4(Long orderId){
+        System.out.println(orderId);
+    }
+
 }

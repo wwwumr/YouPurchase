@@ -108,7 +108,6 @@ public class StoreDaoImpl implements StoreDao {
     @Override
     public double getStoreAvgScore(Long storeId) {
         Object o = gradeRepository.getStoreAvgScore(storeId);
-        System.out.println(o);
         if (o == null) {
             return 0;
         }

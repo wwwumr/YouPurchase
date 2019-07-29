@@ -2,12 +2,9 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
-import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
 import com.sjtu.adminanddealer.entity.CommodityClass;
-import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +30,7 @@ public class CommodityController {
      * @param storeId 商店的id
      * @return 所有在这个商店中所有商品的信息
      */
-    @GetMapping("/api/u/stores/{storeId}/commodities")
+    @GetMapping("/stores/{storeId}/commodities")
     public List<CommodityDTO> getCommodityFromStore(@PathVariable("storeId") Long storeId) {
         return commodityService.getAllCommoditiesByStoreOnShelves(storeId);
     }
@@ -80,7 +77,7 @@ public class CommodityController {
      * @param commodityId 商品id
      * @return 对应商品的信息，如果没有对应的id返回null
      */
-    @GetMapping("/api/u/commodities/{commodityId}")
+    @GetMapping("/commodities/{commodityId}")
     public CommodityDTO getCommodityByIdByUser(@PathVariable("commodityId") Long commodityId) {
         return commodityService.getCommodityById(commodityId);
     }
@@ -189,7 +186,7 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/du/commodity/classes")
+    @GetMapping("/api/du/commodities/classes")
     public List<CommodityClass> getAllClasses(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
@@ -227,7 +224,7 @@ public class CommodityController {
      * @param session   session
      * @return 放回新生成的商品类别id
      */
-    @PostMapping("/api/d/commodity/classes")
+    @PostMapping("/api/d/commodities/classes")
     public Long AddNewClass(@RequestParam("classInfo") String classInfo, HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId == null) {
