@@ -27,21 +27,21 @@ public class RabbitmqConfig {
     @Autowired
     private SimpleRabbitListenerContainerFactoryConfigurer factoryConfigurer;
 
-    @Bean
-    public Queue logUserQueue() {
-//        return new Queue(env.getProperty("log.user.queue.name"), true);
-        return new Queue("local.log.user.queue", true);
-    }
-
-    @Bean
-    public DirectExchange logUserExchange() {
-        return new DirectExchange(env.getProperty("log.user.exchange.name"), true, false);
-    }
-
-    @Bean
-    public Binding logUserBinding() {
-        return BindingBuilder.bind(logUserQueue()).to(logUserExchange()).with(env.getProperty("log.user.routing.key.name"));
-    }
+//    @Bean
+//    public Queue logUserQueue() {
+////        return new Queue(env.getProperty("log.user.queue.name"), true);
+//        return new Queue("local.log.user.queue", true);
+//    }
+//
+//    @Bean
+//    public DirectExchange logUserExchange() {
+//        return new DirectExchange(env.getProperty("log.user.exchange.name"), true, false);
+//    }
+//
+//    @Bean
+//    public Binding logUserBinding() {
+//        return BindingBuilder.bind(logUserQueue()).to(logUserExchange()).with(env.getProperty("log.user.routing.key.name"));
+//    }
 
     /**
      * 单一消费者
