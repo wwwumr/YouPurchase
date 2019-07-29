@@ -210,7 +210,7 @@ public class StoreController {
      */
     @PostMapping("/api/a/stores/cover")
     public String updateStoreCoverByAdmin(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
-                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+                                          @RequestParam("coverPicUrl") String coverPicUrl) {
         if (file == null) {
             return "ERROR";
         }
@@ -229,7 +229,7 @@ public class StoreController {
      */
     @PostMapping("/api/d/stores/cover")
     public String updateStoreCoverByDealer(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
-                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+                                           @RequestParam("coverPicUrl") String coverPicUrl) {
         if (file == null) {
             return "ERROR";
         }
@@ -281,14 +281,15 @@ public class StoreController {
 
     /**
      * 经销商获取地理位置信息
+     *
      * @param session session
      * @return 店铺的位置和经纬度
      */
     @GetMapping("/api/d/stores/address")
-    public StoreAddressDTO getStoreAddress(HttpSession session){
+    public StoreAddressDTO getStoreAddress(HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId != null) {
-            storeService.getStoreAddress(storeId);
+            return storeService.getStoreAddress(storeId);
         }
         return new StoreAddressDTO();
     }

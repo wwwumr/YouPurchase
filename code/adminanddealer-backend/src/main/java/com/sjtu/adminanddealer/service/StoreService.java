@@ -105,6 +105,7 @@ public interface StoreService {
 
     /**
      * 获取店铺的地址
+     *
      * @param storeId 店铺id
      * @return 店铺的地理位置信息
      */

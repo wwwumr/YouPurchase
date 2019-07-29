@@ -243,8 +243,8 @@ public class StoreServiceImpl implements StoreService {
     @Override
     public StoreAddressDTO getStoreAddress(Long storeId) {
         Store store = storeDao.getStoreByStoreId(storeId);
-        if(store!=null){
-            return new StoreAddressDTO(store.getAddress(),store.getLongitude(),store.getLatitude());
+        if (store != null) {
+            return new StoreAddressDTO(store.getAddress(), store.getLongitude(), store.getLatitude());
         }
         return new StoreAddressDTO();
     }
