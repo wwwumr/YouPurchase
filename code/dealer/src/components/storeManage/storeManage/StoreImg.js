@@ -65,7 +65,7 @@ export default class StoreImg extends React.Component {
         );
 
         return (
-        <div style={{ marginLeft: 100, }}>
+        <div style={{ marginLeft: 100,  textAlign: "left"}}>
         <Title level={3} >点击更换店面图片</Title>
         <Tooltip placement="topLeft" title="更换店面图片">
             <Upload

@@ -21,6 +21,8 @@ var config = {
             key: null,
             userName: "",
             address: "",
+            gender: null,
+            birthday: "",
             realName: "",
             contact: "",
             storeId: null,
@@ -70,6 +72,8 @@ var config = {
         adminLogIn: "ADMIN",
         dealerLogIn: "DEALER",
     },
+    /* 高德地图的appkey */
+    mapKey: "29e2ca8db90b7c1fa55dd09e4ce13414",
     /* 后端接口 */
     url: {
         /* root */
@@ -78,18 +82,18 @@ var config = {
         logOut: root + "logout/",
         userName: root + "login/userName/",
         userId: root + "login/userId",
-        dealers: root + "api/ad/dealers/",
+        dealers: root + "api/d/dealers/",
         /* 经销商信息接口 */
-        unbindDealers: root + "api/a/dealers/unbindDealers/",
         dealer: root + "api/d/dealers/dealer/",
         /* 商店接口 */
-        stores: root +  "api/ad/stores/",
-        unbindStores: root + "api/a/stores/unbindStores/",
-        updateStoreCover: root + "api/ad/stores/cover/",
+        stores: root +  "api/d/stores/",
+        updateStoreCover: root + "api/d/stores/cover/",
         store: root + "api/d/stores/dealer/store/",
+        putStorePos: root + "api/d/stores/address/",
+        getStorePos: root + "api/d/stores/address/",
         /* 货物接口 */
         storeGoods: root + "api/d/stores/commodities/",
-        goods: root + "api/du/commodities/",
+        goods: root + "api/d/commodities/",
         goodsP: root + "api/d/commodities/",
         updateGoodsCover: root + "api/d/commodities/cover/",
         /* root1 */

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Spin } from 'antd';
 import AMapJS from "amap-js";
 
 
@@ -17,6 +18,7 @@ export default class MapTest extends React.Component {
             marker: null,
             centerLng: 116.397428,
             centerLat: 39.90923,
+            spinning: true,
         }
     }
 
@@ -38,13 +40,14 @@ export default class MapTest extends React.Component {
                 })
                 let marker = new AMap.Marker({
                     icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                    position: [this.state.lng, this.state.lat],
+                    position: [this.state.centerLng, this.state.centerLat],
                 });
                 map.add(marker);
                 map.on("click", this.getAddress);
                 this.setState({
                     map: map,
                     marker: marker,
+                    spinning: false,
                 })
             })
     }
@@ -70,7 +73,9 @@ export default class MapTest extends React.Component {
 
     render() {
         return (
-            <div id="container" style={{ width: 600, height: 400 }}></div>
+            <div id="container" style={{ width: 600, height: 400, textAlign: "center", }}>
+                <Spin spinning={this.state.spinning} style={{position:"relative", top: 200}}></Spin>
+            </div>
         );
     }
 }
