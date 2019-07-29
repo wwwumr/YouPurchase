@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
-import { Input, Button, message } from 'antd';
+import { Input, Button, message, DatePicker,Radio } from 'antd';
+import moment from 'moment';
 import axios from 'axios';
 import AvatarUpload from './accountManage/AvatarUpload';
 import config from '../../config/config';
+
 
 
 class AccountManage extends React.Component {
@@ -103,10 +105,18 @@ class AccountManage extends React.Component {
                     disabled={true}
                     onChange = {(e) => { this.handleChange(e, "userName") }}
                 />
-                <Input addonBefore="密码"  style={{marginBottom: "15px", width: "60%", float: "right"}}
-                    value={ this.state.dealer.password } 
-                    onChange = {(e) => { this.handleChange(e, "password") }}
-                />
+                <span 
+                    style={{display: "inline-block", width: "20%", padding: 4, backgroundColor: "#fafafa", 
+                        border: "1px solid #d9d9d9", borderRadius: 4}} 
+                >
+                性别
+                </span>
+                <Radio.Group value={ this.state.dealer.gender } buttonStyle="solid"
+                    style={{ marginBottom : "15px", width: "30%", float: "right" }}
+                >
+                    <Radio.Button value={0} style={{ width: "50%", float: "right" }}>男</Radio.Button>
+                    <Radio.Button value={1} style={{ width: "50%", float: "right" }}>女</Radio.Button>
+                </Radio.Group>
                 <Input addonBefore="姓名"  style={{ marginBottom : "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.realName } 
                     onChange = {(e) => { this.handleChange(e, "realName") }}
@@ -114,6 +124,20 @@ class AccountManage extends React.Component {
                 <Input addonBefore="联系方式" style={{marginBottom: "15px"}}
                     value={ this.state.dealer.contact }  
                     onChange = {(e) => { this.handleChange(e, "contact") }}
+                />
+                <span style={{display: "inline-block", width: "25%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                出生日期
+                </span>
+                <DatePicker defaultValue={moment('2015-01-01', "YYYY-MM-DD")} format={"YYYY-MM-DD"}
+                    style = {{ marginBottom: 15, width: '75%', float: "right", textAlign: "center"}}
+                    value={ moment(this.state.dealer.birthday , "YYYY-MM-DD")}
+                    onChange = {(e) => {
+                        var dealer = this.state.dealer;
+                        dealer["birthday"] = e ? e.format("YYYY-MM-DD") : "1999-01-01";
+                        this.setState({
+                            dealer: dealer,
+                        })
+                    }} 
                 />
                 <Input addonBefore="店铺" style={{display: "inline-block", marginBottom: "15px", width: "70%"}}  
                     value={ this.state.dealer.storeName }
@@ -131,12 +155,12 @@ class AccountManage extends React.Component {
                     查看信息
                     </Link>
                 </Button>
-                <Button style={{display: "inline-block", marginBottom: "15px", width: "30%", marginRight: "30px"}} 
+                <Button style={{display: "inline-block", marginBottom: "15px", width: "25%", marginRight: "20px"}} 
                     onClick = { this.handleSubmit } 
                 >
                 确认修改
                 </Button>
-                <Button style={{display: "inline-block", marginBottom: "15px", width: "30%", marginRight: "30px"}} 
+                <Button style={{display: "inline-block", marginBottom: "15px", width: "25%", marginRight: "20px"}} 
                     onClick = { () => {
                         const originDealer = this.state.originDealer;
                         this.setState({
@@ -144,7 +168,14 @@ class AccountManage extends React.Component {
                         })
                     }} 
                 >
-                取消修改
+                重置信息
+                </Button>
+                <Button style={{display: "inline-block", marginBottom: "15px", width: "25%", marginRight: "20px"}} 
+                    onClick = { () => {
+                        message.info("功能待开发");
+                    }} 
+                >
+                找回密码
                 </Button>
             </div>
         </div>
