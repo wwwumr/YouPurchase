@@ -182,7 +182,7 @@ public class StoreController {
      * @param latitude  用户坐标：纬度
      * @return 一个包含SortedStoreDTO的列表
      */
-    @GetMapping("/api/u/stores/sort")
+    @GetMapping("/stores/sort")
     public List<SortedStoreDTO> getSortedStores(@RequestParam("longitude") double longitude,
                                                 @RequestParam("latitude") double latitude) {
         return storeService.getSortedStores(longitude, latitude);
