@@ -27,10 +27,14 @@ public class CommodityDTO {
 
     private Integer remaining;
 
+    private Long classId;
+
+    private String classInfo;
+
     public CommodityDTO() {
     }
 
-    public CommodityDTO(Long key, double price, String commodityInfo, String commodityCoverPicUrl, List<String> commodityPicUrls, boolean onShelves, Integer inventory, Integer remaining) {
+    public CommodityDTO(Long key, double price, String commodityInfo, String commodityCoverPicUrl, List<String> commodityPicUrls, boolean onShelves, Integer inventory, Integer remaining, Long classId, String classInfo) {
         this.key = key;
         this.price = price;
         this.commodityInfo = commodityInfo;
@@ -39,6 +43,8 @@ public class CommodityDTO {
         this.onShelves = onShelves;
         this.inventory = inventory;
         this.remaining = remaining;
+        this.classId = classId;
+        this.classInfo = classInfo;
     }
 
     public CommodityDTO(Commodity commodity) {
@@ -50,6 +56,10 @@ public class CommodityDTO {
         this.onShelves = commodity.getOnShelves();
         this.inventory = commodity.getInventory();
         this.remaining = commodity.getRemaining();
+        if (commodity.getCommodityClass() != null) {
+            this.classId = commodity.getCommodityClass().getCommodityClassId();
+            this.classInfo = commodity.getCommodityClass().getClassInfo();
+        }
     }
 
     public Long getKey() {
@@ -114,5 +124,21 @@ public class CommodityDTO {
 
     public void setRemaining(Integer remaining) {
         this.remaining = remaining;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
+
+    public String getClassInfo() {
+        return classInfo;
+    }
+
+    public void setClassInfo(String classInfo) {
+        this.classInfo = classInfo;
     }
 }

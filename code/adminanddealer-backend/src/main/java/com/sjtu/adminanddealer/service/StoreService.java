@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.StoreAddressDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
@@ -101,4 +102,12 @@ public interface StoreService {
      * @param storeId   店铺id
      */
     void updateStoreAddress(StoreAddressParameter parameter, Long storeId);
+
+    /**
+     * 获取店铺的地址
+     *
+     * @param storeId 店铺id
+     * @return 店铺的地理位置信息
+     */
+    StoreAddressDTO getStoreAddress(Long storeId);
 }

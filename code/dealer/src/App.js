@@ -11,7 +11,6 @@ import OrderManage from './components/orderManage/OrderManage';
 import GoodsManage from './components/goodsManage/GoodsManage';
 import AccountManage from './components/accountManage/AccountManage'
 import Goods from './components/goodsManage/goods/Goods';
-import MapTest from './components/test/MapTest';
 import config from './config/config';
 
 const { Header, Content, Footer} = Layout;
@@ -154,11 +153,7 @@ class App extends React.Component {
                                 <Menu.Item key="4">
                                 <Link to={"/storeManage/"} >店铺管理</Link>
                                 </Menu.Item>
-                                <Menu.Item key="0">
-                                <Link to={"/test"} >
-                                测试组件
-                                </Link>
-                                </Menu.Item>
+                                
                                 {/* 右浮动 */}
                                 <Menu.Item key="6" style={{float: "right"}} >
                                 <Link to={"/"} 
@@ -214,7 +209,6 @@ class App extends React.Component {
                                     <Route path = "/goodsManage/" component={ GoodsManage } />
                                     <Route exact path = "/accountManage/" component={ AccountManage } />
                                     <Route exact path = "/goods/:id" component={ Goods } />
-                                    <Route exact path = "/test/" component={ MapTest } />
                                 </Switch>
                             }
                             {/* 无店铺的登陆经销商 */}

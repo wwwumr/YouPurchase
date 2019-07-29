@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.StoreAddressDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
@@ -209,7 +210,7 @@ public class StoreController {
      */
     @PostMapping("/api/a/stores/cover")
     public String updateStoreCoverByAdmin(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
-                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+                                          @RequestParam("coverPicUrl") String coverPicUrl) {
         if (file == null) {
             return "ERROR";
         }
@@ -228,7 +229,7 @@ public class StoreController {
      */
     @PostMapping("/api/d/stores/cover")
     public String updateStoreCoverByDealer(@RequestParam("file") MultipartFile file, @RequestParam("key") Long storeId,
-                                   @RequestParam("coverPicUrl") String coverPicUrl) {
+                                           @RequestParam("coverPicUrl") String coverPicUrl) {
         if (file == null) {
             return "ERROR";
         }
@@ -276,6 +277,21 @@ public class StoreController {
     public List<SortedStoreDTO> getSortedStores(@RequestParam("longitude") double longitude,
                                                 @RequestParam("latitude") double latitude) {
         return storeService.getSortedStores(longitude, latitude);
+    }
+
+    /**
+     * 经销商获取地理位置信息
+     *
+     * @param session session
+     * @return 店铺的位置和经纬度
+     */
+    @GetMapping("/api/d/stores/address")
+    public StoreAddressDTO getStoreAddress(HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        if (storeId != null) {
+            return storeService.getStoreAddress(storeId);
+        }
+        return new StoreAddressDTO();
     }
 
     /**

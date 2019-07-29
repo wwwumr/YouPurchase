@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
+import com.sjtu.adminanddealer.DTO.StoreAddressDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
@@ -237,5 +238,14 @@ public class StoreServiceImpl implements StoreService {
         store.setLatitude(parameter.getLatitude());
         store.setLongitude(parameter.getLongitude());
         storeDao.updateStore(store);
+    }
+
+    @Override
+    public StoreAddressDTO getStoreAddress(Long storeId) {
+        Store store = storeDao.getStoreByStoreId(storeId);
+        if (store != null) {
+            return new StoreAddressDTO(store.getAddress(), store.getLongitude(), store.getLatitude());
+        }
+        return new StoreAddressDTO();
     }
 }

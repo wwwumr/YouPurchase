@@ -3,7 +3,6 @@ package com.sjtu.adminanddealer.DTO;
 import com.sjtu.adminanddealer.entity.Dealer;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 返回前端的经销商数据格式

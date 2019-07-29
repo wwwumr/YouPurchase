@@ -1,7 +1,8 @@
 import React from 'react';
-import { Input, Button, message, Typography, Radio,  } from 'antd';
+import { Input, Button, message, Typography, Radio,TimePicker } from 'antd';
 import axios from 'axios';
 import config from '../../../config/config';
+import moment from 'moment';
 
 const { Title } = Typography;
 
@@ -71,6 +72,19 @@ export default class StoreMessage extends React.Component {
         })
     } 
 
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { moment } time
+     * @param  { String } info
+     */
+    handleTimeChange = (time, info) => {
+        var shop = this.state.shop;
+        shop[info] = time ? time.format("HH:mm") : moment().format("HH:mm");
+        this.setState({
+            shop: shop,
+        })
+    }
+
     
     /**
      * @description 检查店铺是否经过修改
@@ -104,13 +118,27 @@ export default class StoreMessage extends React.Component {
                 value={ this.state.shop.contact }  
                 onChange = {(e) => { this.handleChange(e, "contact") }}
             />
-            <Input addonBefore="营业时间" style={{display: "inline-block", marginBottom: "15px", width: "50%"}}  
-                value={ this.state.shop.startHour } 
-                onChange = {(e) => { this.handleChange(e, "startHour") }}
+            <span style={{display: "inline-block", width: "25%", padding: 4, backgroundColor: "#fafafa",            border: "1px solid #d9d9d9", borderRadius: 4}} 
+            >
+            营业时间
+            </span>
+            <TimePicker format={"HH:mm"}
+                style = {{ marginBottom: 15, width: '30%', textAlign: "center"}}
+                value={
+                    this.state.shop.startHour ? moment( this.state.shop.startHour, "HH:mm"): moment()
+                }
+                onChange = {(time) => { this.handleTimeChange(time, "startHour")}}
             />
-            <Input addonBefore="结束时间" style={{display: "inline-block", marginBottom: "15px", width: "50%"}}  
-                value={ this.state.shop.endHour }
-                onChange = {(e) => { this.handleChange(e, "endHour") }}
+            <span style={{display: "inline-block", width: "15%", padding: 4, backgroundColor: "#fafafa",            border: "1px solid #d9d9d9", borderRadius: 4}} 
+            >
+             ~ 
+            </span>
+            <TimePicker format={"HH:mm"}
+                style = {{ marginBottom: 15, width: '30%', textAlign: "center"}}
+                value={
+                    this.state.shop.endHour ? moment( this.state.shop.endHour, "HH:mm"): moment()
+                }
+                onChange = {(time) => { this.handleTimeChange(time, "startHour")}}
             />
             <Input addonBefore="配送距离(km)" style={{display: "inline-block", marginBottom: "20px", width: "50%"}}  
                 min={0} type="number"
@@ -123,7 +151,7 @@ export default class StoreMessage extends React.Component {
                     console.log(e.value)
                 }}
             >
-                <Radio.Button value={0} >自己配送</Radio.Button>
+                <Radio.Button value={0} >商家配送</Radio.Button>
                 <Radio.Button value={1} >蜂鸟配送</Radio.Button>
             </Radio.Group>
             <Button 

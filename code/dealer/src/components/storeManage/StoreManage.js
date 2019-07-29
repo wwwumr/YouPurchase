@@ -32,7 +32,7 @@ class StoreManage extends React.Component {
                     </Menu>
                 </Sider>
                 <Content style={{  marginTop: 64,}}>
-                <div  style={{ marginLeft: 24, width: 800, height: 400, textAlign: "center"}} >
+                <div  style={{ marginLeft: 24, width: 800, height: 450, textAlign: "center"}} >
                     <Switch>
                         <Route exact path="/storeManage/" 
                             render = {(props) => <StoreMessage {...props}/>} 
