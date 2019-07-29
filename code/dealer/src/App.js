@@ -206,7 +206,7 @@ class App extends React.Component {
                                     />    
                                     <Route path = "/storeManage" component={ props => <StoreManage {...props} stotrId={this.state.dealer.storeId} /> } />
                                     <Route exact path = "/orderManage/" component={ OrderManage } />
-                                    <Route path = "/goodsManage/" component={ GoodsManage } />
+                                    <Route path = "/goodsManage" component={ GoodsManage } />
                                     <Route exact path = "/accountManage/" component={ AccountManage } />
                                     <Route exact path = "/goods/:id" component={ Goods } />
                                 </Switch>

@@ -200,9 +200,13 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/d/commodity/classes")
-    public List<CommodityClass> getAllClassesByDealer(@RequestParam("storeId") Long storeId) {
-        return commodityService.getCommodityClassInStore(storeId);
+    @GetMapping("/api/d/commodities/classes")
+    public List<CommodityClass> getAllClassesByDealer(HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        if (storeId!=null){
+            return commodityService.getCommodityClassInStore(storeId);
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -211,7 +215,7 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/u/commodity/classes")
+    @GetMapping("/api/u/commodities/classes")
     public List<CommodityClass> getAllClassesByUser(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
