@@ -118,4 +118,14 @@ public class Commodity {
     public void setRemaining(Integer remaining) {
         this.remaining = remaining;
     }
+
+    public CommodityClass getCommodityClass() {
+        return commodityClass;
+    }
+
+    public void setCommodityClass(CommodityClass commodityClass) {
+        this.commodityClass = commodityClass;
+    }
+
+    
 }

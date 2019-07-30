@@ -5,6 +5,8 @@ import { Card, Button, Typography, Tooltip, message, Layout, Menu } from 'antd';
 import axios from 'axios';
 import config from '../../config/config';
 import GoodsList from './goodsMange/GoodsList';
+import TagManage from './goodsMange/TagManage';
+import NewGoods from './goodsMange/NewGoods';
 
 const { Paragraph } = Typography;
 const { Header, Content } = Layout;
@@ -159,14 +161,14 @@ class GoodsManage extends React.Component {
             <Layout style={{ background: '#fff'}}>
                 <Header style={{ height: 50, background: "#fff"}}>
                     <Menu theme="light" >
-                        <Menu.Item key="0" style={{display: "inline", marginRight: 50, background: "#000", color: "#fff"}} width={100}>
-                        {"商品分类"}
+                        <Menu.Item key="0" style={{display: "inline", marginRight: 50, background: "#000", }}>
+                        <Link to="/goodsManage/" style={{display: "inline", color: "#fff"}}>商品分类</Link>
                         </Menu.Item>
                         <Menu.Item key="1" style={{display: "inline"}}>
-                        增加商品
+                        <Link to="/goodsManage/NewGoods" style={{display: "inline"}}>增加商品</Link>
                         </Menu.Item>
                         <Menu.Item key="2" style={{display: "inline"}}>
-                        酒厂进货
+                        <Link to="/goodsManage/NewGoods" style={{display: "inline"}}>酒厂进货</Link>
                         </Menu.Item>
                         <Menu.Item key="3" style={{display: "inline"}}>
                         增加标签
@@ -182,6 +184,8 @@ class GoodsManage extends React.Component {
                             <Route exact path={"/goodsManage/"} 
                                 render={(props) => <GoodsList {...props} goodsList={this.state.goodsList} />} 
                             />
+                            <Route exact path={"/goodsManage/NewGoods/"} component={NewGoods}></Route>
+                            <Route exact path={"/goodsManage/TagManage/"} component={TagManage}></Route>
                         </Switch>
                         
                     </Content>
