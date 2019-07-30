@@ -33,6 +33,10 @@ public class OrderInfoDTO {
 
     List<Commodity> orderItemList;
 
+    private double tarLongitude;
+
+    private double tarLatitude;
+
 
 
     //getter and setter
@@ -123,5 +127,21 @@ public class OrderInfoDTO {
 
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public double getTarLongitude() {
+        return tarLongitude;
+    }
+
+    public void setTarLongitude(double tarLongitude) {
+        this.tarLongitude = tarLongitude;
+    }
+
+    public double getTarLatitude() {
+        return tarLatitude;
+    }
+
+    public void setTarLatitude(double tarLatitude) {
+        this.tarLatitude = tarLatitude;
     }
 }

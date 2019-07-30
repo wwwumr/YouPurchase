@@ -110,6 +110,33 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
+    public JSONObject addAlcohol(CommodityParameter commodityParameter, Long storeId) {
+        JSONObject json = new JSONObject();
+        if (storeId != null) {
+            Commodity commodity = new Commodity();
+            commodity.setCommodityInfo(commodityParameter.getCommodityInfo());
+            commodity.setInventory(commodityParameter.getInventory());
+            commodity.setOnShelves(commodityParameter.isOnShelves());
+            commodity.setPrice(commodityParameter.getPrice());
+            if (commodityParameter.isOnShelves()) {
+                commodity.setRemaining(commodityParameter.getRemaining());
+            } else {
+                commodity.setRemaining(0);
+            }
+            commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
+            commodity.setCommodityClass(commodityDao.getClassInStoreByClassInfo(storeId, "酒"));
+            Long newId = commodityDao.addCommodity(commodity, storeId);
+
+            json.put("key", newId);
+            json.put("coverPicUrl", this.DEFAULT_COMMODITY_COVER);
+            return json;
+        }
+        json.put("key", null);
+        json.put("coverPicUrl", null);
+        return json;
+    }
+
+    @Override
     public void updateACommodity(CommodityParameter commodityParameter) {
         Commodity commodity = commodityDao.getCommodityById(commodityParameter.getKey());
         commodity.setPrice(commodityParameter.getPrice());

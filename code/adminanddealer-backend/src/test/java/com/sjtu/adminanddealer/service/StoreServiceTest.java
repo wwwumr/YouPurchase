@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Commodity;
@@ -43,6 +44,9 @@ public class StoreServiceTest {
 
     @MockBean
     private DealerDao dealerDao;
+
+    @MockBean
+    private CommodityDao commodityDao;
 
     @MockBean
     private FileUploadUtil fileUploadUtil;
