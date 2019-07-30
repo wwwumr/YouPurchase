@@ -91,8 +91,13 @@ public class CommodityServiceImpl implements CommodityService {
             commodity.setInventory(commodityParameter.getInventory());
             commodity.setOnShelves(commodityParameter.isOnShelves());
             commodity.setPrice(commodityParameter.getPrice());
-            commodity.setRemaining(commodityParameter.getRemaining());
+            if (commodityParameter.isOnShelves()) {
+                commodity.setRemaining(commodityParameter.getRemaining());
+            } else {
+                commodity.setRemaining(0);
+            }
             commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
+            commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
             Long newId = commodityDao.addCommodity(commodity, storeId);
 
             json.put("key", newId);
@@ -112,6 +117,7 @@ public class CommodityServiceImpl implements CommodityService {
         commodity.setOnShelves(commodityParameter.isOnShelves());
         commodity.setInventory(commodityParameter.getInventory());
         commodity.setRemaining(commodityParameter.getRemaining());
+        commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
 
         commodityDao.updateCommodity(commodity);
     }
@@ -213,6 +219,11 @@ public class CommodityServiceImpl implements CommodityService {
     @Override
     public List<CommodityClass> getCommodityClassInStore(Long storeId) {
         return commodityDao.getCommodityClassesByStore(storeId);
+    }
+
+    @Override
+    public CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo) {
+        return commodityDao.getClassInStoreByClassInfo(storeId, classInfo);
     }
 
     @Override

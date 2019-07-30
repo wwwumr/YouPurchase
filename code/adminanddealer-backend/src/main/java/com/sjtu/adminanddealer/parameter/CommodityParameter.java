@@ -19,6 +19,8 @@ public class CommodityParameter {
 
     private Integer remaining;
 
+    private Long commodityClassId;
+
     public CommodityParameter() {
     }
 
@@ -77,5 +79,13 @@ public class CommodityParameter {
 
     public void setRemaining(Integer remaining) {
         this.remaining = remaining;
+    }
+
+    public Long getCommodityClassId() {
+        return commodityClassId;
+    }
+
+    public void setCommodityClassId(Long commodityClassId) {
+        this.commodityClassId = commodityClassId;
     }
 }
