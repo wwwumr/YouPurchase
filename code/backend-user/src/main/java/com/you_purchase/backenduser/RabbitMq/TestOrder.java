@@ -46,4 +46,15 @@ public class TestOrder implements Serializable {
     public void setTarAddress(String tarAddress) {
         this.tarAddress = tarAddress;
     }
+
+
+    @Override
+    public String toString(){
+        return "TestOrder {"+
+                " userId " + userId+
+                " storeId "+ storeId+
+                " createDate "+createDate+
+                " tarAddress "+tarAddress+
+                "}";
+    }
 }

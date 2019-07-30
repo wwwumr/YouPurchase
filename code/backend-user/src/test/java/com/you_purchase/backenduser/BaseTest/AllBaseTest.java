@@ -109,7 +109,7 @@ public class AllBaseTest {
         }
         System.out.println(hashfirst);
         int hashCodeV = UUID.randomUUID().toString().hashCode();
-        if (hashCodeV < 0) {//有可能是负数
+        if (hashCodeV < 0) {
             hashCodeV = -hashCodeV;
         }
         System.out.println(String.format("011d",hashfirst) + String.format("%011d", hashCodeV));

@@ -17,7 +17,7 @@ public class RabbitMqConfig {
         return new Queue("pay");
     }
     //交换机申明
-    @Bean
+/*    @Bean
     public FanoutExchange payExchange(){
         return new FanoutExchange("payExchange");
     }
@@ -25,7 +25,7 @@ public class RabbitMqConfig {
     @Bean
     public Binding payBinding(){
         return BindingBuilder.bind(payFinish()).to(payExchange());
-    }
+    }*/
 
     //订单管理队列
     @Bean
