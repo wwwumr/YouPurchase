@@ -85,6 +85,11 @@ public class CommodityDaoImpl implements CommodityDao {
     }
 
     @Override
+    public CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo) {
+        return commodityClassRepository.getCommodityClassesByStoreIdAndClassInfo(storeId, classInfo);
+    }
+
+    @Override
     public void addNewCommodityClass(CommodityClass commodityClass) {
         commodityClassRepository.save(commodityClass);
     }

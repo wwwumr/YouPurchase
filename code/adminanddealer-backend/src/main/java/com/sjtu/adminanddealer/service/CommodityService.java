@@ -124,6 +124,15 @@ public interface CommodityService {
     List<CommodityClass> getCommodityClassInStore(Long storeId);
 
     /**
+     * 根据商品的分类名称获取商品分类信息
+     *
+     * @param storeId   店铺id
+     * @param classInfo 商品分类名
+     * @return 商品分类信息
+     */
+    CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo);
+
+    /**
      * 店铺中新增商品类别
      *
      * @param classInfo 新增的商品类别信息

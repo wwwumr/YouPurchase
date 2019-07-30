@@ -103,4 +103,6 @@ public interface StoreDao {
      * @return 店铺的平均评分
      */
     double getStoreAvgScore(Long storeId);
+
+    List<Store> getStoresInRange(double longitude1, double longitude2, double latitude1, double latitude2);
 }

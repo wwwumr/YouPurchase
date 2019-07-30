@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.SortedStoreDTO;
 import com.sjtu.adminanddealer.DTO.StoreAddressDTO;
 import com.sjtu.adminanddealer.DTO.StoreDTO;
+import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
@@ -34,15 +36,18 @@ import java.util.List;
 @Service
 public class StoreServiceImpl implements StoreService {
 
+    // 当配送距离为20公里时，需要修正的经纬度范围；
+    // 用户所在的坐标，加减这个偏移量，即为地图上正方形区域内20公里的范围
+    // 在选择店铺时，可以针对经纬度做偏移计算，防止便利所有店铺
+    private final double POSITION_OFFSET = 0.216000;
     @Autowired
     private StoreDao storeDao;
-
     @Autowired
     private DealerDao dealerDao;
-
+    @Autowired
+    private CommodityDao commodityDao;
     @Autowired
     private FileUploadUtil fileUploadUtil;
-
     @Value("${storeDefaultCoverPicUrl}")
     private String storeDefaultCoverPicUrl;
 
@@ -74,7 +79,8 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public List<SortedStoreDTO> getSortedStores(double userLongitude, double userLatitude) {
-        List<Store> storeList = storeDao.getAllStores();
+        List<Store> storeList = storeDao.getStoresInRange(userLongitude - POSITION_OFFSET, userLongitude + POSITION_OFFSET,
+                userLatitude - POSITION_OFFSET, userLatitude + POSITION_OFFSET);
         List<SortedStoreDTO> dtos = new ArrayList<>();
         DistanceUtil distanceUtil = new DistanceUtil();
         for (Store s : storeList) {
@@ -113,6 +119,16 @@ public class StoreServiceImpl implements StoreService {
         store.setDeliveryType(storeParameter.getDeliveryType());
         store.setDeliveryRange(storeParameter.getDeliveryRange());
         Long newId = storeDao.addAStore(store);
+
+        // 给店铺添加酒的分类与其他分类
+        CommodityClass commodityClass = new CommodityClass();
+        commodityClass.setStoreId(newId);
+        commodityClass.setClassInfo("酒");
+        CommodityClass commodityClass1 = new CommodityClass();
+        commodityClass.setStoreId(newId);
+        commodityClass.setClassInfo("其他");
+        commodityDao.addNewCommodityClass(commodityClass);
+        commodityDao.addNewCommodityClass(commodityClass1);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("key", newId);
