@@ -1,27 +1,30 @@
 
 import React from 'react';
-import { Card, Button, Typography, Tooltip, message, Input, Modal, Radio } from 'antd';
+import { Route, Switch, Link } from 'react-router-dom';
+import { Card, Button, Typography, Tooltip, message, Layout, Menu } from 'antd';
 import axios from 'axios';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import config from '../../config/config';
+import GoodsList from './goodsMange/GoodsList';
+import TagManage from './goodsMange/TagManage';
+import NewGoods from './goodsMange/NewGoods';
 
 const { Paragraph } = Typography;
-const { TextArea } = Input;
-
+const { Header, Content } = Layout;
 
 class GoodsManage extends React.Component {
-    
+
     constructor(props) {
         super(props);
-        
+
         this.state = {
             goodsList: [],
             visible: false,
             goods: Object.assign({}, config.goods.originGoods),
+            goodsTags: [],
         }
     }
-    
-    
+
+
     /**
      * @description 获取商品信息
      */
@@ -69,7 +72,7 @@ class GoodsManage extends React.Component {
     handleOk = () => {
         let goods = this.state.goods;
         let goodsList = this.state.goodsList;
-        axios 
+        axios
             .post(config.url.goods, goods)
             .then(res => {
                 goods.key = res.data.key;
@@ -89,125 +92,109 @@ class GoodsManage extends React.Component {
      * @param  { event } e
      * @param  { String } info
      */
-     handleChange = (e, info) => {
+    handleChange = (e, info) => {
         let goods = this.state.goods;
         goods[info] = e.target.value;
-        this.setState({ 
-            goods: goods 
+        this.setState({
+            goods: goods
         })
     }
-    
-    
+
+
     /**
      * @description 生成卡片模型展示商品
      * @param { goods } elem
      */
     GoodsItems(elem) {
         return (
-        <Card key={elem.key} 
-            style={{ margin: "20px", height: 330, width: 210, display: "inline-block", }}
-        >
-            <Link to={"/goods/" + elem.key}>
-                <img alt="商品图片" src={config.url.root + elem.commodityCoverPicUrl} style={{ width: 200, height: 200, marginLeft: -20, marginTop: -20 }} />
-            </Link>
-            <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key}>
-
+            <Card key={elem.key}
+                style={{ margin: "20px", height: 310, width: 210, display: "inline-block", }}
+            >
                 <Link to={"/goods/" + elem.key}>
-                    <Paragraph ellipsis={true}>
-                        <Tooltip title={elem.commodityInfo}>
-                            <font style={{ color: "blue" }}>
-                                {elem.commodityInfo}
-                            </font>
-                        </Tooltip>
-                    </Paragraph>
+                    <img alt="商品图片" src={config.url.root + elem.commodityCoverPicUrl} style={{ width: 200, height: 200, marginLeft: -20, marginTop: -20 }} />
                 </Link>
+                <div style={{ height: 140, width: 200, textAlign: "left", marginLeft: -20, }} className={elem.key}>
 
-                <p style={{ margin: -2, marginTop: -10, marginLeft: 2 }}>
-                    <font style={{ color: "orange", fontSize: 20 }}>
-                        {"￥" + elem.price}
-                    </font>
-                </p>
+                    <Link to={"/goods/" + elem.key}>
+                        <Paragraph ellipsis={true}>
+                            <Tooltip title={elem.commodityInfo}>
+                                <font style={{ color: "blue" }}>
+                                    {elem.commodityInfo}
+                                </font>
+                            </Tooltip>
+                        </Paragraph>
+                    </Link>
 
-                <p style={{ margin: -2, marginLeft: 2 }}>
-                    {elem.onShelves ? "上架量:" + elem.remaining : "未上架"}
-                </p>
+                    <p style={{ margin: -2, marginTop: -10, marginLeft: 2 }}>
+                        <font style={{ color: "orange", fontSize: 20 }}>
+                            {"￥" + elem.price}
+                        </font>
+                    </p>
+                    
+                    <p style={{ margin: -2, marginLeft: 2, display: "inline-block", }}>
+                        {"库存量:" + elem.inventory}
+                    </p>
 
-                <p style={{ margin: -2, marginLeft: 2 }}>
-                    {"库存量:" + elem.inventory}
-                </p>
+                    <p style={{ position: "relative", left: 5, margin: -2, marginLeft: 2, display: "inline-block", }}>
+                        {elem.onShelves ? "上架量:" + elem.remaining : "未上架"}
+                    </p>
 
-                <Button size="small" type="primary" style={{ position: "absolute", display: "block", marginTop: -10, bottom: 1, right: 1 }} 
-                    onClick={this.handleRemove}
-                >
-                    删除商品
+                    
+
+                    <Button size="small" type="primary" style={{ position: "absolute", display: "block", marginTop: -10, bottom: 1, right: 1 }}
+                        onClick={this.handleRemove}
+                    >
+                        删除商品
                 </Button>
-            </div>
-        </Card>);
+                </div>
+            </Card>);
     }
 
     render() {
-        /* 卡片模型 */
-        const GoodsList = this.state.goodsList.length === 0 ? '': this.state.goodsList.map((elem) => (
-                this.GoodsItems(elem)
-            )
-        );
+        /* 卡片模型 
+        const GoodsList = this.state.goodsList.length === 0 ? '' : this.state.goodsList.map((elem) => (
+            this.GoodsItems(elem)
+        )
+        );*/
 
         return (
-            <div >
-                <div >
-                    <h2 style={{ textAlign: "center" }} >商品信息</h2>
-                    <Button  type="primary"
-                        style = {{marginLeft: 100, marginBottom: 20}}
-                        onClick = {()=>{
-                            this.setState({
-                                visible: true,
-                            })
-                        }}
-                    >
-                    增加商品
-                    </Button>
-                    {/* 新建商品的弹窗 */}
-                    <Modal title="新增输入框"
-                        visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={() => {this.setState({ visible:false })}}
-                        cancelText="取消" okText="确认"
-                    >
-                    <div style={{position: "relative", width: "60%", left: "20%", textAlign:"center"}}>
-                        <h1>商品信息</h1>
-                        {/* 商品信息输入 */}
-                        <TextArea placeholder="商品信息描述" style={{margin:"10px"}}
-                            value={this.state.goods.commodityInfo} 
-                            onChange= {(e) => {this.handleChange(e, "commodityInfo")}}>
-                        </TextArea>
-                        <Input  addonBefore="商品价格" style={{margin:"10px"}}
-                            value={this.state.goods.price}
-                            onChange= {(e) => {this.handleChange(e, "price")}}>
-                        </Input>
-                        <Input  addonBefore="商品库存" style={{margin:"10px"}}
-                            value={this.state.goods.inventory}
-                            onChange= {(e) => {this.handleChange(e, "inventory")}}>
-                        </Input> 
-                        <Radio.Group value={this.state.goods.onShelves}
-                            onChange= {(e) => {this.handleChange(e, "onShelves")}}
-                        >
-                            <Radio value={true} defaultChecked={true}>上架</Radio>
-                            <Radio value={false}>不上架</Radio>
-                        </Radio.Group>
-                        <Input  addonBefore="上架数量" style={{margin:"10px"}}
-                            value={this.state.goods.remaining}
-                            disabled={!this.state.goods.onShelves}
-                            onChange= {(e) => {this.handleChange(e, "remaining")}}>
-                        </Input>
-                    </div>
-                    </Modal>
-                </div>
-                <ul>{ GoodsList }</ul>
-            </div>
+            <Layout style={{ background: '#fff'}}>
+                <Header style={{ height: 50, background: "#fff"}}>
+                    <Menu theme="light" >
+                        <Menu.Item key="0" style={{display: "inline", marginRight: 50, background: "#000", }}>
+                        <Link to="/goodsManage/" style={{display: "inline", color: "#fff"}}>商品分类</Link>
+                        </Menu.Item>
+                        <Menu.Item key="1" style={{display: "inline"}}>
+                        <Link to="/goodsManage/NewGoods" style={{display: "inline"}}>增加商品</Link>
+                        </Menu.Item>
+                        <Menu.Item key="2" style={{display: "inline"}}>
+                        <Link to="/goodsManage/NewGoods" style={{display: "inline"}}>酒厂进货</Link>
+                        </Menu.Item>
+                        <Menu.Item key="3" style={{display: "inline"}}>
+                        增加标签
+                        </Menu.Item>
+                        <Menu.Item key="4" style={{display: "inline"}}>
+                        更改标签
+                        </Menu.Item>
+                    </Menu>
+                </Header>
+                <Layout >
+                    <Content style={{background: '#fff'}}>
+                        <Switch>
+                            <Route exact path={"/goodsManage/"} 
+                                render={(props) => <GoodsList {...props} goodsList={this.state.goodsList} />} 
+                            />
+                            <Route exact path={"/goodsManage/NewGoods/"} component={NewGoods}></Route>
+                            <Route exact path={"/goodsManage/TagManage/"} component={TagManage}></Route>
+                        </Switch>
+                        
+                    </Content>
+                </Layout>
+            </Layout>
         );
     }
 
-    
+
 }
 
 export default GoodsManage;

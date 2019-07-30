@@ -186,7 +186,7 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/du/commodity/classes")
+    @GetMapping("/api/du/commodities/classes")
     public List<CommodityClass> getAllClasses(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
@@ -197,9 +197,13 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/api/d/commodity/classes")
-    public List<CommodityClass> getAllClassesByDealer(@RequestParam("storeId") Long storeId) {
-        return commodityService.getCommodityClassInStore(storeId);
+    @GetMapping("/api/d/commodities/classes")
+    public List<CommodityClass> getAllClassesByDealer(HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        if (storeId!=null){
+            return commodityService.getCommodityClassInStore(storeId);
+        }
+        return new ArrayList<>();
     }
 
     /**
@@ -208,7 +212,7 @@ public class CommodityController {
      * @param storeId 店铺id
      * @return 对应店铺中所有的商品类别
      */
-    @GetMapping("/commodity/classes")
+    @GetMapping("/api/u/commodities/classes")
     public List<CommodityClass> getAllClassesByUser(@RequestParam("storeId") Long storeId) {
         return commodityService.getCommodityClassInStore(storeId);
     }
@@ -220,7 +224,7 @@ public class CommodityController {
      * @param session   session
      * @return 放回新生成的商品类别id
      */
-    @PostMapping("/api/d/commodity/classes")
+    @PostMapping("/api/d/commodities/classes")
     public Long AddNewClass(@RequestParam("classInfo") String classInfo, HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId == null) {
@@ -236,7 +240,7 @@ public class CommodityController {
      * @param newClassInfo     商品类别信息
      * @return UPDATE
      */
-    @PutMapping("/api/d/commodity/classes")
+    @PutMapping("/api/d/commodities/classes")
     public String updateClass(@RequestParam("commodityClassId") Long commodityClassId, @RequestParam("classInfo") String newClassInfo) {
         commodityService.updateCommodityClass(commodityClassId, newClassInfo);
         return "UPDATE";
@@ -248,7 +252,7 @@ public class CommodityController {
      * @param commodityClassId 商品类别id
      * @return DELETE
      */
-    @DeleteMapping("/api/d/commodity/classes")
+    @DeleteMapping("/api/d/commodities/classes")
     public String deleteClass(@RequestParam("commodityClassId") Long commodityClassId) {
         commodityService.deleteCommodityClass(commodityClassId);
         return "DELETE";

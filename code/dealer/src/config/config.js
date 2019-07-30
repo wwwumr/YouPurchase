@@ -42,6 +42,7 @@ var config = {
             "onShelves": true,
             "inventory": null,
             "remaining": null,
+            
         },
     },
     /* 订单信息 */
@@ -96,6 +97,12 @@ var config = {
         goods: root + "api/d/commodities/",
         goodsP: root + "api/d/commodities/",
         updateGoodsCover: root + "api/d/commodities/cover/",
+        goodsClass: {
+            get: root + "api/d/commodities/classes/",
+            post: root + "api/d/commodities/classes/",
+            put: root + "api/d/commodities/classes/",
+            delete: root + "api/d/commodities/classes/",
+        },  
         /* root1 */
         root1: root1,
         orderInfo: root1 + "order/storeCheck/",

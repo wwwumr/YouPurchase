@@ -21,4 +21,9 @@ public class SenderTest extends RabbitTestApplicationTests {
     public void send3(){
         amqpTemplate.convertAndSend("myQueue3", "3 now " + new Date());
     }
+
+    @Test
+    public void send4() {
+        amqpTemplate.convertAndSend("myQueue4", 1234L);
+    }
 }
