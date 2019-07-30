@@ -55,10 +55,7 @@ class GoodsManage extends React.Component {
                         <Link to="/goodsManage/NewGoods/" style={{display: "inline"}}>酒厂进货</Link>
                         </Menu.Item>
                         <Menu.Item key="3" style={{display: "inline"}}>
-                        增加标签
-                        </Menu.Item>
-                        <Menu.Item key="4" style={{display: "inline"}}>
-                        更改标签
+                        <Link to="/goodsManage/TagManage/" style={{display: "inline"}}>标签管理</Link>
                         </Menu.Item>
                     </Menu>
                 </Header>

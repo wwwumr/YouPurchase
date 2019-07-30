@@ -14,7 +14,7 @@ export default class NewGoods extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1,
+            step: 0,
             goods: Object.assign({}, config.goods.originGoods),
         }
     }
@@ -139,12 +139,12 @@ export default class NewGoods extends React.Component {
 
     /**
      * @description 设定商品信息
-     * @param  { int } classId
+     * @param  { int } commodityClassId
      * @param  { string } classInfo
      */
-    setClass = (classId, classInfo) => {
+    setClass = (commodityClassId, classInfo) => {
         let goods = this.state.goods;
-        goods.classId = classId;
+        goods.classId = commodityClassId;
         goods.classInfo = classInfo;
         this.setState({
             goods: goods,

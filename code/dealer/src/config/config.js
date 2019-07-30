@@ -45,6 +45,7 @@ var config = {
             "classId": null,
             "classInfo": '',
         },
+        defaultClassName: "其它",
     },
     /* 订单信息 */
     orderInfo: {
