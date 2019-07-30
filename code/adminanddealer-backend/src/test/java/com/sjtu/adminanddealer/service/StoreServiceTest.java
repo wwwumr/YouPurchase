@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mock.web.MockMultipartFile;
@@ -35,8 +36,9 @@ import static org.mockito.BDDMockito.given;
  */
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-@WebMvcTest(StoreService.class)
-@AutoConfigureMockMvc
+//@WebMvcTest(StoreService.class)
+//@AutoConfigureMockMvc
+@SpringBootTest
 public class StoreServiceTest {
 
     @MockBean
