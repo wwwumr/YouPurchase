@@ -17,6 +17,8 @@ public class OrderInfoDTO {
 
     private int status;
 
+    private String OrderNo;
+
     private String storeName;
 
     private String tarPeople;
@@ -40,6 +42,14 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+
+    public String getOrderNo() {
+        return OrderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        OrderNo = orderNo;
+    }
 
     public int getStatus() {
         return status;

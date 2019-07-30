@@ -42,8 +42,10 @@ var config = {
             "onShelves": true,
             "inventory": null,
             "remaining": null,
-            
+            "classId": null,
+            "classInfo": '',
         },
+        defaultClassName: "其它",
     },
     /* 订单信息 */
     orderInfo: {

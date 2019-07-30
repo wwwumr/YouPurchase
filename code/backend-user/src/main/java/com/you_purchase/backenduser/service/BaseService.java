@@ -95,6 +95,22 @@ public class BaseService {
         }
     }
 
+    //生成订单号
+    public String createOrderId(){
+        Date date=new Date();
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String time = format.format(date);
+        int hashfirst = time.toString().hashCode();
+        if(hashfirst<0){
+            hashfirst = -hashfirst;
+        }
+        int hashCodeV = UUID.randomUUID().toString().hashCode();
+        if (hashCodeV < 0) {//有可能是负数
+            hashCodeV = -hashCodeV;
+        }
+        return String.format("011d",hashfirst) + String.format("%011d", hashCodeV);
+    }
+
     //orderCheck
     protected List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
@@ -104,6 +120,7 @@ public class BaseService {
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setStoreId(s.getStoreId());
             orderInfoDTO.setStatus(s.getStatus());
+            orderInfoDTO.setOrderNo(s.getOrderInfoNo());
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());

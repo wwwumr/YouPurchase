@@ -29,8 +29,10 @@ public class Store {
     @Column(nullable = false)
     private String address;
 
+    // 经度
     private double longitude;
 
+    // 纬度
     private double latitude;
 
     @Column(nullable = false)
@@ -46,6 +48,9 @@ public class Store {
     // 店铺的配送方式：0表示自己配送，1表示使用外部配送（蜂鸟）
     private Integer deliveryType;
 
+    // 店铺的配送范围，用double表示，单位为km
+    private double deliveryRange;
+
     @OneToOne
     @JsonIgnoreProperties(value = {"store"})
     @JoinColumn(name = "dealerId")
@@ -60,7 +65,7 @@ public class Store {
     public Store() {
     }
 
-    public Store(String storeName, String coverPicUrl, String address, double longitude, double latitude, String contact, Date openHourStart, Date openHourEnd, boolean attached, Integer deliveryType, Dealer dealer, List<Commodity> commodityList) {
+    public Store(String storeName, String coverPicUrl, String address, double longitude, double latitude, String contact, Date openHourStart, Date openHourEnd, boolean attached, Integer deliveryType, double deliveryRange, Dealer dealer, List<Commodity> commodityList) {
         this.storeName = storeName;
         this.coverPicUrl = coverPicUrl;
         this.address = address;
@@ -71,6 +76,7 @@ public class Store {
         this.openHourEnd = openHourEnd;
         this.attached = attached;
         this.deliveryType = deliveryType;
+        this.deliveryRange = deliveryRange;
         this.dealer = dealer;
         this.commodityList = commodityList;
     }
@@ -164,6 +170,14 @@ public class Store {
         this.deliveryType = deliveryType;
     }
 
+    public double getDeliveryRange() {
+        return deliveryRange;
+    }
+
+    public void setDeliveryRange(double deliveryRange) {
+        this.deliveryRange = deliveryRange;
+    }
+
     public Dealer getDealer() {
         return dealer;
     }
@@ -196,6 +210,7 @@ public class Store {
                     ", openHourEnd=" + openHourEnd +
                     ", attached=" + attached +
                     ", deliveryType=" + deliveryType +
+                    ", deliveryRange=" + deliveryRange +
                     ", dealer=" + dealer +
                     ", commodityList=" + commodityList +
                     '}';
@@ -212,6 +227,7 @@ public class Store {
                     ", openHourEnd=" + openHourEnd +
                     ", attached=" + attached +
                     ", deliveryType=" + deliveryType +
+                    ", deliveryRange=" + deliveryRange +
                     ", dealer=null" +
                     ", commodityList=" + commodityList +
                     '}';

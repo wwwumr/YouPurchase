@@ -8,6 +8,8 @@ import java.util.List;
 public class OrderPayDTO {
     private  long orderPayId;
 
+    private String orderNo;
+
     private String createDate;
 
     private double totalPrice;
@@ -19,6 +21,7 @@ public class OrderPayDTO {
         if(orderInfo != null){
             this.setOrderPayId(orderInfo.getOrderInfoId());
             this.setCreateDate(createDate);
+            this.setOrderNo(orderInfo.getOrderInfoNo());
             this.setTotalPrice(orderInfo.getTotalPrice());
         }
         this.shortageDTOS = dtos;
@@ -27,6 +30,15 @@ public class OrderPayDTO {
 
 
     //getter and setter
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
     public long getOrderPayId() {
         return orderPayId;
     }

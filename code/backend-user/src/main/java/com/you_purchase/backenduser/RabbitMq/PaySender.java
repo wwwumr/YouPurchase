@@ -16,8 +16,8 @@ public class PaySender {
     private AmqpTemplate rabbitTemplate;
 
     public void send(long id) {
-        //String context = "订单为" + id + "的订单已经支付完成了";
-        //System.out.println("Sender : " + context);
+        String context = "订单为" + id + "的订单已经支付完成了";
+        System.out.println("Sender : " + context);
         this.rabbitTemplate.convertAndSend("pay", id);
     }
 

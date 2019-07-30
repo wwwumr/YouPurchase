@@ -33,7 +33,8 @@ public class OrderInfoService extends BaseService {
             return null;
         }
         Date date = strToDate(sDate);
-        orderInfo.setOrderInfo(orderInfoParameter,date);
+        String orderNo = createOrderId();
+        orderInfo.setOrderInfo(orderInfoParameter,date,orderNo);
         long orderInfoId = orderInfo.getOrderInfoId();
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
@@ -68,6 +69,7 @@ public class OrderInfoService extends BaseService {
     }
 
 
+    //用户查看所有订单
     public List<OrderInfoDTO> OrderUserCheck(OrderInfoCheckParameter orderInfoCheckParameter){
         List<OrderInfo> orderInfos = orderInfoDao.findByUserIdAndValid(orderInfoCheckParameter.getId(),true);
         if(orderInfos ==null){
