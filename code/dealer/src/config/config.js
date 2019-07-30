@@ -42,7 +42,8 @@ var config = {
             "onShelves": true,
             "inventory": null,
             "remaining": null,
-            
+            "classId": null,
+            "classInfo": '',
         },
     },
     /* 订单信息 */

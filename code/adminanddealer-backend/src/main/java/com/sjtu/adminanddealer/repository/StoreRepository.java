@@ -43,4 +43,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Modifying
     @Query(value = "update `store` set `delivery_type` = :deliveryType where `store_id` = :storeId", nativeQuery = true)
     void updateStoreDelivery(@Param("deliveryType") Integer type, @Param("storeId") Long storeId);
+
+    List<Store> getStoresByLongitudeBetweenAndLatitudeBetween(double longitude1, double longitude2, double latitude1, double latitude2);
 }

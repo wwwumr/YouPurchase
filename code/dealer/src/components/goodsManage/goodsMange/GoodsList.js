@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Button, Typography, Tooltip, Layout, Menu } from 'antd';
+import { Card, Button, Typography, Tooltip, Layout, Menu, message } from 'antd';
 import axios from 'axios';
 import config from '../../../config/config';
 
@@ -15,7 +15,7 @@ export default class GoodsList extends React.Component {
             goodsList: [],
             goodsClass: [],
             targetClassId: null,
-            targetGoods: [],
+            targetGoodsList: [],
         }
     }
 
@@ -28,7 +28,7 @@ export default class GoodsList extends React.Component {
             .then(res => {
                 this.setState({
                     goodsList: res.data,
-                    targetGoods: res.data,
+                    targetGoodsList: res.data,
                 })
             })
             .catch(err => {
@@ -45,16 +45,47 @@ export default class GoodsList extends React.Component {
                 console.log(err.message)
             })
     }
+
+    /**
+     * @description 删除商品的按钮触发的事件
+     * @param  { event } e
+     */
+     handleRemove = (e) => {
+        const key = parseInt(e.target.parentNode.className);
+        let goodsList = this.state.goodsList.filter((elem) => {
+            return elem.key !== key;
+        })
+        let targetGoodsList = this.state.targetGoodsList.filter((elem) => {
+            return elem.key !== key;
+        })
+        this.setState({
+            goodsList: goodsList,
+            targetGoodsList: targetGoodsList,
+        })
+        axios
+            .delete(config.url.goods, {
+                data: [key],
+            })
+            .then(res => {
+                if (res.data && res.data === "DELETE") {
+                    message.success("删除成功");
+                }
+            })
+            .catch(err => {
+                console.log(err.message);
+            })
+    }
+
     /**
      * @description 处理侧边栏选定商品类别
      * @param  {event} e
      */
     handleSelectClass = (e) => {
-        let targetGoods = this.state.goodsList.filter((elem) => {
+        let targetGoodsList = this.state.goodsList.filter((elem) => {
             return elem.classId === parseInt(e.key);
         })
         this.setState({
-            targetGoods: targetGoods,
+            targetGoodsList: targetGoodsList,
             targetClassId: parseInt(e.key),
         })
     }
@@ -63,9 +94,9 @@ export default class GoodsList extends React.Component {
      * @description 恢复侧边栏默认商品
      */
     handleDefaultClass = () => {
-        let targetGoods = this.state.goodsList;
+        let targetGoodsList = this.state.goodsList;
         this.setState({
-            targetGoods: targetGoods,
+            targetGoodsList: targetGoodsList,
             targetClassId: null,
         })
     }
@@ -142,8 +173,8 @@ export default class GoodsList extends React.Component {
             <Content style={{background: '#fff'}}>
                 {/* 动态生成对应类别的商品 */}
                 <ul>
-                {this.state.targetGoods.length === 0 ? '' : 
-                    this.state.targetGoods.map((elem) => (
+                {this.state.targetGoodsList.length === 0 ? '' : 
+                    this.state.targetGoodsList.map((elem) => (
                     this.GoodsItems(elem)
                 ))}
                 </ul>

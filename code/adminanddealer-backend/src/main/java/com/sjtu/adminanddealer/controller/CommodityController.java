@@ -200,7 +200,7 @@ public class CommodityController {
     @GetMapping("/api/d/commodities/classes")
     public List<CommodityClass> getAllClassesByDealer(HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
-        if (storeId!=null){
+        if (storeId != null) {
             return commodityService.getCommodityClassInStore(storeId);
         }
         return new ArrayList<>();

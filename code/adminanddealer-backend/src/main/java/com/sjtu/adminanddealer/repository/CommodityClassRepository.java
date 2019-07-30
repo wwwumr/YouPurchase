@@ -16,6 +16,8 @@ public interface CommodityClassRepository extends CrudRepository<CommodityClass,
 
     CommodityClass getCommodityClassesByCommodityClassId(Long commodityClassId);
 
+    CommodityClass getCommodityClassesByStoreIdAndClassInfo(Long storeId, String classInfo);
+
     List<CommodityClass> getCommodityClassesByStoreId(Long storeId);
 
     @Transactional
