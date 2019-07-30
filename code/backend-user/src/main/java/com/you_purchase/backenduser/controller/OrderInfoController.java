@@ -50,7 +50,7 @@ public class OrderInfoController extends BaseController{
     @RequestMapping(value = "/order/userStatusCheck",method = RequestMethod.POST)
     public
     @ResponseBody
-    @ApiOperation(value = "用户查看订单")
+    @ApiOperation(value = "用户查看状态订单")
     List<OrderInfoDTO> OrderUserStatusCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
         System.out.println(orderInfoCheckParameter.getId());
         return orderInfoService.OrderUserStatusCheck(orderInfoCheckParameter);

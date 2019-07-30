@@ -5,6 +5,7 @@ package com.you_purchase.backenduser.BaseTest;
 //User底层逻辑测试
 import com.you_purchase.backenduser.dao.*;
 import com.you_purchase.backenduser.entity.Commodity;
+import com.you_purchase.backenduser.entity.Dealer;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.UserModifyParameter;
@@ -20,17 +21,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
-@Transactional
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserBaseTest {
+public class AllBaseTest {
 
     @Autowired
     public UserDao userDao;
@@ -80,6 +80,7 @@ public class UserBaseTest {
         System.out.println(currentTime_2);
     }
 
+    //add用户
     @Test
     public void insertUser(){
         User user = new User();
@@ -96,6 +97,25 @@ public class UserBaseTest {
         userDao.save(user);
     }
 
+    //生成订单号
+    @Test
+    public void createOrderId(){
+        Date date=new Date();
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String time = format.format(date);
+        int hashfirst = time.toString().hashCode();
+        if(hashfirst<0){
+            hashfirst = -hashfirst;
+        }
+        System.out.println(hashfirst);
+        int hashCodeV = UUID.randomUUID().toString().hashCode();
+        if (hashCodeV < 0) {//有可能是负数
+            hashCodeV = -hashCodeV;
+        }
+        System.out.println(String.format("011d",hashfirst) + String.format("%011d", hashCodeV));
+    }
+
+    //add商品
     @Test
     @Rollback(false)
     public void insertCommodity(){
@@ -107,6 +127,8 @@ public class UserBaseTest {
         commodity.setCommodityInfo("龙鳞楔形石");
         commodityDao.save(commodity);
     }
+
+    //add经销商
 
 
 

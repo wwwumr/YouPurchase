@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * 经销商对应的实体类
@@ -25,8 +26,9 @@ public class Dealer {
     @Column(nullable = false, length = 31)
     private String password;
 
-    @Column(nullable = false)
-    private String address;
+    private Integer gender;
+
+    private Date birthday;
 
     @Column(nullable = false, length = 31)
     private String realName;
@@ -48,10 +50,11 @@ public class Dealer {
     public Dealer() {
     }
 
-    public Dealer(String userName, String password, String address, String realName, String contact, String avatar, boolean attached, Store store) {
+    public Dealer(String userName, String password, Integer gender, Date birthday, String realName, String contact, String avatar, boolean attached, Store store) {
         this.userName = userName;
         this.password = password;
-        this.address = address;
+        this.gender = gender;
+        this.birthday = birthday;
         this.realName = realName;
         this.contact = contact;
         this.avatar = avatar;
@@ -84,12 +87,20 @@ public class Dealer {
         this.password = password;
     }
 
-    public String getAddress() {
-        return address;
+    public Integer getGender() {
+        return gender;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getRealName() {
@@ -140,7 +151,8 @@ public class Dealer {
                     "dealerId=" + dealerId +
                     ", userName='" + userName + '\'' +
                     ", password='" + password + '\'' +
-                    ", address='" + address + '\'' +
+                    ", gender=" + gender +
+                    ", birthday=" + birthday +
                     ", realName='" + realName + '\'' +
                     ", contact='" + contact + '\'' +
                     ", avatar='" + avatar + '\'' +
@@ -152,7 +164,8 @@ public class Dealer {
                     "dealerId=" + dealerId +
                     ", userName='" + userName + '\'' +
                     ", password='" + password + '\'' +
-                    ", address='" + address + '\'' +
+                    ", gender=" + gender +
+                    ", birthday=" + birthday +
                     ", realName='" + realName + '\'' +
                     ", contact='" + contact + '\'' +
                     ", avatar='" + avatar + '\'' +

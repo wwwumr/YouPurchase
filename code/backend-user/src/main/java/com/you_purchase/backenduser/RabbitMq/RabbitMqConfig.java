@@ -27,5 +27,19 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(payFinish()).to(payExchange());
     }
 
+    //订单管理队列
+    @Bean
+    public Queue orderAdd(){
+        return new Queue("orderAdd");
+    }
+    @Bean
+    public FanoutExchange orderExchange(){
+        return new FanoutExchange("orderExchange");
+    }
+    @Bean
+    public Binding orderBinding(){
+        return BindingBuilder.bind(orderAdd()).to(orderExchange());
+    }
+
 
 }

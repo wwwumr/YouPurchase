@@ -22,6 +22,9 @@ public class OrderInfo {
     //执行状态，0：未支付 1：待发货 2：配送中 3：已送达
     private int status;
 
+    //订单号
+    private String orderInfoNo;
+
     //收货者信息
     private String tarPeople;
 
@@ -42,13 +45,14 @@ public class OrderInfo {
     private Long deliveryAddressId;
 
 
-    public void setOrderInfo(OrderInfoParameter orderInfoParameter,Date date){
+    public void setOrderInfo(OrderInfoParameter orderInfoParameter,Date date,String orderNo){
         this.setValid(true);
         this.setJudged(false);
         this.setStatus(0);
         this.setUserId(orderInfoParameter.getUserId());
         this.setStoreId(orderInfoParameter.getStoreId());
         this.setTotalPrice(orderInfoParameter.getTotalPrice());
+        this.setOrderInfoNo(orderNo);
         this.setCreateDate(date);
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
@@ -60,6 +64,15 @@ public class OrderInfo {
 
 
     //getter and setter
+
+
+    public String getOrderInfoNo() {
+        return orderInfoNo;
+    }
+
+    public void setOrderInfoNo(String orderInfoNo) {
+        this.orderInfoNo = orderInfoNo;
+    }
 
     public String getTarPeople() {
         return tarPeople;
