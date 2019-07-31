@@ -45,9 +45,20 @@ public interface CommodityService {
      * 添加一个新商品.
      *
      * @param commodityParameter 前端发送的商品数据
+     * @param storeId 店铺id
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
     JSONObject addACommodity(CommodityParameter commodityParameter, Long storeId);
+
+    /**
+     * 添加酒类的新商品
+     * 设置商品的类别为酒
+     *
+     * @param commodityParameter 前端发送的商品数据
+     * @param storeId            店铺id
+     * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
+     */
+    JSONObject addAlcohol(CommodityParameter commodityParameter, Long storeId);
 
     /**
      * 修改一个商品的信息.

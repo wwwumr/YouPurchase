@@ -1,9 +1,6 @@
 package com.sjtu.adminanddealer.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 管理员可以自己添加的酒类别
@@ -14,6 +11,7 @@ import javax.persistence.Id;
 public class Alcohol {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "alcoholId")
     private Long alcoholId;
 
     private String alcoholInfo;

@@ -36,10 +36,10 @@ import java.util.List;
 @Service
 public class StoreServiceImpl implements StoreService {
 
-    // 当配送距离为20公里时，需要修正的经纬度范围；
+    // 当配送距离为20公里时，需要修正的经纬度范围(0.216000)；
     // 用户所在的坐标，加减这个偏移量，即为地图上正方形区域内20公里的范围
     // 在选择店铺时，可以针对经纬度做偏移计算，防止便利所有店铺
-    private final double POSITION_OFFSET = 0.216000;
+    private final double POSITION_OFFSET = 0.1;
     @Autowired
     private StoreDao storeDao;
     @Autowired
@@ -87,11 +87,12 @@ public class StoreServiceImpl implements StoreService {
             double deliveryRange = s.getDeliveryRange();
             double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
             if (deliveryRange >= distance) {
-                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
+//                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
                 BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
                 double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
-                dtos.add(dto);
+                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
+//            SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
+            dtos.add(dto);
             }
         }
         return dtos;

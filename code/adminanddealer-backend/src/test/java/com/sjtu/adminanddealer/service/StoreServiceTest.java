@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.Commodity;
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mock.web.MockMultipartFile;
@@ -34,8 +36,9 @@ import static org.mockito.BDDMockito.given;
  */
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-@WebMvcTest(StoreService.class)
-@AutoConfigureMockMvc
+//@WebMvcTest(StoreService.class)
+//@AutoConfigureMockMvc
+@SpringBootTest
 public class StoreServiceTest {
 
     @MockBean
@@ -43,6 +46,9 @@ public class StoreServiceTest {
 
     @MockBean
     private DealerDao dealerDao;
+
+    @MockBean
+    private CommodityDao commodityDao;
 
     @MockBean
     private FileUploadUtil fileUploadUtil;

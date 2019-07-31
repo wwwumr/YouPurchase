@@ -86,12 +86,26 @@ public class CommodityController {
      * 新增商品信息的逻辑.
      *
      * @param data 前端发送的数据
+     * @param session session
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
     @PostMapping("/api/d/commodities")
     public JSONObject addCommodity(@RequestBody CommodityParameter data, HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         return commodityService.addACommodity(data, storeId);
+    }
+
+    /**
+     * 新增酒类商品
+     *
+     * @param data    前端发送的数据
+     * @param session session
+     * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
+     */
+    @PostMapping("/api/d/commodities/alcohol")
+    public JSONObject addAlcohol(@RequestBody CommodityParameter data, HttpSession session) {
+        Long storeId = (Long) session.getAttribute("storeId");
+        return commodityService.addAlcohol(data, storeId);
     }
 
     /**

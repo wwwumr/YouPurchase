@@ -131,6 +131,8 @@ public class BaseService {
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setTarLongitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLongitude());
+            orderInfoDTO.setTarLatitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLatitude());
             orderInfoDTO.setJudged(s.isJudged());
             String date = datToStr(s.getCreateDate());
             orderInfoDTO.setCreateDate(date);
