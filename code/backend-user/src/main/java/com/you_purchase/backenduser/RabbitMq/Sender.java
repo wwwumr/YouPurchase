@@ -1,5 +1,6 @@
 package com.you_purchase.backenduser.RabbitMq;
 
+import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,8 @@ public class Sender {
         this.amqpTemplate.convertAndSend("pay", id);
     }
 
-    public void orderSend(TestOrder testOrder){
-        System.out.println("sender: "+testOrder.toString());
-        this.amqpTemplate.convertAndSend("orderAdd",testOrder);
+    public void orderSend(OrderInfoParameter orderInfoParameter){
+        System.out.println("sender: "+orderInfoParameter.getCreateDate());
+        this.amqpTemplate.convertAndSend("orderAdd",orderInfoParameter);
     }
 }

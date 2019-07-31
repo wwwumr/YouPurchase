@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -27,6 +29,7 @@ public class OrderInfoController extends BaseController{
     OrderPayDTO addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
         return orderInfoService.addOrder(orderInfoParameter);
     }
+
 
     //用户支付订单
     @RequestMapping(value = "/order/pay",method = RequestMethod.POST)
@@ -56,22 +59,31 @@ public class OrderInfoController extends BaseController{
         return orderInfoService.OrderUserStatusCheck(orderInfoCheckParameter);
     }
 
-    //商家查看订单
-    @RequestMapping(value = "/order/storeCheck",method = RequestMethod.POST)
+    //商家查看所有订单
+    @RequestMapping(value = "/order/storeCheck",method = RequestMethod.GET)
     public
     @ResponseBody
     @ApiOperation(value = "商户查看订单")
-    List<OrderInfoDTO> OrderStoreCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
-        return orderInfoService.OrderStoreCheck(orderInfoCheckParameter);
+    List<OrderInfoDTO> OrderStoreCheck(HttpSession session){
+        if(session.getAttribute("storeId") == null){
+            return null;
+        }
+        long storeId = (long) session.getAttribute("storeId");
+
+        return orderInfoService.OrderStoreCheck(storeId);
     }
 
     //商家查看不同状态订单
-    @RequestMapping(value = "/order/storeStatusCheck",method = RequestMethod.POST)
+    @RequestMapping(value = "/order/storeStatusCheck",method = RequestMethod.GET)
     public
     @ResponseBody
     @ApiOperation(value = "商家查看不同状态订单")
-    List<OrderInfoDTO> OrderStoreStatusCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
-        return orderInfoService.OrderStoreStatusCheck(orderInfoCheckParameter);
+    List<OrderInfoDTO> OrderStoreStatusCheck(int status,HttpSession session){
+        if(session.getAttribute("storeId")==null){
+            return null;
+        }
+        long storeId = (long) session.getAttribute("storeId");
+        return orderInfoService.OrderStoreStatusCheck(storeId,status);
     }
 
     //商家查看指定时间段的订单
@@ -79,8 +91,25 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "商家查看指定时段的订单")
-    List<OrderInfoDTO> OrderStoreDateCheck(@RequestBody OrderInfoDateCheckParameter orderInfoDateCheckParameter){
-        return orderInfoService.OrderStoreDateCheck(orderInfoDateCheckParameter);
+    List<OrderInfoDTO> OrderStoreDateCheck(@RequestBody OrderInfoDateCheckParameter orderInfoDateCheckParameter, HttpSession session){
+        if(session.getAttribute("storeId")==null){
+            return null;
+        }
+        long storeId = (long) session.getAttribute("storeId");
+        return orderInfoService.OrderStoreDateCheck(orderInfoDateCheckParameter,storeId);
+    }
+
+    //根据订单id查看订单
+    @RequestMapping(value = "/order/check",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "根据id查看订单" )
+    OrderInfoDTO OrderInfoCheck(long orderInfoId, HttpSession session){
+        if(session.getAttribute("storeId")==null){
+            return null;
+        }
+        long storeId = (long) session.getAttribute("storeId");
+        return orderInfoService.OrderInfoCheck(orderInfoId,storeId);
     }
 
     //商家修改订单状态
@@ -88,7 +117,11 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "商户修改订单状态")
-    int OrderInfoModify(long orderInfoId,int status){
+    int OrderInfoModify(long orderInfoId,int status,HttpSession session){
+        if(session.getAttribute("storeId")==null){
+            return 403;
+        }
+        long storeId = (long) session.getAttribute("storeId");
         return  orderInfoService.OrderInfoModify(orderInfoId,status);
     }
 
@@ -97,7 +130,11 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "删除订单")
-    int OrderInfoDelete(long orderInfoId){
-        return orderInfoService.OrderInfoDelete(orderInfoId);
+    int OrderInfoDelete(long orderInfoId,HttpSession session){
+        if(session.getAttribute("storeId")==null){
+            return 403;
+        }
+        long storeId = (long) session.getAttribute("storeId");
+        return orderInfoService.OrderInfoDelete(orderInfoId,storeId);
     }
 }

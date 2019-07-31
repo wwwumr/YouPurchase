@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiParam;
 
 //前端查看特定日期段内的订单
 public class OrderInfoDateCheckParameter {
-    private long storeId;
 
     //开始日期
     @ApiParam(value = "开始日期")
@@ -18,13 +17,6 @@ public class OrderInfoDateCheckParameter {
 
 
     //getter and setter
-    public long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(long storeId) {
-        this.storeId = storeId;
-    }
 
     public String getsDate() {
         return sDate;

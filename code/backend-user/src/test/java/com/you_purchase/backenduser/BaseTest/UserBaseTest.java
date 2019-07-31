@@ -34,7 +34,7 @@ public class UserBaseTest {
     public OrderInfoDao orderInfoDao;
 
 
-    @Test
+/*    @Test
     @Rollback(false)
     public void insertOrderInfo(){
         OrderInfo orderInfo = new OrderInfo();
@@ -44,7 +44,7 @@ public class UserBaseTest {
         orderInfo.setCreateDate("01/01/2019");
         orderInfo.setUserId(4000);
         orderInfoDao.save(orderInfo);
-    }
+    }*/
 
 
     @Test
@@ -86,7 +86,7 @@ public class UserBaseTest {
         Assert.assertEquals(user.getUserId(),5);
     }
 
-    @Test
+/*    @Test
     public void testAddUser(){
         User user = new User();
         UserRegParameter userRegParameter = new UserRegParameter();
@@ -99,7 +99,7 @@ public class UserBaseTest {
         Assert.assertEquals(user1.getPhone(),"000000");
         Assert.assertEquals(user1.getRegDate(),"11/07/2019");
         Assert.assertEquals(user1.isValid(),false);
-    }
+    }*/
     @Test
     public void testSetInfo(){
         UserModifyParameter userModifyParameter  = new UserModifyParameter();

@@ -24,13 +24,13 @@ public class PayTest {
         sender.paySend(i);}
     }
 
-    @Test
+/*    @Test
     public  void orderAdd() throws Exception{
         TestOrder testOrder = new TestOrder();
         testOrder.setCreateDate("2019-01-01");
         testOrder.setStoreId(2);
         testOrder.setUserId(3);
         testOrder.setTarAddress("祭祀场");
-        sender.orderSend(testOrder);
-    }
+        sender.orderSend(Order);
+    }*/
 }

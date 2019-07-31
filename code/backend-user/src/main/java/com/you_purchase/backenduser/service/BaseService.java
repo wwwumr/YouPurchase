@@ -4,6 +4,7 @@ package com.you_purchase.backenduser.service;
 import com.you_purchase.backenduser.Config.FileUploadUtil;
 import com.you_purchase.backenduser.RabbitMq.Sender;
 import com.you_purchase.backenduser.dao.*;
+import com.you_purchase.backenduser.dto.OrderCheckDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
@@ -108,6 +109,15 @@ public class BaseService {
         return String.format("011d",hashfirst) + String.format("%011d", hashCodeV);
     }
 
+    //检查要查看的订单是否属于该商店
+    protected  boolean orderBelong(long orderInfoId,long storeId){
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
+        if(orderInfo.getStoreId() == storeId){
+            return true;
+        }
+        return false;
+    }
+
     //orderCheck
     protected List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
@@ -130,13 +140,18 @@ public class BaseService {
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             //获取对应订单id的所有商品
             List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            List<Commodity> orderItemList = new ArrayList<>();
+            List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
             for(OrderItem o:orderItems){
-                Commodity commodity = new Commodity();
-                commodity = commodityDao.findByCommodityId(o.getCommodityId());
-                orderItemList.add(commodity);
+                OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
+                orderCheckDTO.setPrice(o.getPrice());
+                orderCheckDTO.setAmount(o.getAmount());
+                Commodity commodity = commodityDao.findByCommodityId(o.getCommodityId());
+                orderCheckDTO.setCommodityCoverPicUrl(commodity.getCommodityCoverPicUrl());
+                orderCheckDTO.setCommodityId(commodity.getCommodityId());
+                orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
+                orderCheckDTOS.add(orderCheckDTO);
             }
-            orderInfoDTO.setOrderItemList(orderItemList);
+            orderInfoDTO.setOrderItemList(orderCheckDTOS);
             orderInfoDTOS.add(orderInfoDTO);
         }
         return orderInfoDTOS;

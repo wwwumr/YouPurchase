@@ -2,10 +2,7 @@ package com.you_purchase.backenduser.service;
 
 
 
-import com.you_purchase.backenduser.dto.CommodityShortageDTO;
-import com.you_purchase.backenduser.dto.OrderInfoDTO;
-import com.you_purchase.backenduser.dto.OrderListDTO;
-import com.you_purchase.backenduser.dto.OrderPayDTO;
+import com.you_purchase.backenduser.dto.*;
 import com.you_purchase.backenduser.entity.Commodity;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
@@ -16,6 +13,7 @@ import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,8 +79,8 @@ public class OrderInfoService extends BaseService {
 
 
     //商家查看所有订单
-    public List<OrderInfoDTO> OrderStoreCheck(OrderInfoCheckParameter orderInfoCheckParameter) {
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(orderInfoCheckParameter.getId(), true);
+    public List<OrderInfoDTO> OrderStoreCheck(long storeId) {
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(storeId, true);
         if (orderInfos == null) {
             return null;
         }
@@ -91,8 +89,8 @@ public class OrderInfoService extends BaseService {
     }
 
     //商家查看不同执行状态的订单
-    public List<OrderInfoDTO> OrderStoreStatusCheck(OrderInfoCheckParameter orderInfoCheckParameter){
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(orderInfoCheckParameter.getId(),orderInfoCheckParameter.getStatus(),true);
+    public List<OrderInfoDTO> OrderStoreStatusCheck(long storeId,int status){
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndStatusAndValid(storeId,status,true);
         if(orderInfos == null){
             return null;
         }
@@ -101,7 +99,7 @@ public class OrderInfoService extends BaseService {
     }
 
     //商家查看不同日期段内的订单
-    public List<OrderInfoDTO> OrderStoreDateCheck(OrderInfoDateCheckParameter orderInfoDateCheckParameter){
+    public List<OrderInfoDTO> OrderStoreDateCheck(OrderInfoDateCheckParameter orderInfoDateCheckParameter,long storeId){
         String start = orderInfoDateCheckParameter.getsDate();
         String end = orderInfoDateCheckParameter.geteDate();
         if(isLegalDate(start) == false){
@@ -112,13 +110,50 @@ public class OrderInfoService extends BaseService {
         }
         Date sDate = strToDate(start);
         Date eDate = strToDate(end);
-        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndCreateDateIsGreaterThanEqualAndCreateDateIsLessThanEqual(
-                orderInfoDateCheckParameter.getStoreId(),sDate,eDate);
+        List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndCreateDateIsGreaterThanEqualAndCreateDateIsLessThanEqual(storeId,sDate,eDate);
         if(orderInfos == null){
             return null;
         }
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
         return  orderInfoDTOS;
+    }
+
+    //查询单个订单
+    public OrderInfoDTO OrderInfoCheck(long orderInfoId,long storeId){
+        boolean flag = orderBelong(orderInfoId,storeId);
+        if(flag == false){
+            return null;
+        }
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+        orderInfoDTO.setStoreId(orderInfo.getStoreId());
+        orderInfoDTO.setStatus(orderInfo.getStatus());
+        orderInfoDTO.setOrderNo(orderInfo.getOrderInfoNo());
+        orderInfoDTO.setTarPhone(orderInfo.getTarPhone());
+        orderInfoDTO.setTarAddress(orderInfo.getTarAddress());
+        orderInfoDTO.setTarPeople(orderInfo.getTarPeople());
+        orderInfoDTO.setJudged(orderInfo.isJudged());
+        String date = datToStr(orderInfo.getCreateDate());
+        orderInfoDTO.setCreateDate(date);
+        Store store = storeDao.findByStoreId(orderInfo.getStoreId());
+        orderInfoDTO.setStoreName(store.getStoreName());
+        orderInfoDTO.setTotalPrice(orderInfo.getTotalPrice());
+        orderInfoDTO.setOrderInfoId(orderInfo.getOrderInfoId());
+        //获取对应订单id的所有商品
+        List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(orderInfo.getOrderInfoId());
+        List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
+        for(OrderItem o:orderItems){
+            OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
+            orderCheckDTO.setPrice(o.getPrice());
+            orderCheckDTO.setAmount(o.getAmount());
+            Commodity commodity = commodityDao.findByCommodityId(o.getCommodityId());
+            orderCheckDTO.setCommodityCoverPicUrl(commodity.getCommodityCoverPicUrl());
+            orderCheckDTO.setCommodityId(commodity.getCommodityId());
+            orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
+            orderCheckDTOS.add(orderCheckDTO);
+        }
+        orderInfoDTO.setOrderItemList(orderCheckDTOS);
+        return orderInfoDTO;
     }
 
 
@@ -135,7 +170,11 @@ public class OrderInfoService extends BaseService {
     }
 
     //取消订单
-    public int OrderInfoDelete(long orderInfoId) {
+    public int OrderInfoDelete(long orderInfoId,long storeId) {
+        boolean flag = orderBelong(orderInfoId,storeId);
+        if(flag==false){
+            return 0;
+        }
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if (orderInfo == null) {
             //System.out.println("不存在该订单");

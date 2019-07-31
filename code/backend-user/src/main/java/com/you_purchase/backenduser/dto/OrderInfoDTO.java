@@ -33,7 +33,7 @@ public class OrderInfoDTO {
 
     private boolean judged;
 
-    List<Commodity> orderItemList;
+    List<OrderCheckDTO> orderItemList;
 
 
 
@@ -63,11 +63,11 @@ public class OrderInfoDTO {
         this.storeId = storeId;
     }
 
-    public List<Commodity> getOrderItemList() {
+    public List<OrderCheckDTO> getOrderItemList() {
         return orderItemList;
     }
 
-    public void setOrderItemList(List<Commodity> orderItemList) {
+    public void setOrderItemList(List<OrderCheckDTO> orderItemList) {
         this.orderItemList = orderItemList;
     }
 

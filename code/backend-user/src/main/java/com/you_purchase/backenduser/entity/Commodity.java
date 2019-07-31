@@ -51,6 +51,15 @@ public class Commodity {
     }
 
     /* getter and setter */
+
+    public String getCommodityCoverPicUrl() {
+        return commodityCoverPicUrl;
+    }
+
+    public void setCommodityCoverPicUrl(String commodityCoverPicUrl) {
+        this.commodityCoverPicUrl = commodityCoverPicUrl;
+    }
+
     public Long getCommodityId() {
         return commodityId;
     }
