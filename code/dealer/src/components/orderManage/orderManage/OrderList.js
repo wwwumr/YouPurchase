@@ -68,14 +68,12 @@ export default class OrderList extends React.Component {
                     key: res.data.key,
                 })
                 axios
-                    .post(config.url.orderInfo, {
-                        id: res.data.key,
-                        status: 0,
-                    })
+                    .get(config.url.orderInfo)
                     .then(resp => {
                         this.setState({
                             orderList: resp.data,
                         })
+                        console.log(resp.data)
                     })
                     .catch((err) => {
                         if (err.response) {

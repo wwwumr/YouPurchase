@@ -66,10 +66,11 @@ public class OrderInfoController extends BaseController{
     @ApiOperation(value = "商户查看订单")
     List<OrderInfoDTO> OrderStoreCheck(HttpSession session){
         if(session.getAttribute("storeId") == null){
+            System.out.println("没有信息");
             return null;
         }
         long storeId = (long) session.getAttribute("storeId");
-
+        System.out.println("有信息" );
         return orderInfoService.OrderStoreCheck(storeId);
     }
 
