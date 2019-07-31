@@ -14,6 +14,7 @@ def generate_longitude_and_latitude():
         latitude = round(30.8 + random.random(), 6)
         f.write(str(longitude) + "," + str(latitude) + "\n")
     f.close()
+
 '''
 生成经销商和店铺的信息
 '''
@@ -83,11 +84,35 @@ def gen_commodity():
     f_gen_commodity_class.close()
     f_gen_store_commodity.close()
         
-    
+def gen_order():
+    date_start = (2018, 1, 1, 0, 0, 0, 0, 0, 0)
+    date_stop = (2018, 12, 31, 23, 59, 59, 0, 0, 0)
+    start = time.mktime(date_start)  # 生成开始时间戳
+    end = time.mktime(date_stop)
+# INSERT INTO `you_purchase`.`order_info`(`order_info_id`, `judged`, `status`, `store_id`, `tar_address`, `tar_people`, `tar_phone`, `total_price`, `user_id`, `valid`, `delivery_address_id`, `create_date`, `order_info_no`) VALUES (1, b'1', 2, 1, NULL, NULL, NULL, 200, 200, b'1', NULL, '2019-07-23 12:03:00', NULL);
+    f_gen_order = codecs.open("gen_order.sql", "w", "utf-8")
+    f_gen_order.write("INSERT INTO `you_purchase`.`order_info`(`order_info_id`, `judged`, `status`, `store_id`, `tar_address`, `tar_people`, `tar_phone`, `total_price`, `user_id`, `valid`, `delivery_address_id`, `create_date`, `order_info_no`) VALUES ")
+    # for every store, generate random number of orders
+    for i in range(1000):
+        number_of_orders = random.randint(4,9)
+        store_id = 30000 + i
+        for k in range(number_of_orders):
+            date_tmp = random.randint(start, end)
+            date_touple = time.localtime(date_tmp)
+            order_date_str = time.strftime("%Y-%m-%d %H:%M:%S", date_touple)
+            order_id = 50000 + i * 10 + k
+            user_id = random.randint(70000,71000)
+            if i == 999 and k == number_of_orders-1:
+                f_gen_order.write("(" + str(order_id) + ", b'1', 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(user_id) + ", b'1', null, " + order_date_str + ", "+str(order_id) + "); ")
+            else:
+                f_gen_order.write("(" + str(order_id) + ", b'1', 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(user_id) + ", b'1', null, " + order_date_str + ", "+str(order_id) + "), ")
+    f_gen_order.close()
+      
 
 '''
 需要生成的数据,取消该行注释
 '''
 # generate_store_and_dealer()
 # generate_longitude_and_latitude()
-gen_commodity()
+# gen_commodity()
+gen_order()

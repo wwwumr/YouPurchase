@@ -97,7 +97,10 @@ public class CommodityServiceImpl implements CommodityService {
                 commodity.setRemaining(0);
             }
             commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
-            commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
+            if (commodityParameter.getCommodityClassId() != null) {
+                commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
+            }
+            commodity.setCommodityClass(commodityDao.getClassInStoreByClassInfo(storeId, "其它"));
             Long newId = commodityDao.addCommodity(commodity, storeId);
 
             json.put("key", newId);

@@ -63,6 +63,11 @@ public class DealerServiceImpl implements DealerService {
 
     @Override
     public JSONObject addADealer(DealerParameter dealerParameter) {
+        JSONObject jsonObject = new JSONObject();
+        if (dealerDao.existByUserName(dealerParameter.getUserName())) {
+            jsonObject.put("key", -1);
+            return jsonObject;
+        }
         Dealer dealer = new Dealer();
         dealer.setUserName(dealerParameter.getUserName());
         dealer.setGender(dealerParameter.getGender());
@@ -70,7 +75,7 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setRealName(dealerParameter.getRealName());
         dealer.setAvatar(this.dealerDefaultAvatarUrl);
-        JSONObject jsonObject = new JSONObject();
+        dealer.setPassword(dealerParameter.getPassword());
         Long id = dealerDao.addADealer(dealer);
         jsonObject.put("key", id);
         jsonObject.put("avatar", this.dealerDefaultAvatarUrl);
