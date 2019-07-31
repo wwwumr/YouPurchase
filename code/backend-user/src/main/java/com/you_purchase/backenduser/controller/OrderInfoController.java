@@ -46,6 +46,7 @@ public class OrderInfoController extends BaseController{
     @ResponseBody
     @ApiOperation(value = "用户查看所有订单")
     List<OrderInfoDTO> OrderUserCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
+        System.out.println("开始查询");
         return orderInfoService.OrderUserCheck(orderInfoCheckParameter);
     }
 
