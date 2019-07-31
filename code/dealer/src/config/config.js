@@ -42,7 +42,7 @@ var config = {
             "onShelves": true,
             "inventory": null,
             "remaining": null,
-            "classId": null,
+            "commodityClassId": null,
             "classInfo": '',
         },
         defaultClassName: "其它",
@@ -107,7 +107,11 @@ var config = {
         },  
         /* root1 */
         root1: root1,
+        /* 订单接口 */
         orderInfo: root1 + "order/storeCheck/",
+        orderModify: {
+            get: root1 + "order/modify",
+        }
     },
 }
 

@@ -82,7 +82,7 @@ export default class GoodsList extends React.Component {
      */
     handleSelectClass = (e) => {
         let targetGoodsList = this.state.goodsList.filter((elem) => {
-            return elem.classId === parseInt(e.key);
+            return elem.commodityClassId === parseInt(e.key);
         })
         this.setState({
             targetGoodsList: targetGoodsList,
