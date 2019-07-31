@@ -14,13 +14,6 @@ class HomePage extends React.Component {
         this.props.changeBg(config.homePage.changeBgCmd);
     }
 
-    /**
-     * @description 离开登录页面时去除图片
-     */
-    componentWillUnmount() {
-        this.props.changeBg(config.homePage.originBgCmd);
-    }
-
     
     /**
      * @description 包装登录表单

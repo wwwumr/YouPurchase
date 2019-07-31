@@ -114,6 +114,7 @@ class AccountManage extends React.Component {
                 </span>
                 <Radio.Group value={ this.state.dealer.gender } buttonStyle="solid"
                     style={{ marginBottom : "15px", width: "30%", float: "right" }}
+                    onChange={ (e) => {this.handleChange(e, "gender") }}
                 >
                     <Radio.Button value={0} style={{ width: "50%", float: "right" }}>男</Radio.Button>
                     <Radio.Button value={1} style={{ width: "50%", float: "right" }}>女</Radio.Button>

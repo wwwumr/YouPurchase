@@ -70,9 +70,9 @@ public class DealerDaoImpl implements DealerDao {
     @Override
     public boolean existByUserName(String userName) {
         if (dealerRepository.getDealerByUserName(userName) != null) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 }

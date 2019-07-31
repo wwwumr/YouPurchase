@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Button, Icon, Modal, Avatar, message } from 'antd';
+import { Table, Input, Button, Icon, Modal, Avatar, message, Radio, DatePicker } from 'antd';
 import Highlighter from 'react-highlight-words';
 import axios from 'axios';
-//import dealerMock from '../../mock/dealerMock'
+import moment from 'moment';
 import config from '../../config/config';
+
+
+const GENDER = ["男", "女"];
 
 class DealerManage extends React.Component {
     constructor(props) {
@@ -139,6 +142,19 @@ class DealerManage extends React.Component {
     };
 
     /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+    handleChange = (e, info) => {
+        var dealer = this.state.dealer;
+        dealer[info] = e.target.value;
+        this.setState({
+            dealer: dealer,
+        })
+    }
+
+    /**
      * @description 删除未绑定店铺的经销商
      */
     removeDealer = () => {
@@ -181,15 +197,14 @@ class DealerManage extends React.Component {
      * @param  {} dealer
      */
     checkDealer = (dealer) => {
-        if (dealer.userName !== "" && dealer.address !== "" && dealer.realName !== "" 
-            && dealer.contact !== "" && dealer.password !== "" && dealer.avatar !== "") {
+        if (dealer.userName !== "" && dealer.gender !== null && dealer.realName !== "" 
+            && dealer.contact !== "" && dealer.password !== "" && dealer.birthday !== "") {
             return true;
         }
         return false;
     }
 
     render() {
-
         /* Table 列信息 */
         const columns = [
             {
@@ -207,23 +222,27 @@ class DealerManage extends React.Component {
                 key: '2',
                 ...this.getColumnSearchProps('userName'),
             },{
-                title: '密码',
-                dataIndex: 'password',
+                title: '性别',
+                dataIndex: 'gender',
                 key: '3',
-                width: '20%',
+                render: (text) => { return GENDER[text] }
             },{
                 title: '姓名',
                 dataIndex: 'realName',
                 key: '4',
                 ...this.getColumnSearchProps('realName'),
             },{
+                title: '出生日期',
+                dataIndex: 'birthday',
+                key: '5',
+            },{
                 title: '修改信息',
                 dataIndex: 'key',
-                key: '5',
-                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/" + text}} >修改</Link></Button>
+                key: '6',
+                render: text => <Button ><Link to={{pathname: "/dealerManage/dealerMessage/" + text}} >修改</Link>
+                </Button>
             }
         ];
-
         /* 复选框的处理 */
         const selectedRowKeys = this.state.selectedRowKeys;
         const rowSelection = {
@@ -260,39 +279,47 @@ class DealerManage extends React.Component {
                     <div style={{position: "relative", width: "60%", left: "20%", textAlign:"center"}}>
                         <h1>经销商信息</h1>
                         {/* 选项按钮 */}
-                        <Input  addonBefore="姓名" style={{margin:"10px"}}
-                            value={this.state.dealer.realName}
-                            onChange= {(e) => {
-                                let dealer = this.state.dealer;
-                                dealer.realName = e.target.value;
-                                this.setState({ dealer: dealer })
-                            }}>
-                        </Input>
-                        <Input addonBefore="用户名" style={{margin:"10px"}}
+                        <Input addonBefore="用户名" style={{marginBottom:"10px"}}
                             value={this.state.dealer.userName} 
-                            onChange= {(e) => {
-                                let dealer = this.state.dealer;
-                                dealer.userName = e.target.value;
-                                this.setState({ dealer: dealer })
-                            }}>
-                        </Input>
-                        <Input  addonBefore="密码" style={{margin:"10px"}}
+                            onChange = {(e) => { this.handleChange(e, "userName") }}
+                        />
+                        <Input  addonBefore="姓名" style={{marginBottom: "10px"}}
+                            value={this.state.dealer.realName}
+                            onChange = {(e) => { this.handleChange(e, "realName") }}
+                        />
+                        <Input  addonBefore="密码" style={{ marginBottom: "10px"}}
                             value={this.state.dealer.password}
-                            onChange= {(e) => {
-                                let dealer = this.state.dealer;
-                                dealer.password = e.target.value;
-                                this.setState({ dealer: dealer })
-                            }}>
-                        </Input>
-                        <Input  addonBefore="地址" style={{margin:"10px"}}
-                            value={this.state.dealer.address}
-                            onChange= {(e) => {
-                                let dealer = this.state.dealer;
-                                dealer.address = e.target.value;
-                                this.setState({ dealer: dealer })
-                            }}>
-                        </Input>
-                        <Input  addonBefore="联系方式" style={{margin:"10px"}}
+                            onChange = {(e) => { this.handleChange(e, "password") }}
+                        />
+                        <div style={{ width: "20%", padding: 4, marginBottom: 10, display: "inline-block",
+                             backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4, }} 
+                        >
+                        性别
+                        </div>
+                        <Radio.Group value={ this.state.dealer.gender } buttonStyle="solid"
+                            style={{ marginBottom : "7px", width: "30%", display: "inlie-block", marginLeft: "50%",}}
+                            onChange={ (e) => {this.handleChange(e, "gender") }}
+                        >
+                            <Radio.Button value={0} style={{ width: "50%",  }}>男</Radio.Button>
+                            <Radio.Button value={1} style={{ width: "50%",  }}>女</Radio.Button>
+                        </Radio.Group>
+                        <div style={{ display: "inline-block", width: "30%", height: 32, padding: 4, marginBottom: 10,
+                            backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4, }} 
+                        >
+                        出生日期
+                        </div>
+                        <DatePicker format={"YYYY-MM-DD"} 
+                            style = {{ position: "relative", marginBottom: 10, width: '70%', textAlign: "center", display: "inline-block",  }}
+                            value={ moment(this.state.dealer.birthday ? this.state.dealer.birthday : moment().format("YYYY-MM-DD"), "YYYY-MM-DD") }
+                            onChange = {(e) => {
+                                var dealer = this.state.dealer;
+                                dealer["birthday"] = e ? e.format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+                                this.setState({
+                                    dealer: dealer,
+                                })
+                            }} 
+                        />
+                        <Input  addonBefore="联系方式" style={{ marginBottom: "10px" }}
                             value={this.state.dealer.contact}
                             onChange= {(e) => {
                                 let dealer = this.state.dealer;
@@ -300,8 +327,6 @@ class DealerManage extends React.Component {
                                 this.setState({ dealer: dealer })
                             }}>
                         </Input> 
-                        
-                        
                     </div>
                     </Modal>
                     {/* 选中条目 */}

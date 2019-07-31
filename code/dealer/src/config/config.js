@@ -13,6 +13,8 @@ var config = {
             endHour: '',
             dealerId: null,
             dealerName: "",
+            deliveryType: null,
+            deliveryRange: null,
         }
     },
     /* 经销商信息模板 */
@@ -20,7 +22,6 @@ var config = {
         originDealer: {   
             key: null,
             userName: "",
-            address: "",
             gender: null,
             birthday: "",
             realName: "",

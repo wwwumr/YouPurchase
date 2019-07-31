@@ -11,14 +11,17 @@ var config = {
             endHour: '',
             dealerId: null,
             dealerName: "",
+            deliveryType: null,
+            deliveryRange: null,
         }
     },
     dealer: {
         originDealer: {   
             key: null,
             userName: "",
-            address: "",
             realName: "",
+            gender: null,
+            birthday: "",
             contact: "",
             storeId: null,
             storeName: "",
@@ -45,7 +48,10 @@ var config = {
     adminLogIn: "ADMIN",
     url: {
         root: root,
-        logIn: root + "login/admin",
+        logIn: root + "login/admin/",
+        userName: {
+            get: root + "login/userName/",
+        },
         stores: root + "api/a/stores/",
         storeUnbind: root + "api/a/stores/unbind/",
         dealers: root + "api/a/dealers/",

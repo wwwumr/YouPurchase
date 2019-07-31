@@ -58,28 +58,22 @@ export default class OrderList extends React.Component {
     state = {
         key: null,
         orderList: [],
+        targetList: [],
     }
     
     componentDidMount() {
         axios
-            .get(config.url.store)
+            .get(config.url.orderInfo)
             .then(res => {
                 this.setState({
-                    key: res.data.key,
+                    orderList: res.data,
+                    targetList: res.data,
                 })
-                axios
-                    .get(config.url.orderInfo)
-                    .then(resp => {
-                        this.setState({
-                            orderList: resp.data,
-                        })
-                        console.log(resp.data)
-                    })
-                    .catch((err) => {
-                        if (err.response) {
-                            console.log(err.message);
-                        }
-                    })
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(err.message);
+                }
             })
     }
 
@@ -114,28 +108,59 @@ export default class OrderList extends React.Component {
             })
     }
 
+    handleSelect = (e) => {
+        if (this.state.orderList.length > 0) {
+            if (e.key === "default") {
+                let targetList = this.state.orderList;
+                this.setState({
+                    targetList: targetList,
+                })
+            } else {
+                let targetList = this.state.orderList.filter((elem) => {
+                    return elem.status === parseInt(e.key);
+                })
+                this.setState({
+                    targetList: targetList,
+                })
+            }
+        }
+    }
+
     render() {
         
         return (
             <Layout>
-                <Header>
+                <Header style={{ background: '#fff'}} >
                     <Menu mode="horizontal" theme="light" >
-                    <Menu.Item>
-                    未配送
+                    <Menu.Item key="default"
+                        onClick={ this.handleSelect }
+                    >
+                    全部订单
                     </Menu.Item>
-                    <Menu.Item>
-                    未接单
+                    <Menu.Item key="0"
+                        onClick={ this.handleSelect }
+                    > 
+                    {ORDERSTATUS[0]}
                     </Menu.Item>
-                    <Menu.Item>
-                    配送中
+                    <Menu.Item key="1"
+                        onClick={ this.handleSelect }
+                    >
+                    {ORDERSTATUS[1]}
                     </Menu.Item>
-                    <Menu.Item>
-                    已完成
+                    <Menu.Item key="2" 
+                        onClick={ this.handleSelect }
+                    >
+                    {ORDERSTATUS[2]}
+                    </Menu.Item>
+                    <Menu.Item key="3"
+                        onClick={ this.handleSelect }
+                    >
+                    {ORDERSTATUS[3]}
                     </Menu.Item>
                     </Menu>
                 </Header>
-                <Content>
-                    <Table rowKey="orderInfoId" columns={tags} dataSource={this.state.orderList} />
+                <Content style={{background: '#fff'}}>
+                    <Table rowKey="orderInfoId" columns={tags} dataSource={this.state.targetList} />
                 </Content>
             </Layout>
             
