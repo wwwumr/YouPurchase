@@ -128,7 +128,7 @@ export default class NewGoods extends React.Component {
      */
     classFilled = () => {
         const goods = this.state.goods;
-        let attrToBeChecked = ["classId", "classInfo", ];
+        let attrToBeChecked = ["commodityClassId", "classInfo", ];
         for (let attr in attrToBeChecked) {
             if (goods[attr] === '' || goods[attr] === null) {
                 return false;
@@ -144,7 +144,7 @@ export default class NewGoods extends React.Component {
      */
     setClass = (commodityClassId, classInfo) => {
         let goods = this.state.goods;
-        goods.classId = commodityClassId;
+        goods.commodityClassId = commodityClassId;
         goods.classInfo = classInfo;
         this.setState({
             goods: goods,
