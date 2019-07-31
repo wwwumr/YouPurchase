@@ -71,8 +71,8 @@ def gen_commodity():
         commodity_id = 10000 + i
         inventory = random.randint(10,100)
         price = random.randint(1, 300)
-        commodity_class_id1 = random.randint(40000, 44999)
-        store_id = (commodity_class_id1 - 40000)//5 + 30000
+        commodity_class_id1 = 40000 + i // 3
+        store_id = i // 3 + 30000
         if i < 2999:
             f_gen_commodity.write("(" + str(commodity_id) + ", 'image/defaultCommodityPic.png', 'commodity_name_" + str(commodity_id) + "', " + str(inventory) + ", true, " + str(price) + ", " + str(inventory) + ", " + str(commodity_class_id1) + ") , " )
             f_gen_store_commodity.write("(" + str(store_id) + ", " + str(commodity_id) + "), ")
@@ -83,8 +83,7 @@ def gen_commodity():
     f_gen_commodity_class.close()
     f_gen_store_commodity.close()
         
-        
-
+    
 
 '''
 需要生成的数据,取消该行注释
