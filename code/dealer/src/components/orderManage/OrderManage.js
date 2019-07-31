@@ -26,6 +26,7 @@ class OrderManage extends React.Component {
                     <div style={{marginTop: 50}}>
                         <Switch>
                             <Route exact path={"/orderManage/"} component={ OrderList } />
+                            <Route exact path={"/orderManage/orderDetail/:orderInfoId"} component={ OrderList } />
                         </Switch>
                     </div>
                     </Content>
