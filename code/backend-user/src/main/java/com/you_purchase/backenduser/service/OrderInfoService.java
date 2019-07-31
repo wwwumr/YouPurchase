@@ -73,6 +73,7 @@ public class OrderInfoService extends BaseService {
         if(orderInfos ==null){
             return null;
         }
+        System.out.println("准备开始获取数据");
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
         return orderInfoDTOS;
     }
@@ -80,6 +81,7 @@ public class OrderInfoService extends BaseService {
 
     //商家查看所有订单
     public List<OrderInfoDTO> OrderStoreCheck(long storeId) {
+        System.out.println("id"+storeId);
         List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(storeId, true);
         if (orderInfos == null) {
             return null;

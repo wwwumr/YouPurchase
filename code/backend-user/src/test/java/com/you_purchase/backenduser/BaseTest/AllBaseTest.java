@@ -4,28 +4,26 @@ package com.you_purchase.backenduser.BaseTest;
 
 //User底层逻辑测试
 import com.you_purchase.backenduser.dao.*;
-import com.you_purchase.backenduser.entity.Commodity;
-import com.you_purchase.backenduser.entity.Dealer;
-import com.you_purchase.backenduser.entity.OrderInfo;
-import com.you_purchase.backenduser.entity.User;
-import com.you_purchase.backenduser.parameter.UserModifyParameter;
-import com.you_purchase.backenduser.parameter.UserRegParameter;
-import org.junit.Assert;
+import com.you_purchase.backenduser.dto.OrderCheckDTO;
+import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.entity.*;
+import com.you_purchase.backenduser.service.BaseService;
+import com.you_purchase.backenduser.service.OrderInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
@@ -128,9 +126,107 @@ public class AllBaseTest {
         commodityDao.save(commodity);
     }
 
+    @Test
+    @Rollback(false)
+    public void insertOrder(){
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrderInfoNo("d1hdhd89128dh19");
+        orderInfo.setStatus(1);
+        orderInfo.setUserId(1);
+        orderInfo.setValid(true);
+        orderInfo.setJudged(true);
+        orderInfo.setTotalPrice(2423);
+        orderInfo.setStoreId(1);
+        orderInfo.setCreateDate(new Date());
+        orderInfo.setDeliveryAddressId(1L);
+        orderInfo.setTarAddress("dasd");
+        orderInfo.setTarPeople("dad");
+        orderInfo.setTarPhone("498454");
+        orderInfoDao.save(orderInfo);
+    }
+
+    @Test
+    @Rollback(false)
+    public void insertOrderItem(){
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrderInfoId(14);
+        orderItem.setCommodityId(6);
+        orderItem.setAmount(5);
+        orderItem.setPrice(5000.0);
+        orderItemDao.save(orderItem);
+    }
+
+
     //add经销商
 
 
+    @Autowired
+    private OrderInfoService orderInfoService;
+
+    public List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
+        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
+        //获取对应用户id的所有订单
+        for (OrderInfo s : orderInfos) {
+            //System.out.println(s.getOrderInfoId());
+            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+            orderInfoDTO.setStoreId(s.getStoreId());
+            orderInfoDTO.setStatus(s.getStatus());
+            orderInfoDTO.setOrderNo(s.getOrderInfoNo());
+            orderInfoDTO.setTarPhone(s.getTarPhone());
+            orderInfoDTO.setTarAddress(s.getTarAddress());
+            orderInfoDTO.setTarPeople(s.getTarPeople());
+            orderInfoDTO.setTarLongitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLongitude());
+            orderInfoDTO.setTarLatitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLatitude());
+            orderInfoDTO.setJudged(s.isJudged());
+            String date = datToStr(s.getCreateDate());
+            orderInfoDTO.setCreateDate(date);
+            Store store = storeDao.findByStoreId(s.getStoreId());
+            orderInfoDTO.setStoreName(store.getStoreName());
+            orderInfoDTO.setTotalPrice(s.getTotalPrice());
+            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
+            System.out.println("订单信息获取完毕");
+            //获取对应订单id的所有商品
+            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
+            List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
+            for(OrderItem o:orderItems){
+                OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
+                orderCheckDTO.setPrice(o.getPrice());
+                orderCheckDTO.setAmount(o.getAmount());
+                Commodity commodity = commodityDao.findByCommodityId(o.getCommodityId());
+                orderCheckDTO.setCommodityCoverPicUrl(commodity.getCommodityCoverPicUrl());
+                orderCheckDTO.setCommodityId(commodity.getCommodityId());
+                orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
+                orderCheckDTOS.add(orderCheckDTO);
+            }
+            orderInfoDTO.setOrderItemList(orderCheckDTOS);
+            orderInfoDTOS.add(orderInfoDTO);
+        }
+        return orderInfoDTOS;
+    }
+
+
+    @Test
+    @Rollback(false)
+    public void insertDelivery(){
+        DeliveryAddress deliveryAddress = new DeliveryAddress();
+        deliveryAddress.setLatitude(10.0);
+        deliveryAddress.setLongitude(10.0);
+        deliveryAddressDao.save(deliveryAddress);
+    }
+
+    @Test
+    @Rollback(false)
+    public void insertStore(){
+        Store store = new Store();
+        store.setLongitude(10.0);
+        store.setLongitude(10.0);
+        store.setStoreName("dasfas");
+        store.setDeliveryRange(100.0);
+        store.setAttached(true);
+        store.setContact("4984654");
+        store.setAddress("adsiasi");
+        storeDao.save(store);
+    }
 
 
 
