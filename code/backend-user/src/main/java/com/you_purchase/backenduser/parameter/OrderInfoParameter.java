@@ -5,6 +5,7 @@ import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.OrderItem;
 
 import javax.persistence.JoinColumn;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 * 用户下订单传递的数据
 * */
 
-public class OrderInfoParameter {
+public class OrderInfoParameter implements Serializable {
     private long userId;
 
     private long storeId;
@@ -106,5 +107,18 @@ public class OrderInfoParameter {
         this.deliveryAddressId = deliveryAddressId;
     }
 
-    //getter and setter
+    @Override
+    public String toString(){
+        return "OrderInfoParameter{"+
+                "userId" + userId +
+                "storeId" + storeId +
+                "totalPrice" + totalPrice +
+                "createDate" + createDate +
+                "tarPeople" + tarPeople +
+                "tarAddress" + tarAddress +
+                "tarPhone" + tarPhone +
+                "orderItemList" + orderItemList +
+                "deliveryAddressId" + deliveryAddressId +
+                "}";
+    }
 }

@@ -19,7 +19,7 @@ public class OrderInfo {
     private long userId;
 
     private long storeId;
-    //执行状态，0：未支付 1：待发货 2：配送中 3：已送达
+    //执行状态，0：未支付 1：待发货 2：配送中 3：已完成
     private int status;
 
     //订单号

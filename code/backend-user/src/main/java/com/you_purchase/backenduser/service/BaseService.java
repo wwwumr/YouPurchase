@@ -2,7 +2,7 @@ package com.you_purchase.backenduser.service;
 
 //import com.you_purchase.backenduser.Config.FileUploadUtil;
 import com.you_purchase.backenduser.Config.FileUploadUtil;
-import com.you_purchase.backenduser.RabbitMq.PaySender;
+import com.you_purchase.backenduser.RabbitMq.Sender;
 import com.you_purchase.backenduser.dao.*;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.entity.*;
@@ -48,12 +48,9 @@ public class BaseService {
     @Autowired
     protected CommodityDao commodityDao;
 
-
-
-
     //消息队列推送消息
     @Autowired
-    protected PaySender paySender;
+    protected Sender sender;
 
 
 

@@ -163,7 +163,7 @@ public class OrderInfoService extends BaseService {
             if (result.equals("success")) {
                 orderInfo.setStatus(1);
                 //支付完成后将订单支付消息推送到队列
-                paySender.send(payParameter.getPayId());
+                sender.paySend(payParameter.getPayId());
                 orderInfoDao.save(orderInfo);
                 return 200;
 
