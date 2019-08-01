@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Receiver {
 
-    @RabbitHandler
-    @RabbitListener(queues = "pay")
-    public void payReceiver(Long id) {
-        System.out.println("receiver" + id);
-    }
+    // 在文件DeliveryAddressService中接收
+//    @RabbitHandler
+//    @RabbitListener(queues = "pay")
+//    public void payReceiver(Long id) {
+//        System.out.println("receiver" + id);
+//    }
 
     @RabbitHandler
     @RabbitListener(queues = "orderAdd")

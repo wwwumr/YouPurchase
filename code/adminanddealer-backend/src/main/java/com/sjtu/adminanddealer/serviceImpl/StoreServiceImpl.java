@@ -91,8 +91,8 @@ public class StoreServiceImpl implements StoreService {
                 BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
                 double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
                 SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
-//            SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
-            dtos.add(dto);
+//                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
+                dtos.add(dto);
             }
         }
         return dtos;
@@ -106,7 +106,7 @@ public class StoreServiceImpl implements StoreService {
         Store store = new Store();
         store.setStoreName(storeParameter.getStoreName());
         store.setCoverPicUrl(this.storeDefaultCoverPicUrl);
-        store.setAddress(storeParameter.getAddress());
+        store.setAddress(null);
         // TODO: 调用外部API而不是设成0
         store.setLongitude(0.0);
         store.setLatitude(0.0);
@@ -116,7 +116,6 @@ public class StoreServiceImpl implements StoreService {
         Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);
         store.setOpenHourEnd(end);
-        // TODO: 前端新建时到底时设为默认值还是从前端传值
         store.setDeliveryType(storeParameter.getDeliveryType());
         store.setDeliveryRange(storeParameter.getDeliveryRange());
         Long newId = storeDao.addAStore(store);
@@ -143,7 +142,6 @@ public class StoreServiceImpl implements StoreService {
         Store store = storeDao.getStoreByStoreId(storeParameter.getKey());
         store.setContact(storeParameter.getContact());
         store.setStoreName(storeParameter.getStoreName());
-        store.setAddress(storeParameter.getAddress());
         Date start = castStringToDate(storeParameter.getStartHour());
         Date end = castStringToDate(storeParameter.getEndHour());
         store.setOpenHourStart(start);

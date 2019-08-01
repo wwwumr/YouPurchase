@@ -5,6 +5,8 @@ import com.you_purchase.backenduser.entity.DeliveryAddress;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.parameter.DeliveryAddressParameter;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -58,26 +60,33 @@ public class DeliveryAddressService extends BaseService {
         }
     }
 
+    @RabbitHandler
+    @RabbitListener(queues = "pay")
     public void thirdDeliveryAfterPay(Long orderInfoId){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if(orderInfo!=null){
             Store store = storeDao.findByStoreId(orderInfo.getStoreId());
-            DeliveryAddress address = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(orderInfo.getDeliveryAddressId());
-            JSONObject json = new JSONObject();
-            json.put("partner_order_code", orderInfoId);
-            json.put("notify_url", "http://localhost:9000/delivery");
-            json.put("receiver_name", orderInfo.getTarPeople());
-            json.put("receiver_phone", orderInfo.getTarPhone());
-            json.put("receiver_address", orderInfo.getTarAddress());
-            json.put("receiver_longitude", address.getLongitude());
-            json.put("receiver_latitude", address.getLatitude());
-            json.put("transport_name", store.getStoreName());
-            json.put("transport_address", store.getAddress());
-            json.put("transport_tel", store.getContact());
-            json.put("transport_longitude", store.getLongitude());
-            json.put("transport_latitude", store.getLatitude());
-            String postUrl = "http://localhost:9002/order";
-            ResponseEntity<JSONObject> response = restTemplate.postForEntity(postUrl, json, JSONObject.class);
+            // 如果商家的配送方式是蜂鸟配送，调用配送接口
+            if (store.getDeliveryType().equals(1)){
+                DeliveryAddress address = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(orderInfo.getDeliveryAddressId());
+                JSONObject json = new JSONObject();
+                json.put("partner_order_code", orderInfoId);
+                json.put("notify_url", "http://localhost:9000/delivery");
+                json.put("receiver_name", orderInfo.getTarPeople());
+                json.put("receiver_phone", orderInfo.getTarPhone());
+                json.put("receiver_address", orderInfo.getTarAddress());
+                json.put("receiver_longitude", address.getLongitude());
+                json.put("receiver_latitude", address.getLatitude());
+                json.put("transport_name", store.getStoreName());
+                json.put("transport_address", store.getAddress());
+                json.put("transport_tel", store.getContact());
+                json.put("transport_longitude", store.getLongitude());
+                json.put("transport_latitude", store.getLatitude());
+                String postUrl = "http://localhost:9002/order";
+                ResponseEntity<JSONObject> response = restTemplate.postForEntity(postUrl, json, JSONObject.class);
+                }
+            } else {
+            // TODO 商家的配送方式是自己配送，直接修改订单状态
         }
 
     }

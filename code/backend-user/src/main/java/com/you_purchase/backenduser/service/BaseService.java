@@ -48,6 +48,8 @@ public class BaseService {
     protected DeliveryAddressDao deliveryAddressDao;
     @Autowired
     protected CommodityDao commodityDao;
+    @Autowired
+    protected StoreTotalScoreDao storeTotalScoreDao;
 
     //消息队列推送消息
     @Autowired

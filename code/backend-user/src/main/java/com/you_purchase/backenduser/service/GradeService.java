@@ -4,6 +4,7 @@ package com.you_purchase.backenduser.service;
 import com.you_purchase.backenduser.dto.GradeDTO;
 import com.you_purchase.backenduser.entity.Grade;
 import com.you_purchase.backenduser.entity.OrderInfo;
+import com.you_purchase.backenduser.entity.StoreTotalScore;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.GradeParameter;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,13 @@ public class GradeService extends BaseService {
         grade.setInfo(gradeParameter);
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(gradeParameter.getOrderInfoId(),true);
         orderInfo.setJudged(true);
+        Long storeId = orderInfo.getStoreId();
         orderInfoDao.save(orderInfo);
         gradeDao.save(grade);
+        StoreTotalScore totalScore = storeTotalScoreDao.findByStoreId(storeId);
+        totalScore.setTotalJudgeTime(totalScore.getTotalJudgeTime()+1);
+        totalScore.setTotalScore(totalScore.getTotalScore()+gradeParameter.getScore());
+        storeTotalScoreDao.save(totalScore);
         return 200;
     }
     //查看对应商店所有评价

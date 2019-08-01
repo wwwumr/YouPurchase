@@ -280,6 +280,30 @@ public class StoreController {
     }
 
     /**
+     * 管理员获取店铺地理位置信息
+     *
+     * @param storeId 店铺id
+     * @return 店铺的位置和经纬度
+     */
+    @GetMapping("/api/a/stores/address")
+    public StoreAddressDTO getStoreAddressByAdmin(@RequestParam("storeId") Long storeId) {
+        return storeService.getStoreAddress(storeId);
+    }
+
+    /**
+     * 管理员更改店铺的地理位置信息
+     *
+     * @param parameter 新的地址信息
+     * @param storeId   店铺id
+     * @return 成功返回UPDATE
+     */
+    @PostMapping("/api/a/stores/address")
+    public String updateStoreAddressByAdmin(@RequestBody StoreAddressParameter parameter, @RequestParam("storeId") Long storeId) {
+        storeService.updateStoreAddress(parameter, storeId);
+        return "UPDATE";
+    }
+
+    /**
      * 经销商获取地理位置信息
      *
      * @param session session

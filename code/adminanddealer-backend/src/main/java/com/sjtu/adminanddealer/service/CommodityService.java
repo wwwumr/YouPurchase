@@ -45,7 +45,7 @@ public interface CommodityService {
      * 添加一个新商品.
      *
      * @param commodityParameter 前端发送的商品数据
-     * @param storeId 店铺id
+     * @param storeId            店铺id
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */
     JSONObject addACommodity(CommodityParameter commodityParameter, Long storeId);

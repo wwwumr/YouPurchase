@@ -129,7 +129,6 @@ public class StoreServiceTest {
     public void testAddStore() throws Exception {
         StoreParameter storeParameter = new StoreParameter();
         storeParameter.setStoreName("postname");
-        storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
         storeParameter.setStartHour("7:00");
         storeParameter.setEndHour("21:00");
@@ -145,7 +144,6 @@ public class StoreServiceTest {
         StoreParameter storeParameter = new StoreParameter();
         storeParameter.setKey(1L);
         storeParameter.setStoreName("postname");
-        storeParameter.setAddress("postaddr");
         storeParameter.setContact("1234");
         storeParameter.setStartHour("7:00");
         storeParameter.setEndHour("21:00");
