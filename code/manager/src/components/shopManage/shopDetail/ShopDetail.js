@@ -1,224 +1,59 @@
 import React from 'react';
-import { Input, message, Popconfirm, Button, TimePicker } from 'antd';
-import { Link } from 'react-router-dom/cjs/react-router-dom';
-import axios from 'axios';
-import moment from 'moment';
-//import shopMock from '../../../mock/shopMock';
-import ImageUpload from './shopDetail/ImageUpload';
-import DealerAutoInput from './shopDetail/DealerAutoInput';
-import config from '../../../config/config';
+import { HashRouter, Route, Switch, Link, } from 'react-router-dom';
+import { hashHistory } from 'react-dom';
+import 'antd/dist/antd.css';
+import { Layout, Menu } from 'antd';
+import StoreMessage from './shopDetail/storeMessage';
+import StoreImg from './shopDetail/StoreImg';
+import StoreMap from './shopDetail/StoreMap';
+
+const {  Content, Sider } = Layout;
 
 
-class ShopDetail extends React.Component {
+export default class ShopMessage extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            shop: Object.assign({}, config.shop.originShop),
-            originShop: Object.assign({}, config.shop.originShop),
-        }
-    }
-    /**
-     * @description 获取商店的key并加载商店信息
-     */
-    componentDidMount() {
-        const key = this.props.match.params.key;
-        axios.get(config.url.stores + key).then((res) => {
-            const originShop = Object.assign({}, res.data);
-            this.setState({
-                shop: res.data,
-                originShop: originShop,
-            })
-        })
-        
-    }
-
-    /**
-     * @description 最终提交修改信息的函数 
-     */
-    handleChange = () => {
-        const shop = this.state.shop;
-        const originShop = this.state.originShop;
-        if (this.checkShop(shop, originShop)) {
-            axios
-                .put(config.url.stores, 
-                    shop
-                ).then((res) => {
-                    if (res.data < 0) {
-                        message.error("修改失败");
-                    } else {
-                        this.setState({
-                            originShop: Object.assign({}, shop),
-                        })
-                        message.success("修改成功");
-                    }
-                })
-        }   
-    }
-    /**
-     * @description 接触经销商的店铺授权
-     */
-    handleUnbind = () => {
-        axios
-            .get(config.url.storeUnbind, {
-                params: {
-                    dealerId: this.state.shop.dealerId,
-                    storeId: this.state.shop.key,
-                }
-            })
-            .then((res) => {
-                if (res.data !== "unbind") {
-                    message.error("解除授权失败");
-                } else {
-                    var shop = this.state.shop;
-                    shop.dealerName = "";
-                    shop.dealerId = null;
-                    var originShop = this.state.originShop;
-                    originShop.dealerId = null;
-                    originShop.dealerName = '';
-                    this.setState({
-                        shop: shop,
-                        originShop: originShop,
-                    })
-                    message.success("授权已取消");
-                }
-            })
-    }
-
-    /**
-     * @description 检查商店信息是否被更改
-     * @param  {Shop} shop
-     * @param  {Shop} originShop
-     * @returns 变化了 ? true : false 
-     */
-    checkShop(shop, originShop) {
-        if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.startHour !== originShop.startHour || shop.endHour !== originShop.endHour
-            || shop.storeName !== originShop.storeName || shop.dealerName !== originShop.dealerName
-            ) {
-            return true;
-        } 
-        return false;
-    }
+    storeId= this.props.match.params.key;
 
     render() {
+        
         return(
-        <div style={{position: "relative", textAlign: "center", left: "150px" }}>
-            <h1 style={{position: "relative", right: "150px"}}>店面信息</h1>
-            <div 
-                style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "30px", marginTop: "50px"}}
-            >
-            <ImageUpload storeId={this.props.match.params.key} />
-            </div>
-            <div 
-                style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px", marginLeft: "60px"}}
-            >
-                <Input addonBefore="店名"  style={{ marginBottom : "10px" }}
-                    value={ this.state.shop.storeName } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.storeName = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
-                />
-                <Input addonBefore="地址"  style={{marginBottom: "10px"}}
-                    value={ this.state.shop.address } 
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.address = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
-                />
-                <Input addonBefore="联系方式" style={{marginBottom: "10px"}}
-                    value={ this.state.shop.contact }  
-                    onChange = {(e) => {
-                        var shop = this.state.shop;
-                        shop.contact = e.target.value;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
-                />
-                <span style={{display: "inline-block", width: "20%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
-                营业时间
-                </span>
-                <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "35%"}}
-                    value={ moment(this.state.shop.startHour, "HH:mm") }
-                    format="HH:mm"
-                    onChange = {(t) => {
-                        let shop = this.state.shop;
-                        shop.startHour = t ? t.format("HH:mm") : "00:00";
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
-                />
-                <span style={{display: "inline-block", width: "10%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
-                 ~ 
-                </span>
-                <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "35%"}}  
-                    value={ moment(this.state.shop.endHour ? this.state.shop.endHour : "00:00", "HH:mm") }
-                    format="HH:mm"
-                    onChange = {(t) => {
-                        var shop = this.state.shop;
-                        shop.endHour = t ? t.format("HH:mm") : "00:00";
-                        this.setState({
-                            shop: shop,
-                        })
-                    }}
-                />
-                <Input addonBefore="经销商" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
-                    value={ this.state.shop.dealerName }
-                    placeholder="无"
-                />
-                <Popconfirm
-                    title="你确定要取消对该经销商的授权吗?"
-                    onConfirm={this.handleUnbind}
-                    okText="确认"
-                    cancelText="取消"
-                >
-                    <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}}  
-                    >
-                    取消授权
-                    </Button>
-                </Popconfirm>
-                <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}} 
-                    disabled = {!this.state.shop.dealerName}
-                >
-                    <Link 
-                        to = {{
-                            pathname: "/dealerManage/dealerMessage/",
-                            dealerKey: this.state.shop.dealerId,
-                        }}
-                    >
-                    查看信息
-                    </Link>
-                </Button>
-                <DealerAutoInput marginBottom= "10px" 
-                    setDealer={(id, name) => {
-                        var shop = this.state.shop;
-                        shop.dealerId = id;
-                        shop.dealerName = name;
-                        this.setState({
-                            shop: shop,
-                        })
-                    }} 
-                    disableFlag = {!(this.state.shop.dealerId===null || this.state.shop.dealerName==="")}
-                >
-                </DealerAutoInput>
-                <Button 
-                    onClick = { this.handleChange } 
-                >
-                确认修改
-                </Button>
-            </div>
-        </div>
+        <HashRouter history= {hashHistory} >
+        <Layout >
+            <Layout style={{background: '#fff'}}>
+                <Sider theme="light" style={{marginLeft: 100, marginTop: 64, overflow: "auto", }}>
+                    <Menu theme="light" mode="inline" >
+                        <Menu.Item key="1">
+                        <Link to={"/shopManage/shopDetail/" + this.storeId} >店铺信息</Link>
+                        </Menu.Item>
+                        <Menu.Item key="2">
+                        <Link to={"/shopManage/shopDetail/storeImg/" + this.storeId} >封面图片</Link>
+                        </Menu.Item>
+                        <Menu.Item key="3">
+                        <Link to={"/shopManage/shopDetail/storeMap/" + this.storeId} >位置设置</Link> 
+                        </Menu.Item>
+                    </Menu>
+                </Sider>
+                <Content style={{  marginTop: 64,}}>
+                <div  style={{ marginLeft: 24, width: 800, height: 450, textAlign: "center"}} >
+                    <Switch>
+                        <Route exact path="/shopManage/shopDetail/:storeId" 
+                            render = {(props) => <StoreMessage {...props}/>} 
+                        >
+                        </Route>
+                        <Route exact path="/shopManage/shopDetail/storeImg/:storeId" 
+                            render = {(props) => <StoreImg {...props} />} 
+                        >
+                        </Route>
+                        <Route exact path="/shopManage/shopDetail/storeMap/:storeId" 
+                            render = {(props) => <StoreMap {...props} />} 
+                        >
+                        </Route>
+                    </Switch>
+                </div>
+                </Content>
+            </Layout>
+        </Layout>
+        </HashRouter>
         );
     }
 }
-
-export default ShopDetail;

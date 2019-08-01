@@ -1,8 +1,10 @@
 import React from 'react';
-import { Input, Button, message, Typography, Radio,TimePicker } from 'antd';
+import { Input, Button, message, Typography, Radio,TimePicker, Popconfirm } from 'antd';
 import axios from 'axios';
-import config from '../../../config/config';
+import config from '../../../../config/config';
 import moment from 'moment';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import DealerAutoInput from './DealerAutoInput';
 
 const { Title } = Typography;
 
@@ -22,7 +24,7 @@ export default class StoreMessage extends React.Component {
      */
     componentDidMount() {
         axios
-            .get(config.url.store)        
+            .get(config.url.stores + this.props.match.params.storeId)        
             .then(res => {
                 this.setState({
                     shop: res.data,
@@ -154,6 +156,45 @@ export default class StoreMessage extends React.Component {
                 <Radio.Button value={0} >商家配送</Radio.Button>
                 <Radio.Button value={1} >蜂鸟配送</Radio.Button>
             </Radio.Group>
+            <Input addonBefore="经销商" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
+                    value={ this.state.shop.dealerName }
+                    placeholder="无"
+                />
+                <Popconfirm
+                    title="你确定要取消对该经销商的授权吗?"
+                    onConfirm={this.handleUnbind}
+                    okText="确认"
+                    cancelText="取消"
+                >
+                    <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}}  
+                    >
+                    取消授权
+                    </Button>
+                </Popconfirm>
+                <Button  style={{display: "inline-block", marginBottom: "10px", width: "25%"}} 
+                    disabled = {!this.state.shop.dealerName}
+                >
+                    <Link 
+                        to = {{
+                            pathname: "/dealerManage/dealerMessage/",
+                            dealerKey: this.state.shop.dealerId,
+                        }}
+                    >
+                    查看信息
+                    </Link>
+                </Button>
+                <DealerAutoInput marginBottom= "10px" 
+                    setDealer={(id, name) => {
+                        var shop = this.state.shop;
+                        shop.dealerId = id;
+                        shop.dealerName = name;
+                        this.setState({
+                            shop: shop,
+                        })
+                    }} 
+                    disableFlag = {!(this.state.shop.dealerId===null || this.state.shop.dealerName==="")}
+                >
+                </DealerAutoInput>
             <Button 
                 onClick = { this.handleSubmit } 
             >

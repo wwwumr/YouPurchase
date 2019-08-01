@@ -147,8 +147,8 @@ class App extends React.Component {
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
-                                <Route exact path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>
-                              
+                                <Route path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>       
+
                             </Switch>
                         }
                         {/* 未登录管理员 */}

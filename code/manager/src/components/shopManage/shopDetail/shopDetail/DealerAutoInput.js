@@ -39,7 +39,7 @@ function renderOption(item) {
     );
 }
 
-class DealerAutoInput extends React.Component {
+export default class DealerAutoInput extends React.Component {
 
     state = {
         dataSource: [],
@@ -125,5 +125,3 @@ class DealerAutoInput extends React.Component {
         );
     }
 }
-
-export default DealerAutoInput;

@@ -38,6 +38,8 @@ var config = {
     avatar: {
         url: "image/defaultAvatar.png",
     },
+    /* 高德地图的appkey */
+    mapKey: "29e2ca8db90b7c1fa55dd09e4ce13414",
     homePage: {
         homePageImageUrl: root + "image/defaultLogInCover.png",
         originBgCmd: "initial",
@@ -61,6 +63,10 @@ var config = {
         unbindDealers: root + "api/a/dealers/unbindDealers",
         unbindStores: root + "api/a/stores/unbindStores",
         updateStoreCover: root + "api/a/stores/cover",
+        storeMap: {
+            get: root + "api/a/stores/address",
+            post: root + "api/a/stores/address",
+        }
     }
 }
 
