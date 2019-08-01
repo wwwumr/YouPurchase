@@ -102,12 +102,30 @@ def gen_order():
             order_date_str = time.strftime("%Y-%m-%d %H:%M:%S", date_touple)
             order_id = 50000 + i * 10 + k
             user_id = random.randint(70000,71000)
+            total_price = random.randint(100,200)
             if i == 999 and k == number_of_orders-1:
-                f_gen_order.write("(" + str(order_id) + ", b'1', 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(user_id) + ", b'1', null, " + order_date_str + ", "+str(order_id) + "); ")
+                f_gen_order.write("(" + str(order_id) + ", true, 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(total_price) + ", " + str(user_id) + ", true, 1, '" + order_date_str + "', "+str(order_id) + "); ")
             else:
-                f_gen_order.write("(" + str(order_id) + ", b'1', 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(user_id) + ", b'1', null, " + order_date_str + ", "+str(order_id) + "), ")
+                f_gen_order.write("(" + str(order_id) + ", true, 3, "+str(store_id)+", 'receiver_addr', 'receiver_name', 'receiver_phone', " + str(total_price) + ", " + str(user_id) + ", true, 1, '" + order_date_str + "', "+str(order_id) + "), ")
     f_gen_order.close()
       
+'''
+生成评分数据
+'''
+def gen_total_score():
+    # INSERT INTO `you_purchase`.`store_total_score`(`store_total_score_id`, `store_id`, `total_judge_time`, `total_score`) VALUES (1, 1, 1, 1);
+    f_gen_total_score = open("gen_total_score.sql", "w")
+    f_gen_total_score.write("INSERT INTO `you_purchase`.`store_total_score`(`store_total_score_id`, `store_id`, `total_judge_time`, `total_score`) VALUES ")
+    for i in range(1000):
+        store_id = 30000 + i
+        total_score_id = 1 + i
+        total_score = random.randint(300,500)
+        total_judge_time = random.randint(100,120)
+        if i < 999:
+            f_gen_total_score.write("(" + str(total_score_id) + ", "+str(store_id)+", " + str(total_judge_time)+", "+str(total_score)+") , ")
+        else:
+            f_gen_total_score.write("(" + str(total_score_id) + ", "+str(store_id)+", " + str(total_judge_time)+", "+str(total_score)+") ;")
+    f_gen_total_score.close()
 
 '''
 需要生成的数据,取消该行注释
@@ -116,3 +134,4 @@ def gen_order():
 # generate_longitude_and_latitude()
 # gen_commodity()
 gen_order()
+# gen_total_score()

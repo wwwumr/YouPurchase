@@ -87,11 +87,11 @@ public class StoreServiceImpl implements StoreService {
             double deliveryRange = s.getDeliveryRange();
             double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
             if (deliveryRange >= distance) {
-//                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
+                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
                 BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
                 double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
-//                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
+//                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
+                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
                 dtos.add(dto);
             }
         }

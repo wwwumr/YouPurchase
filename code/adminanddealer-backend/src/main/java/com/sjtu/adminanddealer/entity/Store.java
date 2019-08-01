@@ -26,7 +26,6 @@ public class Store {
 
     private String coverPicUrl;
 
-    @Column(nullable = false)
     private String address;
 
     // 经度
