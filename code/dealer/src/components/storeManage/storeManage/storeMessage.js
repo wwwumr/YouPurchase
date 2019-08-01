@@ -94,9 +94,10 @@ export default class StoreMessage extends React.Component {
      */
     checkShop(shop, originShop) {
         if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.startHour !== originShop.startHour
-            || shop.endHour !== originShop.endHour || shop.storeName !== originShop.storeName
-            || shop.dealerName !== originShop.dealerName) {
+            || shop.startHour !== originShop.startHour || shop.endHour !== originShop.endHour 
+            || shop.storeName !== originShop.storeName || shop.dealerName !== originShop.dealerName
+            || shop.deliveryRange !== originShop.deliveryRange || shop.deliveryType !== originShop.deliveryType
+            ) {
             return true;
         } 
         return false;
@@ -142,14 +143,13 @@ export default class StoreMessage extends React.Component {
             />
             <Input addonBefore="配送距离(km)" style={{display: "inline-block", marginBottom: "20px", width: "50%"}}  
                 min={0} type="number"
-                defaultValue = {5} 
+                value = { this.state.shop.deliveryRange } 
+                onChange = {(time) => { this.handleChange(time, "deliveryRange")}}
             />
             <Radio.Group buttonStyle="solid"
                 style={{ marginBottom: "20px", width: "50%",}}
-                defaultValue={ 0 }
-                onChange={(e) => {
-                    console.log(e.value)
-                }}
+                value={ this.state.shop.deliveryType }
+                onChange={(e) => { this.handleChange(e, "deliveryType") }}
             >
                 <Radio.Button value={0} >商家配送</Radio.Button>
                 <Radio.Button value={1} >蜂鸟配送</Radio.Button>

@@ -3,9 +3,10 @@ package com.sjtu.adminanddealer.daoImpl;
 import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.OrderInfo;
 import com.sjtu.adminanddealer.entity.Store;
-import com.sjtu.adminanddealer.repository.GradeRepository;
+import com.sjtu.adminanddealer.entity.StoreTotalScore;
 import com.sjtu.adminanddealer.repository.OrderInfoRepository;
 import com.sjtu.adminanddealer.repository.StoreRepository;
+import com.sjtu.adminanddealer.repository.StoreTotalScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class StoreDaoImpl implements StoreDao {
     private OrderInfoRepository orderInfoRepository;
 
     @Autowired
-    private GradeRepository gradeRepository;
+    private StoreTotalScoreRepository storeTotalScoreRepository;
 
     @Override
     public List<Store> getAllStores() {
@@ -107,11 +108,12 @@ public class StoreDaoImpl implements StoreDao {
 
     @Override
     public double getStoreAvgScore(Long storeId) {
-        Object o = gradeRepository.getStoreAvgScore(storeId);
-        if (o == null) {
+        StoreTotalScore totalScore = storeTotalScoreRepository.getByStoreId(storeId);
+        if (!totalScore.getTotalJudgeTime().equals(0)) {
+            return totalScore.getTotalScore() / totalScore.getTotalJudgeTime();
+        } else {
             return 0;
         }
-        return (double) o;
     }
 
     @Override

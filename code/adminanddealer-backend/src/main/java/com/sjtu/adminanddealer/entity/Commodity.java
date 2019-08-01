@@ -127,5 +127,5 @@ public class Commodity {
         this.commodityClass = commodityClass;
     }
 
-    
+
 }

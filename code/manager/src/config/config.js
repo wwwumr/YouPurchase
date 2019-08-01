@@ -11,14 +11,17 @@ var config = {
             endHour: '',
             dealerId: null,
             dealerName: "",
+            deliveryType: null,
+            deliveryRange: null,
         }
     },
     dealer: {
         originDealer: {   
             key: null,
             userName: "",
-            address: "",
             realName: "",
+            gender: null,
+            birthday: "",
             contact: "",
             storeId: null,
             storeName: "",
@@ -35,6 +38,8 @@ var config = {
     avatar: {
         url: "image/defaultAvatar.png",
     },
+    /* 高德地图的appkey */
+    mapKey: "29e2ca8db90b7c1fa55dd09e4ce13414",
     homePage: {
         homePageImageUrl: root + "image/defaultLogInCover.png",
         originBgCmd: "initial",
@@ -45,7 +50,10 @@ var config = {
     adminLogIn: "ADMIN",
     url: {
         root: root,
-        logIn: root + "login/admin",
+        logIn: root + "login/admin/",
+        userName: {
+            get: root + "login/userName/",
+        },
         stores: root + "api/a/stores/",
         storeUnbind: root + "api/a/stores/unbind/",
         dealers: root + "api/a/dealers/",
@@ -55,6 +63,10 @@ var config = {
         unbindDealers: root + "api/a/dealers/unbindDealers",
         unbindStores: root + "api/a/stores/unbindStores",
         updateStoreCover: root + "api/a/stores/cover",
+        storeMap: {
+            get: root + "api/a/stores/address",
+            post: root + "api/a/stores/address",
+        }
     }
 }
 

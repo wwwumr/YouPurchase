@@ -84,9 +84,9 @@ public interface CommodityDao {
     List<CommodityClass> getCommodityClassesByStore(Long storeId);
 
     /**
-     * @param storeId
-     * @param classInfo
-     * @return
+     * @param storeId   店铺id
+     * @param classInfo 分类信息
+     * @return 商品分类
      */
     CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo);
 

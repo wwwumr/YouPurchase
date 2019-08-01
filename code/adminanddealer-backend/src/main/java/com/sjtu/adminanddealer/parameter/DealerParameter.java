@@ -25,11 +25,13 @@ public class DealerParameter {
 
     private Long storeId;
 
+    private String password;
+
     /* constructor */
     public DealerParameter() {
     }
 
-    public DealerParameter(Long key, String userName, Integer gender, Date birthday, String realName, String contact, Long storeId) {
+    public DealerParameter(Long key, String userName, Integer gender, Date birthday, String realName, String contact, Long storeId, String password) {
         this.key = key;
         this.userName = userName;
         this.gender = gender;
@@ -37,6 +39,7 @@ public class DealerParameter {
         this.realName = realName;
         this.contact = contact;
         this.storeId = storeId;
+        this.password = password;
     }
 
     /* getter and setter */
@@ -96,4 +99,11 @@ public class DealerParameter {
         this.storeId = storeId;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

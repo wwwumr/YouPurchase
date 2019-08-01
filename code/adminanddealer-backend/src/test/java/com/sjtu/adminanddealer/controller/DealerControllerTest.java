@@ -82,7 +82,7 @@ public class DealerControllerTest {
         jsonObject.put("avatar", "image/avatar");
 
         DealerParameter dealerParameter = new DealerParameter(null, "user", 0, new Date(), "jiang",
-                "123456", null);
+                "123456", null, "1234");
         given(this.dealerService.addADealer(dealerParameter)).willReturn(jsonObject);
         this.mockMvc.perform(post("/api/a/dealers").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(dealerParameter)))
                 .andExpect(status().isOk()).andExpect(content().json(jsonObject.toJSONString()));

@@ -1,10 +1,8 @@
 import React from 'react'
 import { Form, Icon, Input, Button, message } from 'antd';
-import { createHashHistory } from 'history';
 import axios from 'axios';
 import config from '../../config/config';
 
-const history = createHashHistory();
 
 class NormalLoginForm extends React.Component {
 
@@ -27,9 +25,6 @@ class NormalLoginForm extends React.Component {
                         if (res.data === "ADMIN") {
                             /* 若是管理员账号则设置用户名并跳转 */
                             this.props.setUserName(values.username);
-                            history.push({
-                                pathname: "/shopManage/",
-                            });
                         } else {
                             message.error("用户名或密码错误")
                         }

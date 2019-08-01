@@ -19,6 +19,7 @@ public class Receiver {
         System.out.println("receiver" + id);
     }
 
+
     @RabbitHandler
     @RabbitListener(queues = "orderAdd")
     public void process(OrderInfoParameter orderInfoParameter){

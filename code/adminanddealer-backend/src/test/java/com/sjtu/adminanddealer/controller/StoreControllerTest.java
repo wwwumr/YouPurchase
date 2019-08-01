@@ -71,7 +71,7 @@ public class StoreControllerTest {
         json.put("key", 1L);
         json.put("coverPicUrl", "image/default");
 
-        StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
+        StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "7777777",
                 "8:00", "19:00", 1, 8.0, null);
         given(this.storeService.addAStore(storeParameter)).willReturn(json);
 
@@ -81,7 +81,7 @@ public class StoreControllerTest {
 
     @Test
     public void testUpdateStore() throws Exception {
-        StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "JiangChuan Road", "7777777",
+        StoreParameter storeParameter = new StoreParameter(null, "testStoreName", "7777777",
                 "8:00", "19:00", 0, 5.0, null);
         storeParameter.setKey(1L);
         this.mockMvc.perform(put("/stores").contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONString(storeParameter)))

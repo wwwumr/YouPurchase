@@ -3,6 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 
 import OrderList from './orderManage/OrderList';
+import OrderDetail from './orderManage/OrderDetail';
 
 const { Sider, Content } = Layout;
 
@@ -23,10 +24,10 @@ class OrderManage extends React.Component {
                 </Sider>
                 <Layout >
                     <Content style={{background: '#fff'}}>
-                    <div style={{marginTop: 50}}>
+                    <div style={{marginTop: 50, marginRight: 50}}>
                         <Switch>
                             <Route exact path={"/orderManage/"} component={ OrderList } />
-                            <Route exact path={"/orderManage/orderDetail/:orderInfoId"} component={ OrderList } />
+                            <Route exact path={"/orderManage/orderDetail/:orderInfoId"} component={ OrderDetail } />
                         </Switch>
                     </div>
                     </Content>

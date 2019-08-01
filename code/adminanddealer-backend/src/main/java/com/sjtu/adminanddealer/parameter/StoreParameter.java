@@ -11,8 +11,6 @@ public class StoreParameter {
 
     private String storeName;
 
-    private String address;
-
     private String contact;
 
     private String startHour;
@@ -29,10 +27,9 @@ public class StoreParameter {
     public StoreParameter() {
     }
 
-    public StoreParameter(Long key, String storeName, String address, String contact, String startHour, String endHour, Integer deliveryType, double deliveryRange, Long dealerId) {
+    public StoreParameter(Long key, String storeName, String contact, String startHour, String endHour, Integer deliveryType, double deliveryRange, Long dealerId) {
         this.key = key;
         this.storeName = storeName;
-        this.address = address;
         this.contact = contact;
         this.startHour = startHour;
         this.endHour = endHour;
@@ -56,14 +53,6 @@ public class StoreParameter {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getContact() {

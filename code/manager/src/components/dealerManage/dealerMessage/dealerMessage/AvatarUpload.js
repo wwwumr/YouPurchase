@@ -85,7 +85,7 @@ class AvatarUpload extends React.Component {
                 data={{"key": this.props.id, "avatar": this.state.imageUrl}}
                 beforeUpload={beforeUpload}
                 onChange={this.handleChange}
-                style={{position: "relative",display: "block", width: "100px", height: "100px", 
+                style={{position: "relative",display: "block", width: "110px", height: "110px", 
                     verticalAlign: "center", textAlign: "center"}}
             >
                 {/* action之后重构 */}
@@ -93,7 +93,7 @@ class AvatarUpload extends React.Component {
                     this.state.imageUrl ?
                     (
                     <div
-                        style={{position: "relative", width: "90px", height: "90px", marginLeft: "-2px", marginTop: "-2px"}}
+                        style={{position: "relative", width: "100px", height: "100px", marginLeft: "-3px", marginTop: "-3px"}}
                     >
                     <img src={config.url.root+this.state.imageUrl} alt="avatar" 
                         style={{position: "relative", width: "100%", height: "100%"}} 

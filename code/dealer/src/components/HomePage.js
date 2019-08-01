@@ -12,11 +12,6 @@ class HomePage extends React.Component {
         this.props.changeBg(config.homePage.imageUrl);
     }
 
-    /* 退出主页去除背景图片 */
-    componentWillUnmount() {
-        this.props.changeBg(config.homePage.originBgCmd);
-    }
-
 
     render() {
         return (

@@ -50,6 +50,7 @@ class App extends React.Component {
                             this.setState({
                                 dealer: response.data,
                             })
+                            this.changeBg(config.homePage.originBgCmd);
                         })
                         .catch(e => {
                             if (e.response && e.response.status !== 401) {
@@ -91,6 +92,7 @@ class App extends React.Component {
         }
     }
 
+
     
     /**
      * @description 登录成功时设置用户信息
@@ -112,6 +114,7 @@ class App extends React.Component {
                     this.setState({
                         dealer: dealerMessage,
                     }, () => {
+                        this.changeBg(config.homePage.originBgCmd);
                         history.push({
                             pathname: "/accountManage/" ,
                         });

@@ -66,4 +66,13 @@ public class DealerDaoImpl implements DealerDao {
     public void updateDealerAvatar(Long dealerId, String newAvatar) {
         dealerRepository.updateDealerAvatar(dealerId, newAvatar);
     }
+
+    @Override
+    public boolean existByUserName(String userName) {
+        if (dealerRepository.getDealerByUserName(userName) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

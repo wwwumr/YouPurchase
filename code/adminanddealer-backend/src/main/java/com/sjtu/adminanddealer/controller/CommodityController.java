@@ -85,7 +85,7 @@ public class CommodityController {
     /**
      * 新增商品信息的逻辑.
      *
-     * @param data 前端发送的数据
+     * @param data    前端发送的数据
      * @param session session
      * @return JSON格式 {"key":新建商品的id(Long), "coverPicUrl":String}
      */

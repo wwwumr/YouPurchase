@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Input, Button, Icon, Modal, message, TimePicker } from 'antd';
+import { Table, Input, Button, Icon, Modal, message, TimePicker, Radio } from 'antd';
 import Highlighter from 'react-highlight-words';
 import axios from 'axios';
-//import shopMock from '../../mock/shopMock'
 import config from '../../config/config';
 import moment from 'moment';
 
@@ -114,11 +113,14 @@ class ShopManage extends React.Component {
      * @returns : 完整 ? true : false
      */ 
     checkShop = (shop) => {
-        if (shop.address !== "" && shop.contact !== "" && shop.coverPicUrl !== "" 
-            && shop.startHour !== '' && shop.endHour !== '' && shop.storeName !== ""){
-            return true;
-        }
-        return false;
+        const attrs = ["storeName", "contact", "startHour", "endHour", "deliveryRange", "deliveryType"];
+        let allFilled = true;
+        attrs.forEach((elem) => {
+            if (shop[elem] === '' || shop[elem] === null) {
+                allFilled = false;
+            }
+        })
+        return allFilled;
     }
     
     /**
@@ -150,7 +152,7 @@ class ShopManage extends React.Component {
                     }
                 })
         } else {
-            message.error("所填不能为空");
+            message.error("您还有信息未填写");
         }
     };
 
@@ -213,7 +215,7 @@ class ShopManage extends React.Component {
                     title: '封面',
                     dataIndex: 'coverPicUrl',
                     key: '1',
-                    width:"300px",
+                    width:"250px",
                     render: text => (<img style={{height:"120px", width:"150px"}} src={config.url.root + text} alt="店面图片" />)
                 },{
                     title: '店名',
@@ -233,8 +235,8 @@ class ShopManage extends React.Component {
                     title: '营业时间',
                     dataIndex: 'startHour',
                     key: '5',
-                    render: (text, row, index) => {
-                        return <p>{row.startHour+" ~ "+row.endHour}</p>
+                    render: (text, row) => {
+                        return row.startHour+" ~ "+row.endHour;
                     }
                 },{
                     title: "修改信息",
@@ -255,8 +257,8 @@ class ShopManage extends React.Component {
         const hasSelected = selectedRowKeys.length > 0;
 
         return (
-            <div>
-                <div style={{ marginBottom: 16 }}>
+            <div style={{marginLeft: 50, marginRight: 50}}>
+                <div style={{ marginBottom: 16, }}>
                     {/* 删除和增加的按钮 */}
                     <Button type="primary" style={{marginLeft:"20px"}} onClick={this.removeShop} disabled={!hasSelected} >
                     删除
@@ -280,25 +282,20 @@ class ShopManage extends React.Component {
                     <div style={{position: "relative", width: "60%", left: "20%", textAlign:"center"}}>
                         <h1>店面信息</h1>
                         {/* 选项按钮 */}
-                        <Input addonBefore="店名" style={{margin:"10px"}}
+                        <Input addonBefore="店名" style={{marginBottom: "15px"}}
                             value={this.state.shop.storeName} 
                             onChange= {(e) => { this.handleChange(e, "storeName") }}
                         >
                         </Input>
-                        <Input  addonBefore="店地址" style={{margin:"10px"}}
-                            value={this.state.shop.address}
-                            onChange= {(e) => { this.handleChange(e, "address") }}
-                        >
-                        </Input>
-                        <Input  addonBefore="店联系方式" style={{margin:"10px"}}
+                        <Input  addonBefore="店联系方式" style={{marginBottom:"15px"}}
                             value={this.state.shop.contact}
                             onChange= {(e) => { this.handleChange(e, "contact") }}
                         >
                         </Input> 
-                        <span style={{position: "relative", display: "inline-block", left: 9, width: "30%", marginTop: 10, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                        <span style={{position: "relative", display: "inline-block", width: "30%", marginBottom: 10, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
                         营业时间
                         </span>
-                        <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "30%", left: 9}}
+                        <TimePicker style={{display: "inline-block", marginBottom: "15px", width: "30%", }}
                             value={ moment(this.state.shop.startHour ? this.state.shop.startHour : "00:00", "HH:mm") }
                             format="HH:mm"
                             onChange = {(t) => {
@@ -309,10 +306,10 @@ class ShopManage extends React.Component {
                                 })
                             }}
                         />
-                        <span style={{position: "relative", display: "inline-block", width: "10%", left: 9, padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                        <span style={{position: "relative", display: "inline-block", width: "10%", padding: 4, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
                         ~ 
                         </span>
-                        <TimePicker style={{display: "inline-block", marginBottom: "10px", width: "30%", left: 9}}  
+                        <TimePicker style={{display: "inline-block", marginBottom: "15px", width: "30%", }}  
                             value={ moment(this.state.shop.endHour ? this.state.shop.endHour : "00:00", "HH:mm") }
                             format="HH:mm"
                             onChange = {(t) => {
@@ -323,6 +320,19 @@ class ShopManage extends React.Component {
                                 })
                             }}
                         />
+                        <Input addonBefore="配送距离(km)" style={{ marginBottom: "15px" }}  
+                            min={0} type="number"
+                            value = { this.state.shop.deliveryRange } 
+                            onChange = {(time) => { this.handleChange(time, "deliveryRange")}}
+                        />
+                        <Radio.Group buttonStyle="solid"
+                            style={{ marginBottom: "15px", }}
+                            value={ this.state.shop.deliveryType }
+                            onChange={(e) => { this.handleChange(e, "deliveryType") }}
+                        >
+                            <Radio.Button value={0} >商家配送</Radio.Button>
+                            <Radio.Button value={1} >蜂鸟配送</Radio.Button>
+                        </Radio.Group>
                     </div>
                     </Modal>
                     {/* 选中条目 */}

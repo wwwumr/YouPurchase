@@ -1,18 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom';
-import { Input, message, Popconfirm, Button } from 'antd';
+import { Input, message, Popconfirm, Button, Radio, DatePicker } from 'antd';
 import axios from 'axios';
-//import dealerData from '../../../mock/dealerMock';
+import moment from 'moment';
 import config from '../../../config/config';
 import AvatarUpload from './dealerMessage/AvatarUpload';
 import ShopAutoInput from './dealerMessage/ShopAutoInput';
 
+
 class DealerMessage extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
-            dealer: config.dealer.originDealer,
-            originDealer: config.dealer.originDealer,
+            dealer: Object.assign({}, config.dealer.originDealer),
+            originDealer: Object.assign({}, config.dealer.originDealer),
         }
     }
 
@@ -37,29 +39,9 @@ class DealerMessage extends React.Component {
     }
 
     /**
-     * @description 检查经销商信息是否变化
-     * @returns 变化 ? true : false
-     */
-    checkChange = () => {
-        const dealer = this.state.dealer;
-        const originDealer = this.state.originDealer;
-        if (
-            dealer.address === originDealer.address &&
-            dealer.contact === originDealer.contact &&
-            dealer.password === originDealer.password &&
-            dealer.realName === originDealer.realName &&
-            dealer.storeId === originDealer.storeId &&
-            dealer.userName === originDealer.userName
-            ){
-                return false;
-            }
-        return true;
-    }
-
-    /**
      * @description 检查变化并更改经销商
      */
-    handleChange = () => {
+    handleSubmit = () => {
         if (!this.checkChange()) {
             return ;
         }
@@ -74,6 +56,19 @@ class DealerMessage extends React.Component {
                     message.success("修改成功");
                 }
             })
+    }
+
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+    handleChange = (e, info) => {
+        var dealer = this.state.dealer;
+        dealer[info] = e.target.value;
+        this.setState({
+            dealer: dealer,
+        })
     }
 
     /**
@@ -101,6 +96,26 @@ class DealerMessage extends React.Component {
             })
     }
 
+    /**
+     * @description 检查用户是否修改信息
+     * @returns 改变则返回true
+     */
+    checkChange = () => {
+        const dealer = this.state.dealer;
+        const originDealer = this.state.originDealer;
+        if (
+            dealer.contact === originDealer.contact &&
+            dealer.gender === originDealer.gender &&
+            dealer.realName === originDealer.realName &&
+            dealer.storeId === originDealer.storeId &&
+            dealer.userName === originDealer.userName &&
+            dealer.birthday === originDealer.birthday
+            ){
+                return false;
+            }
+        return true;
+    }
+
     render() {
         return(
         <div style={{position: "relative", textAlign: "center", left: "430px" }}>
@@ -115,53 +130,43 @@ class DealerMessage extends React.Component {
                 </div>
                 <Input addonBefore="用户名"  style={{ marginBottom : "10px", width: "60%", float: "right"}}
                     value={ this.state.dealer.userName } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.userName = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "userName") }}
                 />
-                <Input addonBefore="密码"  style={{marginBottom: "10px", width: "60%", float: "right"}}
-                    value={ this.state.dealer.password } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.password = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
-                />
-                <Input addonBefore="姓名"  style={{ marginBottom : "10px", width: "60%", float: "right"}}
+                <span 
+                    style={{display: "inline-block", width: "20%", padding: 4, marginLeft: 2, 
+                        backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4, }} 
+                >
+                性别
+                </span>
+                <Radio.Group value={ this.state.dealer.gender } buttonStyle="solid"
+                    style={{ marginBottom : "10px", width: "30%", float: "right" }}
+                    onChange={ (e) => {this.handleChange(e, "gender") }}
+                >
+                    <Radio.Button value={0} style={{ width: "50%", float: "right" }}>男</Radio.Button>
+                    <Radio.Button value={1} style={{ width: "50%", float: "right" }}>女</Radio.Button>
+                </Radio.Group>
+                <Input addonBefore="姓名"  style={{ marginBottom : "15px", width: "60%", float: "right"}}
                     value={ this.state.dealer.realName } 
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.realName = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "realName") }}
                 />
-                <Input addonBefore="地址"  style={{ marginBottom : "10px" }}
-                    value={ this.state.dealer.address } 
+                <span style={{display: "inline-block", width: "25%", padding: 4, float: "left", marginTop: 31,
+                    marginBottom: 10, backgroundColor: "#fafafa", border: "1px solid #d9d9d9", borderRadius: 4}} >
+                出生日期
+                </span>
+                <DatePicker format={"YYYY-MM-DD"}
+                    style = {{ marginBottom: 10, width: '75%', float: "right", textAlign: "center"}}
+                    value={ moment(this.state.dealer.birthday ? this.state.dealer.birthday : moment().format("YYYY-MM-DD"), "YYYY-MM-DD") }
                     onChange = {(e) => {
                         var dealer = this.state.dealer;
-                        dealer.address = e.target.value;
+                        dealer["birthday"] = e ? e.format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
                         this.setState({
                             dealer: dealer,
                         })
-                    }}
+                    }} 
                 />
                 <Input addonBefore="联系方式" style={{marginBottom: "10px"}}
                     value={ this.state.dealer.contact }  
-                    onChange = {(e) => {
-                        var dealer = this.state.dealer;
-                        dealer.contact = e.target.value;
-                        this.setState({
-                            dealer: dealer,
-                        })
-                    }}
+                    onChange = {(e) => { this.handleChange(e, "contact") }}
                 />
                 <Input addonBefore="店铺" style={{display: "inline-block", marginBottom: "10px", width: "50%"}}  
                     value={ this.state.dealer.storeName }
@@ -202,7 +207,7 @@ class DealerMessage extends React.Component {
                 >
                 </ShopAutoInput>
                 <Button 
-                    onClick = { this.handleChange } 
+                    onClick = { this.handleSubmit } 
                 >
                 确认修改
                 </Button>

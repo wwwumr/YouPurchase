@@ -1,6 +1,7 @@
 import React from 'react';
 import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import { hashHistory } from 'react-dom'
+import { createHashHistory } from 'history';
 import 'antd/dist/antd.css';
 import { Layout, Menu, Avatar } from 'antd';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import config from '../config/config';
 axios.defaults.withCredentials = true;
 
 const { Header, Content, Footer} = Layout;
+const history = createHashHistory();
 
 class App extends React.Component {
 
@@ -28,10 +30,10 @@ class App extends React.Component {
      */
     componentDidMount() {
         axios
-            .get(config.url.root + "login/userName")
+            .get(config.url.userName.get)
             .then((res) => {
                 if (res.data.type === config.homePage.adminLogIn) {
-                    this.setUserName(res.data.userName);
+                    this.getUserName(res.data.userName);
                 }
             })
             .catch(err => {
@@ -42,13 +44,31 @@ class App extends React.Component {
     }
 
     /**
-     * @description 当userName不为空时设置userName, 否则改为退出登录
+     * @description 当刷新时userName不为空时设置userName
+     * @param   {String } userName
+     */
+    getUserName = (userName) => {
+        if (userName !== '' && userName !== null) {
+            this.setState({
+                userName: userName,
+            })
+            this.changeBg(config.homePage.originBgCmd);
+        }
+    }
+
+    /**
+     * @description 当登录时userName不为空时设置userName, 否则改为退出登录
      * @param   {String } userName
      */
     setUserName = (userName) => {
         if (userName !== '' && userName !== null ) {
             this.setState({
                 userName : userName,
+            }, () => {
+                this.changeBg(config.homePage.originBgCmd);
+                history.push({
+                    pathname: "/shopManage/",
+                });
             });
         } else {
             axios.get(config.url.root+"logout");
@@ -127,8 +147,8 @@ class App extends React.Component {
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
-                                <Route exact path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>
-                              
+                                <Route path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>       
+
                             </Switch>
                         }
                         {/* 未登录管理员 */}

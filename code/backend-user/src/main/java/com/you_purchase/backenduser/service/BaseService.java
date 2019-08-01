@@ -48,6 +48,8 @@ public class BaseService {
     protected DeliveryAddressDao deliveryAddressDao;
     @Autowired
     protected CommodityDao commodityDao;
+    @Autowired
+    protected StoreTotalScoreDao storeTotalScoreDao;
 
     //消息队列推送消息
     @Autowired
@@ -123,7 +125,6 @@ public class BaseService {
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应用户id的所有订单
         for (OrderInfo s : orderInfos) {
-            //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setStoreId(s.getStoreId());
             orderInfoDTO.setStatus(s.getStatus());
@@ -220,7 +221,6 @@ public class BaseService {
             //uuid产生唯一的图片名字
             String uuid = UUID.randomUUID().toString();
             String directory = "D://image/" + uuid +".jpg";
-            System.out.println(directory+" hello");
 
             file = new File(directory);
             fos = new FileOutputStream(file);

@@ -73,4 +73,6 @@ public interface DealerDao {
      * @param newAvatar 新的头像url
      */
     void updateDealerAvatar(Long dealerId, String newAvatar);
+
+    boolean existByUserName(String userName);
 }
