@@ -27,6 +27,7 @@ ratingCompleted(rating) {
         storeName:this.props.storeName,orderItemList:this.props.orderItemList,judged:this.props.judged,
       totalPrice:this.props.totalPrice,tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,
       tarAddress:this.props.tarAddress,createData:this.props.time,
+      tarLongitude:this.props.tarLongitude,tarLatitude:this.props.tarLatitude,orderNo:this.props.orderNo,
       orderInfoId:this.props.orderInfoId,storeId:this.props.storeId,userId:this.props.userId,mapjudged:this.props.mapjudged
     });
     else{
@@ -36,12 +37,13 @@ ratingCompleted(rating) {
         var tempitem={};
         tempitem.itemimg = orderItemList[i].commodityCoverPicUrl;
         tempitem.commodityInfo = orderItemList[i].commodityInfo;
-        tempitem.quantity = 2;
+        tempitem.quantity = orderItemList[i].amount;
         tempitem.itemPrice = orderItemList[i].price;
         tempitem.itemId = orderItemList[i].commodityId;
         templist.push(tempitem);
       }
-      this.props.navigation.navigate('OrderOk',{orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice});
+      this.props.navigation.navigate('OrderOk2',{tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,
+        tarAddress:this.props.tarAddress,orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice,orderInfoId:this.props.orderInfoId});
     }
   }
   componentWillReceiveProps(){

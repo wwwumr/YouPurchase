@@ -6,7 +6,7 @@ import axios from 'axios';
 //const {height, width} = Dimensions.get('window');
 const buttons = ['先生','女士']
 const buttons1 = ['家','学校','公司']
-export default class AddAddressTable extends Component {
+export default class AddAddressTable2 extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -19,19 +19,22 @@ export default class AddAddressTable extends Component {
         }
     }
     componentWillMount(){
-       
+       var item = this.props.navigation.state.params.item;
+       this.setState({name:item.name,selectedIndex:item.gender,selectedIndex2:item.tag,phone:item.contact,address:item.address});
     }
     submit(){
       Geolocation.geocode("上海",this.state.address).then((data) => {
         var longitude = data.longitude;
         var latitude = data.latitude;
-        axios.post("http://192.168.1.59:8080/delivery/address",{address:this.state.address,contact:this.state.phone,deliveryAddressId:0,
+        var item = this.props.navigation.state.params.item;
+        var deliveryAddressId = item.deliveryAddressId;
+        axios.put("http://192.168.1.59:8080/delivery/address",{address:this.state.address,contact:this.state.phone,deliveryAddressId:deliveryAddressId,
         detailAddress:this.state.address,gender:this.state.selectedIndex,
         latitude:latitude,longitude:longitude,
         name:this.state.name,tag:this.state.selectedIndex2,userId:this.props.navigation.state.params.userId})
         .then((response)=> {
           DeviceEventEmitter.emit('save');
-            if(response.data=='SAVED'){
+            if(response.data=='UPDATE'){
               console.log("Save the address");
               ToastAndroid.show("已保存 ",ToastAndroid.SHORT);
 
