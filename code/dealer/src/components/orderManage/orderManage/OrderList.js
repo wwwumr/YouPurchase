@@ -29,6 +29,7 @@ const tags = [
         title: "送货地址",
         dataIndex: 'tarAddress',
         key: '5',
+        width: "20%"
     },{
         title: "订单状态",
         dataIndex: 'status',

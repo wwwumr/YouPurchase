@@ -4,6 +4,7 @@ import { Layout, Menu } from 'antd';
 
 import OrderList from './orderManage/OrderList';
 import OrderDetail from './orderManage/OrderDetail';
+import OrderStatistics from './orderManage/OrderStatistics';
 
 const { Sider, Content } = Layout;
 
@@ -18,7 +19,7 @@ class OrderManage extends React.Component {
                         <Link to="/orderManage/" >订单查看</Link>
                         </Menu.Item>
                         <Menu.Item key="1" >
-                        <Link to="/orderManage/" >订单统计</Link>
+                        <Link to="/orderManage/orderStatistics/" >订单统计</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -28,6 +29,7 @@ class OrderManage extends React.Component {
                         <Switch>
                             <Route exact path={"/orderManage/"} component={ OrderList } />
                             <Route exact path={"/orderManage/orderDetail/:orderInfoId"} component={ OrderDetail } />
+                            <Route exact path={"/orderManage/orderStatistics/"} component={OrderStatistics} ></Route>
                         </Switch>
                     </div>
                     </Content>
