@@ -22,6 +22,14 @@ export default class AddAddressTable2 extends Component {
        var item = this.props.navigation.state.params.item;
        this.setState({name:item.name,selectedIndex:item.gender,selectedIndex2:item.tag,phone:item.contact,address:item.address});
     }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 提交对特定地址修改
+     */
     submit(){
       Geolocation.geocode("上海",this.state.address).then((data) => {
         var longitude = data.longitude;

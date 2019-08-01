@@ -8,7 +8,7 @@ import {
     Dimensions
 } from 'react-native';
 
-let {width,height} = Dimensions.get('window');
+let {width, height} = Dimensions.get('window');
 
 //npm install react-native-side-menu --save
 //https://github.com/react-native-community/react-native-side-menu
@@ -16,12 +16,12 @@ let {width,height} = Dimensions.get('window');
 
 import SideMenu from 'react-native-side-menu'
 import LeftMenu from './Test1'
-
+// 测试例子，测试react-native-side-menu的组件的使用情况
 export default class LeftSideMenu extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             isOpen:false,
         }
 
@@ -30,14 +30,14 @@ export default class LeftSideMenu extends Component {
 
 
     //点击侧边栏的按钮，回调此函数，关闭menu
-    SelectMenuItemCallBack(){
+    SelectMenuItemCallBack() {
         this.setState({
             isOpen:!this.state.isOpen,
         })
     }
 
     //点击打开侧边栏
-    SelectToOpenLeftSideMenu(){
+    SelectToOpenLeftSideMenu() {
         this.setState({
             isOpen:true,
         })
@@ -54,7 +54,7 @@ export default class LeftSideMenu extends Component {
             menu={menu}
             //menu={<Menu onSelectMenuItem={this.SelectMenuItemCallBack}/>}//这样写也可以
             isOpen={this.state.isOpen}
-            onChange={(isOpen)=>{
+            onChange={(isOpen)=> {
                 this.setState({
                     isOpen:isOpen,
                 })
@@ -64,26 +64,15 @@ export default class LeftSideMenu extends Component {
             edgeHitWidth={200}//手指拖动可以打开侧边栏的距离（距离侧边栏）
 
             >
-
                 <View style={styles.container}>
                     <Text>
                         Welcome to React Native!
                     </Text>
-
-
                     <TouchableOpacity onPress={() => this.SelectToOpenLeftSideMenu() } >
                         <Text>点击打开侧边栏</Text>
                     </TouchableOpacity>
-
-
                 </View>
-
-
-
             </SideMenu>
-
-
-
         );
     }
 }

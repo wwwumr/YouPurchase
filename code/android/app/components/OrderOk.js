@@ -24,6 +24,13 @@ export default class OrderOk extends Component{
           isVisible:false
         }
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 从父组件中获得数据然后刷新
+     */
     componentWillMount(){
         var orderItemlist = this.props.navigation.state.params.orderItemlist;
         var shopName = this.props.navigation.state.params.shopName;
@@ -37,16 +44,37 @@ export default class OrderOk extends Component{
             userId:userId
         })
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 设置对addAddress的监听
+     */
     componentDidMount() {
       //收到监听
       this.listener = DeviceEventEmitter.addListener('addAddress',(item)=>{
           this.change(item);
       });
   }
+  /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 移除所有的监听
+     */
   componentWillUnmount(){
       // 移除监听 
       this.listener.remove();
   }
+  /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 生成未支付的订单
+     */
   submit(){
     var time= new Date();
     var year = time.getFullYear();
@@ -98,6 +126,13 @@ export default class OrderOk extends Component{
     console.log(e)
   })
   }
+  /*********************************** 
+    ****          事件处理函数函数    ****
+    ************************************/
+
+    /**
+     * @description 使订单从未支付变为已付款
+     */
   submit1(){
     var userId = this.props.navigation.state.params.userId;
     var orderInfoId = this.state.orderPayId;

@@ -12,16 +12,41 @@ export default class AddAddress extends Component {
             addressList:[],
         }
     }
+
+
+     /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 设置对'save'信号的监测
+     */
     componentDidMount() {
       //收到监听
       this.listener = DeviceEventEmitter.addListener('save',()=>{
           this.change();
       });
   }
+
+   /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 在注销页面的时候移除监听
+     */
   componentWillUnmount(){
       // 移除监听 
       this.listener.remove();
   }
+
+   /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 对‘save’的监听
+     */
   change(){
     console.log("change addresslist");
     var userId = this.props.navigation.state.params.userId;
@@ -53,6 +78,14 @@ export default class AddAddress extends Component {
         console.log(error);
     })
   }
+
+   /*********************************** 
+    ****          生命周期函数     ****
+    ************************************/
+
+    /**
+     * @description 在页面首次刷新的时候请求数据
+     */
     componentWillMount(){
       var userId = this.props.navigation.state.params.userId;
       var url="http://192.168.1.59:8080/delivery/address?userId="+userId;
@@ -83,6 +116,14 @@ export default class AddAddress extends Component {
         console.log(error);
     })
     }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 删除某一地址
+     */
     delete(id,i){
       var url="http://192.168.1.59:8080/delivery/address?deliveryAddressId="+id;
       axios.delete(url).then(response=>{

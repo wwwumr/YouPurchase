@@ -10,17 +10,45 @@ export default class OrderItem extends Component{
           score:-1,
           isVisible:false
       }
-    }    
+    }   
+    /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 处理评分事件
+     */ 
 ratingCompleted(rating) {
   this.setState({score:rating})
   console.log("Rating is: " + rating)
 }
+/*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 关闭评价的表单
+     */
     handler1(){
         this.setState({isVisible:false});
     }
+    /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 打开评价的表单
+     */
     handler(){
         this.setState({isVisible:true})
     }
+    /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 实现跳转到订单详情页面
+     */
     handler3(){
       if(this.props.status!=0)
       this.props.navigation.navigate('OrderDetail',{orderStatus:this.props.orderStatus,leftIcon:this.props.leftIcon,
@@ -46,6 +74,13 @@ ratingCompleted(rating) {
         tarAddress:this.props.tarAddress,orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice,orderInfoId:this.props.orderInfoId});
     }
   }
+  /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 每次当yes改变是刷新
+     */
   componentWillReceiveProps(){
     var yes=this.state.yes+="123";
     this.setState({yes:yes});

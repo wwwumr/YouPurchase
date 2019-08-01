@@ -21,6 +21,14 @@ export default class AddAddressTable extends Component {
     componentWillMount(){
        
     }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 处理提交新的地址操作
+     */
     submit(){
       Geolocation.geocode("上海",this.state.address).then((data) => {
         var longitude = data.longitude;

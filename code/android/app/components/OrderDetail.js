@@ -16,14 +16,38 @@ export default class OrderDetail extends Component{
             isPress:this.props.navigation.state.params.judged
         }
     }
+    /********************************************* 
+    ****     react-native-element处理函数      ****
+    ************************************************/
+
+    /**
+     * @description 用户评价
+     */
     ratingCompleted(rating) {
       this.setState({score:rating})
       console.log("Rating is: " + rating)
     }
+
+
+    /*********************************** 
+    ****          生命周期函数       ****
+    ************************************/
+
+    /**
+     * @description 每次进入该页面是刷新
+     */
     componentWillReceiveProps(){
       var yes=this.state.yes+="123";
       this.setState({yes:yes,isPress:this.props.navigation.state.params.judged});
     }
+
+    /*********************************** 
+    ****          事件处理函数       ****
+    ************************************/
+
+    /**
+     * @description 提交用户订单评价
+     */
     submit(){
       var createData = this.props.navigation.state.params.createData
       var content = this.state.content;
@@ -54,12 +78,36 @@ export default class OrderDetail extends Component{
       });
       this.setState({isPress:false})
     }
+    /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 关闭评价表单
+     */
     handler1(){
         this.setState({isVisible:false});
     }
+
+
+    /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 打开评价表单表单
+     */
     handler(){
         this.setState({isVisible:true})
     }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 跳转到订单跟踪页面
+     */
     getMap(){
             axios.post('http://192.168.1.59:9002/order/carrier',{partner_order_code:"123"})
                .then((response)=> {

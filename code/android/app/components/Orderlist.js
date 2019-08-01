@@ -14,6 +14,13 @@ export default class Orderlist extends Component{
             yes:""
         }
     }
+    /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 响应change,changeOrder信号的监听
+     */
     change(){
       var userid =  this.props.userId;
       console.log(userid);
@@ -55,6 +62,13 @@ export default class Orderlist extends Component{
       })
       this.setState({itemlist:list});
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 添加change,changeOrder信号的监听
+     */
     componentDidMount(){
       this.listener = DeviceEventEmitter.addListener('change', () => {
       this.change();
@@ -63,12 +77,26 @@ export default class Orderlist extends Component{
           this.change();
         })
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 移除监听
+     */
     componentWillUnmount() {
       //移除监听
       if (this.listener) {
         this.listener.remove();
       }
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 每当yes改变是重新获得数据
+     */
     componentWillReceiveProps(){
       var userid =  this.props.userId;
       console.log(userid);
@@ -111,6 +139,13 @@ export default class Orderlist extends Component{
       var yes = this.props.yes+"123";
       this.setState({itemlist:list,yes:yes});
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 页面刷新时请求到该用户所有订单
+     */
     componentWillMount(){
       var userid =  this.props.userId;
       console.log(userid);

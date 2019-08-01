@@ -16,6 +16,13 @@ export default class GoodsDetail extends Component{
             id:-1
         }
     }
+     /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 在首次加载的过程中打开本地数据库
+     */
     componentWillMount(){
       if(!db){
         db = sqLite.open();
@@ -32,6 +39,13 @@ export default class GoodsDetail extends Component{
         console.log(error);
       })
     }
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 在加入购物车的同时将改物品添加到本地数据库
+     */
     addcart(){
       var goodId =  this.props.navigation.state.params.goodsId;
       var storeName =  this.props.navigation.state.params.storeName;
@@ -46,6 +60,13 @@ export default class GoodsDetail extends Component{
       tempitem.amount = 1;
       sqLite.insertUserData(tempitem);
     }
+     /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 在注销页面的时候关闭数据库连接
+     */
     compennetDidUnmount(){
       sqLite.close();
     }

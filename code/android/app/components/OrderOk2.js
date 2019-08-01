@@ -21,6 +21,13 @@ export default class OrderOk2 extends Component{
           isVisible:false
         }
     }
+    /*********************************** 
+    ****          生命周期函数    ****
+    ************************************/
+
+    /**
+     * @description 从父组件中获得数据然后刷新
+     */
     componentWillMount(){
         var orderItemlist = this.props.navigation.state.params.orderItemlist;
         var shopName = this.props.navigation.state.params.shopName;
@@ -40,6 +47,13 @@ export default class OrderOk2 extends Component{
             phone:phone
         })
     }
+    /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 使未支付的订单成为已支付的订单
+     */
     submit(){
         var orderInfoId = this.props.navigation.state.params.orderInfoId;
         console.log(orderInfoId);
