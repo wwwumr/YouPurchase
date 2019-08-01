@@ -10,7 +10,7 @@ const columns = [
         key: "1",
         render: (text) => 
             <img src={config.url.root + text} alt="商品图片"
-                style={{width: 100, height: 100, }}
+                style={{width: 80, height: 80, }}
             />
     },{
         title: "商品信息",
@@ -95,7 +95,6 @@ export default class OrderStatistics extends React.Component {
                     }
                     orderItem.totalPrice = orderItem.amount * orderItem.price;
                     orderItemList[pos] = orderItem;
-                    console.log(orderItemList)
                 }   
             })
         })
