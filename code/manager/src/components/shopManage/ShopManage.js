@@ -213,7 +213,7 @@ class ShopManage extends React.Component {
                     title: '封面',
                     dataIndex: 'coverPicUrl',
                     key: '1',
-                    width:"300px",
+                    width:"250px",
                     render: text => (<img style={{height:"120px", width:"150px"}} src={config.url.root + text} alt="店面图片" />)
                 },{
                     title: '店名',
@@ -233,8 +233,8 @@ class ShopManage extends React.Component {
                     title: '营业时间',
                     dataIndex: 'startHour',
                     key: '5',
-                    render: (text, row, index) => {
-                        return <p>{row.startHour+" ~ "+row.endHour}</p>
+                    render: (text, row) => {
+                        return row.startHour+" ~ "+row.endHour;
                     }
                 },{
                     title: "修改信息",
@@ -255,8 +255,8 @@ class ShopManage extends React.Component {
         const hasSelected = selectedRowKeys.length > 0;
 
         return (
-            <div>
-                <div style={{ marginBottom: 16 }}>
+            <div style={{marginLeft: 50, marginRight: 50}}>
+                <div style={{ marginBottom: 16, }}>
                     {/* 删除和增加的按钮 */}
                     <Button type="primary" style={{marginLeft:"20px"}} onClick={this.removeShop} disabled={!hasSelected} >
                     删除
