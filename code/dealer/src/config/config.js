@@ -60,6 +60,14 @@ var config = {
         "judged": false,
         "orderItemList": []
     },
+    /* 订单统计数据 */
+    orderItem: {
+        commodityId: null,
+        price: null,
+        amount: null,
+        commodityInfo: '',
+        commodityCoverPicUrl: '',
+    },
     /* 头像、店面、货物图片上传配置 */
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
@@ -111,7 +119,10 @@ var config = {
         /* 订单接口 */
         orderInfo: root1 + "order/storeCheck/",
         orderModify: {
-            get: root1 + "order/modify",
+            get: root1 + "order/modify/",
+        },
+        orderDetail: {
+            get: root1 + "order/check/",
         }
     },
 }

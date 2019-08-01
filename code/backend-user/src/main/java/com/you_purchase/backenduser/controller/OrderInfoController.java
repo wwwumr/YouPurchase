@@ -27,6 +27,7 @@ public class OrderInfoController extends BaseController{
     @ResponseBody
     @ApiOperation(value = "用户新增订单")
     OrderPayDTO addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
+
         return orderInfoService.addOrder(orderInfoParameter);
     }
 
@@ -46,7 +47,6 @@ public class OrderInfoController extends BaseController{
     @ResponseBody
     @ApiOperation(value = "用户查看所有订单")
     List<OrderInfoDTO> OrderUserCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
-        System.out.println("开始查询");
         return orderInfoService.OrderUserCheck(orderInfoCheckParameter);
     }
 
@@ -67,11 +67,9 @@ public class OrderInfoController extends BaseController{
     @ApiOperation(value = "商户查看订单")
     List<OrderInfoDTO> OrderStoreCheck(HttpSession session){
         if(session.getAttribute("storeId") == null){
-            System.out.println("没有信息");
             return null;
         }
         long storeId = (long) session.getAttribute("storeId");
-        System.out.println("有信息" );
         return orderInfoService.OrderStoreCheck(storeId);
     }
 
@@ -127,11 +125,11 @@ public class OrderInfoController extends BaseController{
         return  orderInfoService.OrderInfoModify(orderInfoId,status);
     }
 
-    //订单取消
+    //商家订单取消
     @RequestMapping(value = "/order/delete",method = RequestMethod.GET)
     public
     @ResponseBody
-    @ApiOperation(value = "删除订单")
+    @ApiOperation(value = "商家删除订单")
     int OrderInfoDelete(long orderInfoId,HttpSession session){
         if(session.getAttribute("storeId")==null){
             return 403;
@@ -139,4 +137,15 @@ public class OrderInfoController extends BaseController{
         long storeId = (long) session.getAttribute("storeId");
         return orderInfoService.OrderInfoDelete(orderInfoId,storeId);
     }
+
+    //用户取消订单
+    @RequestMapping(value = "/order/userDelete",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户删除订单")
+    int orderInfouDeleter(long orderInfoId,long userId){
+        return orderInfoService.OrderInfoDelete(orderInfoId,userId);
+    }
+
+
 }

@@ -14,6 +14,7 @@ import com.you_purchase.backenduser.parameter.PayParameter;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,14 +27,15 @@ public class OrderInfoService extends BaseService {
     public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter) {
         OrderInfo orderInfo = new OrderInfo();
         List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-        String sDate = orderInfoParameter.getCreateDate();
-        if(isLegalDate(sDate) == false){
-            return null;
-        }
-        Date date = strToDate(sDate);
+        Date date = new Date();
+        String sDate = datToStr(date);
+        Date trueDate = strToDate(sDate);
         String orderNo = createOrderId();
-        orderInfo.setOrderInfo(orderInfoParameter,date,orderNo);
+        orderInfo.setOrderInfo(orderInfoParameter,trueDate,orderNo);
+        orderInfoDao.save(orderInfo);
         long orderInfoId = orderInfo.getOrderInfoId();
+        System.out.println("获取订单id");
+        System.out.println(orderInfoId);
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
             Integer amount = s.getAmount();
@@ -51,7 +53,7 @@ public class OrderInfoService extends BaseService {
                 shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
             }
         }
-        orderInfoDao.save(orderInfo);
+
         return new OrderPayDTO(orderInfo, shortageDTOS,sDate);
     }
 
@@ -172,8 +174,8 @@ public class OrderInfoService extends BaseService {
     }
 
     //取消订单
-    public int OrderInfoDelete(long orderInfoId,long storeId) {
-        boolean flag = orderBelong(orderInfoId,storeId);
+    public int OrderInfoDelete(long orderInfoId,long id) {
+        boolean flag = orderBelong(orderInfoId,id);
         if(flag==false){
             return 0;
         }

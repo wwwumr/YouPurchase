@@ -111,10 +111,10 @@ public class BaseService {
         return String.format("011d",hashfirst) + String.format("%011d", hashCodeV);
     }
 
-    //检查要查看的订单是否属于该商店
-    protected  boolean orderBelong(long orderInfoId,long storeId){
+    //检查要查看的订单是否属于该id
+    protected  boolean orderBelong(long orderInfoId,long id){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
-        if(orderInfo.getStoreId() == storeId){
+        if(orderInfo.getStoreId() == id){
             return true;
         }
         return false;
@@ -134,16 +134,13 @@ public class BaseService {
             orderInfoDTO.setTarPeople(s.getTarPeople());
             orderInfoDTO.setTarLongitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLongitude());
             orderInfoDTO.setTarLatitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLatitude());
-            //
             orderInfoDTO.setJudged(s.isJudged());
             String date = datToStr(s.getCreateDate());
             orderInfoDTO.setCreateDate(date);
-            //
             Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setStoreName(store.getStoreName());
+            orderInfoDTO.setStoreName(store.getStoreName());;
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            //
             //获取对应订单id的所有商品
             List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
             List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();

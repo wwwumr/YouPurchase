@@ -21,10 +21,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -157,61 +154,20 @@ public class AllBaseTest {
     }
 
 
-    //add经销商
 
 
-    @Autowired
-    private OrderInfoService orderInfoService;
-
-    public List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
-        List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
-        //获取对应用户id的所有订单
-        for (OrderInfo s : orderInfos) {
-            //System.out.println(s.getOrderInfoId());
-            OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
-            orderInfoDTO.setStoreId(s.getStoreId());
-            orderInfoDTO.setStatus(s.getStatus());
-            orderInfoDTO.setOrderNo(s.getOrderInfoNo());
-            orderInfoDTO.setTarPhone(s.getTarPhone());
-            orderInfoDTO.setTarAddress(s.getTarAddress());
-            orderInfoDTO.setTarPeople(s.getTarPeople());
-            orderInfoDTO.setTarLongitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLongitude());
-            orderInfoDTO.setTarLatitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLatitude());
-            orderInfoDTO.setJudged(s.isJudged());
-            String date = datToStr(s.getCreateDate());
-            orderInfoDTO.setCreateDate(date);
-            Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            System.out.println("订单信息获取完毕");
-            //获取对应订单id的所有商品
-            List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
-            List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
-            for(OrderItem o:orderItems){
-                OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
-                orderCheckDTO.setPrice(o.getPrice());
-                orderCheckDTO.setAmount(o.getAmount());
-                Commodity commodity = commodityDao.findByCommodityId(o.getCommodityId());
-                orderCheckDTO.setCommodityCoverPicUrl(commodity.getCommodityCoverPicUrl());
-                orderCheckDTO.setCommodityId(commodity.getCommodityId());
-                orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
-                orderCheckDTOS.add(orderCheckDTO);
-            }
-            orderInfoDTO.setOrderItemList(orderCheckDTOS);
-            orderInfoDTOS.add(orderInfoDTO);
-        }
-        return orderInfoDTOS;
-    }
-
-
+    //增加送货地址
     @Test
     @Rollback(false)
     public void insertDelivery(){
-        DeliveryAddress deliveryAddress = new DeliveryAddress();
-        deliveryAddress.setLatitude(10.0);
-        deliveryAddress.setLongitude(10.0);
-        deliveryAddressDao.save(deliveryAddress);
+        for(int i=1;i<20;i++) {
+            double latitude = Math.random()*30;
+            double longitude = Math.random()*30;
+            DeliveryAddress deliveryAddress = new DeliveryAddress();
+            deliveryAddress.setLatitude(latitude);
+            deliveryAddress.setLongitude(longitude);
+            deliveryAddressDao.save(deliveryAddress);
+        }
     }
 
     @Test

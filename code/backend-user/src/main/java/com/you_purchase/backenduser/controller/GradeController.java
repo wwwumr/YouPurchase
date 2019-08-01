@@ -26,7 +26,7 @@ public class GradeController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "用户查看商户评价")
-    List<GradeDTO> GradeShow(long storeId){
+    List<GradeDTO> showGrade(long storeId){
         return gradeService.GradeShow(storeId);
     }
 

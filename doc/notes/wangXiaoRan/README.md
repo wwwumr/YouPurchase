@@ -233,3 +233,9 @@ get /order/modify
 订单取消
 get /order/delete
 返回数字
+
+## 待做
+
+* 标签管理
+* 酒厂进货
+* 订单统计 ok
