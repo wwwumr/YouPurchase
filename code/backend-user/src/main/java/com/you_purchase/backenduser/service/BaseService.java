@@ -109,10 +109,10 @@ public class BaseService {
         return String.format("011d",hashfirst) + String.format("%011d", hashCodeV);
     }
 
-    //检查要查看的订单是否属于该商店
-    protected  boolean orderBelong(long orderInfoId,long storeId){
+    //检查要查看的订单是否属于该id
+    protected  boolean orderBelong(long orderInfoId,long id){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
-        if(orderInfo.getStoreId() == storeId){
+        if(orderInfo.getStoreId() == id){
             return true;
         }
         return false;
@@ -122,7 +122,6 @@ public class BaseService {
     protected List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();
         //获取对应用户id的所有订单
-        System.out.println("开始循环");
         for (OrderInfo s : orderInfos) {
             //System.out.println(s.getOrderInfoId());
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
@@ -132,30 +131,18 @@ public class BaseService {
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
             orderInfoDTO.setTarPeople(s.getTarPeople());
-            System.out.println("基本信息");
             orderInfoDTO.setTarLongitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLongitude());
             orderInfoDTO.setTarLatitude(deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(s.getDeliveryAddressId()).getLatitude());
-            System.out.println("配送信息");
-            //
             orderInfoDTO.setJudged(s.isJudged());
-            System.out.println("开始获取日期");
             String date = datToStr(s.getCreateDate());
             orderInfoDTO.setCreateDate(date);
-            System.out.println("日期获取完毕");
-            //
-            System.out.println("店铺id" + s.getStoreId());
             Store store = storeDao.findByStoreId(s.getStoreId());
-            orderInfoDTO.setStoreName(store.getStoreName());
-            System.out.println("商家信息获取完成");
+            orderInfoDTO.setStoreName(store.getStoreName());;
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
-            System.out.println("总价获取完成");
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
-            //
-            System.out.println("订单信息获取完毕");
             //获取对应订单id的所有商品
             List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(s.getOrderInfoId());
             List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
-            System.out.println("开始加载商品信息");
             for(OrderItem o:orderItems){
                 OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
                 orderCheckDTO.setPrice(o.getPrice());
@@ -166,7 +153,6 @@ public class BaseService {
                 orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
                 orderCheckDTOS.add(orderCheckDTO);
             }
-            System.out.println("商品信息完成");
             orderInfoDTO.setOrderItemList(orderCheckDTOS);
             orderInfoDTOS.add(orderInfoDTO);
         }
