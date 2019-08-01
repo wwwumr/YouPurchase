@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Receiver {
 
+
     @Autowired
     private OrderInfoService orderInfoService;
 
@@ -18,6 +19,7 @@ public class Receiver {
     public void payReceiver(Long id) {
         System.out.println("receiver" + id);
     }
+
 
 
     @RabbitHandler
