@@ -12,6 +12,13 @@ export default class Login extends Component{
       password:''
     }
   }
+   /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 用户登录
+     */
   handler(){
     console.log(this.state.phone);
     console.log(this.state.password);

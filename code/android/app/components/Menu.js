@@ -5,23 +5,56 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import {Icon} from 'react-native-elements'; 
 export default class ItemMenu extends React.PureComponent {
   _menu = null;
- 
+  /*********************************** 
+    ****          时间处理函数     ****
+    ************************************/
+
+    /**
+     * @description 线束菜单
+     */
   setMenuRef = ref => {
     this._menu = ref;
   };
- 
+  /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 触发change1信号的监听
+     */
   hideMenu1 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change1');
   };
+  /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 触发change2信号的监听
+     */
   hideMenu2 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change2');
   };
+  /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 触发change2信号的监听
+     */
   hideMenu3 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change3');
   };
+  /*********************************** 
+    ****          事件处理函数    ****
+    ************************************/
+
+    /**
+     * @description 显示菜单
+     */
   showMenu = () => {
     this._menu.show();
   };

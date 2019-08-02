@@ -1,37 +1,10 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,ScrollView} from 'react-native';
+import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid} from 'react-native';
 import {Header,Text,Icon,ListItem, Divider,Button} from 'react-native-elements';
+import axios from 'axios';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 //const {height, width} = Dimensions.get('window');
-const list=[
-{
-    name:"王志远",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远1",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远2",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远3",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-}
-];
+var addressList=[];
 export default class AddAddress extends Component {
     constructor(props){
         super(props);
@@ -39,11 +12,135 @@ export default class AddAddress extends Component {
             addressList:[],
         }
     }
+
+
+     /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 设置对'save'信号的监测
+     */
+    componentDidMount() {
+      //收到监听
+      this.listener = DeviceEventEmitter.addListener('save',()=>{
+          this.change();
+      });
+  }
+
+   /*********************************** 
+    ****          生命周期函数      ****
+    ************************************/
+
+    /**
+     * @description 在注销页面的时候移除监听
+     */
+  componentWillUnmount(){
+      // 移除监听 
+      this.listener.remove();
+  }
+
+   /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 对‘save’的监听
+     */
+  change(){
+    console.log("change addresslist");
+    var userId = this.props.navigation.state.params.userId;
+      var url="http://192.168.1.59:8080/delivery/address?userId="+userId;
+      axios.get(url).then((response)=>{
+        list = response.data;
+        addressList=[];
+        for(var i=0;i<list.length;i++){
+          var tempitem = list[i];
+          console.log(tempitem);
+          if(tempitem.gender==0){
+            tempitem.sex = "先生"
+          }else{
+            tempitem.sex="女士"
+          }
+          if(tempitem.tag==0){
+            tempitem.tagger = "学校";
+          }
+          if(tempitem.tag==1){
+            tempitem.tagger = "家";
+          }
+          if(tempitem.tag==2){
+            tempitem.tagger = "公司";
+          }
+          addressList.push(tempitem);
+        }
+        this.setState({addressList:addressList})
+    }).catch(function(error){
+        console.log(error);
+    })
+  }
+
+   /*********************************** 
+    ****          生命周期函数     ****
+    ************************************/
+
+    /**
+     * @description 在页面首次刷新的时候请求数据
+     */
     componentWillMount(){
-       this.setState({addressList:list});
+      var userId = this.props.navigation.state.params.userId;
+      var url="http://192.168.1.59:8080/delivery/address?userId="+userId;
+      axios.get(url).then((response)=>{
+        list = response.data;
+        addressList=[];
+        for(var i=0;i<list.length;i++){
+          var tempitem = list[i];
+          console.log(tempitem);
+          if(tempitem.gender==0){
+            tempitem.sex = "先生"
+          }else{
+            tempitem.sex="女士"
+          }
+          if(tempitem.tag==0){
+            tempitem.tagger = "学校";
+          }
+          if(tempitem.tag==1){
+            tempitem.tagger = "家";
+          }
+          if(tempitem.tag==2){
+            tempitem.tagger = "公司";
+          }
+          addressList.push(tempitem);
+        }
+        this.setState({addressList:addressList})
+    }).catch(function(error){
+        console.log(error);
+    })
+    }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 删除某一地址
+     */
+    delete(id,i){
+      var url="http://192.168.1.59:8080/delivery/address?deliveryAddressId="+id;
+      axios.delete(url).then(response=>{
+        if(response.data=='DELETE'){
+          ToastAndroid.show("已删除 ",ToastAndroid.SHORT);
+          addressList.splice(i,1);
+          this.setState({addressList:addressList});
+        }
+        else{
+          ToastAndroid.show("删除失败 ",ToastAndroid.SHORT);
+        }
+      }).catch(e=>{
+        console.log(e);
+      })
     }
   render() {
-
+    var userId = this.props.navigation.state.params.userId;
     return (
      <View style={{flex:1}}>
          <View style={{flex:0.2}}>
@@ -57,23 +154,35 @@ export default class AddAddress extends Component {
     this.state.addressList.map((item, i) => {
       return(
           <View>
-      <ListItem
+      <ListItem 
         key={item.key}
-        title={<View style={{flexDirection:"row"}}><Text style={{fontSize:15,fontWeight:"bold"}}>{item.name}</Text>
+        title={<TouchableOpacity onPress={()=>{
+          DeviceEventEmitter.emit('addAddress',item);
+          this.props.navigation.goBack();
+        }}><View  style={{flexDirection:"row"}}><Text style={{fontSize:15,fontWeight:"bold"}}>{item.name}</Text>
         <Text style={{fontSize:14}}>{item.sex}</Text>
         <View style={{marginLeft:10}}>
-        <Text style={{fontSize:14}}>{item.phone}</Text>
+        <Text style={{fontSize:14}}>{item.contact}</Text>
         </View>
-        </View>}
-        subtitle={<View style={{flexDirection:"row"}}><Text style={{fontWeight:"bold"}}>{item.tag}</Text><Text> {item.address}</Text></View>}
-        leftAvatar={<View style={{width:30,height:30}}/>}
+        </View></TouchableOpacity>}
+        subtitle={<TouchableOpacity onPress={()=>{
+          DeviceEventEmitter.emit('addAddress',item);
+          this.props.navigation.goBack();
+        }}><View  style={{flexDirection:"row"}}><Text style={{fontWeight:"bold"}}>{item.tagger}</Text><Text> {item.address}</Text></View></TouchableOpacity>}
+        leftAvatar={<TouchableOpacity onPress={()=>{
+          DeviceEventEmitter.emit('addAddress',item);
+          this.props.navigation.goBack();
+        }}><View  style={{width:30,height:30}}></View></TouchableOpacity>}
+        rightTitle={<View style={{flexDirection:"row"}}><TouchableOpacity onPress={()=>{this.props.navigation.navigate('AddAddressTable2',{userId:userId,item:item})}}><Icon name='edit' color='#000'
+        /></TouchableOpacity><Icon name='delete' color='#000' onPress={()=>{this.delete(item.deliveryAddressId,i)}}
+        /></View>}
       />
       <Divider style={{backgroundColor: 'blue'}}/>
       </View>)
      } )
   }
        </ScrollView>
-       <View style={{flex:0.1}}><Button title="新增收货地址"type="outline" onPress={()=>{this.props.navigation.navigate('AddAddressTable',{})}}/></View>
+       <View style={{flex:0.1}}><Button title="新增收货地址"type="outline" onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:userId})}}/></View>
       </View>
     );
   }

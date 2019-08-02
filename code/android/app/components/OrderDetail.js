@@ -5,68 +5,6 @@ import axios from 'axios';
 import { MapView, MapTypes, Geolocation } from 'react-native-baidu-map';
 import Item from './Item';
 import OrderItem from './OrderItem';
-const list1 = [
-    {
-      title: '苹果',
-      icon: <Image source={require('../images/fruit/apple_pic.png')} style={{width:30,height:30}}/>,
-      money:2,
-      number:2
-    },
-    {
-      title: '香蕉',
-      icon: <Image source={require('../images/fruit/banana_pic.png')} style={{width:30,height:30}}/>,
-      money:3,
-      number:2
-    },
-    {
-      title: '樱桃',
-      icon: <Image source={require('../images/fruit/cherry_pic.png')} style={{width:30,height:30}}/>,
-      money:4,
-      number:2
-    },
-    {
-      title: '葡萄',
-      icon: <Image source={require('../images/fruit/grape_pic.png')} style={{width:30,height:30}}/>,
-      money:5,
-      number:2
-    },
-    {
-      title: '芒果',
-      icon: <Image source={require('../images/fruit/mango_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '橙子',
-      icon: <Image source={require('../images/fruit/orange_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '香梨',
-      icon: <Image source={require('../images/fruit/pear_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '菠萝',
-      icon: <Image source={require('../images/fruit/pineapple_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '草莓',
-      icon: <Image source={require('../images/fruit/strawberry_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '西瓜',
-      icon: <Image source={require('../images/fruit/watermelon_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    }
-  ]
 export default class OrderDetail extends Component{
     constructor(props){
         super(props);
@@ -78,14 +16,38 @@ export default class OrderDetail extends Component{
             isPress:this.props.navigation.state.params.judged
         }
     }
+    /********************************************* 
+    ****     react-native-element处理函数      ****
+    ************************************************/
+
+    /**
+     * @description 用户评价
+     */
     ratingCompleted(rating) {
       this.setState({score:rating})
       console.log("Rating is: " + rating)
     }
+
+
+    /*********************************** 
+    ****          生命周期函数       ****
+    ************************************/
+
+    /**
+     * @description 每次进入该页面是刷新
+     */
     componentWillReceiveProps(){
       var yes=this.state.yes+="123";
       this.setState({yes:yes,isPress:this.props.navigation.state.params.judged});
     }
+
+    /*********************************** 
+    ****          事件处理函数       ****
+    ************************************/
+
+    /**
+     * @description 提交用户订单评价
+     */
     submit(){
       var createData = this.props.navigation.state.params.createData
       var content = this.state.content;
@@ -116,18 +78,42 @@ export default class OrderDetail extends Component{
       });
       this.setState({isPress:false})
     }
+    /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 关闭评价表单
+     */
     handler1(){
         this.setState({isVisible:false});
     }
+
+
+    /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 打开评价表单表单
+     */
     handler(){
         this.setState({isVisible:true})
     }
+
+     /*********************************** 
+    ****          事件处理函数      ****
+    ************************************/
+
+    /**
+     * @description 跳转到订单跟踪页面
+     */
     getMap(){
             axios.post('http://192.168.1.59:9002/order/carrier',{partner_order_code:"123"})
                .then((response)=> {
                  var tarAddress={};
-                 tarAddress['longitude']=121.445877;
-                 tarAddress['latitude'] = 31.024876;
+                 tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;
+                 tarAddress['latitude'] = this.props.navigation.state.params.tarLatitude;
                    var responseData = response.data;
                    console.log(responseData);
                    var carrierAddress ={};
@@ -151,9 +137,11 @@ export default class OrderDetail extends Component{
       var tarPeople = this.props.navigation.state.params.tarPeople
       var tarAddress = this.props.navigation.state.params.tarAddress
       var tarPhone = this.props.navigation.state.params.tarPhone
+      
       var orderInfoId = this.props.navigation.state.params.orderInfoId
       var createData = this.props.navigation.state.params.createData
       var mapjudged = this.props.navigation.state.params.mapjudged
+      var orderNo = this.props.navigation.state.params.orderNo;
         return(
             <View> 
                 <Header
@@ -193,8 +181,8 @@ export default class OrderDetail extends Component{
                                  key={i}
                                 leftAvatar={<Image source={{uri:item.commodityCoverPicUrl}} style={{width:30,height:30}}/>}
                                 title={item.commodityInfo}
-                                subtitle={item.amount}
-                                rightSubtitle={item.price}
+                                subtitle={"x "+item.amount}
+                                rightSubtitle={"￥ "+item.price}
                             />
                             ))
                         }   
@@ -228,7 +216,7 @@ export default class OrderDetail extends Component{
                     style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
                      <Text style={{fontSize:18,color:"#484848",marginTop:5,marginBottom:5}}>订单信息</Text>
                      <Divider style={{backgroundColor:"blue",marginTop:5,marginBottom:5}}/>
-                     <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"订单号： "+orderInfoId}</Text>
+                     <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"订单号： "+orderNo}</Text>
                      <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"下单时间 "+createData}</Text>
                          </View>
                  </View>

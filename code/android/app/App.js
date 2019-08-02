@@ -5,22 +5,15 @@ import Login from './components/Login';
 import NavigatorBar from './components/NavigatorBar';
 import Goodslist from './components/Goodslist';
 import GoodsDetail from './components/GoodsDetail';
-import PersonPage from './components/PersonPage';
-import Cart from './components/ShopCart';
 import  OrderDetail from './components/OrderDetail';
-import ShopCart1  from './components/ShopCart1';
-import Orderlist from './components/Orderlist';
-import OrderItem from './components/OrderItem';
 import Registry from './components/Registry';
-import Hello from './components/Test';
-import LeftSideMenu from './components/test/Test';
-import SqliteTest from './components/SqliteTest';
 import  BaiduMapDemo  from './components/test/Test2'
-import ItemMenu from './components/Menu';
-import ShopItem from './components/ShopItem';
 import AddAddress from './components/AddAddress';
 import AddAddressTable from './components/AddAddressTable';
+import AddAddressTable2 from './components/AddAddressTable2';
 import OrderOk from './components/OrderOk';
+import OrderOk2 from './components/OrderOk2';
+import StoreGradeShow from './components/StoreGradeShow';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -57,6 +50,12 @@ const AppNavigator = createStackNavigator({
       header:null
     }
   },
+  OrderOk2:{
+    screen: OrderOk2,
+    navigationOptions:{
+      header:null
+    }
+  },
   Map:{
     screen: BaiduMapDemo,
     navigationOptions:{
@@ -69,8 +68,20 @@ const AppNavigator = createStackNavigator({
       header:null
     }
   },
+  AddAddressTable2:{
+    screen: AddAddressTable2,
+    navigationOptions:{
+      header:null
+    }
+  },
   AddAddress:{
     screen: AddAddress,
+    navigationOptions:{
+      header:null
+    }
+  },
+  StoreGradeShow:{
+    screen: StoreGradeShow,
     navigationOptions:{
       header:null
     }
