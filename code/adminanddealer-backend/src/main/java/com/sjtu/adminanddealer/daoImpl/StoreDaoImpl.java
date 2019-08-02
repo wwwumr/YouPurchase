@@ -120,4 +120,10 @@ public class StoreDaoImpl implements StoreDao {
     public List<Store> getStoresInRange(double longitude1, double longitude2, double latitude1, double latitude2) {
         return storeRepository.getStoresByLongitudeBetweenAndLatitudeBetween(longitude1, longitude2, latitude1, latitude2);
     }
+
+    @Override
+    public Long addStoreTotalScore(StoreTotalScore storeTotalScore) {
+        storeTotalScoreRepository.save(storeTotalScore);
+        return storeTotalScore.getStoreTotalScoreId();
+    }
 }

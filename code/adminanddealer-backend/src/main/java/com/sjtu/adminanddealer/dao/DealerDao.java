@@ -74,5 +74,11 @@ public interface DealerDao {
      */
     void updateDealerAvatar(Long dealerId, String newAvatar);
 
+    /**
+     * 判断用户名是否存在
+     *
+     * @param userName 用户名
+     * @return 存在返回true，失败返回false
+     */
     boolean existByUserName(String userName);
 }

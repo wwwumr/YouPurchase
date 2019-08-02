@@ -10,6 +10,7 @@ import com.sjtu.adminanddealer.dao.StoreDao;
 import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
+import com.sjtu.adminanddealer.entity.StoreTotalScore;
 import com.sjtu.adminanddealer.parameter.StoreAddressParameter;
 import com.sjtu.adminanddealer.parameter.StoreParameter;
 import com.sjtu.adminanddealer.service.StoreService;
@@ -129,6 +130,9 @@ public class StoreServiceImpl implements StoreService {
         commodityClass.setClassInfo("其他");
         commodityDao.addNewCommodityClass(commodityClass);
         commodityDao.addNewCommodityClass(commodityClass1);
+
+        StoreTotalScore totalScore = new StoreTotalScore(newId, 0.0, 0L);
+        storeDao.addStoreTotalScore(totalScore);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("key", newId);
