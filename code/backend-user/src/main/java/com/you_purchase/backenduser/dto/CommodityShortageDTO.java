@@ -10,13 +10,16 @@ public class CommodityShortageDTO {
 
     private Long commodityId;
 
+    private String commodityInfo;
+
     private Integer actualRemaining;
 
     public CommodityShortageDTO() {
     }
 
-    public CommodityShortageDTO(Long commodityId, Integer actualRemaining) {
+    public CommodityShortageDTO(Long commodityId, String commodityInfo, Integer actualRemaining) {
         this.commodityId = commodityId;
+        this.commodityInfo = commodityInfo;
         this.actualRemaining = actualRemaining;
     }
 
@@ -26,6 +29,14 @@ public class CommodityShortageDTO {
 
     public void setCommodityId(Long commodityId) {
         this.commodityId = commodityId;
+    }
+
+    public String getCommodityInfo() {
+        return commodityInfo;
+    }
+
+    public void setCommodityInfo(String commodityInfo) {
+        this.commodityInfo = commodityInfo;
     }
 
     public Integer getActualRemaining() {
@@ -40,6 +51,7 @@ public class CommodityShortageDTO {
     public String toString() {
         return "CommodityShortageDTO{" +
                 "commodityId=" + commodityId +
+                ", commodityInfo='" + commodityInfo + '\'' +
                 ", actualRemaining=" + actualRemaining +
                 '}';
     }

@@ -50,7 +50,7 @@ public class OrderInfoService extends BaseService {
                 commodity.setInventory(commodity.getInventory() - amount);
                 commodityDao.save(commodity);
             } else {
-                shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
+                shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getCommodityInfo(), commodity.getRemaining()));
             }
         }
 
