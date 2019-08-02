@@ -187,8 +187,7 @@ class DealerMessage extends React.Component {
                 >
                     <Link 
                         to = {{
-                            pathname: "/shopManage/shopDetail/",
-                            storeId: this.state.dealer.storeId,
+                            pathname: "/shopManage/shopDetail/" + this.state.dealer.storeId,
                         }}
                     >
                     查看信息

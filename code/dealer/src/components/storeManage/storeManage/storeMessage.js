@@ -40,7 +40,7 @@ export default class StoreMessage extends React.Component {
     handleSubmit = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
-        if (this.checkShop(shop, originShop)) {
+        if (this.checkShop(shop, originShop) && this.checkShopValid(shop)) {
             /* 商店经过信息修改 */
             axios
                 .put(config.url.stores, 
@@ -56,7 +56,9 @@ export default class StoreMessage extends React.Component {
                         message.success("修改成功");
                     }
                 })
-        }   
+        }  else if (!this.checkShopValid(shop)) {
+            message.warning("配送范围应非负")
+        }
     }
 
     /**
@@ -85,6 +87,12 @@ export default class StoreMessage extends React.Component {
         })
     }
 
+    checkShopValid = (shop) => {
+        if (shop.deliveryRange <= 0) {
+            return false;
+        }
+        return true;
+    }
     
     /**
      * @description 检查店铺是否经过修改

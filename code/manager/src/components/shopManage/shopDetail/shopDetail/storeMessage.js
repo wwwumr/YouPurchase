@@ -176,8 +176,7 @@ export default class StoreMessage extends React.Component {
                 >
                     <Link 
                         to = {{
-                            pathname: "/dealerManage/dealerMessage/",
-                            dealerKey: this.state.shop.dealerId,
+                            pathname: "/dealerManage/dealerMessage/" + this.state.shop.dealerId,
                         }}
                     >
                     查看信息
