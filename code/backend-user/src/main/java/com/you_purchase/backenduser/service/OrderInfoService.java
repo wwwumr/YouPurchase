@@ -232,26 +232,33 @@ public class OrderInfoService extends BaseService {
     private String apiUrl = "weixin";
     private String appId = "287613";
     private String appSecret = "dj812-ej192-d912-d19dn291";
-    public int OrderPay(PayParameter payParameter) {
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(), true);
-        if (orderInfo == null) {
-            return 403;
+    public int OrderPay(List<Long> ids) {
+        for(long s:ids){
+            OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(s,true);
+            orderInfo.setStatus(1);
+            orderInfoDao.save(orderInfo);
+            sender.paySend(s);
+            return 200;
         }
-        try {
+        /*try {
             //第三方支付
             Weixin client = new Weixin(apiUrl, appId, appSecret);
-            String result = client.send(payParameter);
+            OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(), true);
+            if (orderInfo == null) {
+                return 403;
+            }*/
+           /* String result = client.send(payParameter);
             if (result.equals("success")) {
                 orderInfo.setStatus(1);
                 //支付完成后将订单支付消息推送到队列
                 sender.paySend(payParameter.getPayId());
                 orderInfoDao.save(orderInfo);
-                return 200;
+                return 200;*/
 
-            }
+       /*     }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         return 403;
     }
 
