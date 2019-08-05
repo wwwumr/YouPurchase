@@ -80,12 +80,14 @@ export default class NewGoods extends React.Component {
                 message.warning("商品信息填写不完整")
             }
         } else if (step === 1) {
-            if (this.classFilled()) {
+            if (this.classFilled() && this.allValid()) {
                 this.handleOk(() => {
                     message.success("添加成功")
                 });
-            } else {
+            } else if (!this.classFilled()) {
                 message.warning("商品类别未选择")
+            } else {
+                message.warning("数值非法")
             }
         } else if (step === 2) {
             history.push({
@@ -112,15 +114,34 @@ export default class NewGoods extends React.Component {
     allFilled = () => {
         const goods = this.state.goods;
         let attrToBeChecked = ["commodityInfo", "price", "inventory", "onShelves"];
-        for (let attr in attrToBeChecked) {
+        attrToBeChecked.forEach((attr) => {
             if (goods[attr] === '' || goods[attr] === null) {
                 return false;
             }
-        }
+        })
         if (goods["onShelves"] && goods["remaining"] === null) {
             return false;
         }
         return true;
+    }
+
+    allValid = () => {
+        let valid = true;
+        const goods = this.state.goods;
+        let attrToBeChecked = ["price", "inventory", ];
+        attrToBeChecked.forEach((attr) => {
+            if (goods[attr] <= 0 ) {
+                valid = false;
+            }
+        })
+        if (goods["onShelves"] && goods["remaining"] <= 0) {
+            valid = false;
+        }
+        if (goods.inventory < goods.remaining) {
+            valid = false;
+        }
+    
+        return valid;
     }
 
     /**

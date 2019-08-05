@@ -26,6 +26,14 @@ public class AdminDealerLoginController {
     @Autowired
     private AdminDealerLoginService adminDealerLoginService;
 
+    /**
+     * 管理员登录用到的接口
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @param session  session
+     * @return 成功返回ADMIN，失败返回ERROR
+     */
     @GetMapping("/login/admin")
     @ApiOperation(value = "管理员登录")
     public String adminLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
@@ -43,6 +51,14 @@ public class AdminDealerLoginController {
         }
     }
 
+    /**
+     * 经销商登录用到的接口
+     *
+     * @param userName 用户名
+     * @param password 密码
+     * @param session  session
+     * @return 成功返回DEALER，失败返回ERROR
+     */
     @GetMapping("/login/dealer")
     public DealerDTO dealerLogin(@RequestParam("userName") String userName, @RequestParam("password") String password,
                                  HttpSession session) {
@@ -64,6 +80,14 @@ public class AdminDealerLoginController {
         return new DealerDTO();
     }
 
+    /**
+     * 用户登录需要的接口
+     * 从另一个项目中完整移植过来，可通用
+     *
+     * @param parameter 用户登录的参数
+     * @param session   session
+     * @return 成功返回200， 失败返回404
+     */
     @PostMapping("/login/user")
     public UserLoginDTO userLogin(@RequestBody UserLoginParameter parameter, HttpSession session) {
         User user = adminDealerLoginService.getUserByPhoneAndPassword(parameter.getPhone(), parameter.getPassword());
@@ -77,6 +101,12 @@ public class AdminDealerLoginController {
         return new UserLoginDTO(404, null);
     }
 
+    /**
+     * 注销所用的接口
+     *
+     * @param session session
+     * @return 返回LOGOUT
+     */
     @GetMapping("/logout")
     public String adminDealerLogOut(HttpSession session) {
         Long id = (Long) session.getAttribute("loginUserId");
@@ -88,6 +118,12 @@ public class AdminDealerLoginController {
         return "LOGOUT";
     }
 
+    /**
+     * 获取session中存储的用户名
+     *
+     * @param session session
+     * @return 返回session中存在的 用户名与身份信息
+     */
     @GetMapping("/login/userName")
     public JSONObject getUserNameFromSession(HttpSession session) {
         JSONObject json = new JSONObject();
@@ -99,6 +135,12 @@ public class AdminDealerLoginController {
         return json;
     }
 
+    /**
+     * 获取session中存储的用户id
+     *
+     * @param session session
+     * @return 用户的id和身份信息
+     */
     @GetMapping("/login/userId")
     public JSONObject getUserIdFromSession(HttpSession session) {
         JSONObject json = new JSONObject();

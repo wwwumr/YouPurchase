@@ -38,8 +38,8 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户支付订单")
-    int OrderPay(@RequestBody PayParameter payParameter){
-        return orderInfoService.OrderPay(payParameter);
+    int OrderPay( List<Long> ids){
+        return orderInfoService.OrderPay(ids);
     }
 
     //用户查看订单

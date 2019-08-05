@@ -32,8 +32,14 @@ public interface StoreService {
      */
     StoreDTO getStoreByStoreId(Long storeId);
 
+    /**
+     * 获取一个经纬度范围内所有的店铺以及距离，评分，销量信息
+     *
+     * @param userLongitude 用户在的位置：经度
+     * @param userLatitude  用户在的位置：纬度
+     * @return
+     */
     List<SortedStoreDTO> getSortedStores(double userLongitude, double userLatitude);
-
 
     /**
      * 添加一个店铺，数据从前端发送，调用者为管理员

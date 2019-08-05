@@ -208,7 +208,7 @@ public class CommodityController {
     /**
      * 经销商获取店铺中所有的商品类别
      *
-     * @param storeId 店铺id
+     * @param session session
      * @return 对应店铺中所有的商品类别
      */
     @GetMapping("/api/d/commodities/classes")

@@ -62,7 +62,7 @@ public class OrderInfoService extends BaseService {
                     orderInfo.setValid(true);
                     orderInfoDao.save(orderInfo);
                 } else {
-                    shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
+                    shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getCommodityInfo(), commodity.getRemaining()));
                 }
             }
             if(orderInfo.isValid()==true){

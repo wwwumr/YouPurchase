@@ -1,6 +1,7 @@
 package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Store;
+import com.sjtu.adminanddealer.entity.StoreTotalScore;
 
 import java.util.List;
 
@@ -86,8 +87,6 @@ public interface StoreDao {
      */
     void updateStoreDeliveryType(Integer type, Long storeId);
 
-    // TODO: unit test
-
     /**
      * 获取一个店铺近一个月的订单数
      *
@@ -104,5 +103,22 @@ public interface StoreDao {
      */
     double getStoreAvgScore(Long storeId);
 
+    /**
+     * 获取在一个经纬度范围内的店铺信息
+     *
+     * @param longitude1 经度1
+     * @param longitude2 经度2
+     * @param latitude1  纬度1
+     * @param latitude2  纬度2
+     * @return 所有范围内的店铺信息
+     */
     List<Store> getStoresInRange(double longitude1, double longitude2, double latitude1, double latitude2);
+
+    /**
+     * 新建店铺时把总评分与评价次数也加入数据库
+     *
+     * @param storeTotalScore 新建的店铺评分信息
+     * @return 评分的id
+     */
+    Long addStoreTotalScore(StoreTotalScore storeTotalScore);
 }

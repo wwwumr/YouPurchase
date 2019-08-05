@@ -83,7 +83,7 @@ class ShopManage extends React.Component {
                 highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                 searchWords={[this.state.searchText]}
                 autoEscape
-                textToHighlight={text.toString()}
+                textToHighlight={text !==null ? text.toString() : ''}
             />
         ),
     });
@@ -107,6 +107,11 @@ class ShopManage extends React.Component {
         this.setState({ searchText: '' });
     };
 
+    checkNewShopValid = (shop) => {
+        if (shop.deliveryRange <= 0) { return false;}
+        return true;
+    }
+
     /**
      * @description 检查商店是否信息不完整
      * @param  {Shop} shop
@@ -120,6 +125,7 @@ class ShopManage extends React.Component {
                 allFilled = false;
             }
         })
+        
         return allFilled;
     }
     
@@ -129,7 +135,7 @@ class ShopManage extends React.Component {
     handleOk = () => {
         var shop = this.state.shop;
         /* 检查商店格式 */
-        if (this.checkShop(shop)) {
+        if (this.checkShop(shop) && this.checkNewShopValid(shop)) {
             var shopData = this.state.shopData;
             /* 接收数据 */
             axios
@@ -151,8 +157,10 @@ class ShopManage extends React.Component {
                         console.log(err.message);
                     }
                 })
-        } else {
+        } else if (!this.checkShop(shop)) {
             message.error("您还有信息未填写");
+        } else {
+            message.warning("配送距离应为正数")
         }
     };
 
@@ -322,6 +330,7 @@ class ShopManage extends React.Component {
                         />
                         <Input addonBefore="配送距离(km)" style={{ marginBottom: "15px" }}  
                             min={0} type="number"
+                            defaultValue={0}
                             value = { this.state.shop.deliveryRange } 
                             onChange = {(time) => { this.handleChange(time, "deliveryRange")}}
                         />
