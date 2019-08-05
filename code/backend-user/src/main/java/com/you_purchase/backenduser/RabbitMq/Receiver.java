@@ -7,6 +7,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Receiver {
 
@@ -24,8 +26,8 @@ public class Receiver {
 
     @RabbitHandler
     @RabbitListener(queues = "orderAdd")
-    public void process(OrderInfoParameter orderInfoParameter){
-        orderInfoService.addOrder(orderInfoParameter);
-        System.out.println("receiver: "+orderInfoParameter.toString());
+    public void process(List<OrderInfoParameter> orderInfoParameters){
+        orderInfoService.addOrder(orderInfoParameters);
+        //System.out.println("receiver: "+orderInfoParameters.toString());
     }
 }

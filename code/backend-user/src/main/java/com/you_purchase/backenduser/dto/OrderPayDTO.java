@@ -14,6 +14,8 @@ public class OrderPayDTO {
 
     private double totalPrice;
 
+    private String content;
+
     private List<CommodityShortageDTO> shortageDTOS;
 
 
@@ -23,6 +25,7 @@ public class OrderPayDTO {
             this.setCreateDate(createDate);
             this.setOrderNo(orderInfo.getOrderInfoNo());
             this.setTotalPrice(orderInfo.getTotalPrice());
+            this.setContent(orderInfo.getContent());
         }
         this.shortageDTOS = dtos;
     }
@@ -30,6 +33,14 @@ public class OrderPayDTO {
 
 
     //getter and setter
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getOrderNo() {
         return orderNo;

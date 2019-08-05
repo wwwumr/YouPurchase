@@ -41,17 +41,21 @@ public class OrderInfo {
 
     private boolean judged;
 
+    //备注
+    private String content;
+
     @JoinColumn(name = "deliveryAddressId")
     private Long deliveryAddressId;
 
 
     public void setOrderInfo(OrderInfoParameter orderInfoParameter,Date date,String orderNo){
-        this.setValid(true);
+        this.setValid(false);
         this.setJudged(false);
         this.setStatus(0);
         this.setUserId(orderInfoParameter.getUserId());
         this.setStoreId(orderInfoParameter.getStoreId());
         this.setTotalPrice(orderInfoParameter.getTotalPrice());
+        this.setContent(orderInfoParameter.getContent());
         this.setOrderInfoNo(orderNo);
         this.setCreateDate(date);
         this.setTarAddress(orderInfoParameter.getTarAddress());
@@ -65,6 +69,14 @@ public class OrderInfo {
 
     //getter and setter
 
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getOrderInfoNo() {
         return orderInfoNo;

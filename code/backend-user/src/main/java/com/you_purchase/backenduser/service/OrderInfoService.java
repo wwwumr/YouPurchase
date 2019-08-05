@@ -24,37 +24,56 @@ public class OrderInfoService extends BaseService {
 
 
     //用户新增订单
-    public OrderPayDTO addOrder(OrderInfoParameter orderInfoParameter) {
-        OrderInfo orderInfo = new OrderInfo();
-        List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-        Date date = new Date();
-        String sDate = datToStr(date);
-        Date trueDate = strToDate(sDate);
-        String orderNo = createOrderId();
-        orderInfo.setOrderInfo(orderInfoParameter,trueDate,orderNo);
-        orderInfoDao.save(orderInfo);
-        long orderInfoId = orderInfo.getOrderInfoId();
-        System.out.println("获取订单id");
-        System.out.println(orderInfoId);
-        for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
-            Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
-            Integer amount = s.getAmount();
-            if (commodity.getRemaining() >= amount) {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setAmount(s.getAmount());
-                orderItem.setCommodityId(s.getCommodityId());
-                orderItem.setPrice(s.getPrice());
-                orderItem.setOrderInfoId(orderInfoId);
-                orderItemDao.save(orderItem);
-                commodity.setRemaining(commodity.getRemaining() - amount);
-                commodity.setInventory(commodity.getInventory() - amount);
-                commodityDao.save(commodity);
-            } else {
-                shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
+    public OrderDTO addOrder(List<OrderInfoParameter> orderInfoParameters) {
+        //记录所有订单总价
+        double allPrice = 0;
+        //记录存在商品的订单
+        ArrayList ids = new ArrayList();
+        for(OrderInfoParameter o:orderInfoParameters) {
+            OrderInfo orderInfo = new OrderInfo();
+            List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
+            Date date = new Date();
+            String sDate = datToStr(date);
+            Date trueDate = strToDate(sDate);
+            String orderNo = createOrderId();
+            orderInfo.setOrderInfo(o, trueDate, orderNo);
+            orderInfoDao.save(orderInfo);
+            //添加订单基本信息
+            long orderInfoId = orderInfo.getOrderInfoId();
+            System.out.println("获取订单id");
+            System.out.println(orderInfoId);
+            //记录该订单的总计
+            double totalPrice = 0;
+            for (OrderListDTO s : o.getOrderItemList()) {
+                Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
+                Integer amount = s.getAmount();
+                if (commodity.getRemaining() >= amount) {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setAmount(s.getAmount());
+                    orderItem.setCommodityId(s.getCommodityId());
+                    orderItem.setPrice(s.getPrice());
+                    orderItem.setOrderInfoId(orderInfoId);
+                    orderItemDao.save(orderItem);
+                    commodity.setRemaining(commodity.getRemaining() - amount);
+                    commodity.setInventory(commodity.getInventory() - amount);
+                    commodityDao.save(commodity);
+                    //只要有商品库存足够，则将其加入总价，并将该订单valid改为true，并记录该订单id
+                    totalPrice += s.getPrice()*s.getAmount();
+                    orderInfo.setValid(true);
+                    orderInfoDao.save(orderInfo);
+                } else {
+                    shortageDTOS.add(new CommodityShortageDTO(commodity.getCommodityId(), commodity.getRemaining()));
+                }
+            }
+            if(orderInfo.isValid()==true){
+                ids.add(orderInfoId);
+                orderInfo.setTotalPrice(totalPrice);
+                orderInfoDao.save(orderInfo);
+                allPrice+=totalPrice;
             }
         }
-
-        return new OrderPayDTO(orderInfo, shortageDTOS,sDate);
+        //返回所有可用的订单的id和他们的总价格
+        return new OrderDTO(allPrice,ids);
     }
 
     //用户查看不同执行状态的订单
@@ -173,10 +192,11 @@ public class OrderInfoService extends BaseService {
         return 200;
     }
 
-    //取消订单
+    //商家取消订单
     public int OrderInfoDelete(long orderInfoId,long id) {
         boolean flag = orderBelong(orderInfoId,id);
-        if(flag==false){
+        System.out.println(id);
+        if(flag == false){
             return 0;
         }
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
@@ -185,6 +205,24 @@ public class OrderInfoService extends BaseService {
             return 403;
         }
         orderInfo.setValid(false);
+        orderInfoDao.save(orderInfo);
+        return 200;
+    }
+
+    //用户取消订单
+    public int OrderInfoUserDelete(long orderInfoId,long id) {
+        boolean flag = orderUserBelong(orderInfoId,id);
+        System.out.println(id);
+        if(flag == false){
+            return 0;
+        }
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
+        if (orderInfo == null) {
+            //System.out.println("不存在该订单");
+            return 403;
+        }
+        orderInfo.setValid(false);
+        orderInfoDao.save(orderInfo);
         return 200;
     }
 

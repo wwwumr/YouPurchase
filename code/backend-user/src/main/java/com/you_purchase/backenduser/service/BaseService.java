@@ -120,6 +120,14 @@ public class BaseService {
         return false;
     }
 
+    protected  boolean orderUserBelong(long orderInfoId,long id){
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
+        if(orderInfo.getUserId() == id){
+            return true;
+        }
+        return false;
+    }
+
     //orderCheck
     protected List<OrderInfoDTO> OrderCheck(List<OrderInfo> orderInfos){
         List<OrderInfoDTO> orderInfoDTOS = new ArrayList<>();

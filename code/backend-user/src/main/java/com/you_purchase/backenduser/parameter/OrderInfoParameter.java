@@ -20,6 +20,8 @@ public class OrderInfoParameter implements Serializable {
 
     private double totalPrice;
 
+    private String content;
+
     private String createDate;
 
     private String tarPeople;
@@ -35,6 +37,15 @@ public class OrderInfoParameter implements Serializable {
 
 
     //getter and setter
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public List<OrderListDTO> getOrderItemList() {
         return orderItemList;
     }

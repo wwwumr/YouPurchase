@@ -1,6 +1,7 @@
 package com.you_purchase.backenduser.controller;
 
 
+import com.you_purchase.backenduser.dto.OrderDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
@@ -26,9 +27,9 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户新增订单")
-    OrderPayDTO addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
+    OrderDTO addOrder(@RequestBody List<OrderInfoParameter> orderInfoParameters){
 
-        return orderInfoService.addOrder(orderInfoParameter);
+        return orderInfoService.addOrder(orderInfoParameters);
     }
 
 
@@ -143,8 +144,8 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户删除订单")
-    int orderInfouDeleter(long orderInfoId,long userId){
-        return orderInfoService.OrderInfoDelete(orderInfoId,userId);
+    int orderInfoUserDeleter(long orderInfoId,long userId){
+        return orderInfoService.OrderInfoUserDelete(orderInfoId,userId);
     }
 
 
