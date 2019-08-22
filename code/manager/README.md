@@ -59,3 +59,5 @@ shopManage和dealerManage分别为店铺管理及经销商管理
 7. 莫名其妙的会请求一些[https:/zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png]这种请求，应该是在config中的默认设置，可以换成自己的url ok
 8. 商店管理页面，新增后表单不清空,连续添加key改成相同的 ok
 9. 时间格式验证 ok
+
+30415

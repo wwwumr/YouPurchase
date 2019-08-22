@@ -1,5 +1,5 @@
-var root = "http://localhost:9000/";
-let root1 = "http://localhost:9001/";
+var root = "http://202.120.40.8:30414/";
+let root1 = "http://202.120.40.8:30413/";
 var config = {
     /* 商店信息模板 */ 
     shop: {
