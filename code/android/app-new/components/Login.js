@@ -1,12 +1,14 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input,Image,Header,Text,Button } from 'react-native-elements';
-import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView} from'react-native';
+import { Input,Image,Header,Text } from 'react-native-elements';
+import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,ImageBackground,Dimensions} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SQLite from './UserSqlite';
+import { InputItem, List,Button } from '@ant-design/react-native';
 var sqLite = new SQLite();
 var db;
+const {height, width} = Dimensions.get('window');
 export default class Login extends Component{
   constructor(props){
     super(props);
@@ -27,7 +29,10 @@ export default class Login extends Component{
   handler(){
     console.log(this.state.phone);
     console.log(this.state.password);
-    axios.post('http://192.168.0.102:8080/user/login',{phone:this.state.phone,password:this.state.password})
+    var phone = this.state.phone;
+    var phones = phone.split(' ');
+    phone = phones.join('');
+    axios.post('http://192.168.0.102:8080/user/login',{phone:phone,password:this.state.password})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -53,64 +58,77 @@ export default class Login extends Component{
     return(
       
       <View>
+        <ImageBackground
+                style={{width:width,height:height}}
+                source={require('../images/denglu.jpg')}
+            >
+
         <KeyboardAvoidingView  behavior="position" keyboardVerticalOffset="50" enabled="true"> 
-        <Header
-                leftComponent={{ icon: 'menu', color: '#fff' }}
-                centerComponent={{ text: '优 邻 购', style: { color: '#fff',fontSize:25 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}/>
-                <View style={styles.title}>
-                <Text h3 style={{textAlign:'center',
-    color:'#0080ff'}}>登 录</Text></View>
-    <View style={styles.image}>
-    <Image source={require('../images/logo.jpg')}
-                style={{width:100,height:100,alignItems:'center' } }/></View>
+        <View style={{marginTop:80,alignItems:'center'}}>
+        <Icon
+          name='user'
+          size={80}
+          color='#f0f0f0'
+        />
+        </View>
+        <View style={{marginTop:20}}>
+        <Text h3 style={{textAlign:'center',fontFamily:"Times New Roman",
+            color:'#f0f0f0'}}>欢迎使用优邻购</Text>
+        </View>
                   
                     
-                  <View style={styles.input} >      
-       <Input
-       onChangeText={(value) => this.setState({phone: value})}
-       value={this.state.phone}
-           placeholder='手 机 号'
-           leftIcon={
-               <Image
-                   source={require('../images/shouji.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           />
-           <Input 
-           autoCompleteType="password"
-           textContentType="password"
-           password={true}
-           onChangeText={(value) => this.setState({password: value})}
-       value={this.state.password}
-           placeholder='密 码' name='password'
-           leftIcon={
-               <Image
-                   source={require('../images/password.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           /></View>
-           <View style={styles.textfooter}>
-             <TouchableOpacity >
-               <Text  style={{ marginLeft:10,color:"#0080ff",fontSize:15}}>
-                 忘记密码
-               </Text>
-             </TouchableOpacity>
-             <TouchableOpacity style={{marginLeft:150}} onPress={()=>{this.props.navigation.navigate('Registry')}}>
-               <Text     style={{color:"#0080ff",fontSize:15}}>
-                 注册
-               </Text>
-             </TouchableOpacity>
+                  <View style={styles.input} > 
+                  <InputItem
+                      clear
+                      type="phone"
+                      value={this.state.phone}
+                      onChange={value => {
+                          this.setState({
+                          phone: value,
+                      });
+                }}
+                placeholder="手机号"
+              >
+                  <Image
+                      source={require('../images/shouji.jpg')}
+                      style={{ width: 30, height: 30 }}
+                   />
+              </InputItem>
+              </View>
+              <View style={styles.input}>
+              <InputItem
+                  clear
+                  type="password"
+                  value={this.state.password}
+                  onChange={value => {
+                      this.setState({
+                          password: value,
+                      });
+                  }}
+                  placeholder="密码"
+              >
+                  <Image
+                      source={require('../images/password.jpg')}
+                      style={{ width: 30, height: 30 }}
+                  />
+              </InputItem>     
+      </View>
+      <View style={styles.textfooter}>
+             <Button type='ghost' size='small'>忘记密码</Button>
+             <View style={{marginLeft:190}}>
+             <Button size='small'type='ghost' onPress={()=>{this.props.navigation.navigate('Registry',{})}}>注册</Button>
+             </View>
            </View>
-           <View style={{marginLeft:30,marginRight:30,marginTop:20}}>
-           <Button onPress={this.handler.bind(this)}
-           icon={
-          <Image source={require('../images/login.png')} style={{width:20,height:20,alignItems:'center'}}/>
-           }title="登 录"
-           /></View>
+      <View style={{marginLeft:30,marginRight:30,marginTop:10,borderRadius:15}}>
+          <Button type="ghost" 
+              activeStyle={{ backgroundColor: '#f0f0f0' }}
+              onPress={this.handler.bind(this)}>登 录
+          </Button>
+      </View>
+          
+           
            </KeyboardAvoidingView>
+            </ImageBackground>
       </View>
       
     );
@@ -126,7 +144,8 @@ const styles = StyleSheet.create({
     
   },
   input:{
-    marginTop:20,
+    marginTop:10,
+    borderRadius:15,
     marginLeft:30,
     marginRight:30,
     backgroundColor:"#f0f0f0"

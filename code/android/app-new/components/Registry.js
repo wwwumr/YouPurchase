@@ -1,9 +1,11 @@
 import React,{Component} from 'react';
 import axios from 'axios';
-import { Input,Image,Header,Text,Button,Icon } from 'react-native-elements';
-import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView} from'react-native';
+import { Input,Image,Header,Text,Icon } from 'react-native-elements';
+import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,Dimensions,ImageBackground} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
+import { InputItem,Button } from '@ant-design/react-native';
 var responseData;
+const {height, width} = Dimensions.get('window');
 export default class Registry extends Component{
   constructor(props){
     super(props);
@@ -71,72 +73,100 @@ export default class Registry extends Component{
     return(
       
       <View>
+        <ImageBackground
+                style={{width:width,height:height}}
+                source={require('../images/denglu.jpg')}
+            >
         <KeyboardAvoidingView  behavior="position" keyboardVerticalOffset="25" enabled="true"> 
-        <Header
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                onPress={() => this.props.navigation.goBack()}/>}
-                centerComponent={{ text: '注 册', style: { color: '#fff',fontSize:25 } }}
-                rightComponent={{ icon: 'home', color: '#fff' }}/>
-    <View style={styles.image}>
-    <Image source={require('../images/logo.jpg')}
-                style={{width:100,height:100,alignItems:'center' } }/></View>
-                  
-                    
-                  <View style={styles.input} >      
-       <Input
-       onChangeText={(value) => this.setState({phone: value})}
-       value={this.state.phone}
-           placeholder='手 机 号'
-           leftIcon={
-               <Image
-                   source={require('../images/shouji.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           />
-           <Input  onChangeText={(value) => this.setState({yanzhengma: value})}
-       value={this.state.yanzhengma}
-           placeholder='验 证 码' name='yanzhengma'
-           leftIcon={
-               <Image
-                   source={require('../images/yanzhengma.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           />
-           <Input onChangeText={(value) => this.setState({password: value})}
-       value={this.state.password}
-           placeholder='密 码' name='password'
-           leftIcon={
-               <Image
-                   source={require('../images/password.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           />
-             <Input onChangeText={(value) => this.setState({password1: value})}
-       value={this.state.password1}
-           placeholder='确 认 密 码' name='password1'
-           leftIcon={
-               <Image
-                   source={require('../images/password.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           /></View>
+        <View style={{marginTop:80}}>
+        <Text h3 style={{textAlign:'center',fontFamily:"Times New Roman",
+            color:'#f0f0f0'}}>欢迎使用优邻购</Text>
+        </View>
+        <View style={{marginTop:40,borderRadius:40,borderStyle:"solid",borderColor:"#f0f0f0",backgroundColor:"#ffffff",marginLeft:20,marginRight:20}}>
+        <View style={styles.input2} > 
+                  <InputItem
+                      clear
+                      type="phone"
+                      value={this.state.phone}
+                      onChange={value => {
+                          this.setState({
+                          phone: value,
+                      });
+                }}
+                placeholder="手机号"
+              >
+                  <Image
+                      source={require('../images/shouji.jpg')}
+                      style={{ width: 30, height: 30 }}
+                   />
+              </InputItem>
+              </View>    
+              <View style={styles.input1} > 
+              <View style={{width:200}}>
+                  <InputItem
+                      clear
+                      value={this.state.yanzhengma}
+                      onChange={value => {
+                          this.setState({
+                          yanzhengma: value,
+                      });
+                }}
+                placeholder="验证码"
+              >
+                  <Image
+                      source={require('../images/yanzhengma.jpg')}
+                      style={{ width: 30, height: 30 }}
+                   />
+              </InputItem></View>
+              <View style={{justifyContent:'center'}}>
+              <Button type='ghost'size='small' onPress={()=>{this.registry.bind(this)}}>验证码</Button></View>
+              </View>  
+              <View style={styles.input}>
+              <InputItem
+                  clear
+                  type="password"
+                  value={this.state.password}
+                  onChange={value => {
+                      this.setState({
+                          password: value,
+                      });
+                  }}
+                  placeholder="密码"
+              >
+                  <Image
+                      source={require('../images/password.jpg')}
+                      style={{ width: 30, height: 30 }}
+                  />
+              </InputItem>     
+      </View>
+      <View style={styles.input}>
+              <InputItem
+                  clear
+                  type="password"
+                  value={this.state.password1}
+                  onChange={value => {
+                      this.setState({
+                          password1: value,
+                      });
+                  }}
+                  placeholder="确认密码"
+              >
+                  <Image
+                      source={require('../images/password.jpg')}
+                      style={{ width: 30, height: 30 }}
+                  />
+              </InputItem>     
+      </View>    
             <View style={{marginLeft:30,marginRight:30,marginTop:10}}>
-           <Button onPress={this.getMsg.bind(this)}
-           icon={
-          <Image source={require('../images/login.png')} style={{width:20,height:20,alignItems:'center'}}/>
-           }title="获取验证码"
-           /></View>
+           </View>
            <View style={{marginLeft:30,marginRight:30,marginTop:10}}>
+             <View style={{marginBottom:30}}>
            <Button onPress={this.registry.bind(this)}
-           icon={
-          <Image source={require('../images/login.png')} style={{width:20,height:20,alignItems:'center'}}/>
-           }title="注 册"
-           /></View>
+               type="ghost"
+           >注册</Button></View></View>
+           </View>
            </KeyboardAvoidingView>
+           </ImageBackground>
       </View>
       
     );
@@ -152,10 +182,27 @@ const styles = StyleSheet.create({
     
   },
   input:{
-    marginTop:20,
+    marginTop:10,
+    borderRadius:15,
     marginLeft:30,
     marginRight:30,
     backgroundColor:"#f0f0f0"
+  },
+  input2:{
+    marginTop:40,
+    borderRadius:15,
+    marginLeft:30,
+    marginRight:30,
+    backgroundColor:"#f0f0f0"
+  },
+  input1:{
+    marginTop:10,
+    borderRadius:15,
+    marginLeft:30,
+    marginRight:30,
+    backgroundColor:"#f0f0f0",
+    flexDirection:'row',
+
   },
   textfooter:{
     flex:1,

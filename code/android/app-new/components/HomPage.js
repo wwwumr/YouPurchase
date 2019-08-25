@@ -14,6 +14,7 @@ export default class HomePage extends Component{
         sqLite.close();
       }
     componentDidMount(){
+        console.log(item);
         axios.post('http://192.168.0.102:8080/user/login',{phone:item.phone,password:item.password})
         .then((response)=> {
             console.log(response)
