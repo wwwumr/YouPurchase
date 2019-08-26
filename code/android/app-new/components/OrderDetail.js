@@ -97,7 +97,7 @@ export default class OrderDetail extends Component{
         Alert.alert("请评分！");
         return;
       }
-      axios.post('http://192.168.0.102:8080/grade/add',{createDate:createData,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
+      axios.post('http://192.168.0.100:8080/grade/add',{createDate:createData,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
       .then((response)=> {
         var responseData = response.data;
         console.log(responseData);
@@ -123,7 +123,7 @@ export default class OrderDetail extends Component{
         this.setState({isVisible:true})
     }
     getMap(){
-            axios.post('http://192.168.0.102:9002/order/carrier',{partner_order_code:"123"})
+            axios.post('http://192.168.0.100:9002/order/carrier',{partner_order_code:"123"})
                .then((response)=> {
                  var tarAddress={};
                  tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;

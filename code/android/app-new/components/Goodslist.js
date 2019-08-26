@@ -124,8 +124,8 @@ componentWillUnmount() {
 }
 componentWillMount(){
   var id =  this.props.navigation.state.params.storeId;
-  var url='http://192.168.0.102:9000/stores/'+id+'/commodities';
-  var url2="http://192.168.0.102:9000/commodities/classes?storeId="+id;
+  var url='http://192.168.0.100:9000/stores/'+id+'/commodities';
+  var url2="http://192.168.0.100:9000/commodities/classes?storeId="+id;
   axios.get(url).then((response)=>{
     list = response.data;
     axios.get(url2).then((response)=>{

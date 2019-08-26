@@ -47,7 +47,7 @@ export default class AddAddressTable2 extends Component {
         var latitude = data.latitude;
         var item = this.props.navigation.state.params.item;
         var deliveryAddressId = item.deliveryAddressId;
-        axios.put("http://192.168.0.102:8080/delivery/address",{address:this.state.address,contact:this.state.phone,deliveryAddressId:deliveryAddressId,
+        axios.put("http://192.168.0.100:8080/delivery/address",{address:this.state.address,contact:this.state.phone,deliveryAddressId:deliveryAddressId,
         detailAddress:this.state.address,gender:this.state.selectedIndex,
         latitude:latitude,longitude:longitude,
         name:this.state.name,tag:this.state.selectedIndex2,userId:this.props.navigation.state.params.userId})

@@ -56,7 +56,7 @@ export default class ShopList extends Component{
     }
     componentWillMount(){
       var tempcenter={};
-      var url = "http://192.168.0.102:9000/stores/sort";
+      var url = "http://192.168.0.100:9000/stores/sort";
       Geolocation.getCurrentPosition()
         .then(data => {
              console.log(data)
@@ -86,7 +86,7 @@ export default class ShopList extends Component{
     }
     componentWillReceiveProps(){
       var tempcenter={};
-      var url = "http://192.168.0.102:9000/stores/sort";
+      var url = "http://192.168.0.100:9000/stores/sort";
       Geolocation.getCurrentPosition()
         .then(data => {
              console.log(data)
@@ -135,7 +135,7 @@ export default class ShopList extends Component{
     render(){
       console.log(this.props.userId);
         return(
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1,backgroundColor:"#F8F8F8" }}>
                 <Header
                 leftComponent={<ItemMenu change1={this.change1}change2={this.change2}change3={this.change3}/>}
                 centerComponent={{ text: '商 店 列 表', style: { color: '#fff',fontSize:20 } }}
@@ -150,7 +150,7 @@ export default class ShopList extends Component{
       <ScrollView style={{marginBottom:5}}>
     <View>
 <Text  style={{marginTop:10,textAlign:'center',fontSize:20,
-    color:'#0080ff'}}>-- 推荐商家 --</Text>
+    color:'#585858'}}>-- 推荐商家 --</Text>
     <View>
   {
     this.state.itemlist.map((item, i) => (
@@ -176,7 +176,7 @@ export default class ShopList extends Component{
       <ScrollView style={{marginBottom:5}}>
     <View>
 <Text  style={{marginTop:10,textAlign:'center',fontSize:20,
-    color:'#0080ff'}}>-- 推荐商家 --</Text>
+    color:'#585858'}}>-- 推荐商家 --</Text>
     <View>
   {
     this.state.itemlist.map((item, i) => (
@@ -202,7 +202,7 @@ export default class ShopList extends Component{
       <ScrollView style={{marginBottom:5}}>
     <View>
 <Text  style={{marginTop:10,textAlign:'center',fontSize:20,
-    color:'#0080ff'}}>-- 推荐商家 --</Text>
+    color:'#585858'}}>-- 推荐商家 --</Text>
     <View>
   {
     this.state.itemlist.map((item, i) => (

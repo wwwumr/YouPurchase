@@ -23,7 +23,7 @@ export default class GoodsDetail extends Component{
       //建表
       sqLite.createTable();
         var id =  this.props.navigation.state.params.goodsId;
-        var url='http://192.168.0.102:9000//commodities/'+id;
+        var url='http://192.168.0.100:9000//commodities/'+id;
         axios.get(url).then((response)=>{
         tempitem = response.data;
         this.setState({item:tempitem,id:id});

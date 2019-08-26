@@ -55,7 +55,7 @@ export default class AddAddress extends Component {
   change(){
     console.log("change addresslist");
     var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.102:8080/delivery/address?userId="+userId;
+      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -85,7 +85,7 @@ export default class AddAddress extends Component {
   }
     componentWillMount(){
       var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.102:8080/delivery/address?userId="+userId;
+      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -114,7 +114,7 @@ export default class AddAddress extends Component {
     })
     }
     delete(id,i){
-      var url="http://192.168.0.102:8080/delivery/address?deliveryAddressId="+id;
+      var url="http://192.168.0.100:8080/delivery/address?deliveryAddressId="+id;
       axios.delete(url).then(response=>{
         if(response.data=='DELETE'){
           ToastAndroid.show("已删除 ",ToastAndroid.SHORT);

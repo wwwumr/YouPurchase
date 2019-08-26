@@ -84,7 +84,7 @@ export default class StoreGradeShow extends Component{
 }
 componentWillMount(){
    var storeId = this.props.navigation.state.params.storeId;
-   var url="http://192.168.0.102:8080/grade/show?storeId="+storeId;
+   var url="http://192.168.0.100:8080/grade/show?storeId="+storeId;
    axios.get(url).then((response)=>{
        list = response.data;
        this.setState({itemlist:list});

@@ -145,7 +145,7 @@ export default class OrderOk extends Component{
     console.log(templist);
     console.log(deliveryAddressId);
     console.log(storeId);
-    axios.post("http://192.168.0.102:8080/order/add",{createDate:currentTime,deliveryAddressId:deliveryAddressId,
+    axios.post("http://192.168.0.100:8080/order/add",{createDate:currentTime,deliveryAddressId:deliveryAddressId,
     orderItemList:templist,storeId:storeId,tarAddress:tarAddress,tarPeople:tarPeople,tarPhone:tarPhone,totalPrice:total,userId:userId
   }).then((response)=>{
     console.log(response.data);
@@ -176,7 +176,7 @@ export default class OrderOk extends Component{
     var orderInfoId = this.state.orderPayId;
     console.log(orderInfoId);
     this.setState({isVisible:false});
-    axios.post("http://192.168.0.102:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
+    axios.post("http://192.168.0.100:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
     .then((response)=>{
         if(response.data == 200){
             ToastAndroid.show("成功付款",ToastAndroid.SHORT);

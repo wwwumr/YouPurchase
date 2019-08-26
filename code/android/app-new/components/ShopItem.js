@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import { ListItem,SearchBar,Header,Image,Text, Button,Divider,AirbnbRating,Overlay,Input,Rating } from 'react-native-elements'
 import {ScrollView,View,DeviceEventEmitter} from 'react-native'
+import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class ShopItem extends Component{
     constructor(props){
       super(props);
@@ -37,25 +39,44 @@ StoreRating(){
     this.setState({yes:yes});
   }
     render(){
-      console.log(this.props.storeId);
+      var tempdis = "相距"+this.props.distance+"km";
       return(
-  <View style={{marginTop:20,marginBottom:10,backgroundColor:"#ffffff"}}>
-      <View style={{marginLeft:10,marginRight:10}}>
-    <ListItem onPress={()=>{
+<View>
+        <WingBlank>
+          <Card>
+            <TouchableOpacity onPress={()=>{
       this.props.navigation.navigate('Goodslist',{storeId:this.props.storeId,info:this.props.info,userId:this.props.userId})
-    }}
-    leftIcon={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
-    title={<Text style={{fontSize:18}}>{this.props.storeName}</Text>}
-    subtitle={<View style={{flexDirection:'row'}}><Rating readonly imageSize={15} startingValue={this.props.score}/><Text style={{fontSize:13}}> {this.props.score}</Text><Text style={{fontSize:13}}>    月销量{this.props.sales}</Text><Text style={{fontSize:13}}>    距离{this.props.distance}km</Text></View>}
-    />
-    <Divider style={{backgroundColor:"blue",marginLeft:55}}/>
-    <ListItem
-    leftAvatar={<View style={{width:40,height:40}}/>}
-    title={<Text>{this.props.contact}</Text>}
-    subtitle={<Text style={{fontSize:13}}>{this.props.address}</Text>}
-    rightTitle={<View style={{height:10,width:100}}><Button onPress={this.StoreRating.bind(this)} title="商店评价" type="outline"/></View>}/>
-    </View>
-  </View>
-      );
+    }}>
+            <Card.Header
+              title={<View style={{marginLeft:5}}><Text style={{fontSize:18}}>{this.props.storeName}</Text></View>}
+              thumbStyle={{ width: 40, height: 40 }}
+              thumb={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
+              extra={<View style={{flexDirection:'row-reverse'}}><Text style={{color:"#A0A0A0"}}>{tempdis}</Text></View>}
+            /></TouchableOpacity>
+            <Card.Body>
+              <View style={{ height: 42 }}>
+              <View style={{flexDirection:'row',marginLeft:16}}>
+                <Rating readonly imageSize={15} startingValue={this.props.score}/>
+                <Text style={{fontSize:13}}> {this.props.score}</Text>
+                <Text style={{fontSize:13}}>    月售{this.props.sales}份</Text>
+                </View>
+                <View style={{flexDirection:'row',marginLeft:16,flex:1}}>
+                  <View style={{flex:0.70}}>
+                  <Text style={{fontSize:13}}>电话: {this.props.contact}</Text>
+                  <Text style={{fontSize:13}}>地址: {this.props.address}</Text>
+                  </View>
+                  <View style={{flex:0.26}}>
+                  <Button onPress={this.StoreRating.bind(this)} title="商店评价" type="outline"/>
+                  </View>
+                </View>
+              </View>
+            </Card.Body>
+            <Card.Footer
+              content=""
+              extra=""
+            />
+          </Card>
+        </WingBlank>
+        <WhiteSpace /></View>);
     }
   }

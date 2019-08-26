@@ -27,6 +27,7 @@ import StoreGradeShow from './components/StoreGradeShow';
 import Pay from './components/Pay';
 import PushMessage from './components/PushMessage';
 import HomePage from './components/HomPage';
+import EditPage from './components/EditPage';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -117,6 +118,6 @@ const AppNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
   render() {
-    return <AppContainer />;
+    return <EditPage />;
   }
 }

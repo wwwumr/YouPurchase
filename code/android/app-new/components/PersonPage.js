@@ -2,9 +2,10 @@ import React,{Component} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import Upload from './Upload'
-import { Input,Image,Header,Text,Button,Overlay } from 'react-native-elements';
-import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules} from'react-native';
+import { Input,Image,Header,Text,Button,Overlay, Divider } from 'react-native-elements';
+import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions} from'react-native';
 var ImagePicker = NativeModules.ImageCropPicker;
+const {height, width} = Dimensions.get('window');
 export default class PersonPage extends Component{
   constructor(props){
     super(props);
@@ -16,13 +17,13 @@ export default class PersonPage extends Component{
       sex:'',
       detail:{},
       image: null,
-      uri:"http://192.168.0.102:8080//user/getPhoto?userId="+this.props.userId+"&v=0"
+      uri:"http://192.168.0.100:8080//user/getPhoto?userId="+this.props.userId+"&v=0"
     }
   }
   
   componentWillMount(){
     console.log(this.props.userId);
-    axios.get('http://192.168.0.102:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get('http://192.168.0.100:8080/user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -38,7 +39,7 @@ export default class PersonPage extends Component{
   }
   handler1(){
     var responseData = this.state.detail;
-    axios.post('http://192.168.0.102:8080/user/modify',/*params:{userId:responseData.userId,userName:this.state.username,password:"123456",
+    axios.post('http://192.168.0.100:8080/user/modify',/*params:{userId:responseData.userId,userName:this.state.username,password:"123456",
     address:this.state.address,
     phone:this.state.phone,
     gender:this.state.sex,
@@ -63,7 +64,7 @@ export default class PersonPage extends Component{
       responsedata = response.data;
       console.log(responsedata);
       if(responsedata.status==200){
-          this.setState({detail:responsedata,uri:"http://192.168.0.102:8080//user/getPhoto?userId="+this.props.userId+"&v=0"+Math.random(),
+          this.setState({detail:responsedata,uri:"http://192.168.0.100:8080//user/getPhoto?userId="+this.props.userId+"&v=0"+Math.random(),
           isVisible:false})
         }
       else
@@ -75,7 +76,7 @@ export default class PersonPage extends Component{
     });
   }
   pickSingleBase64(cropit) {
-    var uri = "http://192.168.0.102:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
+    var uri = "http://192.168.0.100:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
     ImagePicker.openPicker({
       width: 300,
       height: 300,
@@ -86,7 +87,7 @@ export default class PersonPage extends Component{
       console.log('received base64 image');
       
       console.log(image.data);
-      axios.post("http://192.168.0.102:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
+      axios.post("http://192.168.0.100:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
         tempitem = response.data;
         console.log(tempitem);
       }).catch(function(error){
@@ -99,6 +100,77 @@ export default class PersonPage extends Component{
     }).catch(e => alert(e));
   }
   render(){
+    return(
+      <View>
+      <ImageBackground
+                style={{width:width,height:height*0.4}}
+                source={require('../images/pagebeijing.jpg')}
+            >
+              <View style={{marginTop:30,alignItems:'center'}}>
+        <Image source={{uri:this.state.uri}}style={{width:120,height:120,borderRadius:60}}/>
+      </View>
+      <View style={{marginTop:30,marginLeft:100,marginRight:100}}>
+        <Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>{this.state.detail.userName}</Text></View>
+            <View style={{flexDirection:'row-reverse'}}>
+              <View style={{marginRight:10}}><Text style={{color:"#585858"}}>修改</Text></View>
+            <Icon
+          name='edit'
+          size={24}
+          color='#585858'
+        />
+            </View>
+            </ImageBackground>
+            <View
+                style={{marginLeft:20,
+                  marginRight:20,
+                  borderRadius: 10,
+                  marginTop:10,
+                  shadowColor:'green',
+                  shadowOffset:{h:5,w:5},
+                  shadowRadius:10,
+                  elevation: 4,
+                  shadowOpacity:0.5}}
+            >
+              <View style={{marginLeft:20,marginRight:20,marginTop:10,marginBottom:10}}>
+              <Text style={{textAlign:'center',fontSize:25,fontWeight:'bold',color:"#c0c0c0"}}>个人信息</Text>
+              <Divider style={{ marginTop:10,backgroundColor: '#f0f0f0',height:0.7,marginBottom:10 }}/>
+                <View style={{flexDirection:'row'}}><Icon
+                  name='user'
+                  size={30}
+                  color='#A0A0A0'
+                  />
+                  <View style={{marginLeft:20}}>
+                  <Text style={{fontSize:15,fontWeight:'bold',color:"#c0c0c0"}}>{this.state.detail.userName}</Text>
+                  </View>
+                  </View>
+                  <Divider style={{ marginTop:10,backgroundColor: '#f0f0f0',height:0.7,marginBottom:10 }}/>
+                <View style={{flexDirection:'row'}}><Icon
+                  name='phone'
+                  size={30}
+                  color='#A0A0A0'
+                  />
+                  <View style={{marginLeft:10}}>
+                  <Text style={{fontSize:15,fontWeight:'bold',color:"#c0c0c0"}}>{this.state.detail.phone}</Text>
+                  </View></View>
+                  <Divider style={{ marginTop:10,backgroundColor: '#f0f0f0',height:0.7,marginBottom:10 }}/>
+                <View style={{flexDirection:'row'}}>
+                <Icon
+                  name='home'
+                  size={30}
+                  color='#A0A0A0'
+                  />
+                  <View style={{marginLeft:10}}>
+                  <Text style={{fontSize:15,fontWeight:'bold',color:"#c0c0c0"}}>{this.state.detail.address}</Text>
+                  </View>
+                </View>
+                <Divider style={{ marginTop:10,backgroundColor: '#f0f0f0',height:0.7,marginBottom:10 }}/>
+              </View>
+              
+            </View>
+            </View>
+    );
+  }
+  /*render(){
     console.log(this.state.uri);
     return(
       <View>
@@ -177,7 +249,8 @@ export default class PersonPage extends Component{
       </Overlay>
       </View>
       </View>
-      )}
+      )}*/
+      
 }
 const styles = StyleSheet.create({
   backgroundImage: {

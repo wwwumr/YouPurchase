@@ -19,7 +19,7 @@ export default class Registry extends Component{
   getMsg(){
     console.log(this.state.phone);
     console.log(this.state.password);
-    axios.get('http://192.168.0.102:8080/user/getMsg',{params:{phone:this.state.phone}})
+    axios.get('http://192.168.0.100:8080/user/getMsg',{params:{phone:this.state.phone}})
     .then((response)=> {
       responseData = response.data;
       console.log(responseData);
@@ -47,7 +47,7 @@ export default class Registry extends Component{
     return;
 
   }
-    axios.post('http://192.168.0.102:8080/user/checkMsg',{phone:this.state.phone,
+    axios.post('http://192.168.0.100:8080/user/checkMsg',{phone:this.state.phone,
     password:this.state.password,
   msgId:responseData.msgId,code:this.state.yanzhengma,time:t1})
     .then((response)=> {
@@ -82,7 +82,14 @@ export default class Registry extends Component{
         <Text h3 style={{textAlign:'center',fontFamily:"Times New Roman",
             color:'#f0f0f0'}}>欢迎使用优邻购</Text>
         </View>
-        <View style={{marginTop:40,borderRadius:40,borderStyle:"solid",borderColor:"#f0f0f0",backgroundColor:"#ffffff",marginLeft:20,marginRight:20}}>
+        <View style={{marginTop:40,
+          borderRadius:15,
+          borderStyle:"solid",
+          borderColor:"#f0f0f0",
+          borderWidth:0.5,
+          marginLeft:20,
+          marginRight:20,
+          }}>
         <View style={styles.input2} > 
                   <InputItem
                       clear
