@@ -1,40 +1,13 @@
 import React, {Component} from 'react';
-import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid} from 'react-native';
-import {Header,Text,Icon,ListItem, Divider,Button} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid,Dimensions} from 'react-native';
+import {Header,Text,ListItem, Divider,Button} from 'react-native-elements';
 import axios from 'axios';
+import { Tag, WhiteSpace } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //const {height, width} = Dimensions.get('window');
 var addressList=[];
-const list1=[
-{
-    name:"王志远",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远1",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远2",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-},
-{
-    name:"王志远3",
-    sex:"先生",
-    phone:"15201979195",
-    address:"上海交通大学闵行校区",
-    tag:"学校"
-}
-];
+const {height, width} = Dimensions.get('window');
 export default class AddAddress extends Component {
     constructor(props){
         super(props);
@@ -84,8 +57,8 @@ export default class AddAddress extends Component {
     })
   }
     componentWillMount(){
-      var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
+      var userId = 2;
+      var url="http://192.168.0.102:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -128,7 +101,7 @@ export default class AddAddress extends Component {
         console.log(e);
       })
     }
-  render() {
+  /*render() {
     var userId = this.props.navigation.state.params.userId;
     return (
      <View style={{flex:1}}>
@@ -172,6 +145,54 @@ export default class AddAddress extends Component {
   }
        </ScrollView>
        <View style={{flex:0.1}}><Button title="新增收货地址"type="outline" onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:userId,addressList:this.state.addressList})}}/></View>
+      </View>
+    );
+  }*/
+  render(){
+    return(
+      <View style={{backgroundColor:"#f0f0f0",height:height}}>
+        <View style={{backgroundColor:"#ffffff",height:height*0.08}}>
+          <View style={{flex:1,flexDirection:'row',marginTop:15}}>
+            <View style={{flex:0.15,marginLeft:10}}>
+            <Icon
+              name='chevron-left'
+              size={20}
+              color='#3399ff'
+        />
+            </View>
+            <Text style={{fontSize:20}}>选择收货地址</Text>
+          </View>  
+        </View>
+        <ScrollView style={{backgroundColor:"#f0f0f0",marginTop:20}}>
+          <View style={{marginLeft:20,marginRight:20,borderRadius:10,backgroundColor:"#ffffff"}}>
+            <View>
+        {
+    this.state.addressList.map((item, i) => {
+      return(
+          <View>
+      <ListItem
+            title={<View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View>}
+            rightAvatar={<Icon
+              name='edit'
+              size={24}
+              color='#C0C0C0'
+            />}
+            subtitle={<View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View>}
+      />
+      <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
+      </View>)
+     } )
+  }</View>
+  <ListItem
+  title={<Text style={{color:"#3399ff"}}>新增收货地址</Text>}
+  rightAvatar={<Icon
+    name='chevron-right'
+    size={17}
+    color='#C0C0C0'
+  />}
+  />
+  </View>
+        </ScrollView>
       </View>
     );
   }

@@ -106,6 +106,12 @@ const AppNavigator = createStackNavigator({
       header:null
     }
   },
+  EditPage:{
+    screen: EditPage,
+    navigationOptions:{
+      header:null
+    }
+  },
   GoodsDetail:{
     screen: GoodsDetail,
     navigationOptions:{
@@ -113,11 +119,11 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'HomePage',
+    initialRouteName: 'AddAddressTable',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
   render() {
-    return <EditPage />;
+    return <AppContainer />;
   }
 }

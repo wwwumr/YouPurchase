@@ -57,7 +57,7 @@ export default class NavigatorBar extends Component {
             {this.tabNavigatorItems('shouye',"首页",require('../images/shouye.jpg'),require("../images/shouye1.jpg"),'#ffe09a',"",<Shoplist userId={id}navigation={this.props.navigation} yes={this.state.yes}/>)}
             {this.tabNavigatorItems('cart',"购物车",require('../images/cart1.jpg'),require("../images/cart.jpg"),'#65bb74',"",<ShopCart1 yes={this.state.yes}userId={id}navigation={this.props.navigation}/>)}
             {this.tabNavigatorItems('dingdan',"订单",require('../images/dingdan.jpg'),require("../images/dingdan1.jpg"),'#6ebef3',"",<Orderlist yes={this.state.yes}userId={id}navigation={this.props.navigation}/>)}
-            {this.tabNavigatorItems('user',"我的",require('../images/user.jpg'),require("../images/yonghu.jpg"),'#622193',"",<PersonPage userId={id}/>)}
+            {this.tabNavigatorItems('user',"我的",require('../images/user.jpg'),require("../images/yonghu.jpg"),'#622193',"",<PersonPage userId={id} navigation={this.props.navigation}/>)}
          </TabNavigator>
       </View>
     );

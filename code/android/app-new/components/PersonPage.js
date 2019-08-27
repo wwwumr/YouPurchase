@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import Upload from './Upload'
 import { Input,Image,Header,Text,Button,Overlay, Divider } from 'react-native-elements';
-import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions} from'react-native';
+import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions,DeviceEventEmitter} from'react-native';
 var ImagePicker = NativeModules.ImageCropPicker;
 const {height, width} = Dimensions.get('window');
 export default class PersonPage extends Component{
@@ -20,7 +20,29 @@ export default class PersonPage extends Component{
       uri:"http://192.168.0.100:8080//user/getPhoto?userId="+this.props.userId+"&v=0"
     }
   }
-  
+  componentDidMount(){
+    this.listener = DeviceEventEmitter.addListener('editPersonPage', () => {
+    this.change();
+      })
+    }
+    componentWillUnmount() {
+      //移除监听
+      if (this.listener) {
+        this.listener.remove();
+      }
+    }
+    change(){
+        console.log(this.props.userId);
+        axios.get('http://192.168.0.100:8080/user/check',{params:{userId:this.props.userId}})
+        .then((response)=> {
+          var responseData = response.data;
+          console.log(responseData);
+          this.setState({detail:responseData})
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   componentWillMount(){
     console.log(this.props.userId);
     axios.get('http://192.168.0.100:8080/user/check',{params:{userId:this.props.userId}})
@@ -111,6 +133,7 @@ export default class PersonPage extends Component{
       </View>
       <View style={{marginTop:30,marginLeft:100,marginRight:100}}>
         <Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>{this.state.detail.userName}</Text></View>
+            <TouchableOpacity onPress={()=>{this.props.navigation.navigate('EditPage',{userId:this.props.userId})}}>
             <View style={{flexDirection:'row-reverse'}}>
               <View style={{marginRight:10}}><Text style={{color:"#585858"}}>修改</Text></View>
             <Icon
@@ -118,7 +141,7 @@ export default class PersonPage extends Component{
           size={24}
           color='#585858'
         />
-            </View>
+            </View></TouchableOpacity>
             </ImageBackground>
             <View
                 style={{marginLeft:20,
