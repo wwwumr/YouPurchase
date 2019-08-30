@@ -119,7 +119,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'AddAddressTable',
+    initialRouteName: 'GoodsDetail',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {StyleSheet, View,ScrollView,ToastAndroid,TouchableOpacity,DeviceEventEmitter,Dimensions} from 'react-native';
-import {Header,Text,Icon,ListItem, Divider,Button,Input} from 'react-native-elements';
+import {Header,Text,Icon,ListItem, Divider,Input} from 'react-native-elements';
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import axios from 'axios';
-import { Tag, InputItem } from '@ant-design/react-native';
+import { Tag, InputItem, List,Button } from '@ant-design/react-native';
 const {height, width} = Dimensions.get('window');
 //const {height, width} = Dimensions.get('window');
 const buttons = ['先生','女士']
@@ -124,18 +124,20 @@ export default class AddAddressTable extends Component {
   render(){
     return(
       <View>
-        <View style={{backgroundColor:"#ffffff",height:height*0.1}}>
-          <View style={{flex:1,flexDirection:'row',marginTop:15}}>
-            <View style={{flex:0.15,marginLeft:10}}>
+        <View style={{backgroundColor:"#ffffff",height:height*0.1,flexDirection:'row',marginTop:15}}>
+            <View style={{marginLeft:10}}>
+              <TouchableOpacity>
             <Icon
               name='chevron-left'
               size={30}
               color='#3399ff'
-        />
+        /></TouchableOpacity>
             </View>
-            <Text style={{fontSize:20}}>新增地址</Text>
-          </View>
-          <View style={{marginTop:20,marginBottom:20,marginLeft:5,marginRight:15}}>    
+            <View style={{marginLeft:15}}>
+            <Text style={{fontSize:20}}>新增地址</Text></View>
+        </View>
+        <View style={{marginBottom:20,marginLeft:5,marginRight:15}}>
+        <List>        
           <InputItem
             value={this.state.value}
             onChange={value => {
@@ -145,8 +147,8 @@ export default class AddAddressTable extends Component {
             }}
             placeholder="姓名"
           >联系人</InputItem>
-          <View style={{flexDirection:"row",marginTop:10}}>
-            <View style={{marginLeft:100,marginRight:20}}><Tag>男</Tag></View><Tag>女</Tag></View>
+          <View style={{flexDirection:'row',marginTop:10}}>
+          <View style={{marginLeft:100,marginRight:20}}><Tag>男</Tag></View><Tag>女</Tag></View>
             <Divider style={{ marginRight:20,marginLeft:100,marginTop:10, backgroundColor: '#f0f0f0',height:0.7 }}/>
           <InputItem
             value={this.state.value}
@@ -166,10 +168,14 @@ export default class AddAddressTable extends Component {
             }}
             placeholder="收货地址"
           >地址  </InputItem>
-          <View style={{flexDirection:"row",marginTop:10}}>
-            <View style={{marginLeft:100,marginRight:20}}><Tag>学校</Tag></View><View style={{marginRight:20}}><Tag>家</Tag></View><Tag>公司</Tag></View>
-            <Divider style={{ marginRight:20,marginLeft:20,marginTop:10, backgroundColor: '#f0f0f0',height:0.7 }}/></View>
+          <View style={{flexDirection:"row",marginTop:10,marginBottom:10,marginLeft:15}}>
+            <Text style={{fontSize:17}}>标签</Text>
+            <View style={{marginLeft:50,marginRight:20}}><Tag>学校</Tag></View><View style={{marginRight:20}}><Tag>家</Tag></View><Tag>公司</Tag></View>
+            </List>
+            <View style={{marginRight:30,marginLeft:30,marginTop:10,height:20}}><Button type="primary">保存</Button></View>
+            
            </View>
+           
         </View>
     );
   }

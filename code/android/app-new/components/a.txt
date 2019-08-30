@@ -1,0 +1,13 @@
+<View style={{flex:1,flexDirection:'row',marginTop:15}}>
+            <View style={{flex:0.15,marginLeft:10}}>
+            <Icon
+              name='chevron-left'
+              size={30}
+              color='#3399ff'
+        />
+            </View>
+            <Text style={{fontSize:20}}>新增地址</Text>
+          </View>
+          
+            <View style={{flexDirection:"row",marginTop:10}}>
+            <View style={{marginLeft:100,marginRight:20}}><Tag>学校</Tag></View><View style={{marginRight:20}}><Tag>家</Tag></View><Tag>公司</Tag></View>

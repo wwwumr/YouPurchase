@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
-import {View,TouchableOpacity,StyleSheet,DeviceEventEmitter} from 'react-native';
+import {View,TouchableOpacity,StyleSheet,DeviceEventEmitter,Dimensions} from 'react-native';
 import {Image,Header,Text,Divider,Icon} from 'react-native-elements';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 import DeviceStorage from './Store';
 import {commonStyle} from './commonStyle'
 import SQLite from './Sqlite';
+import { Tag, InputItem, List,Button,Stepper } from '@ant-design/react-native';
+const {height, width} = Dimensions.get('window');
 var sqLite = new SQLite();
 var db;
 export default class GoodsDetail extends Component{
@@ -22,8 +24,9 @@ export default class GoodsDetail extends Component{
       }
       //建表
       sqLite.createTable();
-        var id =  this.props.navigation.state.params.goodsId;
-        var url='http://192.168.0.100:9000//commodities/'+id;
+        var id = 1;
+        //var id =  this.props.navigation.state.params.goodsId;
+        var url='http://192.168.0.102:9000//commodities/'+id;
         axios.get(url).then((response)=>{
         tempitem = response.data;
         this.setState({item:tempitem,id:id});
@@ -52,7 +55,7 @@ export default class GoodsDetail extends Component{
     deletecart(){
       sqLite.deleteData();
     }
-    render(){
+    render1(){
       
         console.log(this.props.userId);
         return(
@@ -94,6 +97,57 @@ export default class GoodsDetail extends Component{
             </View>
         )
     }
+    render(){
+      return(
+        <View style={{height:height,flex:1}}>
+        <View style={{backgroundColor:"#ffffff",height:height*0.1,marginTop:15,flexDirection:'row'}}>
+            <View style={{marginLeft:10}}>
+              <TouchableOpacity>
+            <Icon
+              name='chevron-left'
+              size={30}
+              color='#686868'
+        /></TouchableOpacity>
+            </View></View>
+            <ScrollView>
+              <View>
+            <View style={{alignItems:'center',alignContent:'center'}}>
+                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:width,height:height*0.3}}/>  
+                </View>
+                
+                <View style={{flexDirection:'row'}}>
+                  <View style={{backgroundColor:'#FF0066',width:width*0.7,height:height*0.1,justifyContent:'center'}}>
+                  <Text h3 style={{color:'#ffffff',marginLeft:20}}>¥ {this.state.item.price}</Text>
+                  </View>
+                  <View style={{backgroundColor:'#F0f0f0',width:width*0.3,height:height*0.1,justifyContent:'center'}}>
+                  <Text h3 style={{textAlign:'center'}}></Text>
+                  </View>
+                  
+                </View>
+                <Text style={{marginLeft:20}}h4>{this.state.item.commodityInfo}</Text>
+                <Divider style={{ backgroundColor: '#f0f0f0',height:1 }}/>
+                <View style={{marginRight:20,marginLeft:width*0.7,marginTop:5,height:height*0.1,justifyContent:'center'}}>
+                <Stepper
+                key="0"
+                max={100}
+                min={1}
+                defaultValue={1}
+              /></View>
+                </View>
+                </ScrollView>
+                
+                <View style={styles.toolBar}>
+          <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
+          </View>
+          <TouchableOpacity><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,fontWeight:"bold",color:'#ffffff'}}>加入购物车</Text></View>
+        </TouchableOpacity>
+          <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
+            <Text style={{color: commonStyle.white}}>立即购买</Text>
+          </View>
+      </View>
+        </View>
+      );
+    }
 }
 const styles = StyleSheet.create({
     container: {
@@ -125,6 +179,7 @@ const styles = StyleSheet.create({
       height: 40,
     },
     toolBar: {
+      backgroundColor:'#f0f0f0',
       height: commonStyle.cellHeight,
       flexDirection: commonStyle.row,
       alignItems: commonStyle.center
