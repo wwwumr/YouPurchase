@@ -1,117 +1,27 @@
 import React, {Component} from 'react'
-import { ListItem,SearchBar,Header,Image,Text } from 'react-native-elements'
-import {ScrollView,View,DeviceEventEmitter} from 'react-native'
+import { ListItem,SearchBar,Header,Image,Text,Icon } from 'react-native-elements'
+import {ScrollView,View,DeviceEventEmitter,Dimensions} from 'react-native'
 import axios from 'axios';
 import OrderItem from './OrderItem';
 import Menu1 from './Menu1';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Menu from 'react-native-material-menu';
+import { Drawer, List  } from '@ant-design/react-native';
 var list=[];
+const {height, width} = Dimensions.get('window');
 var parserDate = function (date) {  
   var t = date.split(/[- :]/);
   var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);  
   return d;
 };  
-const list1 = [
-  {
-    orderInfoId: 1,
-    icon: 'av-timer',
-    storeName:'水果店1',
-    orderItemName:'苹果',
-    time:"2017-01-01 14:00",
-    orderStatus:"订单已送达",
-    totalPrice:100
-
-  },
-  {
-    orderInfoId: 2,
-    icon: 'av-timer',
-    storeName:'水果店2',
-    orderItemName:'香蕉',
-    time:"2017-01-01 14:00",
-    totalPrice:4,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 3,
-    icon: 'av-timer',
-    storeName:'水果店3',
-    orderItemName:'香梨',
-    time:"2017-01-01 14:00",
-    totalPrice:6,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 4,
-    icon: 'av-timer',
-    storeName:'水果店4',
-    orderItemName:'桃子',
-    time:"2017-01-01 14:00",
-    totalPrice:8,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 5,
-    icon: 'av-timer',
-    storeName:'水果店5',
-    orderItemName:'芒果',
-    time:"2017-01-01 14:00",
-    totalPrice:10,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 6,
-    icon: 'av-timer',
-    storeName:'水果店6',
-    orderItemName:'樱桃',
-    time:"2017-01-01 14:00",
-    totalPrice:12,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 7,
-    icon: 'av-timer',
-    storeName:'水果店7',
-    orderItemName:'西瓜',
-    time:"2017-01-01 14:00",
-    totalPrice:21,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 8,
-    icon: 'av-timer',
-    storeName:'水果店8',
-    orderItemName:'苹果',
-    time:"2017-01-01 14:00",
-    totalPrice:2,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 9,
-    icon: 'av-timer',
-    storeName:'水果店9',
-    orderItemName:'香蕉',
-    time:"2017-01-01 14:00",
-    totalPrice:4,
-    orderStatus:"订单已送达"
-  },
-  {
-    orderInfoId: 10,
-    icon: 'av-timer',
-    storeName:'水果店10',
-    orderItemName:'栗子',
-    time:"2017-01-01 14:00",
-    totalPrice:20,
-    orderStatus:"订单已送达"
-  }
-]
 export default class Orderlist extends Component{
     constructor(props){
         super(props);
         state={
             text:'',
             itemlist:[],
-            yes:""
+            yes:"",
+            isOpen:false
         }
     }
     orderStatus(){
@@ -157,11 +67,11 @@ orderStatus4(){
     change(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://192.168.0.100:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.0.102:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
-          list[i].icon="av-timer";
+          list[i].icon="";
           var tempname = list[i].orderItemList[0].commodityInfo;
           list[i].time1 = parserDate(list[i].createDate);
           if(list[i].orderItemList.length!=1){
@@ -234,7 +144,7 @@ orderStatus4(){
     componentWillReceiveProps(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://192.168.0.100:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.0.102:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
@@ -282,8 +192,9 @@ orderStatus4(){
     }
     componentWillMount(){
       var userid =  this.props.userId;
+      //var userid=2;
       console.log(userid);
-      axios.post('http://192.168.0.100:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.0.102:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
         
       //  0：未支付 1：待发货 2：配送中 3：已送达
@@ -334,12 +245,27 @@ orderStatus4(){
     render(){
       var userid =  this.props.userId;
         return(
-            <View>
-                <Header
-                leftComponent={<Menu1/>}
-                centerComponent={{ text: '我 的 订 单', style: { color: '#fff',fontSize:20 } }}
-                rightComponent={{icon:'home',color:"#fff"}}/>  
-<ScrollView style={{marginBottom:80,backgroundColor:"#E8E8E8"}}>
+            <View style={{backgroundColor:'#ffffff',height:height}}>
+                <View style={{backgroundColor:"#ffffff",height:height*0.07,marginTop:15}}>
+            <View style={{marginLeft:10}}>
+              <Text style={{fontSize:20}}>优邻购</Text>
+            </View></View>
+<ScrollView style={{marginBottom:80,backgroundColor:"#ffffff"}}>
+  <View>
+    <View style={{flexDirection:'row',marginVertical:0}}>
+    <View style={{width:width*0.8,marginLeft:20}}>
+    <Text style={{fontSize:24}}>订单</Text></View>
+    <Menu1/>
+    <View style={{marginRight:40,marginTop:6}}>
+    <Icon
+              name='chevron-right'
+              size={16}
+              color={"#000000"}
+        />
+    
+    </View>
+    </View>
+  <View>
   {
     this.state.itemlist.map((item, i) => (
       <OrderItem navigation={this.props.navigation}
@@ -365,7 +291,8 @@ orderStatus4(){
         orderInfoId={item.orderInfoId}
       />
     ))
-  }
+  }</View>
+  </View>
         </ScrollView>
         </View>)}
 }

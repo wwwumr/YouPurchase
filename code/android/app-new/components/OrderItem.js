@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
 import { ListItem,SearchBar,Header,Image,Text, Button,Divider,AirbnbRating,Overlay,Input,Rating } from 'react-native-elements'
-import {ScrollView,View,DeviceEventEmitter} from 'react-native'
+import {ScrollView,View,DeviceEventEmitter,Dimensions} from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Drawer, List  } from '@ant-design/react-native';
+const {height, width} = Dimensions.get('window');
 export default class OrderItem extends Component{
     constructor(props){
       super(props);
@@ -22,6 +25,7 @@ ratingCompleted(rating) {
         this.setState({isVisible:true})
     }
     handler3(){
+      console.log("Hello World!");
       if(this.props.status!=0)
       this.props.navigation.navigate('OrderDetail',{orderStatus:this.props.orderStatus,leftIcon:this.props.leftIcon,
         storeName:this.props.storeName,orderItemList:this.props.orderItemList,judged:this.props.judged,
@@ -52,20 +56,41 @@ ratingCompleted(rating) {
   }
     render(){
       return(
-  <View style={{marginTop:20,marginBottom:10,backgroundColor:"#ffffff"}}>
+  <View style={{marginTop:20,marginBottom:10,backgroundColor:"#ffffff",borderWidth:1,borderColor:"#f0f0f0"}}>
+    
       <View style={{marginLeft:10,marginRight:10}}>
     <ListItem
-    leftIcon={this.props.leftIcon}
-    title={<Text style={{fontSize:18}}>{this.props.storeName}</Text>}
-    subtitle={<Text style={{fontSize:13}}>{this.props.time}</Text>}
+    leftIcon={
+      <Image source={require("../images/dianpu.jpg")} style={{width:30,height:30}}/>
+    }
+    rightSubtitle={<View><Text style={{fontSize:13,color:'#ffffff'}}>123   </Text></View>}
+    title={<Text style={{fontSize:15}}>{this.props.storeName}</Text>}
+    subtitle={<Text style={{fontSize:13,color:'#B0B0B0'}}>{this.props.time}</Text>}
     rightTitle={<Text style={{fontSize:15}}>{this.props.orderStatus}</Text>}/>
-    <Divider style={{backgroundColor:"blue",marginBottom:5,marginLeft:35}}/>
-    <ListItem
-    title={<Text style={{marginLeft:35,fontSize:15}}>{this.props.orderItemName}</Text>}
-    rightTitle={<Text style={{fontSize:15,fontWeight:"bold",fontFamily: 'System'}}>￥{this.props.totalPrice}</Text>}/>
-    <Divider style={{backgroundColor:"blue",marginBottom:5}}/>
-    <ListItem
-    rightIcon={<View style={{flexDirection:"row"}}><View style={{marginRight:10}}><Button  title={this.props.status==0?"去支付":"详情"} type="outline" onPress={this.handler3.bind(this)}/></View></View>}/>
+    <View style={{flexDirection:'row'}}>
+      <View style={{width:width*0.7}}>
+      <Text style={{marginLeft:60,fontSize:13}}>{this.props.orderItemName}</Text></View>
+      <View style={{width:width*0.3,flexDirection:'row-reverse'}}>
+      <Text style={{fontSize:13,fontWeight:"bold",fontFamily: 'System',marginRight:40}}>￥{this.props.totalPrice}</Text>
+      </View>
+    </View>
+    <View  style={{ width:width,flexDirection:'row-reverse',height:40,marginTop:10}}>
+        <View style={{
+          borderColor:"#A0A0A0",
+          borderWidth:1,
+          borderRadius:5,
+          marginRight:40,
+          width:60,marginBottom:10
+          
+        }}>
+          <View style={{marginTop:4,alignItems:'center'}}>
+            <TouchableOpacity onPress={
+              this.handler3.bind(this)
+            }>
+          <Text style={{fontSize:13}}>{this.props.status==0?"去支付":"详情"}</Text>
+          </TouchableOpacity></View>
+        </View>
+      </View>
     </View>
   </View>
       );

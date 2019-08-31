@@ -7,6 +7,8 @@ import DeviceStorage from './Store';
 import {commonStyle} from './commonStyle'
 import SQLite from './Sqlite';
 import { Tag, InputItem, List,Button,Stepper } from '@ant-design/react-native';
+const Item = List.Item;
+const Brief = Item.Brief;
 const {height, width} = Dimensions.get('window');
 var sqLite = new SQLite();
 var db;
@@ -124,9 +126,11 @@ export default class GoodsDetail extends Component{
                   </View>
                   
                 </View>
-                <Text style={{marginLeft:20}}h4>{this.state.item.commodityInfo}</Text>
-                <Divider style={{ backgroundColor: '#f0f0f0',height:1 }}/>
-                <View style={{marginRight:20,marginLeft:width*0.7,marginTop:5,height:height*0.1,justifyContent:'center'}}>
+                
+                <View style={{}}>
+                  <View style={{marginLeft:20,marginTop:10}}>
+                <Text h4>{this.state.item.commodityInfo}</Text></View>
+                <View style={{marginRight:20,marginLeft:width*0.7,marginTop:5,marginBottom:5}}>
                 <Stepper
                 key="0"
                 max={100}
@@ -134,12 +138,14 @@ export default class GoodsDetail extends Component{
                 defaultValue={1}
               /></View>
                 </View>
+                <Divider style={{ backgroundColor: '#f0f0f0',height:1 }}/>
+                </View>
                 </ScrollView>
                 
                 <View style={styles.toolBar}>
           <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
           </View>
-          <TouchableOpacity><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,fontWeight:"bold",color:'#ffffff'}}>加入购物车</Text></View>
+          <TouchableOpacity><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
         </TouchableOpacity>
           <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <Text style={{color: commonStyle.white}}>立即购买</Text>

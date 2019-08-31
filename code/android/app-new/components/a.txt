@@ -1,13 +1,6 @@
-<View style={{flex:1,flexDirection:'row',marginTop:15}}>
-            <View style={{flex:0.15,marginLeft:10}}>
-            <Icon
-              name='chevron-left'
-              size={30}
-              color='#3399ff'
-        />
-            </View>
-            <Text style={{fontSize:20}}>新增地址</Text>
-          </View>
-          
-            <View style={{flexDirection:"row",marginTop:10}}>
-            <View style={{marginLeft:100,marginRight:20}}><Tag>学校</Tag></View><View style={{marginRight:20}}><Tag>家</Tag></View><Tag>公司</Tag></View>
+<ListItem
+    title={<Text style={{marginLeft:35,fontSize:15}}>{this.props.orderItemName}</Text>}
+    rightTitle={<Text style={{fontSize:15,fontWeight:"bold",fontFamily: 'System'}}>￥{this.props.totalPrice}</Text>}/>
+    <ListItem
+    rightIcon={<View style={{flexDirection:"row"}}><View style={{marginRight:10}}><Button  title={this.props.status==0?"去支付":"详情"} type="outline" onPress={this.handler3.bind(this)}/></View></View>}/>
+    

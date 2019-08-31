@@ -2,6 +2,7 @@ import React from 'react';
  
 import { View, Text,DeviceEventEmitter } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Icon} from 'react-native-elements'; 
 export default class Menu1 extends React.PureComponent {
   _menu = null;
@@ -37,7 +38,11 @@ export default class Menu1 extends React.PureComponent {
     return (
         <Menu
           ref={this.setMenuRef}
-          button={<Icon name='menu' color='#fff' onPress={this.showMenu}/>}
+          button={<View style={{marginTop:4}}>
+      <TouchableOpacity onPress={this.showMenu}>
+        <Text>类型</Text>
+      </TouchableOpacity>
+    </View>}
         >
           <MenuItem onPress={this.hideMenu}>全部</MenuItem>
           <MenuDivider />

@@ -123,9 +123,10 @@ componentWillUnmount() {
   }
 }
 componentWillMount(){
-  var id =  this.props.navigation.state.params.storeId;
-  var url='http://192.168.0.100:9000/stores/'+id+'/commodities';
-  var url2="http://192.168.0.100:9000/commodities/classes?storeId="+id;
+  //var id =  this.props.navigation.state.params.storeId;
+  var id=1;
+  var url='http://192.168.0.102:9000/stores/'+id+'/commodities';
+  var url2="http://192.168.0.102:9000/commodities/classes?storeId="+id;
   axios.get(url).then((response)=>{
     list = response.data;
     axios.get(url2).then((response)=>{
@@ -164,9 +165,14 @@ handler1(){
 }
 render() {
 
-  var info =  this.props.navigation.state.params.info;
-  var storeId =  this.props.navigation.state.params.storeId;;
-  var storeName= this.props.navigation.state.params.info.storeName
+  //var info =  this.props.navigation.state.params.info;
+  //var storeId =  this.props.navigation.state.params.storeId;;
+  //var storeName= this.props.navigation.state.params.info.storeName
+  var info = {
+    storeName:'水果店1',
+    address:'华山路',
+    contact:'18039859163'
+  };
     const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
 
     return (

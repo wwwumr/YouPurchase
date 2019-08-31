@@ -32,7 +32,7 @@ export default class Login extends Component{
     var phone = this.state.phone;
     var phones = phone.split(' ');
     phone = phones.join('');
-    axios.post('http://192.168.0.100:8080/user/login',{phone:phone,password:this.state.password})
+    axios.post('http://192.168.0.102:8080/user/login',{phone:phone,password:this.state.password})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
