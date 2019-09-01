@@ -1,6 +1,44 @@
-<ListItem
-    title={<Text style={{marginLeft:35,fontSize:15}}>{this.props.orderItemName}</Text>}
-    rightTitle={<Text style={{fontSize:15,fontWeight:"bold",fontFamily: 'System'}}>￥{this.props.totalPrice}</Text>}/>
-    <ListItem
-    rightIcon={<View style={{flexDirection:"row"}}><View style={{marginRight:10}}><Button  title={this.props.status==0?"去支付":"详情"} type="outline" onPress={this.handler3.bind(this)}/></View></View>}/>
-    
+<Modal
+                  transparent={false}
+                  visible={this.state.visible1}
+                  animationType="slide-up"
+                  onClose={()=>{this.setState({visible1:false})}}
+                >
+          <View style={{ paddingVertical: 220 }}>
+            <Text style={{ textAlign: 'center' }}>Content...</Text>
+            <Text style={{ textAlign: 'center' }}>Content...</Text>
+          </View>
+          <Button
+            type="primary"
+            onPress={() => Toast.info('Hello Toast in Modal now works')}
+          >
+            Hello Toast in Modal now works
+          </Button>
+          <Button type="primary" onPress={()=>{this.setState({visible1:false})}}>
+            close modal
+          </Button>
+        </Modal>
+
+
+        <Text h3 style={{textAlign:'center',color:'#0080ff'}}>订 单 评 价</Text>
+                <View style={{marginTop:50,marginBottom:10}}>
+                <AirbnbRating
+                   onFinishRating={this.ratingCompleted.bind(this)}
+                />
+                </View>
+                <View style={{marginTop:30}}>
+                <Input 
+                onChangeText={(value) => this.setState({content: value})}
+                value={this.state.content}
+                    placeholder='请 输 入评 价'
+                     leftIcon={
+                        <Image
+                            source={require('../images/pingyu.jpg')}
+                           style={{ width: 30, height: 30 }}
+                     />}
+                            /></View>
+                            <View style={{marginLeft:50,marginRight:50,marginTop:30}}>
+                <Button onPress={this.submit.bind(this)} title="确定"/></View>
+                <View style={{marginRight:50,marginLeft:50,marginTop:10}}>
+                <Button title = "关闭"onPress={this.handler1.bind(this)}/></View>        
+               </Overlay>

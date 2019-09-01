@@ -6,6 +6,13 @@ import { MapView, MapTypes, Geolocation } from 'react-native-baidu-map';
 import Item from './Item';
 import OrderItem from './OrderItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+  Modal,
+  WhiteSpace,
+  WingBlank,
+  Toast,
+  Provider,
+} from '@ant-design/react-native';
 const {height, width} = Dimensions.get('window');
 export default class OrderDetail extends Component{
     constructor(props){
@@ -15,7 +22,8 @@ export default class OrderDetail extends Component{
             isVisible:false,
             content:"",
             score:-1,
-            isPress:this.props.navigation.state.params.judged
+            isPress:this.props.navigation.state.params.judged,
+            visible1:false
         }
     }
     ratingCompleted(rating) {
@@ -63,7 +71,7 @@ export default class OrderDetail extends Component{
         this.setState({isVisible:true})
     }
     getMap(){
-            axios.post('http://192.168.0.100:9002/order/carrier',{partner_order_code:"123"})
+            axios.post('http://192.168.0.102:9002/order/carrier',{partner_order_code:"123"})
                .then((response)=> {
                  var tarAddress={};
                  tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;
@@ -176,32 +184,21 @@ export default class OrderDetail extends Component{
                  </View>
                 </View>
                 </ScrollView>
-                <Overlay
-                 isVisible={this.state.isVisible}
+                <Modal
+                  transparent={false}
+                  visible={this.state.visible1}
+                  animationType="slide-up"
+                  onClose={()=>{this.setState({visible1:false})}}
                 >
-                <Text h3 style={{textAlign:'center',color:'#0080ff'}}>订 单 评 价</Text>
-                <View style={{marginTop:50,marginBottom:10}}>
-                <AirbnbRating
+                  <AirbnbRating
                    onFinishRating={this.ratingCompleted.bind(this)}
                 />
-                </View>
-                <View style={{marginTop:30}}>
-                <Input 
-                onChangeText={(value) => this.setState({content: value})}
-                value={this.state.content}
-                    placeholder='请 输 入评 价'
-                     leftIcon={
-                        <Image
-                            source={require('../images/pingyu.jpg')}
-                           style={{ width: 30, height: 30 }}
-                     />}
-                            /></View>
-                            <View style={{marginLeft:50,marginRight:50,marginTop:30}}>
-                <Button onPress={this.submit.bind(this)} title="确定"/></View>
-                <View style={{marginRight:50,marginLeft:50,marginTop:10}}>
-                <Button title = "关闭"onPress={this.handler1.bind(this)}/></View>        
-               </Overlay>
-                </View>
+                  <Button type="primary" onPress={()=>{this.setState({visible1:false})}}>
+                    close modal
+                  </Button>
+                </Modal>
+                
+              </View>
         );
     }
     render(){
@@ -220,6 +217,7 @@ export default class OrderDetail extends Component{
       var mapjudged = this.props.navigation.state.params.mapjudged
       var orderNo = this.props.navigation.state.params.orderNo;
         return(
+          <Provider>
             <View style={{backgroundColor:"#F8F8F8"}}> 
                 <View style={{backgroundColor:"#F8F8F8",height:height*0.055,flexDirection:'row',marginTop:15}}>
             <View style={{marginLeft:10}}>
@@ -245,7 +243,7 @@ export default class OrderDetail extends Component{
                      <View style={{marginTop:4,alignItems:'center',height:30,borderColor:"#A0A0A0",
           borderWidth:1,
           borderRadius:5,width:70,marginBottom:10}}>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={()=>{this.setState({visible1:true})}}>
           <Text style={{fontSize:13,marginTop:4}}>评价订单</Text>
           </TouchableOpacity></View>
                          </View>
@@ -291,7 +289,12 @@ export default class OrderDetail extends Component{
                      <View style={{flexDirection:'row',flex:1,marginBottom:10}}>
                        <View>
                      <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>配送方式：商家配送</Text></View>
-                     <View style={{marginLeft:50}}></View>
+                     <View style={{marginLeft:50}}><View style={{marginTop:4,alignItems:'center',height:30,borderColor:"#A0A0A0",
+          borderWidth:1,
+          borderRadius:5,width:70}}>
+            <TouchableOpacity onPress={this.getMap.bind(this)}>
+          <Text style={{fontSize:13,marginTop:4}}>订单跟踪</Text>
+          </TouchableOpacity></View></View>
                      </View>
                          </View>
                  </View>
@@ -307,32 +310,21 @@ export default class OrderDetail extends Component{
                  </View>
                 </View>
                 </ScrollView>
-                <Overlay
-                 isVisible={this.state.isVisible}
+                <Modal
+                  transparent={false}
+                  visible={this.state.visible1}
+                  animationType="slide-up"
+                  onClose={()=>{this.setState({visible1:false})}}
                 >
-                <Text h3 style={{textAlign:'center',color:'#0080ff'}}>订 单 评 价</Text>
-                <View style={{marginTop:50,marginBottom:10}}>
-                <AirbnbRating
+                  <AirbnbRating
                    onFinishRating={this.ratingCompleted.bind(this)}
                 />
+                  <Button type="primary" onPress={()=>{this.setState({visible1:false})}}>
+                    close modal
+                  </Button>
+                </Modal>
                 </View>
-                <View style={{marginTop:30}}>
-                <Input 
-                onChangeText={(value) => this.setState({content: value})}
-                value={this.state.content}
-                    placeholder='请 输 入评 价'
-                     leftIcon={
-                        <Image
-                            source={require('../images/pingyu.jpg')}
-                           style={{ width: 30, height: 30 }}
-                     />}
-                            /></View>
-                            <View style={{marginLeft:50,marginRight:50,marginTop:30}}>
-                <Button onPress={this.submit.bind(this)} title="确定"/></View>
-                <View style={{marginRight:50,marginLeft:50,marginTop:10}}>
-                <Button title = "关闭"onPress={this.handler1.bind(this)}/></View>        
-               </Overlay>
-                </View>
+                </Provider>
         );
     }
 }
