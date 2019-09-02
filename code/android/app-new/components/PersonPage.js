@@ -106,7 +106,7 @@ export default class PersonPage extends Component{
         source={require('../images/pagebeijing.jpg')}
       >
       <View style={{marginTop:30,alignItems:'center'}}>
-        <Image source={{uri:this.state.uri}}style={{width:120,height:120,borderRadius:60}}/>
+        <Image source={{uri:this.state.detail.uri}}style={{width:120,height:120,borderRadius:60}}/>
       </View>
       <View style={{marginTop:30,marginLeft:100,marginRight:100}}>
         <Text style={{textAlign:'center',

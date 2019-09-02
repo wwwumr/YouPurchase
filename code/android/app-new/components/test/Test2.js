@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, Dimensions,Alert,Linking} from 'react-native';
+import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground} from 'react-native';
 import {Image,Header,Icon,Text,Button} from 'react-native-elements'
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import { callExpression } from '@babel/types';
+import {
+  Modal,
+  Provider,
+} from '@ant-design/react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 var EARTH_RADIUS = 6378137.0;    //单位M
     var PI = Math.PI;
     
@@ -55,22 +60,35 @@ export default class BaiduDemo extends Component {
   
    
 }
-TarAddress(){
+ TarAddress() {
   var address = this.props.navigation.state.params.address;
-  Alert.alert(address);
-}
+  Modal.alert('收货地址', address, [
+    {
+      text: '关闭',
+      onPress: () => console.log(''),
+      style: 'cancel',
+    },
+  ]);
+};
+
 CurrertAddress(){
   var temppoint = this.state.carrierAddress;
   var tarpoint = this.state.tarAddress;
     Geolocation.reverseGeoCode(temppoint.latitude,temppoint.longitude).then((data)=>{
       var distance = getFlatternDistance(temppoint.latitude,temppoint.longitude,tarpoint.latitude,tarpoint.longitude)/1000;
-      Alert.alert(data.address+"\n"+"相距目的地 "+distance.toFixed(2)+"km");
+      Modal.alert('包裹当前位置', data.address+"\n"+"相距目的地 "+distance.toFixed(2)+"km", [
+        {
+          text: '关闭',
+          onPress: () => console.log(''),
+          style: 'cancel',
+        },
+      ]);
     })
 }
 phone(){
   var phone = this.props.navigation.state.params.phone;
   let tel = 'tel:'+phone// 目标电话
-      Alert.alert('联系商家', '电话：'+phone,
+      Modal.alert('联系商家', '电话：'+phone,
         [ { text: '取消', onPress: () => { console.log('取消') } },
           { text: '确定',
             onPress: () => {
@@ -91,17 +109,25 @@ phone(){
     console.log(center);
     console.log(marker1);
     return (
+      <Provider>
      <View>
-        <Header
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                onPress={() => {this.props.navigation.goBack();
-                } }/> }
-                centerComponent={{ text: '订 单 跟 踪', style: { color: '#fff',fontSize:20 } }}
-                rightComponent={{icon:'home',color:"#fff"}}/>
-                <View style={styles.container}>
+        <ImageBackground
+                style={{width:width,height:height*0.08}}
+                source={require('../../images/edit.jpg')}
+            >
+                <View style={{flexDirection:"row",marginLeft:20,flex:1,marginTop:10}}>
+                  <TouchableOpacity onPress={()=>{this.props.navigation.goBack();}}>
+                <Icon
+                            name='chevron-left'
+                            size={30}
+                            color='#ffffff'
+                          /></TouchableOpacity>
+                </View>
+            </ImageBackground>
+                <View>
         <MapView 
           width={width} 
-          height={450} 
+          height={height*0.8} 
           zoom={14.5}
           trafficEnabled={true}
           zoomControlsVisible={true}
@@ -114,12 +140,13 @@ phone(){
           <Text location={marker1}text={"包裹位置"} fontSize={40}/>
         </MapView>
       </View>
-      <View style={{height:55,flexDirection:'row',flex:1}}>
-        <View style={{flex:0.3,height:50}}><Button title="收货地址"type="outline" onPress={this.TarAddress.bind(this)} /></View>
-        <View style={{flex:0.4,height:50}}><Button title="包裹位置"type="outline" onPress={this.CurrertAddress.bind(this)}/></View>
-        <View style={{flex:0.3,height:50}}><Button title="联系商家"type="outline" onPress={this.phone.bind(this)}/></View>
+      <View style={{height:height*0.12,flexDirection:'row',flex:1}}>
+        <View style={{flex:0.3,height:height*0.12}}><Button title="收货地址"type="outline" onPress={this.TarAddress.bind(this)} /></View>
+        <View style={{flex:0.4,height:height*0.12}}><Button title="包裹位置"type="outline" onPress={this.CurrertAddress.bind(this)}/></View>
+        <View style={{flex:0.3,height:height*0.12}}><Button title="联系商家"type="outline" onPress={this.phone.bind(this)}/></View>
       </View>
       </View>
+      </Provider>
     );
   }
 }
