@@ -57,7 +57,7 @@ export default class Login extends Component{
       ToastAndroid.show('密码不能为空',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://192.168.0.102:8080/user/login',{phone:phone,password:this.state.password})
+    axios.post('http://192.168.0.100:8080/user/login',{phone:phone,password:this.state.password})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);

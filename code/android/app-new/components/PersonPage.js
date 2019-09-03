@@ -21,7 +21,7 @@ export default class PersonPage extends Component{
       sex:'',
       detail:{},
       image: null,
-      uri:"http://192.168.0.102:8080//user/getPhoto?userId="+this.props.userId+"&v=0"
+      uri:'http://192.168.0.100:8080/user/getPhoto?userId='+this.props.userId
     }
   }
   /**
@@ -46,7 +46,7 @@ export default class PersonPage extends Component{
    */
   change(){
     console.log(this.props.userId);
-    axios.get('http://192.168.0.102:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get('http://192.168.0.100:8080/user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -62,7 +62,7 @@ export default class PersonPage extends Component{
    */
   componentWillMount(){
     console.log(this.props.userId);
-    axios.get('http://192.168.0.102:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get('http://192.168.0.100:8080/user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -74,30 +74,6 @@ export default class PersonPage extends Component{
     });
     
   }
-  pickSingleBase64(cropit) {
-    var uri = "http://192.168.0.102:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
-    ImagePicker.openPicker({
-      width: 300,
-      height: 300,
-      cropping: cropit,
-      includeBase64: true,
-      includeExif: true,
-    }).then((image) => {
-      console.log('received base64 image');
-      
-      console.log(image.data);
-      axios.post("http://192.168.0.102:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
-        tempitem = response.data;
-        console.log(tempitem);
-      }).catch(function(error){
-        console.log(error);
-      })
-      this.setState({
-        uri:uri
-      });
-      
-    }).catch(e => alert(e));
-  }
   render(){
     return(
       <View>
@@ -106,7 +82,7 @@ export default class PersonPage extends Component{
         source={require('../images/pagebeijing.jpg')}
       >
       <View style={{marginTop:30,alignItems:'center'}}>
-        <Image source={{uri:this.state.detail.uri}}style={{width:120,height:120,borderRadius:60}}/>
+        <Image source={{uri:this.state.uri}}style={{width:120,height:120,borderRadius:60}}/>
       </View>
       <View style={{marginTop:30,marginLeft:100,marginRight:100}}>
         <Text style={{textAlign:'center',
