@@ -18,7 +18,7 @@ ratingCompleted(rating) {
   console.log("Rating is: " + rating)
 }
 StoreRating(){
-  this.props.navigation.navigate('StoreGradeShow',{storeId:this.props.storeId,contact:this.props.contact,address:this.props.address,storeName:this.props.storeName});
+  this.props.navigation.navigate('StoreGradeShow',{storeId:this.props.storeId,contact:this.props.contact,address:this.props.address,storeName:this.props.storeName,score:this.props.score});
 }
     handler1(){
         this.setState({isVisible:false});
@@ -43,6 +43,7 @@ StoreRating(){
       return(
 <View>
         <WingBlank>
+          <View style={{backgroundColor:'#ffffff'}}>
           <Card>
             <TouchableOpacity onPress={()=>{
       this.props.navigation.navigate('Goodslist',{storeId:this.props.storeId,info:this.props.info,userId:this.props.userId})
@@ -66,7 +67,22 @@ StoreRating(){
                   <Text style={{fontSize:13}}>地址: {this.props.address}</Text>
                   </View>
                   <View style={{flex:0.26}}>
-                  <Button onPress={this.StoreRating.bind(this)} title="商店评价" type="outline"/>
+                    <TouchableOpacity onPress={this.StoreRating.bind(this)}><View style={{height:42,justifyContent:'center'}}>
+                    <View style={{marginTop:4,
+                      alignItems:'center',
+                      justifyContent:'center',
+                      height:35,
+                      borderColor:"#A0A0A0",
+                      borderWidth:1,
+                      borderRadius:10,
+                      width:70,
+                      }}
+                    >
+                      <Text style={{fontSize:15}}>
+                        商店评价
+                      </Text>
+                    </View>
+                      </View></TouchableOpacity>
                   </View>
                 </View>
               </View>
@@ -75,7 +91,7 @@ StoreRating(){
               content=""
               extra=""
             />
-          </Card>
+          </Card></View>
         </WingBlank>
         <WhiteSpace /></View>);
     }

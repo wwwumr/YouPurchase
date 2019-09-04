@@ -127,7 +127,7 @@ export default class EditPage extends Component{
    * @param {boolean} cropit 是否可以剪切 
    */
   pickSingleBase64(cropit) {
-    var uri = "http://192.168.0.102:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
+    var uri = "http://192.168.0.100:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
     ImagePicker.openPicker({
       width: 300,
       height: 300,
@@ -138,7 +138,7 @@ export default class EditPage extends Component{
       console.log('received base64 image');
       
       console.log(image.data);
-      axios.post("http://192.168.0.102:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
+      axios.post("http://192.168.0.100:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
         tempitem = response.data;
         console.log(tempitem);
         DeviceEventEmitter.emit('editPersonPage');
@@ -158,7 +158,7 @@ export default class EditPage extends Component{
    */
   componentWillMount(){
     var userId = this.props.navigation.state.params.userId
-    axios.get('http://192.168.0.102:8080/user/check',{params:{userId:userId}})
+    axios.get('http://192.168.0.100:8080/user/check',{params:{userId:userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
