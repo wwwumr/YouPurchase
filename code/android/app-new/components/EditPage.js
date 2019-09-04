@@ -4,7 +4,7 @@ import axios from 'axios';
 import Upload from './Upload';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import { Input,Image,Header,Text,Overlay, Divider,ListItem } from 'react-native-elements';
-import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions,DeviceEventEmitter,ToastAndroid} from'react-native';
+import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions,DeviceEventEmitter,ToastAndroid,BackHandler} from'react-native';
 import { List,Button,Modal,
     WhiteSpace,
     WingBlank,
@@ -14,6 +14,9 @@ const Brief = Item.Brief;
 const RadioItem = Radio.RadioItem;
 var ImagePicker = NativeModules.ImageCropPicker;
 const {height, width} = Dimensions.get('window');
+import SQLite from './UserSqlite';
+var sqLite = new SQLite();
+var db;
 export default class EditPage extends Component{
   constructor(props){
     super(props);
@@ -30,6 +33,9 @@ export default class EditPage extends Component{
       part2Value: 1,
       regDate:''
     }
+  }
+  compennetDidUnmount(){
+    sqLite.close();
   }
   /**
    * @description 判断输入的手机号是否合法
@@ -157,6 +163,10 @@ export default class EditPage extends Component{
    * @description 生命周期函数
    */
   componentWillMount(){
+    if(!db){
+      db = sqLite.open();
+    }
+    sqLite.createTable();
     var userId = this.props.navigation.state.params.userId
     axios.get('http://192.168.0.100:8080/user/check',{params:{userId:userId}})
     .then((response)=> {
@@ -306,6 +316,14 @@ export default class EditPage extends Component{
               />
             </View>
           </View>
+          
+        </View>
+        <View style={{backgroundColor:'#ffffff',marginLeft:30,marginRight:30,marginTop:30}}>
+            <Button type="primary" onPress={()=>{
+              sqLite.deleteData();
+              BackHandler.exitApp();
+            }}>退出登录
+          </Button>
         </View>
         <Modal
           popup

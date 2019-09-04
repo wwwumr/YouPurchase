@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {View,TouchableOpacity,StyleSheet,DeviceEventEmitter,Dimensions} from 'react-native';
+import {View,TouchableOpacity,StyleSheet,DeviceEventEmitter,Dimensions,ToastAndroid} from 'react-native';
 import {Image,Header,Text,Divider,Icon} from 'react-native-elements';
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -17,7 +17,8 @@ export default class GoodsDetail extends Component{
         super(props);
         this.state={
             item:{},
-            id:-1
+            id:-1,
+            number:1
         }
     }
     componentWillMount(){
@@ -26,9 +27,9 @@ export default class GoodsDetail extends Component{
       }
       //建表
       sqLite.createTable();
-        var id = 1;
-        //var id =  this.props.navigation.state.params.goodsId;
-        var url='http://192.168.0.102:9000//commodities/'+id;
+        //var id = 1;
+        var id =  this.props.navigation.state.params.goodsId;
+        var url='http://192.168.0.100:9000//commodities/'+id;
         axios.get(url).then((response)=>{
         tempitem = response.data;
         this.setState({item:tempitem,id:id});
@@ -48,7 +49,7 @@ export default class GoodsDetail extends Component{
       tempitem.goodId = goodId;
       tempitem.commodityInfo = this.state.item.commodityInfo;
       tempitem.commodityCoverPicUrl = this.state.item.commodityCoverPicUrl;
-      tempitem.amount = 1;
+      tempitem.amount = this.state.number;
       sqLite.insertUserData(tempitem);
     }
     compennetDidUnmount(){
@@ -57,54 +58,14 @@ export default class GoodsDetail extends Component{
     deletecart(){
       sqLite.deleteData();
     }
-    render1(){
-      
-        console.log(this.props.userId);
-        return(
-            <View style={{flex:1}}>
-                <Header 
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                onPress={() => this.props.navigation.goBack()}/> }
-                centerComponent={{ text: '商 品 详 情', style: { color: '#fff',fontSize:20 } }}
-                rightComponent={{icon:'home',color:"#fff"}}/>
-                <ScrollView>
-                    <View>
-                <View style={{alignItems:'center',marginTop:20}}>
-                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:200,height:200}}/>  
-                </View>
-                <Divider style={{ backgroundColor: 'blue' }}/>
-                <Text style={{marginLeft:20}}h2>{this.state.item.commodityInfo}</Text>
-                <Divider style={{ backgroundColor: 'blue' }}/>
-                <View style={{flexDirection:'row'}}>
-                <Text h3 style={{color:'#DC143C',marginLeft:20}}>¥ {this.state.item.price}</Text>
-                <Text h4 style={{marginLeft:200}}>{this.state.item.onShelves ?"有货":"无货" }</Text></View>
-                <Divider style={{ backgroundColor: 'blue' }}/>
-                </View>
-                </ScrollView>
-                <View style={styles.toolBar}>
-          <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
-            <TouchableOpacity onPress={this.deletecart.bind(this)}>
-              <Image style={styles.checkBox} source={require("../images/cart2.jpeg")}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.addcart.bind(this)}>
-        <Text style={{fontWeight:"bold",marginLeft:20}}>加入购物车</Text></TouchableOpacity>
-          </View>
-          <TouchableOpacity onPress={() => {
-        this.props.navigation.navigate('MainPage')}}><Text style={{marginHorizontal: 10,fontWeight:"bold"}}>首页</Text>
-        </TouchableOpacity>
-          <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
-            <Text style={{color: commonStyle.white}}>立即购买</Text>
-          </View>
-      </View>
-            </View>
-        )
-    }
     render(){
       return(
         <View style={{height:height,flex:1}}>
-        <View style={{backgroundColor:"#ffffff",height:height*0.1,marginTop:15,flexDirection:'row'}}>
+        <View style={{backgroundColor:"#ffffff",height:height*0.07,marginTop:15,flexDirection:'row'}}>
             <View style={{marginLeft:10}}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>{
+                this.props.navigation.goBack();
+              }}>
             <Icon
               name='chevron-left'
               size={30}
@@ -114,7 +75,7 @@ export default class GoodsDetail extends Component{
             <ScrollView>
               <View>
             <View style={{alignItems:'center',alignContent:'center'}}>
-                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:width,height:height*0.3}}/>  
+                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:width*0.8,height:width*0.8}}/>  
                 </View>
                 
                 <View style={{flexDirection:'row'}}>
@@ -130,22 +91,53 @@ export default class GoodsDetail extends Component{
                 <View style={{}}>
                   <View style={{marginLeft:20,marginTop:10}}>
                 <Text h4>{this.state.item.commodityInfo}</Text></View>
-                <View style={{marginRight:20,marginLeft:width*0.7,marginTop:5,marginBottom:5}}>
-                <Stepper
-                key="0"
-                max={100}
-                min={1}
-                defaultValue={1}
-              /></View>
+                <View style={{marginRight:20,marginLeft:width*0.7,marginTop:5,marginBottom:5,height:40}}>
+                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',}}>
+                  <TouchableOpacity 
+                     onPress={()=>{
+                      if(this.state.number > this.state.item.remaining){
+                        ToastAndroid.show('数量已超过库存',ToastAndroid.SHORT);
+                        return;
+                      }
+                      else{
+                        var number = this.state.number+1;
+                        this.setState({number:number});
+                      }
+                    }}
+                    >
+                  <View style={{justifyContent:'center',alignItems:'center',height:30,width:30,borderColor:'#C0C0C0',borderWidth:0.5,borderRadius:5}}>
+                    <Text style={{color:"#C0C0C0"}}>+</Text>
+                  </View>
+                  </TouchableOpacity>
+                  <View style={{justifyContent:'center',alignItems:'center',height:30,width:30}}>
+                    <Text style={{color:"#C0C0C0"}}>{this.state.number}</Text>
+                  </View>
+                  <TouchableOpacity
+                  onPress={()=>{
+                    if(this.state.number == 1){
+                      ToastAndroid.show('数量不能小于1',ToastAndroid.SHORT);
+                      return;
+                    }
+                    else{
+                      var number = this.state.number-1;
+                      this.setState({number:number});
+                    }
+                  }}
+                   
+                  >
+                  <View style={{justifyContent:'center',alignItems:'center',height:30,width:30,borderColor:'#C0C0C0',borderWidth:0.5,borderRadius:5}}>
+                    <Text style={{color:"#C0C0C0"}}>-</Text>
+                  </View>
+                  </TouchableOpacity>
+                </View>
+                </View>
                 </View>
                 <Divider style={{ backgroundColor: '#f0f0f0',height:1 }}/>
-                </View>
-                </ScrollView>
-                
+                </View></ScrollView>
                 <View style={styles.toolBar}>
           <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
           </View>
-          <TouchableOpacity><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
+          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
         </TouchableOpacity>
           <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <Text style={{color: commonStyle.white}}>立即购买</Text>

@@ -6,6 +6,7 @@ import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,ImageBackgro
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SQLite from './UserSqlite';
 import { InputItem, List,Button,Toast } from '@ant-design/react-native';
+var item={};
 var sqLite = new SQLite();
 var db;
 const {height, width} = Dimensions.get('window');
@@ -67,8 +68,8 @@ export default class Login extends Component{
         var id=responseData.userId;
         var tempItem={};
         tempItem.userId = id;
-        tempItem.phone = this.state.phone;
-        tempItem.password = this.state.password;
+        tempItem.phone = phone;
+        tempItem.password = password;
         sqLite.insertUserData(tempItem);
         this.props.navigation.navigate('MainPage',{userId:id,selectedTab:0})}
       else

@@ -27,7 +27,7 @@ export default class AddAddress extends Component {
   }
   change(){
     console.log("change addresslist");
-    var userId = this.props.navigation.state.params.userId;
+    var userId = 2;
       var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
@@ -58,7 +58,7 @@ export default class AddAddress extends Component {
   }
     componentWillMount(){
       var userId = 2;
-      var url="http://192.168.0.102:8080/delivery/address?userId="+userId;
+      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -85,21 +85,6 @@ export default class AddAddress extends Component {
     }).catch(function(error){
         console.log(error);
     })
-    }
-    delete(id,i){
-      var url="http://192.168.0.100:8080/delivery/address?deliveryAddressId="+id;
-      axios.delete(url).then(response=>{
-        if(response.data=='DELETE'){
-          ToastAndroid.show("已删除 ",ToastAndroid.SHORT);
-          addressList.splice(i,1);
-          this.setState({addressList:addressList});
-        }
-        else{
-          ToastAndroid.show("删除失败 ",ToastAndroid.SHORT);
-        }
-      }).catch(e=>{
-        console.log(e);
-      })
     }
   /*render() {
     var userId = this.props.navigation.state.params.userId;
@@ -150,7 +135,7 @@ export default class AddAddress extends Component {
   }*/
   render(){
     return(
-      <View style={{backgroundColor:"#f0f0f0",height:height}}>
+      <View style={{backgroundColor:"#f8f8f8",height:height}}>
         <View style={{backgroundColor:"#ffffff",height:height*0.08}}>
           <View style={{flex:1,flexDirection:'row',marginTop:15}}>
             <View style={{flex:0.15,marginLeft:10}}>
@@ -163,7 +148,7 @@ export default class AddAddress extends Component {
             <Text style={{fontSize:20}}>选择收货地址</Text>
           </View>  
         </View>
-        <ScrollView style={{backgroundColor:"#f0f0f0",marginTop:20}}>
+        <ScrollView style={{backgroundColor:"#f8f8f8",marginTop:20,marginBottom:50}}>
           <View style={{marginLeft:20,marginRight:20,borderRadius:10,backgroundColor:"#ffffff"}}>
             <View>
         {
@@ -171,19 +156,21 @@ export default class AddAddress extends Component {
       return(
           <View>
       <ListItem
-            title={<View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View>}
-            rightAvatar={<Icon
+            title={<TouchableOpacity><View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View></TouchableOpacity>}
+            rightAvatar={<TouchableOpacity onPress={()=>{
+              this.props.navigation.navigate('AddAddressTable2',{userId:2,item:item,addressList:this.state.addressList})
+            }}><Icon
               name='edit'
               size={24}
               color='#C0C0C0'
-            />}
-            subtitle={<View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View>}
+            /></TouchableOpacity>}
+            subtitle={<TouchableOpacity><View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
       />
       <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
       </View>)
      } )
   }</View>
-  <ListItem
+  <ListItem onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:2,addressList:this.state.addressList})}}
   title={<Text style={{color:"#3399ff"}}>新增收货地址</Text>}
   rightAvatar={<Icon
     name='chevron-right'

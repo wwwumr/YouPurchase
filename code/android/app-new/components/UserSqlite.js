@@ -83,7 +83,7 @@ export default class  UserSqlite extends Component{
             this.open();
         }
         this.createTable();
-   // this.deleteData();
+        this.deleteData();
         let phone = userData.phone;
         let id = userData.userId;
         let password = userData.password;
@@ -97,10 +97,10 @@ export default class  UserSqlite extends Component{
               });
         }, (err)=> {//所有的 transaction都应该有错误的回调方法，在方法里面打印异常信息，不然你可能不会知道哪里出错了。
             this._errorCB('transaction', err);
-            ToastAndroid.show("数据插入失败",ToastAndroid.SHORT);
+            //ToastAndroid.show("数据插入失败",ToastAndroid.SHORT);
         }, ()=> {
             this._successCB('transaction');
-            ToastAndroid.show("数据插入成功",ToastAndroid.SHORT);
+            //ToastAndroid.show("数据插入成功",ToastAndroid.SHORT);
         })
     }
     close(){

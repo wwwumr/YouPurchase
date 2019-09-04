@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import { ListItem,SearchBar,Header,Text,Image,Icon,Button, Divider} from 'react-native-elements'
-import {ScrollView,View,Dimensions,StyleSheet,DeviceEventEmitter} from 'react-native'
+import {ScrollView,View,Dimensions,StyleSheet,DeviceEventEmitter,Linking} from 'react-native'
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SideMenu from 'react-native-side-menu'
-import LeftMenu from './test/Test1'
+import LeftMenu from './test/Test1';
+import { Card,List,Provider,Modal } from '@ant-design/react-native';
 import styles from 'react-native-side-menu/build/styles';
 let {width,height} = Dimensions.get('window');
 const style1 = StyleSheet.create({
@@ -14,60 +15,8 @@ const style1 = StyleSheet.create({
   },
 
 });
-var list2=[];
-const list1 = [
-  {
-    title: '苹果',
-    icon: <Image source={require('../images/fruit/apple_pic.png')} style={{width:30,height:30}}/>,
-    money:2
-  },
-  {
-    title: '香蕉',
-    icon: <Image source={require('../images/fruit/banana_pic.png')} style={{width:30,height:30}}/>,
-    money:3
-  },
-  {
-    title: '樱桃',
-    icon: <Image source={require('../images/fruit/cherry_pic.png')} style={{width:30,height:30}}/>,
-    money:4
-  },
-  {
-    title: '葡萄',
-    icon: <Image source={require('../images/fruit/grape_pic.png')} style={{width:30,height:30}}/>,
-    money:5
-  },
-  {
-    title: '芒果',
-    icon: <Image source={require('../images/fruit/mango_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  },
-  {
-    title: '橙子',
-    icon: <Image source={require('../images/fruit/orange_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  },
-  {
-    title: '香梨',
-    icon: <Image source={require('../images/fruit/pear_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  },
-  {
-    title: '菠萝',
-    icon: <Image source={require('../images/fruit/pineapple_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  },
-  {
-    title: '草莓',
-    icon: <Image source={require('../images/fruit/strawberry_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  },
-  {
-    title: '西瓜',
-    icon: <Image source={require('../images/fruit/watermelon_pic.png')} style={{width:30,height:30}}/>,
-    money:20
-  }
-]
 var list=[];
+var list2=[];
 export default class Goodslist extends Component{
   constructor(props){
     super(props);
@@ -123,10 +72,10 @@ componentWillUnmount() {
   }
 }
 componentWillMount(){
-  //var id =  this.props.navigation.state.params.storeId;
-  var id=1;
-  var url='http://192.168.0.102:9000/stores/'+id+'/commodities';
-  var url2="http://192.168.0.102:9000/commodities/classes?storeId="+id;
+  var id =  this.props.navigation.state.params.storeId;
+  //var id=1;
+  var url='http://192.168.0.100:9000/stores/'+id+'/commodities';
+  var url2="http://192.168.0.100:9000/commodities/classes?storeId="+id;
   axios.get(url).then((response)=>{
     list = response.data;
     axios.get(url2).then((response)=>{
@@ -163,16 +112,11 @@ handler1(){
 
   this.props.navigation.navigate('StoreGradeShow',{storeId:storeId,contact:info.contact,address:info.address,storeName:info.storeName});
 }
-render() {
+/*render1() {
 
-  //var info =  this.props.navigation.state.params.info;
-  //var storeId =  this.props.navigation.state.params.storeId;;
-  //var storeName= this.props.navigation.state.params.info.storeName
-  var info = {
-    storeName:'水果店1',
-    address:'华山路',
-    contact:'18039859163'
-  };
+  var info =  this.props.navigation.state.params.info;
+  var storeId =  this.props.navigation.state.params.storeId;;
+  var storeName= this.props.navigation.state.params.info.storeName
     const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
 
     return (
@@ -242,6 +186,120 @@ render() {
         
         </SideMenu>
 
+
+
+    );}*/
+    phone(){
+      var info =  this.props.navigation.state.params.info;
+      var phone = info.contact;
+      let tel = 'tel:'+phone// 目标电话
+          Modal.alert('联系商家', '电话：'+phone,
+            [ { text: '取消', onPress: () => { console.log('取消') } },
+              { text: '确定',
+                onPress: () => {
+                  Linking.canOpenURL(tel).then((supported) => {
+                    if (!supported) {
+                      console.log('Can not handle tel:' + tel)
+                    } else {
+                      return Linking.openURL(tel)
+                    }
+                  }).catch(error => console.log('tel error', error))
+                } }])
+    }
+render() {
+
+  var info =  this.props.navigation.state.params.info;
+  var storeId =  this.props.navigation.state.params.storeId;;
+  var storeName= this.props.navigation.state.params.info.storeName
+    const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
+
+    return(
+      <Provider>
+      <View style={{backgroundColor:'#f8f8f8',height:height}}>
+        <View style={{width:width,height:height*0.09}}>
+          <View style={{flexDirection:"row",marginLeft:20,marginTop:15}}>
+            <View style={{marginRight:20}}>
+            <TouchableOpacity onPress={()=>{
+              this.props.navigation.goBack();
+            }}>
+            <Icon
+              name='chevron-left'
+              size={30}
+              color='#3399ff'
+            />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={{fontSize:20}}>商品列表</Text>
+          </View>
+        </View>
+        </View>
+        <ScrollView style={{marginBottom:40}}>
+        <View style={{backgroundColor:'#ffffff',marginLeft:10,marginRight:10,marginTop:10}}>
+          <Card>
+            <Card.Header
+              title={<View style={{marginLeft:5}}><Text style={{fontSize:18}}>{storeName}</Text></View>}
+              thumbStyle={{ width: 40, height: 40 }}
+              thumb={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
+            />
+            <Card.Body>
+              <View style={{ height: 110}}>
+                <View >
+                  <List>
+                  <List.Item
+                  onPress={this.phone.bind(this)} 
+                  extra={<Icon
+              name='phone'
+              size={30}
+              color='#D0D0D0'
+            />}>
+                  <Text style={{fontSize:15}}>电话:       {info.contact}</Text>
+                  </List.Item>
+                  <List.Item>
+                    <Text style={{fontSize:15}}>
+                  营业时间: 9:00-21:00</Text>
+                  </List.Item>
+                  <List.Item>
+                  <Text style={{fontSize:15}}>地址:       {info.address}</Text>
+                  </List.Item>
+                  </List>
+                  </View>
+              </View>
+            </Card.Body>
+            <Card.Footer
+              content=""
+              extra=""
+            />
+          </Card></View>
+          <Text  style={{marginTop:15,textAlign:'center',fontSize:20,
+    color:'#585858'}}>-- 商品列表 --</Text>
+    <View style={{marginTop:10,marginLeft:10,marginRight:10,borderColor:'#ffffff',backgroundColor:'#ffffff',borderRadius:10,borderWidth:1}}>
+  {
+    this.state.itemlist.map((item, i) => {
+      var name = item.commodityCoverPicUrl;
+      return(
+        <View >
+      <ListItem onPress={() => {
+        this.props.navigation.navigate('GoodsDetail', {
+          goodsId:item.key,
+          storeId:this.state.storeId,
+          storeName:storeName,
+          userId:this.props.navigation.state.params.userId
+        });
+      }}
+        key={item.key}
+        title={item.commodityInfo}
+        subtitle={<Text>{item.price}¥</Text>}
+        rightTitle={item.onShelves?"有货":"无货"}
+        leftIcon={<Image source={{uri:name}}style={{width: 50, height: 50}}/>}
+      />
+      <Divider style={{backgroundColor:"#C0C0C0",marginLeft:10,marginRight:10}}/>
+      </View>)
+     } )
+  }</View>
+          </ScrollView>
+        
+      </View></Provider>
 
 
     );

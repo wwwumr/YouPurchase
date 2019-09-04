@@ -1,181 +1,16 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity,  StyleSheet, SectionList,Alert,DeviceEventEmitter} from 'react-native'
+import {View, Text, TouchableOpacity,  StyleSheet, SectionList,Alert,DeviceEventEmitter,Dimensions} from 'react-native'
 import {commonStyle} from './commonStyle'
-import {Header,Icon,Input,Button,Image,Overlay} from 'react-native-elements'
 import DeviceStorage from './Store';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {Header,Input,Button,Image,Overlay} from 'react-native-elements';
 var Data1="";
 import SQLite from './Sqlite';
 var sqLite = new SQLite();
 var db;
 var foreverdata=[];
+const {height,width} = Dimensions.get('window');
 import axios from 'axios';
-    /*const data= [
-      {
-        shopName : "店铺名称1",
-        shopId : "0001",
-        shopItems: [
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 2,
-            maxQuantity: 10,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 110.00,
-            minQuantity: 1,
-            maxQuantity: 20,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 120.00,
-            minQuantity: 5,
-            maxQuantity: 30,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 130.00,
-            minQuantity: 2,
-            maxQuantity: 40,
-            itemDes: "这个测试商品"
-          }
-        ]
-      },
-      {
-        shopName : "店铺名称2",
-        shopId : "0001",
-        shopItems: [
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 140.00,
-            minQuantity: 2,
-            maxQuantity: 5,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 150.00,
-            minQuantity: 10,
-            maxQuantity: 15,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 160.00,
-            minQuantity: 20,
-            maxQuantity: 22,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 170.00,
-            minQuantity: 2,
-            maxQuantity: 24,
-            itemDes: "这个测试商品"
-          }
-        ]
-      },
-      {
-        shopName : "店铺名称3",
-        shopId: "0001",
-        shopItems: [
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 180.00,
-            minQuantity: 2,
-            maxQuantity: 6,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 2,
-            maxQuantity: 8,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 2,
-            maxQuantity: 10,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 2,
-            maxQuantity: 100,
-            itemDes: "这个测试商品"
-          }
-        ]
-      },
-      {
-        shopName : "店铺名称4",
-        shopId : "0001",
-        shopItems: [
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 1,
-            maxQuantity: 3,
-            itemDes: "这个测试商品"
-          },
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 3,
-            maxQuantity: 9,
-            itemDes: "这个测试商品"
-          }
-        ]
-      },
-      {
-        shopName : "店铺名称5",
-        shopId : "0001",
-        shopItems: [
-          {
-            itemName: "商品一",
-            itemId: "10001",
-            itemimg: "http://ovyjkveav.bkt.clouddn.com/17-10-19/15885901.jpg",
-            itemPrice: 100.00,
-            minQuantity: 1,
-            maxQuantity: 20,
-            itemDes: "这个测试商品"
-          }
-        ]
-      }
-    ]*/
 export default class ShopCart1 extends Component {
   constructor(props) {
     super(props)
@@ -197,170 +32,6 @@ export default class ShopCart1 extends Component {
   compennetDidUnmount(){
     sqLite.close();
   }
-  /*componentWillMount() {
-    var data=[];
-    DeviceStorage.get('cart').then((responsedata)=>{
-        var responseData = responsedata;
-        console.log(responsedata);
-        var templist = responseData.split('\n');
-        for(var i=0;i<templist.length;i++){
-          console.log("Hello Here!");
-          tempdata = templist[i].split(" ");
-          var shopObj={};
-          if(data.length==0){
-            shopObj.shopName=tempdata[3];
-            shopObj.shopId = parseInt(tempdata[2]);
-            var itemlist=[];
-            tempitem = {};
-            tempitem.itemName=tempdata[0];
-            tempitem.itemimg=tempdata[4];
-            tempitem.itemId = parseInt(tempdata[1]);
-            tempitem.itemPrice =  parseFloat(tempdata[5]),
-            tempitem.minQuantity= 1,
-            tempitem.maxQuantity= 20,
-            tempitem.itemDes = "这个测试商品";
-            itemlist.push(tempitem);
-            shopObj.shopItems = itemlist;
-            data.push(shopObj);
-            console.log(shopObj);
-          }
-          else{
-            shopObj.shopName=tempdata[3];
-              shopObj.shopId = parseInt(tempdata[2]);
-              
-              var itemlist=[];
-              tempitem = {};
-              tempitem.itemName=tempdata[0];
-              tempitem.itemimg=tempdata[4];
-              tempitem.itemId = parseInt(tempdata[1]);
-              tempitem.itemPrice =  parseFloat(tempdata[5]),
-              tempitem.minQuantity= 1,
-              tempitem.maxQuantity= 20,
-              tempitem.itemDes = "这个测试商品";
-              itemlist.push(tempitem);
-              shopObj.shopItems = itemlist;
-              console.log(shopObj);
-              var flag = 0;
-            for(var j=0;j<data.length;j++){
-              console.log("Hello There");
-              if(data[j].shopId == shopObj.shopId){
-                 data[j].shopItems.push(tempitem);
-                 flag = 1;
-                 break;
-              }
-            }
-            if(flag==0){
-              data.push(shopObj);
-            }
-             
-          }
-        }  
-    let dataArr = data;
-    let tempStatusArr = []
-    for (let i = 0; i < dataArr.length; i++) {
-      let items = dataArr[i].shopItems
-      let shopObj = {}
-      shopObj.checked = false,
-      shopObj.shopId = dataArr[i].shopId;
-      let tempItems = []
-      for (let j = 0; j < items.length; j++) {
-        let item = items[j]
-        item.checked = false
-        item.quantity = item.minQuantity
-        tempItems.push(item)
-      }
-      shopObj.items = tempItems
-      tempStatusArr.push(shopObj)
-    }
-    this.state.status = tempStatusArr
-    this.state.data=data;
-    this.setState({status:tempStatusArr,data:data})
-    console.log(this.state.status)
-  })
-  }
-*/
- /* componentWillReceiveProps(){
-    var data=[];
-    DeviceStorage.get('cart').then((responsedata)=>{
-      var responseData = responsedata;
-      console.log(responsedata);
-      var templist = responseData.split('\n');
-      for(var i=0;i<templist.length;i++){
-        console.log("Hello Here!");
-        tempdata = templist[i].split(" ");
-        var shopObj={};
-        if(data.length==0){
-          shopObj.shopName=tempdata[3];
-          shopObj.shopId = parseInt(tempdata[2]);
-          var itemlist=[];
-          tempitem = {};
-          tempitem.itemName=tempdata[0];
-          tempitem.itemimg=tempdata[4];
-          tempitem.itemId = parseInt(tempdata[1]);
-          tempitem.itemPrice =  parseFloat(tempdata[5]),
-          tempitem.minQuantity= 1,
-          tempitem.maxQuantity= 20,
-          tempitem.itemDes = "这个测试商品";
-          itemlist.push(tempitem);
-          shopObj.shopItems = itemlist;
-          data.push(shopObj);
-          console.log(shopObj);
-        }
-        else{
-          shopObj.shopName=tempdata[3];
-            shopObj.shopId = parseInt(tempdata[2]);
-            
-            var itemlist=[];
-            tempitem = {};
-            tempitem.itemName=tempdata[0];
-            tempitem.itemimg=tempdata[4];
-            tempitem.itemId = parseInt(tempdata[1]);
-            tempitem.itemPrice =  parseFloat(tempdata[5]),
-            tempitem.minQuantity= 1,
-            tempitem.maxQuantity= 20,
-            tempitem.itemDes = "这个测试商品";
-            itemlist.push(tempitem);
-            shopObj.shopItems = itemlist;
-            console.log(shopObj);
-            var flag = 0;
-          for(var j=0;j<data.length;j++){
-            console.log("Hello There");
-            if(data[j].shopId == shopObj.shopId){
-               data[j].shopItems.push(tempitem);
-               flag = 1;
-               break;
-            }
-          }
-          if(flag==0){
-            data.push(shopObj);
-          }
-           
-        }
-      }  
-  let dataArr = data;
-  let tempStatusArr = []
-  for (let i = 0; i < dataArr.length; i++) {
-    let items = dataArr[i].shopItems
-    let shopObj = {}
-    shopObj.checked = false,
-    shopObj.shopId = dataArr[i].shopId;
-    let tempItems = []
-    for (let j = 0; j < items.length; j++) {
-      let item = items[j]
-      item.checked = false
-      item.quantity = item.minQuantity
-      tempItems.push(item)
-    }
-    shopObj.items = tempItems
-    tempStatusArr.push(shopObj)
-  }
-  this.state.status = tempStatusArr
-  this.state.data = data
-  this.setState({data:data,status:tempStatusArr,totalPrice:0.00})
-  console.log(this.state.status)
-})
-
-  }*/
   componentWillMount(){
     var data=[];
     if(!db){
@@ -527,83 +198,6 @@ console.log(this.state.status)
   componentDidMount(){
         this.setState({yes:this.props.yes})
   }
- /* pay(){
-    var createDate = new Date().toString();
-    console.log(createDate)
-    let tempStatus = this.state.status;
-    var orderItemlist=[];
-    var storeId = -1;
-    var deliveryAddressId = 0
-    var userId = this.props.userId;
-    var totalPrice = this.state.totalPrice;
-    var tarAddress = this.state.tarAddress;
-    var tarPeople = this.state.tarPeople;
-    var tarPhone = this.state.tarPhone;
-    console.log(tarPhone);
-      for (let i = 0; i < tempStatus.length; i ++) {
-        let shop = tempStatus[i]
-        let items = shop.items
-        for (let j = 0; j < items.length; j++) {
-          let item = items[j]
-          if (item.checked) {
-            if(storeId ==-1 || shop.shopId == storeId){
-            var tempitem={};
-            storeId = shop.shopId
-            tempitem.amount = item.quantity;
-            tempitem.price = item.itemPrice;
-            tempitem.commodityId = item.itemId;
-            orderItemlist.push(tempitem);
-          }
-          else{
-            Alert.alert("请选择同一个商店的商品")
-            return;
-          }
-          }
-        }
-      
-      }
-      console.log(orderItemlist);
-      axios.post('http://192.168.1.19:9002/order/add',{userId:userId,deliveryAddressId:1,totalPrice:totalPrice,orderItemList:orderItemlist,tarPeople:tarPeople,
-      tarAddress:tarAddress,tarPhone:tarPhone,createDate:createDate,storeId:storeId})
-    .then((response)=> {
-      var responseData = response.data;
-      console.log(responseData);
-      this.setState({isVisible:false});
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    var tempDatalist = this.state.data;
-    var tempStatuslist = this.state.status;
-    for(var i=0;i<tempDatalist.length;i++){
-      if(tempDatalist[i].shopId == storeId){tempDatalist.splice(i,1);break;}
-    }
-    for(var i=0;i<tempStatuslist.length;i++){
-      if(tempStatuslist[i].shopId == storeId){tempStatuslist.splice(i,1);break;}
-    }
-    this.setState({
-      data:tempDatalist,
-      status:tempStatuslist
-    })
-    DeviceStorage.get('cart').then((responsedata)=>{
-      var templist = responsedata.split('\n');
-      var cart="";
-      for(var i=0;i<templist.length;i++){
-        var tempitem = templist[i].split(' ');
-        if(parseInt(tempitem[2])!=storeId){
-          cart+=templist[i];
-          cart+='\n';
-        }
-      }
-      var templength = cart.length;
-     if(templength==0)cart="";
-     else cart.substring(0,templength-2);
-     console.log("cartlast"+cart[templength-1]);
-     
-      DeviceStorage.save('cart',cart);
-      console.log("cart="+cart);
-    });
-    }*/
     pay(){
       var orderItemlist=[];
       var storeId =-1;
@@ -907,7 +501,11 @@ this.setState({data:data,status:tempStatusArr})
         </View>
         <View style={{marginTop:10,marginLeft:40} }>
           <TouchableOpacity onPress={()=>{this.delete(sectionIndex,index)}}>
-        <Text>删除</Text></TouchableOpacity></View>
+        <Icon 
+        name='remove'
+        size={17}
+        color='#A9A9A9'
+        /></TouchableOpacity></View>
         </View>
       </View>
     )
@@ -944,13 +542,12 @@ handler(){
     console.log("Hello")
     console.log(tempArr);
     return (
-        
       <View style={styles.container}>
-        <Header
-                leftComponent={<Icon name='arrow-back' color='#fff'
-               /> }
-                centerComponent={{ text: '购 物 车', style: { color: '#fff',fontSize:20 } }}
-                rightComponent={{icon:'home',color:"#fff"}}/>
+        <View style={{height:height*0.07,marginTop:15}}>
+        <View style={{marginLeft:10}}>
+          <Text style={{fontSize:20}}>购物车</Text>
+        </View>
+        </View>
         <SectionList
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}
@@ -961,9 +558,7 @@ handler(){
         />
         <View style={styles.toolBar}>
           <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
-            <TouchableOpacity onPress={() => this.checkAllShop()}>
               <Image style={styles.checkBox} source={this.state.isSelectedAllItem ? require('./assets/ic_selected.png') : require('./assets/ic_defult.png')} resizeMode={'center'}/>
-            </TouchableOpacity>
             <Text>全选</Text>
           </View>
           <Text style={{marginHorizontal: 10}}>合计:
@@ -971,47 +566,9 @@ handler(){
           </Text>
           <TouchableOpacity onPress={this.pay.bind(this)}>
           <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
-            <Text style={{color: commonStyle.white}}>去结算({this.state.totalNum})</Text>
+            <Text style={{color: commonStyle.white}}>去结算</Text>
           </View>
           </TouchableOpacity>
-          <Overlay isVisible={this.state.isVisible}>
-            <Text h4 style={{textAlign:'center',color:'#0080ff',marginTop:20}}>编辑订单</Text>
-      <View style={{marginLeft:30,marginRight:30}}>
-           <Input onChangeText={(value) => this.setState({tarPeople: value})} value={this.state.tarPeople}placeholder='收件人姓名'
-           leftIcon={
-               <Image
-                   source={require('../images/user.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-           }
-           />
-           <Input onChangeText={(value) => this.setState({tarPhone: value})}value={this.state.tarPhone}placeholder='收件人手机'
-           leftIcon={
-               <Image
-                   source={require('../images/shouji.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-            }
-            />
-            <Input onChangeText={(value) => this.setState({tarAddress: value})}value={this.state.tarAddress}placeholder='收件人住址'
-           leftIcon={
-               <Image
-                   source={require('../images/fangzi.jpg')}
-                  style={{ width: 30, height: 30 }}
-            />
-            }
-            />
-            <View style={{marginTop:10}}>
-            <Button  onPress={this.pay.bind(this)}
-           icon={
-          <Image source={require('../images/queding.jpg')} style={{width:20,height:20,alignItems:'center'}}/>
-           }title="确定支付"
-           /></View>
-           <View style={{marginTop:10}}>
-            <Button  onPress={this.handler1.bind(this)}title="关闭" 
-           /></View>
-      </View>
-      </Overlay>
           </View>
         
    </View>
@@ -1022,7 +579,7 @@ handler(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: commonStyle.white
+    backgroundColor: '#F8F8F8'
   },
   navBar: {
     height: commonStyle.navHeight,
@@ -1051,6 +608,8 @@ const styles = StyleSheet.create({
   toolBar: {
     height: commonStyle.cellHeight,
     flexDirection: commonStyle.row,
-    alignItems: commonStyle.center
+    alignItems: commonStyle.center,
+    borderTopWidth:0.7,
+    borderTopColor:'#D0D0D0'
   }
 })
