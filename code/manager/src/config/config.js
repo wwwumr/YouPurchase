@@ -1,3 +1,4 @@
+//var root = "http://202.120.40.8:30414/";
 var root = "http://localhost:9000/";
 var config = {
     shop: {

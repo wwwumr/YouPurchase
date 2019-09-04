@@ -125,7 +125,7 @@ class DealerManage extends React.Component {
                         dealerData.push(dealer);
                         this.setState({
                             dealerData: dealerData,
-                            dealer: config.dealer.originDealer,
+                            dealer: Object.assign({}, config.dealer.originDealer),
                             visible: false,
                         });
                         message.success("新用户创建成功");
