@@ -67,6 +67,9 @@ var config = {
         storeMap: {
             get: root + "api/a/stores/address",
             post: root + "api/a/stores/address",
+        },
+        comodityClass: {
+            get: root + "",
         }
     }
 }
