@@ -188,7 +188,7 @@ export default class  Database extends Component{
             }else{
               let sql="update item set amount=? where id=?";
               var tempitem = results.rows.item(0);
-              let tempamount = tempitem.amount+1;
+              let tempamount = tempitem.amount+amount;
               tx.executeSql(sql,[tempamount,id],()=>{
                 
               },(err)=>{

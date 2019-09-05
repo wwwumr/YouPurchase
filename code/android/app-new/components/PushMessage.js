@@ -1,6 +1,6 @@
 import JPushModule from 'jpush-react-native';
 import React,{Component} from 'react';
-import{View,Text}from'react-native'; 
+import{View,Text,Linking,ToastAndroid}from'react-native'; 
 export default class PushMessage extends Component{
  
 componentDidMount() {
@@ -20,10 +20,12 @@ componentDidMount() {
     });
     // 打开通知
     JPushModule.addReceiveOpenNotificationListener((map) => {
+      
       console.log("Opening notification!");
       console.log("map.extra: " + map.extras);
-      // 可执行跳转操作，也可跳转原生页面
-      // this.props.navigation.navigate("SecondActivity");
+      Linking.canOpenURL("http://baidu.com").then(() => {
+          return Linking.openURL("http://baidu.com");
+      }).catch(error => ToastAndroid.show('网络异常',ToastAndroid.SHORT))
     });
   }
  

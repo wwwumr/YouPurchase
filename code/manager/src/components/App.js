@@ -11,6 +11,8 @@ import ShopManage from './shopManage/ShopManage';
 import ShopDetail from './shopManage/shopDetail/ShopDetail';
 import DealerMessage from './dealerManage/dealerMessage/DealerMessage';
 import config from '../config/config';
+import TagManage from './tagManage/TagManage';
+import AlcoholManage from './alcoholManage/AlcoholManage';
 
 axios.defaults.withCredentials = true;
 
@@ -110,7 +112,9 @@ class App extends React.Component {
                                 </Menu.Item>
                                 <Menu.Item key="2"><Link to="/dealerManage/">经销商管理</Link></Menu.Item>
                                 <Menu.Item key="3"><Link to="/shopManage/">店铺管理</Link></Menu.Item>
-                                <Menu.Item key="4" style={{float: "right"}}>
+                                <Menu.Item key="4"><Link to="/tagManage/">标签管理</Link></Menu.Item>
+                                <Menu.Item key="5"><Link to="/alcoholManage/">酒商品管理</Link></Menu.Item>
+                                <Menu.Item key="6" style={{float: "right"}}>
                                     <Link to="/" onClick={()=>{
                                         this.setUserName('')
                                     }}>
@@ -148,7 +152,8 @@ class App extends React.Component {
                                 
                                 <Route exact path = "/shopManage/" component = { ShopManage }></Route>
                                 <Route path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>       
-
+                                <Route path = "/tagManage/" component = { TagManage }></Route>
+                                <Route path = "/alcoholManage/" component = { AlcoholManage }></Route>
                             </Switch>
                         }
                         {/* 未登录管理员 */}
