@@ -37,10 +37,12 @@ public class DeliveryAddress {
     // 1表示家，2表示公司，3表示学校
     private Integer tag;
 
+    private boolean deleted;
+
     public DeliveryAddress() {
     }
 
-    public DeliveryAddress(String name, Integer gender, String contact, String address, double latitude, double longitude, String detailAddress, Integer tag) {
+    public DeliveryAddress(String name, Integer gender, String contact, String address, double latitude, double longitude, String detailAddress, Integer tag, boolean deleted) {
         this.name = name;
         this.gender = gender;
         this.contact = contact;
@@ -49,6 +51,7 @@ public class DeliveryAddress {
         this.longitude = longitude;
         this.detailAddress = detailAddress;
         this.tag = tag;
+        this.deleted = deleted;
     }
 
     public Long getDeliveryAddressId() {
@@ -129,5 +132,13 @@ public class DeliveryAddress {
 
     public void setTag(Integer tag) {
         this.tag = tag;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
