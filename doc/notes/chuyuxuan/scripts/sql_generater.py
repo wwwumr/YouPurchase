@@ -130,8 +130,8 @@ def gen_total_score():
 '''
 需要生成的数据,取消该行注释
 '''
-# generate_store_and_dealer()
-# generate_longitude_and_latitude()
-# gen_commodity()
+generate_store_and_dealer()
+generate_longitude_and_latitude()
+gen_commodity()
 gen_order()
-# gen_total_score()
+gen_total_score()
