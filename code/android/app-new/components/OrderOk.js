@@ -4,70 +4,9 @@ import {ScrollView,View,DeviceEventEmitter,Alert,TouchableOpacity,ToastAndroid} 
 import axios from 'axios';
 import { MapView, MapTypes, Geolocation } from 'react-native-baidu-map';
 import Item from './Item';
+import { List } from '@ant-design/react-native';
 import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle'
-const list1 = [
-    {
-      title: '苹果',
-      icon: <Image source={require('../images/fruit/apple_pic.png')} style={{width:30,height:30}}/>,
-      money:2,
-      number:2
-    },
-    {
-      title: '香蕉',
-      icon: <Image source={require('../images/fruit/banana_pic.png')} style={{width:30,height:30}}/>,
-      money:3,
-      number:2
-    },
-    {
-      title: '樱桃',
-      icon: <Image source={require('../images/fruit/cherry_pic.png')} style={{width:30,height:30}}/>,
-      money:4,
-      number:2
-    },
-    {
-      title: '葡萄',
-      icon: <Image source={require('../images/fruit/grape_pic.png')} style={{width:30,height:30}}/>,
-      money:5,
-      number:2
-    },
-    {
-      title: '芒果',
-      icon: <Image source={require('../images/fruit/mango_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '橙子',
-      icon: <Image source={require('../images/fruit/orange_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '香梨',
-      icon: <Image source={require('../images/fruit/pear_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '菠萝',
-      icon: <Image source={require('../images/fruit/pineapple_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '草莓',
-      icon: <Image source={require('../images/fruit/strawberry_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    },
-    {
-      title: '西瓜',
-      icon: <Image source={require('../images/fruit/watermelon_pic.png')} style={{width:30,height:30}}/>,
-      money:20,
-      number:2
-    }
-  ]
 export default class OrderOk extends Component{
     constructor(props){
         super(props);
@@ -96,7 +35,9 @@ export default class OrderOk extends Component{
             orderItemlist:orderItemlist,
             shopName:shopName,
             total:total,
-            userId:userId
+            userId:userId,
+            address:'',
+            title:'请选择收货地址'
         })
     }
     componentDidMount() {
@@ -191,7 +132,7 @@ export default class OrderOk extends Component{
     
 }
   change(item){
-       this.setState({sex:item.sex,name:item.name,phone:item.contact,address:item.address,deliveryAddressId:item.deliveryAddressId})
+       this.setState({sex:item.sex,name:item.name,phone:item.contact,address:item.address,deliveryAddressId:item.deliveryAddressId,title:item.address})
   }
   /*
     render(){
@@ -325,21 +266,36 @@ export default class OrderOk extends Component{
                 <ScrollView style={{backgroundColor:"#F8F8F8",marginTop:15,marginBottom:10,flex:0.8}}>
                 <View >
                 <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                        <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                        <TouchableOpacity onPress={()=>{this.props.navigation.navigate('AddAddress',{userId:userId})}}>
-                     <Text 
-                    style={{fontSize:30}}> {"选择收货地址 >"}</Text></TouchableOpacity>
-                    <Divider style={{marginTop:15,marginBottom:15,backgroundColor: 'blue'}}/>
-                    <View style={{flexDirection:"row"}}>
-                    <Text 
-                    style={{fontSize:16,marginBottom:15}}>送达时间</Text><View style={{marginLeft:150}}><Text style={{fontSize:16,marginBottom:15}}>尽快送达</Text></View></View>
-                   <Divider style={{backgroundColor: 'blue',marginTop:0,marginBottom:10}}/>
-                   <View style={{flexDirection:"row"}}>
-                    <Text 
-                    style={{fontSize:16,marginBottom:15}}>支付方式</Text><View style={{marginLeft:150}}><Text style={{fontSize:16,marginBottom:15}}>在线支付</Text></View></View>
-                         </View>
+                  style={{backgroundColor:"#ffffff",
+                    marginLeft:10,
+                    marginRight:10,
+                    borderColor:'#ffffff',
+                    borderRadius:5,
+                    borderWidth:1}
+                  }
+                >
+                  <View style={{backgroundColor:"#ffffff",
+                    marginLeft:10,
+                    marginRight:10}}
+                  >   
+                    <List renderHeader={''}>
+          <List.Item wrap={true} extra={'>'}
+          onPress={()=>{this.props.navigation.navigate('AddAddress',{userId:userId})}}
+          >
+          <Text style={{fontSize:17,
+                      marginBottom:5,
+                      fontWeight:"bold",
+                      fontFamily: 'System',
+                      marginTop:10}}
+                    >
+                      {this.state.title}
+                    </Text>
+          </List.Item>
+          <List.Item extra={'在线支付'}>
+            支付方式
+          </List.Item></List>
+                    
+                  </View>
                  </View>
                  <View
                     style={{backgroundColor:"#ffffff",

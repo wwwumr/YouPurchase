@@ -40,13 +40,14 @@ ratingCompleted(rating) {
       for(var i=0;i<orderItemList.length;i++){
         var tempitem={};
         tempitem.itemimg = orderItemList[i].commodityCoverPicUrl;
-        tempitem.commodityInfo = orderItemList[i].commodityInfo;
+        tempitem.itemName = orderItemList[i].commodityInfo;
         tempitem.quantity = orderItemList[i].amount;
         tempitem.itemPrice = orderItemList[i].price;
         tempitem.itemId = orderItemList[i].commodityId;
         templist.push(tempitem);
       }
-      this.props.navigation.navigate('OrderOk2',{tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,
+      this.props.navigation.navigate('OrderOk2',{tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,orderNo:this.props.orderNo,createData:this.props.time,
+        orderStatus:this.props.orderStatus,userId:this.props.userId,
         tarAddress:this.props.tarAddress,orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice,orderInfoId:this.props.orderInfoId});
     }
   }

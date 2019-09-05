@@ -61,7 +61,7 @@ export default class AddAddressTable2 extends Component {
    */
   delete(){
     var item = this.props.navigation.state.params.item;
-    var url="http://192.168.0.100:8080/delivery/address?deliveryAddressId="+item.deliveryAddressId;
+    var url="http://192.168.0.101:8080/delivery/address?deliveryAddressId="+item.deliveryAddressId;
     axios.delete(url).then(response=>{
       if(response.data=='DELETE'){
         ToastAndroid.show("已删除 ",ToastAndroid.SHORT);
@@ -128,7 +128,7 @@ export default class AddAddressTable2 extends Component {
       var latitude = data.latitude;
       var item = this.props.navigation.state.params.item;
       var deliveryAddressId = item.deliveryAddressId;
-      axios.put("http://192.168.0.100:8080/delivery/address",{address:this.state.address,
+      axios.put("http://192.168.0.101:8080/delivery/address",{address:this.state.address,
         contact:this.state.phone,
         deliveryAddressId:deliveryAddressId,
         detailAddress:this.state.address,
