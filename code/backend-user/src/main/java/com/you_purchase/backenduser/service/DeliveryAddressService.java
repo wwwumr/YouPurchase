@@ -10,6 +10,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,19 +22,31 @@ import java.util.List;
 public class DeliveryAddressService extends BaseService {
 
     public List<DeliveryAddress> getDeliveryAddressByuserId(Long userId){
-        return deliveryAddressDao.getDeliveryAddressesByUserId(userId);
+        List<DeliveryAddress> result = new ArrayList<>();
+        for (DeliveryAddress i:deliveryAddressDao.getDeliveryAddressesByUserId(userId)
+             ) {
+            if(!i.isDeleted()){
+                result.add(i);
+            }
+        }
+        return result;
     }
 
     public DeliveryAddress getDeliveryAddress(Long deliveryAddressId){
         if(deliveryAddressDao.existsById(deliveryAddressId)){
-            return deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(deliveryAddressId);
+            DeliveryAddress deliveryAddress = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(deliveryAddressId);
+            if(deliveryAddress.isDeleted()){
+                return null;
+            } else {
+                return deliveryAddress;
+            }
         }
         return null;
     }
 
     public void addAddress(DeliveryAddressParameter address){
         DeliveryAddress deliveryAddress = new DeliveryAddress(address.getName(),address.getGender(),address.getContact(),
-                address.getAddress(),address.getLatitude(),address.getLongitude(),address.getDetailAddress(),address.getTag());
+                address.getAddress(),address.getLatitude(),address.getLongitude(),address.getDetailAddress(),address.getTag(), false);
         deliveryAddress.setUserId(address.getUserId());
 
         deliveryAddressDao.save(deliveryAddress);
@@ -56,7 +69,9 @@ public class DeliveryAddressService extends BaseService {
 
     public void deleteAddress(Long deliveryAddressId){
         if(deliveryAddressDao.existsById(deliveryAddressId)){
-            deliveryAddressDao.deleteById(deliveryAddressId);
+            DeliveryAddress deliveryAddress = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(deliveryAddressId);
+            deliveryAddress.setDeleted(true);
+            deliveryAddressDao.save(deliveryAddress);
         }
     }
 

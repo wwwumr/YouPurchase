@@ -27,8 +27,8 @@ export default class AddAddress extends Component {
   }
   change(){
     console.log("change addresslist");
-    var userId = 2;
-      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
+    var userId = this.props.navigation.state.params.userId;
+      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -57,8 +57,8 @@ export default class AddAddress extends Component {
     })
   }
     componentWillMount(){
-      var userId = 2;
-      var url="http://192.168.0.100:8080/delivery/address?userId="+userId;
+      var userId = this.props.navigation.state.params.userId;
+      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -156,21 +156,25 @@ export default class AddAddress extends Component {
       return(
           <View>
       <ListItem
-            title={<TouchableOpacity><View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View></TouchableOpacity>}
+            title={<TouchableOpacity  onPress={()=>{
+              DeviceEventEmitter.emit('addAddress',item);
+              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View></TouchableOpacity>}
             rightAvatar={<TouchableOpacity onPress={()=>{
-              this.props.navigation.navigate('AddAddressTable2',{userId:2,item:item,addressList:this.state.addressList})
+              this.props.navigation.navigate('AddAddressTable2',{userId:this.props.navigation.state.params.userId,item:item,addressList:this.state.addressList})
             }}><Icon
               name='edit'
               size={24}
               color='#C0C0C0'
             /></TouchableOpacity>}
-            subtitle={<TouchableOpacity><View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
+            subtitle={<TouchableOpacity onPress={()=>{
+              DeviceEventEmitter.emit('addAddress',item);
+              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
       />
       <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
       </View>)
      } )
   }</View>
-  <ListItem onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:2,addressList:this.state.addressList})}}
+  <ListItem onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:this.props.navigation.state.params.userId,addressList:this.state.addressList})}}
   title={<Text style={{color:"#3399ff"}}>新增收货地址</Text>}
   rightAvatar={<Icon
     name='chevron-right'

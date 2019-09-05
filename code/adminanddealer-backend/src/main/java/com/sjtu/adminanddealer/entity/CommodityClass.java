@@ -11,10 +11,6 @@ public class CommodityClass {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commodityClassId;
 
-    @JoinColumn(name = "storeId")
-    private Long storeId;
-
-
     private String classInfo;
 
     public Long getCommodityClassId() {
@@ -23,14 +19,6 @@ public class CommodityClass {
 
     public void setCommodityClassId(Long commodityClassId) {
         this.commodityClassId = commodityClassId;
-    }
-
-    public Long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
     }
 
 

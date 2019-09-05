@@ -50,3 +50,30 @@ sudo nginx -t
 
 重新启动nginx
 sudo nginx -s reload
+
+## MySQL的编码问题
+默认的MySQL编码方式不支持中文，如果需要储存中文需要把编码设置成utf8.
+
+这个需要在配置文件中修改
+
+对于已经生成的表，改变编码格式，可用下面一句sql语句
+
+alter table `tablename` convert to charset utf8;
+
+这样整张表的所有字段的编码都是utf8格式了
+
+## 使用putty在windows环境下连接到服务器
+
+之前使用的ssh工具xshell试用期到了，不能连接服务器，所以使用putty来连接
+
+在putty使用密钥登录 服务器之前, 需要先把密钥文件转换成ppk格式.
+#### 使用puttygen转换密钥文件
+
+1. 打开puttygen客户端，点击“Load”，在弹窗中首先进入您存放密钥的路径，然后选择“All File（*.*）”，选择刚才下载的私钥文件，点击“打开”.
+
+2. 在key comment栏中输入密钥名，输入加密私钥的密码（可选），点击“Save private key”，在弹窗中选择您存放密钥的目录，然后在文件名栏输入“密钥名.ppk”，点击“保存”。
+
+#### 使用putty进行登录linux服务器
+1. 打开putty客户端，进入左边的“Auth”配置菜单。
+2. 点击“Browse”按钮，进入弹窗后进入密钥存储的路径，并选择刚才转换的ppk密钥文件，点击“打开”，返回配置界面，进入“Session”配置。
+3. 在Session配置页中，配置服务器的IP，端口，协议信息，在“Saved Sessions”输入框中中输入会话名称，再点击“Save”按钮，然后双击会话名称或者点击“Open”按钮发起登录请求.

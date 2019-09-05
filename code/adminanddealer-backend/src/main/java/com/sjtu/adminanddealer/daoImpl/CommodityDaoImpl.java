@@ -10,6 +10,7 @@ import com.sjtu.adminanddealer.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,12 +82,9 @@ public class CommodityDaoImpl implements CommodityDao {
 
     @Override
     public List<CommodityClass> getCommodityClassesByStore(Long storeId) {
-        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
-    }
+        List<CommodityClass> commodityClassList = new ArrayList<>();
 
-    @Override
-    public CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo) {
-        return commodityClassRepository.getCommodityClassesByStoreIdAndClassInfo(storeId, classInfo);
+        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
     }
 
     @Override

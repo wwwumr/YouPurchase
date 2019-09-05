@@ -7,6 +7,7 @@ import { createAppContainer, createStackNavigator, StackActions, NavigationActio
 import SideMenu from 'react-native-side-menu'
 import LeftMenu from './test/Test1';
 import { Card,List,Provider,Modal } from '@ant-design/react-native';
+import ClassMenu from './Menu2';
 import styles from 'react-native-side-menu/build/styles';
 let {width,height} = Dimensions.get('window');
 const style1 = StyleSheet.create({
@@ -27,6 +28,7 @@ export default class Goodslist extends Component{
         storeId:-1,
         itemlist:list,
         classlist:list2,
+        classInfo:'全部'
     }
 
     this.SelectMenuItemCallBack = this.SelectMenuItemCallBack.bind(this);
@@ -47,9 +49,11 @@ SelectToOpenLeftSideMenu(){
         isOpen:true,
     })
 }
-getClass(commodityClassId){
+getClass(commodityClassId,classInfo){
+  console.log(classInfo);
+  console.log(commodityClassId);
   if(commodityClassId==-1) 
-      this.setState({itemlist:list});
+      this.setState({itemlist:list,classInfo:'全部'});
   else{
     var templist=[];
     for(var i=0;i<list.length;i++){
@@ -57,12 +61,12 @@ getClass(commodityClassId){
         templist.push(list[i]);
       }
     }
-    this.setState({itemlist:templist});
+    this.setState({itemlist:templist,classInfo:classInfo});
   }    
 }
 componentDidMount(){
-  this.listener = DeviceEventEmitter.addListener('getClass', (commodityClassId) => {
-      this.getClass(commodityClassId);  
+  this.listener = DeviceEventEmitter.addListener('getClass', (commodityClassId,classInfo) => {
+      this.getClass(commodityClassId,classInfo);  
   })
 }
 componentWillUnmount() {
@@ -74,19 +78,14 @@ componentWillUnmount() {
 componentWillMount(){
   var id =  this.props.navigation.state.params.storeId;
   //var id=1;
-  var url='http://192.168.0.100:9000/stores/'+id+'/commodities';
-  var url2="http://192.168.0.100:9000/commodities/classes?storeId="+id;
+  var url='http://192.168.0.101:9000/stores/'+id+'/commodities';
+  var url2="http://192.168.0.101:9000/commodities/classes?storeId="+id;
   axios.get(url).then((response)=>{
     list = response.data;
     axios.get(url2).then((response)=>{
         list2 = response.data;
-        var tempitem={};
-        tempitem["commodityClassId"]=-1;
-        tempitem["storeId"]= 1;
-        tempitem["classInfo"]= "全部";
-        list2.unshift(tempitem);
+        console.log(list2);
         this.setState({classlist:list2})
-
     }).catch(function(error){
       console.log(error);
     })
@@ -233,6 +232,17 @@ render() {
             <Text style={{fontSize:20}}>商品列表</Text>
           </View>
         </View>
+        </View>
+        <View style={{marginLeft:20,flexDirection:'row'}}>
+          <ClassMenu classlist={this.state.classlist}/>
+          <View style={{marginTop:6}}>
+            <Icon
+              name='chevron-right'
+              size={20}
+              color={"#000000"}
+            />
+          </View>
+          <Text style={{fontSize:15,marginLeft:5,marginTop:5}}>{this.state.classInfo}</Text> 
         </View>
         <ScrollView style={{marginBottom:40}}>
         <View style={{backgroundColor:'#ffffff',marginLeft:10,marginRight:10,marginTop:10}}>

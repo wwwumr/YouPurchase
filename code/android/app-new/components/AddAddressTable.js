@@ -90,7 +90,7 @@ export default class AddAddressTable extends Component {
     Geolocation.geocode("上海",this.state.address).then((data) => {
       var longitude = data.longitude;
       var latitude = data.latitude;
-      axios.post("http://192.168.0.100:8080/delivery/address",{address:this.state.address,
+      axios.post("http://192.168.0.101:8080/delivery/address",{address:this.state.address,
         contact:this.state.phone,
         deliveryAddressId:0,
         detailAddress:this.state.address,
