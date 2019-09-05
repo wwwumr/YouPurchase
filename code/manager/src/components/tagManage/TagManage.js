@@ -60,8 +60,8 @@ export default class TagManage extends React.Component {
         const { tags, inputVisible, inputValue } = this.state;
         return (
             
-            <div style={{ position: "relative", width: 800, left: 200, textAlign: "center"}}>
-                <h1 style={{marginBottom: 30}}>已有标签</h1>
+            <div style={{ position: "relative", width: 800, left: 200, textAlign: "center" }}>
+                <h1 style={{ marginBottom: 30 }}>设置标签</h1>
                 {tags.map((tag) => {
                     const isLongTag = tag.length > TAGLENGTH;
                     const tagElem = (
