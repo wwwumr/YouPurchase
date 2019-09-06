@@ -82,7 +82,7 @@ export default class GoodsList extends React.Component {
      */
     handleSelectClass = (e) => {
         let targetGoodsList = this.state.goodsList.filter((elem) => {
-            return elem.commodityClassId === parseInt(e.key);
+            return elem === parseInt(e.key);
         })
         this.setState({
             targetGoodsList: targetGoodsList,
@@ -160,10 +160,10 @@ export default class GoodsList extends React.Component {
                         this.state.goodsClass.length === 0 ? '' :
                         this.state.goodsClass.map((elem) => {
                             return (
-                                <Menu.Item key={elem.commodityClassId.toString()}
+                                <Menu.Item key={elem}
                                     onClick={ this.handleSelectClass }
                                 >
-                                {elem.classInfo}
+                                {elem}
                                 </Menu.Item>
                             )
                         })

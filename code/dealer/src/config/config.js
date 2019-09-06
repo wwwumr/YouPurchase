@@ -1,5 +1,9 @@
-var root = "http://202.120.40.8:30414/";
+/*
+let root = "http://202.120.40.8:30414/";
 let root1 = "http://202.120.40.8:30413/";
+*/
+let root = "http://localhost:9000/";
+let root1 = "http://localhost:9001/";
 var config = {
     /* 商店信息模板 */ 
     shop: {
@@ -113,7 +117,10 @@ var config = {
             post: root + "api/d/commodities/classes/",
             put: root + "api/d/commodities/classes/",
             delete: root + "api/d/commodities/classes/",
-        },  
+        }, 
+        alcoholClass: {
+            get: root + "",
+        },
         /* root1 */
         root1: root1,
         /* 订单接口 */
