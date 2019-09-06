@@ -28,6 +28,8 @@ public class OrderInfo {
     //收货者信息
     private String tarPeople;
 
+    private String gender;
+
     private String tarAddress;
 
     private String tarPhone;
@@ -60,6 +62,7 @@ public class OrderInfo {
         this.setCreateDate(date);
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
+        this.setGender(orderInfoParameter.getGender());
         this.setTarPhone(orderInfoParameter.getTarPhone());
         this.setDeliveryAddressId(orderInfoParameter.getDeliveryAddressId());
     }
@@ -69,6 +72,14 @@ public class OrderInfo {
 
     //getter and setter
 
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getContent() {
         return content;

@@ -28,6 +28,8 @@ import Pay from './components/Pay';
 import PushMessage from './components/PushMessage';
 import HomePage from './components/HomPage';
 import EditPage from './components/EditPage';
+import EditPassword from './components/EditPassword';
+import EditPhone from './components/EditPhone';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -108,6 +110,18 @@ const AppNavigator = createStackNavigator({
   },
   EditPage:{
     screen: EditPage,
+    navigationOptions:{
+      header:null
+    }
+  },
+  EditPassword:{
+    screen: EditPassword,
+    navigationOptions:{
+      header:null
+    }
+  },
+  EditPhone:{
+    screen: EditPhone,
     navigationOptions:{
       header:null
     }

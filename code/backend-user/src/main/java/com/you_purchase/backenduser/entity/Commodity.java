@@ -37,6 +37,10 @@ public class Commodity {
 
     private Integer remaining;
 
+    @ManyToOne
+    @JoinColumn(name = "commodityClassId")
+    private CommodityClass commodityClass;
+
     /* constructor */
     public Commodity() {
     }
@@ -51,6 +55,14 @@ public class Commodity {
     }
 
     /* getter and setter */
+
+    public CommodityClass getCommodityClass() {
+        return commodityClass;
+    }
+
+    public void setCommodityClass(CommodityClass commodityClass) {
+        this.commodityClass = commodityClass;
+    }
 
     public String getCommodityCoverPicUrl() {
         return commodityCoverPicUrl;

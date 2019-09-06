@@ -36,18 +36,14 @@ public class User {
 
     private String gender;
 
-
-
-
+    private long recommendId;
 
     public void setInfo(UserModifyParameter userModifyParameter){
         this.setAddress(userModifyParameter.getAddress());
         this.setGender(userModifyParameter.getGender());
         this.setLatitude(userModifyParameter.getLatitude());
         this.setLongitude(userModifyParameter.getLongitude());
-        this.setPassword(userModifyParameter.getPassword());
         this.setUserName(userModifyParameter.getUserName());
-        this.setPhone(userModifyParameter.getPhone());
         this.setValid(true);
     }
 
@@ -64,6 +60,14 @@ public class User {
 
     //getter and setter
 
+
+    public long getRecommendId() {
+        return recommendId;
+    }
+
+    public void setRecommendId(long recommendId) {
+        this.recommendId = recommendId;
+    }
 
     public long getUserId() {
         return userId;

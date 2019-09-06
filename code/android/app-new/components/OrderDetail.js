@@ -60,7 +60,7 @@ export default class OrderDetail extends Component{
         ToastAndroid.show('请输入评价',ToastAndroid.SHORT);
         return;
       }
-      axios.post('http://192.168.0.100:8080/grade/add',{createDate:createData,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
+      axios.post('http://10.162.158.3:8080/grade/add',{createDate:createData,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
       .then((response)=> {
         var responseData = response.data;
         console.log(responseData);
@@ -83,7 +83,7 @@ export default class OrderDetail extends Component{
      * @description 打开地图页面
      */
     getMap(){
-      axios.post('http://192.168.0.100:9002/order/carrier',{partner_order_code:"123"})
+      axios.post('http://10.162.158.3:9002/order/carrier',{partner_order_code:"123"})
       .then((response)=> {
         var tarAddress={};
         tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;

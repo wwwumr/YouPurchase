@@ -49,14 +49,28 @@ export default class BaiduDemo extends Component {
         super(props);
         this.state = {
           tarAddress:{},
-          carrierAddress:{}
+          carrierAddress:{},
+          size:-1
         };
     }
   
   componentWillMount() {
    var tempaddress1 =this.props.navigation.state.params.tarAddress;
    var tempaddress2 = this.props.navigation.state.params.carrierAddress;
-   this.setState({tarAddress:tempaddress1,carrierAddress:tempaddress2})
+   var distance = getFlatternDistance(tempaddress1.latitude,tempaddress1.longitude,tempaddress2.latitude,tempaddress2.longitude);
+   console.log(distance);
+   var size=-1;
+   var zoom = [50,100,200,500,1000,2000,5000,10000,20000,25000,50000,100000,200000,500000,1000000,2000000];
+   for (var i = 0; i < zoom.length; i++) {
+     console.log(zoom[i]);
+    if(zoom[i] - distance > 0){
+      //之所以会多3，是因为地图范围常常是比例尺距离的10倍以上。所以级别会增加3。
+      size = 18-i+2;
+      break;
+    }
+  };
+
+   this.setState({tarAddress:tempaddress1,carrierAddress:tempaddress2,size:size})
   
    
 }
@@ -106,8 +120,10 @@ phone(){
     var postition = Geolocation.getCurrentPosition();
     var center = this.state.tarAddress;
     var marker1 = this.state.carrierAddress;
+    var size = this.state.size;
     console.log(center);
     console.log(marker1);
+    console.log(size);
     return (
       <Provider>
      <View>
@@ -128,7 +144,7 @@ phone(){
         <MapView 
           width={width} 
           height={height*0.8} 
-          zoom={14.5}
+          zoom={this.state.size}
           trafficEnabled={true}
           zoomControlsVisible={true}
         //  mapType={MapTypes.SATELLITE}
