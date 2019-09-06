@@ -31,6 +31,8 @@ import EditPage from './components/EditPage';
 import EditPassword from './components/EditPassword';
 import EditPhone from './components/EditPhone';
 import FindPassword from './components/FindPassword';
+import SelectAddress from './components/SelectAddress';
+import PossibleAddress from './components/PossibleAddress';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -91,6 +93,18 @@ const AppNavigator = createStackNavigator({
       header:null
     }
   },
+  SelectAddress:{
+    screen: SelectAddress,
+    navigationOptions:{
+      header:null
+    }
+  },
+  PossibleAddress:{
+    screen: PossibleAddress,
+    navigationOptions:{
+      header:null
+    }
+  },
   AddAddressTable2:{
     screen: AddAddressTable2,
     navigationOptions:{
@@ -140,7 +154,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'HomePage',
+    initialRouteName: 'SelectAddress',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
