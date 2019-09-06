@@ -17,15 +17,24 @@ public class Message {
 
     private long time;
 
-    private String createTime;
+    private boolean valid;
 
     public void setSmsInfo(String phone,String code,long time){
         this.setPhone(phone);
         this.setTime(time);
         this.setCode(code);
+        this.setValid(true);
     }
 
     //getter and setter
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
+
     public long getTime() {
         return time;
     }

@@ -26,6 +26,8 @@ public class OrderInfoParameter implements Serializable {
 
     private String tarPeople;
 
+    private String gender;
+
     private String tarAddress;
 
     private String tarPhone;
@@ -37,6 +39,13 @@ public class OrderInfoParameter implements Serializable {
 
 
     //getter and setter
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     public String getContent() {
         return content;

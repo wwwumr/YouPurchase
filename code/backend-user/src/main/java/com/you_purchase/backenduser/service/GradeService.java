@@ -19,6 +19,9 @@ public class GradeService extends BaseService {
         Grade grade = new Grade();
         grade.setInfo(gradeParameter);
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(gradeParameter.getOrderInfoId(),true);
+        if(orderInfo.isJudged()){
+            return 403;
+        }
         orderInfo.setJudged(true);
         Long storeId = orderInfo.getStoreId();
         orderInfoDao.save(orderInfo);

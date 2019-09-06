@@ -3,18 +3,13 @@ package com.you_purchase.backenduser.controller;
 
 import com.you_purchase.backenduser.dto.OrderDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
-import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
-import com.you_purchase.backenduser.parameter.PayParameter;
-import com.you_purchase.backenduser.service.OrderInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 

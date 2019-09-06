@@ -3,10 +3,7 @@ package com.you_purchase.backenduser.service;
 
 
 import com.you_purchase.backenduser.dto.*;
-import com.you_purchase.backenduser.entity.Commodity;
-import com.you_purchase.backenduser.entity.OrderInfo;
-import com.you_purchase.backenduser.entity.OrderItem;
-import com.you_purchase.backenduser.entity.Store;
+import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
@@ -24,18 +21,22 @@ public class OrderInfoService extends BaseService {
 
 
     //用户新增订单
-    public OrderDTO addOrder(List<OrderInfoParameter> orderInfoParameters) {
+    public OrderDTO addOrder(List<OrderInfoParameter> orderInfoParameters,long userId) {
         //记录所有订单总价
         double allPrice = 0;
         //记录存在商品的订单
         ArrayList ids = new ArrayList();
+        Date date = new Date();
+        String sDate = datToStr(date);
+        Date trueDate = strToDate(sDate);
+        String orderNo = createOrderId();
+        Recommend rec = recDao.findByUserId(userId);
+        double recPrice = 0;
+        long recType = 0;
+        int n = 0;
         for(OrderInfoParameter o:orderInfoParameters) {
             OrderInfo orderInfo = new OrderInfo();
             List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-            Date date = new Date();
-            String sDate = datToStr(date);
-            Date trueDate = strToDate(sDate);
-            String orderNo = createOrderId();
             orderInfo.setOrderInfo(o, trueDate, orderNo);
             orderInfoDao.save(orderInfo);
             //添加订单基本信息
@@ -47,6 +48,32 @@ public class OrderInfoService extends BaseService {
             for (OrderListDTO s : o.getOrderItemList()) {
                 Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
                 Integer amount = s.getAmount();
+
+                //计算标签
+                n++;
+                recPrice =(recPrice+commodity.getPrice())/n;
+                switch (commodity.getCommodityInfo()){
+                    case "1":
+                        recType = (recType+1)/n;
+                        break;
+                    case "2":
+                        recType = (recType+2)/n;
+                        break;
+                    case "3":
+                        recType = (recType+3)/n;
+                        break;
+                    case "4":
+                    recType = (recType+4)/n;
+                    break;
+                    case "5":
+                    recType = (recType+5)/n;
+                    break;
+                    case "6":
+                    recType = (recType+6)/n;
+                    break;
+                }
+
+
                 if (commodity.getRemaining() >= amount) {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setAmount(s.getAmount());
@@ -72,6 +99,12 @@ public class OrderInfoService extends BaseService {
                 allPrice+=totalPrice;
             }
         }
+        //更新标签
+        recPrice = recPrice/2 + rec.getPrice()/2;
+        recType = recType/2 + rec.getClassInfo()/2;
+        rec.setPrice(recPrice);
+        rec.setClassInfo(recType);
+        recDao.save(rec);
         //返回所有可用的订单的id和他们的总价格
         return new OrderDTO(allPrice,ids);
     }

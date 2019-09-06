@@ -10,7 +10,7 @@ import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,7 +49,11 @@ public class BaseService {
     @Autowired
     protected CommodityDao commodityDao;
     @Autowired
+    protected RecDao recDao;
+    @Autowired
     protected StoreTotalScoreDao storeTotalScoreDao;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     //消息队列推送消息
     @Autowired
@@ -57,6 +61,15 @@ public class BaseService {
 
 
 
+    //添加session
+    public void addSessionIdToRedis(String key, String value) {
+        stringRedisTemplate.opsForValue().set(key, value);
+    }
+
+    //删除session
+    public void delSession(String key){
+        stringRedisTemplate .delete(key);
+    }
 
     //日期转换String-Date
     protected Date strToDate(String sDate){
