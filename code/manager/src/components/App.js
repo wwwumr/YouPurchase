@@ -13,6 +13,7 @@ import DealerMessage from './dealerManage/dealerMessage/DealerMessage';
 import config from '../config/config';
 import TagManage from './tagManage/TagManage';
 import AlcoholManage from './alcoholManage/AlcoholManage';
+import AlcoholDetail from './alcoholManage/alcoholDetail/AlcoholDeatail';
 
 axios.defaults.withCredentials = true;
 
@@ -149,11 +150,11 @@ class App extends React.Component {
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
-                                
-                                <Route exact path = "/shopManage/" component = { ShopManage }></Route>
+                                <Route path = "/shopManage/" component = { ShopManage }></Route>
                                 <Route path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>       
-                                <Route path = "/tagManage/" component = { TagManage }></Route>
-                                <Route path = "/alcoholManage/" component = { AlcoholManage }></Route>
+                                <Route exact path = "/tagManage/" component = { TagManage }></Route>
+                                <Route exact path = "/alcoholManage/" component = { AlcoholManage }></Route>
+                                <Route exact path = "/alcoholManage/alcoholDetail/:alcoholId" component = { AlcoholDetail }></Route>
                             </Switch>
                         }
                         {/* 未登录管理员 */}
