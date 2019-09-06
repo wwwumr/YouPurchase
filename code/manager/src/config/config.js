@@ -1,3 +1,4 @@
+//var root = "http://202.120.40.8:30414/";
 var root = "http://localhost:9000/";
 var config = {
     shop: {
@@ -29,11 +30,19 @@ var config = {
             avatar: "image/dealerDefaultAvatar.png",
         }
     },
+    alcohol: {
+        "alcoholId": null,
+        "alcoholInfo": "",
+        "remaining": null,
+        "coverPicUrl": "image/defaultAlcohol.jpg",
+        "price": null,
+    },
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
         storeAction: root + "api/a/stores/cover/",
-        avatarAction: root + "api/a/dealers/avatar/"
+        avatarAction: root + "api/a/dealers/avatar/",
+        alcoholAction: root + "",
     },
     avatar: {
         url: "image/defaultAvatar.png",
@@ -66,6 +75,15 @@ var config = {
         storeMap: {
             get: root + "api/a/stores/address",
             post: root + "api/a/stores/address",
+        },
+        comodityClass: {
+            get: root + "",
+        },
+        alcohol: {
+            get: root + "api/a/alcohol/",
+            post: root + "api/a/alcohol/",
+            delete: root + "api/a/alcohol/",
+            put: root + "api/a/alcohol/",
         }
     }
 }

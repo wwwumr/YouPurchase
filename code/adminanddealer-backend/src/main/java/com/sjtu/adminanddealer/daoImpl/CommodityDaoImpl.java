@@ -10,6 +10,7 @@ import com.sjtu.adminanddealer.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,25 +70,22 @@ public class CommodityDaoImpl implements CommodityDao {
         commodityRepository.updateCommodityCoverUrl(newCoverUrl, commodityId);
     }
 
-    @Override
-    public List<Commodity> getCommodityByClass(Long storeId, String classInfo) {
-        return commodityRepository.getCommoditiesByCommodityClass_StoreIdAndCommodityClass_ClassInfo(storeId, classInfo);
-    }
 
     @Override
     public CommodityClass getCommodityClassById(Long commodityClassId) {
         return commodityClassRepository.getCommodityClassesByCommodityClassId(commodityClassId);
     }
 
-    @Override
-    public List<CommodityClass> getCommodityClassesByStore(Long storeId) {
-        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
-    }
-
-    @Override
-    public CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo) {
-        return commodityClassRepository.getCommodityClassesByStoreIdAndClassInfo(storeId, classInfo);
-    }
+//    @Override
+//    public List<CommodityClass> getCommodityClassesByStore(Long storeId) {
+//        List<CommodityClass> commodityClassList = new ArrayList<>();
+//        for (Commodity i:c
+//             ) {
+//
+//        }
+//
+//        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
+//    }
 
     @Override
     public void addNewCommodityClass(CommodityClass commodityClass) {

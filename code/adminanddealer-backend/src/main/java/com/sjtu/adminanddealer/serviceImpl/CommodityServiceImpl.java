@@ -97,10 +97,10 @@ public class CommodityServiceImpl implements CommodityService {
                 commodity.setRemaining(0);
             }
             commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
-            if (commodityParameter.getCommodityClassId() != null) {
-                commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
+            if (commodityParameter.getCommodityClass() != null) {
+                commodity.setCommodityClass(commodityParameter.getCommodityClass());
             } else {
-                commodity.setCommodityClass(commodityDao.getClassInStoreByClassInfo(storeId, "其它"));
+                commodity.setCommodityClass("其它");
             }
             Long newId = commodityDao.addCommodity(commodity, storeId);
 
@@ -128,7 +128,7 @@ public class CommodityServiceImpl implements CommodityService {
                 commodity.setRemaining(0);
             }
             commodity.setCommodityCoverPicUrl(this.DEFAULT_COMMODITY_COVER);
-            commodity.setCommodityClass(commodityDao.getClassInStoreByClassInfo(storeId, "酒"));
+            commodity.setCommodityClass("酒");
             Long newId = commodityDao.addCommodity(commodity, storeId);
 
             json.put("key", newId);
@@ -148,7 +148,7 @@ public class CommodityServiceImpl implements CommodityService {
         commodity.setOnShelves(commodityParameter.isOnShelves());
         commodity.setInventory(commodityParameter.getInventory());
         commodity.setRemaining(commodityParameter.getRemaining());
-        commodity.setCommodityClass(commodityDao.getCommodityClassById(commodityParameter.getCommodityClassId()));
+        commodity.setCommodityClass(commodityParameter.getCommodityClass());
 
         commodityDao.updateCommodity(commodity);
     }
@@ -232,36 +232,23 @@ public class CommodityServiceImpl implements CommodityService {
         return newPicUrl;
     }
 
+
     @Override
-    public List<CommodityDTO> getCommoditiesByStoreAndClass(Long storeId, String classInfo) {
-        List<Commodity> commodityList = commodityDao.getCommodityByClass(storeId, classInfo);
-        List<CommodityDTO> commodityDTOS = new ArrayList<>();
-        if (commodityList == null) {
-            return commodityDTOS;
-        }
-        for (Commodity c : commodityList
+    public List<String> getCommodityClassInStore(Long storeId) {
+        List<String> commodityClasses = new ArrayList<>();
+        for (Commodity i : commodityDao.getAllCommodityByStore(storeId)
         ) {
-            CommodityDTO commodityDTO = new CommodityDTO(c);
-            commodityDTOS.add(commodityDTO);
+            if (!commodityClasses.contains(i.getCommodityClass())) {
+                commodityClasses.add(i.getCommodityClass());
+            }
         }
-        return commodityDTOS;
-    }
-
-    @Override
-    public List<CommodityClass> getCommodityClassInStore(Long storeId) {
-        return commodityDao.getCommodityClassesByStore(storeId);
-    }
-
-    @Override
-    public CommodityClass getClassInStoreByClassInfo(Long storeId, String classInfo) {
-        return commodityDao.getClassInStoreByClassInfo(storeId, classInfo);
+        return commodityClasses;
     }
 
     @Override
     public Long addNewCommodityClass(String classInfo, Long storeId) {
         CommodityClass commodityClass = new CommodityClass();
         commodityClass.setClassInfo(classInfo);
-        commodityClass.setStoreId(storeId);
         commodityDao.addNewCommodityClass(commodityClass);
         return commodityClass.getCommodityClassId();
     }

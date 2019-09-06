@@ -24,7 +24,5 @@ public interface CommodityRepository extends JpaRepository<Commodity, Long> {
             "where `commodity_id`=:commodityId ", nativeQuery = true)
     void updateCommodityCoverUrl(@Param("coverPicUrl") String newUrl, @Param("commodityId") Long comodityId);
 
-    List<Commodity> getCommoditiesByCommodityClass_StoreIdAndCommodityClass_ClassInfo(Long storeId, String classInfo);
-
 
 }

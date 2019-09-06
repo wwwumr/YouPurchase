@@ -123,10 +123,8 @@ public class StoreServiceImpl implements StoreService {
 
         // 给店铺添加酒的分类与其他分类
         CommodityClass commodityClass = new CommodityClass();
-        commodityClass.setStoreId(newId);
         commodityClass.setClassInfo("酒");
         CommodityClass commodityClass1 = new CommodityClass();
-        commodityClass.setStoreId(newId);
         commodityClass.setClassInfo("其他");
         commodityDao.addNewCommodityClass(commodityClass);
         commodityDao.addNewCommodityClass(commodityClass1);

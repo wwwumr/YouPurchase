@@ -82,16 +82,16 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/login/**")
                 .excludePathPatterns("/logout");
-        registry.addInterceptor(getAdminInterceptor())
-                .addPathPatterns("/api/a/**");
-        registry.addInterceptor(getDealerInterceptor())
-                .addPathPatterns("/api/d/**");
-        registry.addInterceptor(getUserInterceptor())
-                .addPathPatterns("/api/u/**");
-        registry.addInterceptor(getAdminDealerInterceptor())
-                .addPathPatterns("/api/ad/**");
-        registry.addInterceptor(getDealerUserInterceptor())
-                .addPathPatterns("/api/du/**");
+//        registry.addInterceptor(getAdminInterceptor())
+//                .addPathPatterns("/api/a/**");
+//        registry.addInterceptor(getDealerInterceptor())
+//                .addPathPatterns("/api/d/**");
+//        registry.addInterceptor(getUserInterceptor())
+//                .addPathPatterns("/api/u/**");
+//        registry.addInterceptor(getAdminDealerInterceptor())
+//                .addPathPatterns("/api/ad/**");
+//        registry.addInterceptor(getDealerUserInterceptor())
+//                .addPathPatterns("/api/du/**");
 
     }
 

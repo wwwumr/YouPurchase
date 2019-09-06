@@ -37,9 +37,7 @@ public class Commodity {
 
     private Integer remaining;
 
-    @ManyToOne
-    @JoinColumn(name = "commodityClassId")
-    private CommodityClass commodityClass;
+    private String commodityClass;
 
     /* constructor */
     public Commodity() {
@@ -119,13 +117,11 @@ public class Commodity {
         this.remaining = remaining;
     }
 
-    public CommodityClass getCommodityClass() {
+    public String getCommodityClass() {
         return commodityClass;
     }
 
-    public void setCommodityClass(CommodityClass commodityClass) {
+    public void setCommodityClass(String commodityClass) {
         this.commodityClass = commodityClass;
     }
-
-
 }

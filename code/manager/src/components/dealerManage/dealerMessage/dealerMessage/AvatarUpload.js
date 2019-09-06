@@ -35,7 +35,6 @@ class AvatarUpload extends React.Component {
         axios
             .get(config.url.dealers + this.props.id)
             .then(res => {
-                console.log(res.data)
                 this.setState({
                     imageUrl: res.data.avatar,
                 })

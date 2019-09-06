@@ -98,19 +98,15 @@ public class CommodityDaoTest {
     public void testCommodityClass() throws Exception {
         CommodityClass commodityClass1 = new CommodityClass();
         commodityClass1.setClassInfo("水果");
-        commodityClass1.setStoreId(204L);
         CommodityClass commodityClass2 = new CommodityClass();
         commodityClass2.setClassInfo("酒水");
-        commodityClass2.setStoreId(204L);
         CommodityClass commodityClass3 = new CommodityClass();
         commodityClass3.setClassInfo("零食");
-        commodityClass3.setStoreId(204L);
 
         commodityDao.addNewCommodityClass(commodityClass1);
         commodityDao.addNewCommodityClass(commodityClass2);
         commodityDao.addNewCommodityClass(commodityClass3);
 
-        commodityDao.getCommodityClassesByStore(204L);
 
         commodityClass1.setClassInfo("蔬菜");
         commodityDao.updateCommodityClass(commodityClass1);

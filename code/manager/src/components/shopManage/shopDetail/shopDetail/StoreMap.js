@@ -91,7 +91,6 @@ export default class StoreMap extends React.Component {
                         this.setState({
                             address: address,
                         })
-                        console.log(address);
                     } else {
                         console.log('根据经纬度查询地址失败')
                     }
