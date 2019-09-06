@@ -28,6 +28,8 @@ import Pay from './components/Pay';
 import PushMessage from './components/PushMessage';
 import HomePage from './components/HomPage';
 import EditPage from './components/EditPage';
+import EditPassword from './components/EditPassword';
+import EditPhone from './components/EditPhone';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -112,6 +114,18 @@ const AppNavigator = createStackNavigator({
       header:null
     }
   },
+  EditPassword:{
+    screen: EditPassword,
+    navigationOptions:{
+      header:null
+    }
+  },
+  EditPhone:{
+    screen: EditPhone,
+    navigationOptions:{
+      header:null
+    }
+  },
   GoodsDetail:{
     screen: GoodsDetail,
     navigationOptions:{
@@ -119,7 +133,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'HomePage',
+    initialRouteName: 'EditPhone',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
