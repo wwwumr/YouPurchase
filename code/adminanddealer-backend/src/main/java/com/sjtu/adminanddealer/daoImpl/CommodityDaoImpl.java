@@ -70,22 +70,22 @@ public class CommodityDaoImpl implements CommodityDao {
         commodityRepository.updateCommodityCoverUrl(newCoverUrl, commodityId);
     }
 
-    @Override
-    public List<Commodity> getCommodityByClass(Long storeId, String classInfo) {
-        return commodityRepository.getCommoditiesByCommodityClass_StoreIdAndCommodityClass_ClassInfo(storeId, classInfo);
-    }
 
     @Override
     public CommodityClass getCommodityClassById(Long commodityClassId) {
         return commodityClassRepository.getCommodityClassesByCommodityClassId(commodityClassId);
     }
 
-    @Override
-    public List<CommodityClass> getCommodityClassesByStore(Long storeId) {
-        List<CommodityClass> commodityClassList = new ArrayList<>();
-
-        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
-    }
+//    @Override
+//    public List<CommodityClass> getCommodityClassesByStore(Long storeId) {
+//        List<CommodityClass> commodityClassList = new ArrayList<>();
+//        for (Commodity i:c
+//             ) {
+//
+//        }
+//
+//        return commodityClassRepository.getCommodityClassesByStoreId(storeId);
+//    }
 
     @Override
     public void addNewCommodityClass(CommodityClass commodityClass) {

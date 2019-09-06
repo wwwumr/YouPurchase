@@ -59,15 +59,6 @@ public interface CommodityDao {
     void updateCommodityCoverPic(String newCoverUrl, Long commodityId);
 
     /**
-     * 通过店铺与商品类别得到所有商品
-     *
-     * @param storeId   店铺id
-     * @param classInfo 商品类别
-     * @return 包含符合条件的商品信息的列表
-     */
-    List<Commodity> getCommodityByClass(Long storeId, String classInfo);
-
-    /**
      * 通过id获取商品类别的信息
      *
      * @param commodityClassId 商品类别id
@@ -75,13 +66,13 @@ public interface CommodityDao {
      */
     CommodityClass getCommodityClassById(Long commodityClassId);
 
-    /**
-     * 获取一个店铺中所有的商品类别
-     *
-     * @param storeId 店铺id
-     * @return 对应店铺所有商品类别
-     */
-    List<CommodityClass> getCommodityClassesByStore(Long storeId);
+//    /**
+//     * 获取一个店铺中所有的商品类别
+//     *
+//     * @param storeId 店铺id
+//     * @return 对应店铺所有商品类别
+//     */
+//    List<CommodityClass> getCommodityClassesByStore(Long storeId);
 
     /**
      * 添加一个新的商品类别

@@ -117,14 +117,6 @@ public interface CommodityService {
      */
     String addCommodityPics(MultipartFile file, Long commodityId);
 
-    /**
-     * 通过店铺以及商品类别获取商品信息
-     *
-     * @param storeId   店铺id
-     * @param classInfo 商品类别
-     * @return 包含所有满足条件的商品列表
-     */
-    List<CommodityDTO> getCommoditiesByStoreAndClass(Long storeId, String classInfo);
 
     /**
      * 获取一个店铺中所有的商品类别

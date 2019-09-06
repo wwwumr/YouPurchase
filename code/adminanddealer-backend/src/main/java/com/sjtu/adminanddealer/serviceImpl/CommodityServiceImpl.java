@@ -232,20 +232,6 @@ public class CommodityServiceImpl implements CommodityService {
         return newPicUrl;
     }
 
-    @Override
-    public List<CommodityDTO> getCommoditiesByStoreAndClass(Long storeId, String classInfo) {
-        List<Commodity> commodityList = commodityDao.getCommodityByClass(storeId, classInfo);
-        List<CommodityDTO> commodityDTOS = new ArrayList<>();
-        if (commodityList == null) {
-            return commodityDTOS;
-        }
-        for (Commodity c : commodityList
-        ) {
-            CommodityDTO commodityDTO = new CommodityDTO(c);
-            commodityDTOS.add(commodityDTO);
-        }
-        return commodityDTOS;
-    }
 
     @Override
     public List<String> getCommodityClassInStore(Long storeId) {

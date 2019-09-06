@@ -107,7 +107,6 @@ public class CommodityDaoTest {
         commodityDao.addNewCommodityClass(commodityClass2);
         commodityDao.addNewCommodityClass(commodityClass3);
 
-        commodityDao.getCommodityClassesByStore(204L);
 
         commodityClass1.setClassInfo("蔬菜");
         commodityDao.updateCommodityClass(commodityClass1);
