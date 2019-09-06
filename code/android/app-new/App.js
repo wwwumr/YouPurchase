@@ -30,6 +30,7 @@ import HomePage from './components/HomPage';
 import EditPage from './components/EditPage';
 import EditPassword from './components/EditPassword';
 import EditPhone from './components/EditPhone';
+import FindPassword from './components/FindPassword';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -122,6 +123,12 @@ const AppNavigator = createStackNavigator({
   },
   EditPhone:{
     screen: EditPhone,
+    navigationOptions:{
+      header:null
+    }
+  },
+  FindPassword:{
+    screen: FindPassword,
     navigationOptions:{
       header:null
     }

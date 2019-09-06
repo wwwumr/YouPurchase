@@ -25,6 +25,7 @@ export default class EditPhone extends Component{
         password1:'',
         password2:'',
         phone:'',
+        msg:{}
     }
   }
   phoneNumber(phone) {
@@ -38,6 +39,35 @@ export default class EditPhone extends Component{
     else
       return phone;
   }
+  getMsg(){
+    var phone =this.state.phone;
+    if(phone == null ||phone== undefined ||phone == ''){
+      ToastAndroid.show('请输入手机号',ToastAndroid.SHORT);
+      return;
+  }
+  phone = this.phoneNumber(phone);
+  if(phone == '-1'){
+      ToastAndroid.show('手机号格式错误',ToastAndroid.SHORT);
+      return;  
+  }
+  var url = 'http://192.168.1.19:8080/user/getMsg?phone='+phone;
+  axios.get(url)
+  .then((response)=> {
+    var responseData = response.data;
+    console.log(responseData);
+    if(responseData!={}){
+      this.setState({msg:responseData});
+      ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
+    }
+    else
+      ToastAndroid.show('该手机号已被使用',ToastAndroid.SHORT);
+  })
+  .catch(function (error) {
+    console.log(error);
+    ToastAndroid.show('网络异常',ToastAndroid.SHORT);
+  });
+
+  }
   submit(){
         var phone = this.state.phone;
         var yanzhengma = this.state.yanzhengma;
@@ -45,32 +75,34 @@ export default class EditPhone extends Component{
             ToastAndroid.show('请输入验证码',ToastAndroid.SHORT);
             return;
         }
-        var password1 = this.state.password1;
-        var password2 = this.state.password2;
-        if(password1 == null ||password1 == undefined||password1 == ''){
-            ToastAndroid.show('请输入新密码',ToastAndroid.SHORT);
-            return; 
-        }
-        if(password2 == null ||password2 == undefined||password2 == ''){
-            ToastAndroid.show('请确认新密码',ToastAndroid.SHORT);
-            return; 
-        }
-        if(password1!=password2){
-            ToastAndroid.show('新密码两次输入不一致',ToastAndroid.SHORT);
-            return;
-        }
-        if(password1.length>20||password1.length<6){
-            ToastAndroid.show('新密码长度应6-12之间',ToastAndroid.SHORT);
-            return; 
-        }
         if(phone == null ||phone== undefined ||phone == ''){
-            ToastAndroid.show('请输入手机号',ToastAndroid.SHORT);
+            ToastAndroid.show('请输入手机号',ToastAndroid.SHORT);c
             return;
         }
         phone = this.phoneNumber(phone);
         if(phone == '-1'){
             ToastAndroid.show('手机号格式错误',ToastAndroid.SHORT);
             return;  
+        }
+        if(this.state.msg){
+          var msgId = this.state.msg.msgId;
+          var t1 = new Date().getTime()/1000;
+          axios.post('http://192.168.1.19/user/phoneModify',{code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
+          .then((response)=> {
+            var responseData = response.data;
+            if(responseData == 200){
+              ToastAndroid.show('手机号修改成功',ToastAndroid.SHORT);
+              DeviceEventEmitter.emit('editPage');
+              this.props.navigation.goBack();
+            }
+            else{
+              ToastAndroid.show('修改手机号失败',ToastAndroid.SHORT);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+            ToastAndroid.show('网络异常',ToastAndroid.SHORT);
+          });
         }
   }
   render(){
@@ -99,6 +131,7 @@ export default class EditPhone extends Component{
           </View>
           </View>
         </ImageBackground>
+        <View style={{marginTop:10}}>
         <List>
         <InputItem
             clear
@@ -138,44 +171,17 @@ export default class EditPhone extends Component{
                       width:70,
                       marginBottom:10}}
                     >
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.getMsg.bind(this)}>
                     <Text style={{fontSize:13,marginTop:4,color:'#3399ff'}}>获取验证码</Text>
                     </TouchableOpacity>
                     </View>
           </View>
           </View>
-          <InputItem
-            clear
-            type="password"
-            value={this.state.password1}
-            onChange={value => {
-              this.setState({
-                password1: value,
-              });
-            }}
-            placeholder="请输入新密码"
-          >
-            <Text style={{fontSize:16}}>新密码 </Text>
-          </InputItem>
-          <Divider style={{backgroundColor:'#f8f8f8',height:0.2}}/>
-          <InputItem
-            clear
-            type="password"
-            value={this.state.password2}
-            onChange={value => {
-              this.setState({
-                password2: value,
-              });
-            }}
-            placeholder="请确认新密码"
-          >
-            <Text style={{fontSize:16}}>确认密码</Text>
-          </InputItem>
         </List>
         <View style={{marginTop:20,marginLeft:40,marginRight:40}}>
             <Button title="确认修改" type='outline' onPress={this.submit.bind(this)} />
         </View>
-      </View>
+      </View></View>
   );
   }
 }

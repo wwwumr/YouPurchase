@@ -39,7 +39,7 @@ export default class HomePage extends Component{
                 console.log("Ok Here!");
                 console.log(item.phone);
                 console.log(item.password);
-                axios.post('http://10.162.158.3:8080/user/login',{phone:item.phone,password:item.password})
+                axios.post('http://192.168.1.19:8080/user/login',{phone:item.phone,password:item.password})
                 .then((response)=> {
                     console.log(response)
                     var responseData = response.data;

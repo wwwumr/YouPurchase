@@ -21,12 +21,54 @@ export default class EditPassword extends Component{
   constructor(props){
     super(props);
     this.state={
+        phone:this.props.navigation.state.params.phone,
         password:'',
         password1:'',
         password2:'',
     }
   }
-  
+  submit(){
+    var password = this.state.password;
+    var password1 = this.state.password1;
+    var password2 = this.state.password2;
+    var userId = this.props.navigation.state.params.userId;
+    if(password == ''||password==null||password==undefined){
+      ToastAndroid.show('请输入旧密码',ToastAndroid.SHORT);
+      return;
+    }
+    if(password1 == ''||password1==null||password1==undefined){
+      ToastAndroid.show('请输入新密码',ToastAndroid.SHORT);
+      return;
+    }
+    if(password2 == ''||password2==null||password2==undefined){
+      ToastAndroid.show('请确认新密码',ToastAndroid.SHORT);
+      return;
+    }
+    if(password1.length>12 ||password1.length<6){
+      ToastAndroid.show('新密码长度应在6--12之间',ToastAndroid.SHORT);
+      return;
+    }
+    if(password2 != password1){
+      ToastAndroid.show('两次输入新密码不一致',ToastAndroid.SHORT);
+      return;
+    }
+    var url= 'http://192.168.1.19:8080/user/pwdModify?userId='+userId+'&oldPwd='+password+'&newPwd='+password1;
+    axios.get(url)
+    .then((response)=> {
+      var responseData = response.data;
+      if(responseData == 200){
+        ToastAndroid.show('密码修改成功',ToastAndroid.SHORT);
+        this.props.navigation.goBack();
+      }
+      else{
+        ToastAndroid.show('原密码输入不正确',ToastAndroid.SHORT);
+      }
+    })
+    .catch(function (error) {
+      ToastAndroid.show('网络异常',ToastAndroid.SHORT);
+      console.log(error);
+    });
+  }
   render(){
     var back = "<";
     var front = ">";
@@ -57,7 +99,7 @@ export default class EditPassword extends Component{
         <InputItem
             clear
             type="phone"
-            value="15201979195"
+            value={this.state.phone}
             placeholder="15201979195"
             editable={false}
           >
@@ -104,7 +146,7 @@ export default class EditPassword extends Component{
           </InputItem>
         </List>
         <View style={{marginTop:20,marginLeft:40,marginRight:40}}>
-            <Button title="确认修改" type='outline' />
+            <Button title="确认修改" type='outline' onPress={this.submit.bind(this)}/>
         </View>
       </View>
   );

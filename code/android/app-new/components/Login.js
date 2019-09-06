@@ -58,7 +58,7 @@ export default class Login extends Component{
       ToastAndroid.show('密码不能为空',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://10.162.158.3:8080/user/login',{phone:phone,password:this.state.password})
+    axios.post('http://192.168.1.19:8080/user/login',{phone:phone,password:this.state.password})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -142,7 +142,10 @@ export default class Login extends Component{
             </InputItem>     
           </View>
           <View style={styles.textfooter}>
-            <Button type='ghost' size='small'>忘记密码</Button>
+            <Button type='ghost' size='small'
+              onPress={()=>{
+                this.props.navigation.navigate('FindPassword');
+              }}>忘记密码</Button>
             <View style={{marginLeft:190}}>
               <Button size='small'
                 type='ghost' 

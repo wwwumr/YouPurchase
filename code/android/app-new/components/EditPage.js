@@ -34,8 +34,16 @@ export default class EditPage extends Component{
       regDate:''
     }
   }
+  componentDidMount(){
+    this.listener = DeviceEventEmitter.addListener('editPage', () => {
+      this.change();
+    })
+  }
   compennetDidUnmount(){
     sqLite.close();
+    if (this.listener) {
+      this.listener.remove();
+    } 
   }
   /**
    * @description 判断输入的手机号是否合法
@@ -94,16 +102,14 @@ export default class EditPage extends Component{
       ToastAndroid.show('手机号不合法',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://10.162.158.3:8080/user/modify',{
+    axios.post('http://192.168.1.19:8080/user/modify',{
 	    userId:userId,
 	    userName:userName,
-	    password:"123456",
 	    address:address,
 	    gender:sex,
 	    regDate:this.state.regDate,
 	    latitude:0,
-	    longitude:0,
-	    phone:phone
+	    longitude:0
     }
     //header:{"Content-Type":'application/json;charset=UTF-8'}
     )
@@ -133,7 +139,7 @@ export default class EditPage extends Component{
    * @param {boolean} cropit 是否可以剪切 
    */
   pickSingleBase64(cropit) {
-    var uri = "http://10.162.158.3:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
+    var uri = "http://192.168.1.19:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
     ImagePicker.openPicker({
       width: 300,
       height: 300,
@@ -144,7 +150,7 @@ export default class EditPage extends Component{
       console.log('received base64 image');
       
       console.log(image.data);
-      axios.post("http://10.162.158.3:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
+      axios.post("http://192.168.1.19:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
         tempitem = response.data;
         console.log(tempitem);
         DeviceEventEmitter.emit('editPersonPage');
@@ -160,6 +166,28 @@ export default class EditPage extends Component{
     }).catch(e => alert(e));
   }
   /**
+   * @description 刷新页面
+   */
+  change(){
+    var userId = this.props.navigation.state.params.userId
+    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:userId}})
+    .then((response)=> {
+      var responseData = response.data;
+      console.log(responseData);
+      this.setState({address:responseData.address,
+        sex:responseData.gender,
+        regDate:responseData.regDate,
+        username:responseData.userName,
+        phone:responseData.phone
+        });
+        DeviceEventEmitter.emit('editPersonPage');
+    })
+    .catch(function (error) {
+      ToastAndroid.show('网络异常',ToastAndroid.SHORT);
+      console.log(error);
+    });
+  }
+  /**
    * @description 生命周期函数
    */
   componentWillMount(){
@@ -168,7 +196,7 @@ export default class EditPage extends Component{
     }
     sqLite.createTable();
     var userId = this.props.navigation.state.params.userId
-    axios.get('http://10.162.158.3:8080/user/check',{params:{userId:userId}})
+    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -184,10 +212,18 @@ export default class EditPage extends Component{
       console.log(error);
     });
     }
-  /**
+     /**
    * @description 修改电话按钮事件
    */ 
   onButtonPhone ()  {
+    var userId = this.props.navigation.state.params.userId
+    this.props.navigation.navigate('EditPhone',{userId:userId,phone:this.state.phone})  
+  };
+  /**
+   * @description 修改电话按钮事件
+   */ 
+  /*
+   onButtonPhone ()  {
     Modal.prompt(
       '电话',
       '',
@@ -198,7 +234,7 @@ export default class EditPage extends Component{
       null,
       ['请输入电话号码']
     );
-  };
+  };*/
   /**
    * @description 修改昵称事件
    */
@@ -207,6 +243,10 @@ export default class EditPage extends Component{
       '昵称',
       '',
       (password) => {
+        if(password.length>9){
+          ToastAndroid.show('昵称长度应该小于10',ToastAndroid.SHORT);
+          return;
+        }
     this.handler1(password,2)},
       'default',
       null,
@@ -214,18 +254,11 @@ export default class EditPage extends Component{
     );
   };
   /**
-   * @description 修改地址事件
+   * @description 修改密码事件
    */
-  onButtonAddress ()  {
-    Modal.prompt(
-      '住址',
-      '',
-      (password) => {
-    this.handler1(password,3)},
-      'default',
-      null,
-      ['请输入住址']
-    );
+  onButtonPassword ()  {
+    var userId = this.props.navigation.state.params.userId;
+    this.props.navigation.navigate('EditPassword',{userId:userId,phone:this.state.phone})
   };
   /**
    * @description 关闭popup事件
@@ -305,14 +338,14 @@ export default class EditPage extends Component{
                 title={<Text  style={{fontSize:17,marginLeft:20}}>{this.state.phone}</Text>}
               />
               <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
-              <ListItem onPress={this.onButtonAddress.bind(this)}
-                leftAvatar={<Text style={{fontSize:17}}>住址</Text>}
+              <ListItem onPress={this.onButtonPassword.bind(this)}
+                leftAvatar={<Text style={{fontSize:17,color:'#3399ff'}}>修改密码</Text>}
                 rightAvatar={<Icon
                   name='chevron-right'
                   size={17}
                   color='#C0C0C0'
                 />}
-                title={<Text  style={{fontSize:17,marginLeft:20}}>{this.state.address}</Text>}
+                title={<Text></Text>}
               />
             </View>
           </View>

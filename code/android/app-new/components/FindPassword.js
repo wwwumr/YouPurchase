@@ -4,12 +4,13 @@ import { Input,Image,Header,Text,Icon } from 'react-native-elements';
 import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,Dimensions,ImageBackground,ToastAndroid} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import { InputItem,Button } from '@ant-design/react-native';
+var responseData;
 const {height, width} = Dimensions.get('window');
 /**
- * @description Registry
+ * @description FindPassword
  * @constructor
  */
-export default class Registry extends Component{
+export default class FindPassword extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -25,9 +26,6 @@ export default class Registry extends Component{
    */
   phoneNumber() {
     var phone = this.state.phone;
-    if(phone == null||phone == undefined ||phone == ''){
-      return '-2';
-    }
     var phones = phone.split(' ');
     phone = phones.join('');
     if (phone.length!=11)
@@ -47,20 +45,16 @@ export default class Registry extends Component{
     console.log(this.state.phone);
     console.log(this.state.password);
     var phone = this.phoneNumber();
-    if(phone == '-2'){
-      ToastAndroid.show('手机号不能为空',ToastAndroid.SHORT);
-      return;
-    }
     if(phone == '-1'){
       ToastAndroid.show('请输入合法的手机号',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.1.19:8080/user/getMsg',{params:{phone:phone}})
+    axios.get('http://192.168.0.100:8080/user/getMsg',{params:{phone:phone}})
     .then((response)=> {
-      var responseData = response.data;
+      responseData = response.data;
       console.log(responseData);
       
-      if(responseData!={}){
+      if(responseData){
         this.setState({responseData:responseData});
         ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
       }
@@ -95,10 +89,6 @@ export default class Registry extends Component{
       ToastAndroid.show('请输入确认密码',ToastAndroid.SHORT);
       return;
     }
-    if(this.state.password1.length>12||this.state.password1.length<6){
-      ToastAndroid.show('密码长度应为6-12位',ToastAndroid.SHORT);
-      return;
-    }
     if(this.state.password!=this.state.password1){
       ToastAndroid.show('密码与确认密码不一致',ToastAndroid.SHORT);
       return;
@@ -107,7 +97,7 @@ export default class Registry extends Component{
       ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT)
       return;
     }
-    axios.post('http://192.168.1.19:8080/user/checkMsg',{phone:phone,
+    axios.post('http://192.168.0.100:8080/user/checkMsg',{phone:phone,
       password:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma,time:t1})
     .then((response)=> {
@@ -140,7 +130,7 @@ export default class Registry extends Component{
           <View style={{marginTop:80}}>
             <Text h3 style={{textAlign:'center',
               fontFamily:"Times New Roman",
-              color:'#f0f0f0'}}>欢迎使用优邻购
+              color:'#f0f0f0'}}>找回密码
             </Text>
           </View>
           <View style={{marginTop:40,
@@ -204,7 +194,7 @@ export default class Registry extends Component{
                     password: value,
                   });
                 }}
-                placeholder="密码"
+                placeholder="新密码"
               >
                 <Image
                   source={require('../images/password.jpg')}
@@ -222,7 +212,7 @@ export default class Registry extends Component{
                     password1: value,
                   });
                 }}
-                placeholder="确认密码"
+                placeholder="确认新密码"
               >
                 <Image
                   source={require('../images/password.jpg')}
@@ -234,7 +224,7 @@ export default class Registry extends Component{
               <View style={{marginBottom:30}}>
                 <Button onPress={this.registry.bind(this)}
                   type="ghost"
-                >注册
+                >重置密码
                 </Button>
               </View>
             </View>

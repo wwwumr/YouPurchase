@@ -21,7 +21,7 @@ export default class PersonPage extends Component{
       sex:'',
       detail:{},
       image: null,
-      uri:'http://10.162.158.3:8080/user/getPhoto?userId='+this.props.userId
+      uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId
     }
   }
   /**
@@ -46,7 +46,7 @@ export default class PersonPage extends Component{
    */
   change(){
     console.log(this.props.userId);
-    axios.get('http://10.162.158.3:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -62,7 +62,7 @@ export default class PersonPage extends Component{
    */
   componentWillMount(){
     console.log(this.props.userId);
-    axios.get('http://10.162.158.3:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -149,14 +149,14 @@ export default class PersonPage extends Component{
           />
           <View style={{flexDirection:'row'}}>
             <Icon
-              name='phone'
+              name='intersex'
               size={30}
               color='#A0A0A0'
             />
             <View style={{marginLeft:10}}>
               <Text style={{fontSize:15,
                 fontWeight:'bold',
-                color:"#c0c0c0"}}>{this.state.detail.phone}
+                color:"#c0c0c0"}}>{this.state.detail.gender}
               </Text>
             </View>
           </View>
@@ -167,14 +167,14 @@ export default class PersonPage extends Component{
           />
           <View style={{flexDirection:'row'}}>
             <Icon
-              name='home'
+              name='phone'
               size={30}
               color='#A0A0A0'
             />
             <View style={{marginLeft:10}}>
               <Text style={{fontSize:15,
                 fontWeight:'bold',
-                color:"#c0c0c0"}}>{this.state.detail.address}
+                color:"#c0c0c0"}}>{this.state.detail.phone}
               </Text>
             </View>
           </View>
