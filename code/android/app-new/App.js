@@ -133,7 +133,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'EditPhone',
+    initialRouteName: 'HomePage',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {
