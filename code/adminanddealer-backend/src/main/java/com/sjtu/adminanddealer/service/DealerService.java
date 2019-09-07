@@ -53,9 +53,23 @@ public interface DealerService {
     void updateDealer(DealerParameter dealerParameter);
 
     /**
-     * 更新经销商的密码，调用者为经销商自己.
+     * 经销商修改自己账号的密码
+     *
+     * @param dealerId    经销商id
+     * @param oldPassword 原来的密码
+     * @param newPassword 新的密码
+     * @return 成功返回200, 输入原密码错误返回500, 失败返回400
      */
     Integer updateDealerPassword(Long dealerId, String oldPassword, String newPassword);
+
+    /**
+     * 管理员修改经销商的密码
+     *
+     * @param dealerId    需要修改密码的经销商id
+     * @param newPassword 新密码
+     * @return 成功返回200, 失败返回400
+     */
+    Integer updateDealerPasswordByAdmin(Long dealerId, String newPassword);
 
     /**
      * 获取所有未绑定的经销商

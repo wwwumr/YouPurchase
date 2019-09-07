@@ -123,8 +123,19 @@ public class DealerServiceImpl implements DealerService {
             dealerDao.updateDealer(dealer);
             return 200;
         } else {
+            return 300;
+        }
+    }
+
+    @Override
+    public Integer updateDealerPasswordByAdmin(Long dealerId, String newPassword) {
+        Dealer dealer = dealerDao.getDealerById(dealerId);
+        if (dealer == null) {
             return 400;
         }
+        dealer.setPassword(Md5Util.encode(newPassword));
+        dealerDao.updateDealer(dealer);
+        return 200;
     }
 
     @Override

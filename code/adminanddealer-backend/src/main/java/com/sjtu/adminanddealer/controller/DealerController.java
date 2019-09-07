@@ -199,4 +199,17 @@ public class DealerController {
         }
         return null;
     }
+
+    /**
+     * 管理员修改经销商账户的密码，成功返回200，失败返回400
+     *
+     * @param dealerId    经销商账户id
+     * @param newPassword 新的密码
+     * @return 成功返回200，失败返回400
+     */
+    @GetMapping("/api/a/dealers/password")
+    public Integer updateDealerPasswordByAdmin(@RequestParam("dealerId") Long dealerId, @RequestParam("newpassword") String newPassword) {
+        return dealerService.updateDealerPasswordByAdmin(dealerId, newPassword);
+    }
+
 }
