@@ -32,7 +32,7 @@ public class AdminDealerLoginServiceImpl implements AdminDealerLoginService {
 
     @Override
     public Admin getAdminByUserNameAndPassword(String userName, String password) {
-        return adminDao.getAdminByUserNameAndPassword(userName, password);
+        return adminDao.getAdminByUserNameAndPassword(userName, Md5Util.encode(password));
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
-import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,7 +179,6 @@ public class CommodityController {
 
         return commodityService.addCommodityPics(file, commodityId);
     }
-
 
 
     /**

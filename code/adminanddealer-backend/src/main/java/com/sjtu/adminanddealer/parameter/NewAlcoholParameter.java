@@ -1,15 +1,31 @@
 package com.sjtu.adminanddealer.parameter;
 
-// TODO: 需要什么其他的字段还可以更新
+
 public class NewAlcoholParameter {
+
+    private Long alcoholId;
 
     private String alcoholInfo;
 
-    private String coverPicUrl;
+    private Integer remaining;
 
-    private Short degree;
+    private double price;
 
     public NewAlcoholParameter() {
+    }
+
+    public NewAlcoholParameter(String alcoholInfo, Integer remaining, double price) {
+        this.alcoholInfo = alcoholInfo;
+        this.remaining = remaining;
+        this.price = price;
+    }
+
+    public Long getAlcoholId() {
+        return alcoholId;
+    }
+
+    public void setAlcoholId(Long alcoholId) {
+        this.alcoholId = alcoholId;
     }
 
     public String getAlcoholInfo() {
@@ -20,19 +36,19 @@ public class NewAlcoholParameter {
         this.alcoholInfo = alcoholInfo;
     }
 
-    public String getCoverPicUrl() {
-        return coverPicUrl;
+    public Integer getRemaining() {
+        return remaining;
     }
 
-    public void setCoverPicUrl(String coverPicUrl) {
-        this.coverPicUrl = coverPicUrl;
+    public void setRemaining(Integer remaining) {
+        this.remaining = remaining;
     }
 
-    public Short getDegree() {
-        return degree;
+    public double getPrice() {
+        return price;
     }
 
-    public void setDegree(Short degree) {
-        this.degree = degree;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

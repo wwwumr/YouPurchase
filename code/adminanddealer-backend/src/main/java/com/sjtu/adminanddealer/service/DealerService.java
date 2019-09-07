@@ -54,11 +54,8 @@ public interface DealerService {
 
     /**
      * 更新经销商的密码，调用者为经销商自己.
-     * TODO: updateDealerPassword no implement
-     *
-     * @param password 修改之后的密码
      */
-    void updateDealerPassword(String password);
+    Integer updateDealerPassword(Long dealerId, String oldPassword, String newPassword);
 
     /**
      * 获取所有未绑定的经销商
