@@ -26,7 +26,11 @@ public class AlcoholServiceImpl implements AlcoholService {
 
     @Override
     public Alcohol getById(Long alcoholId) {
-        return alcoholDao.getById(alcoholId);
+        Alcohol alcohol = alcoholDao.getById(alcoholId);
+        if (alcohol != null) {
+            return alcohol;
+        }
+        return new Alcohol();
     }
 
     @Override
