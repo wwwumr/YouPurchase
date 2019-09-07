@@ -76,4 +76,9 @@ public class AlcoholController {
                                         @RequestParam("coverPicUrl") String coverPicUrl) {
         return alcoholService.updateAlcoholCoverPic(file, alcoholId, coverPicUrl);
     }
+
+    @GetMapping("/api/ad/alcohol")
+    public Alcohol getAlcoholById(@RequestParam("alcoholId") Long alcoholId) {
+        return alcoholService.getById(alcoholId);
+    }
 }
