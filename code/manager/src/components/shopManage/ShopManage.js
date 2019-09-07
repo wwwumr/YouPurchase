@@ -116,7 +116,7 @@ class ShopManage extends React.Component {
         let shop = this.state.shop;
         const infos = ["storeName", "contact", "startHour", "endHour", "deliveryRange", "deliveryType"];
         /* 检查商店格式 */
-        if (checkJsonNotNull(shop, infos)) {
+        if (!checkJsonNotNull(shop, infos)) {
             message.error("您还有信息未填写");
         } else if (!checkDeliveryRange(shop.deliveryRange)){
             message.warning("配送距离应为正数")

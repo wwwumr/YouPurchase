@@ -21,11 +21,11 @@ export default class SelectTag extends React.Component {
             .then((res) => {
                 const tagList = res.data;
                 const defaultClass = tagList.find((elem) => {
-                    return elem.classInfo === config.goods.defaultClassName;
+                    return elem === config.goods.defaultClassName;
                 })
                 this.setState({
                     tagList: tagList,
-                    defaultClassId: defaultClass.commodityClassId,
+                    defaultClass: defaultClass.commodityClassId,
                 })
             })
             .catch((err) => {
