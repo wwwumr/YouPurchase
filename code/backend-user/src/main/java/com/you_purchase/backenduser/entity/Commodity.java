@@ -37,6 +37,8 @@ public class Commodity {
 
     private Integer remaining;
 
+    private String commodityClass;
+
     /* constructor */
     public Commodity() {
     }
@@ -114,5 +116,13 @@ public class Commodity {
 
     public void setRemaining(Integer remaining) {
         this.remaining = remaining;
+    }
+
+    public String getCommodityClass() {
+        return commodityClass;
+    }
+
+    public void setCommodityClass(String commodityClass) {
+        this.commodityClass = commodityClass;
     }
 }

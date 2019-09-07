@@ -25,29 +25,21 @@ public class OrderInfoService extends BaseService {
     //用户新增订单（根据库存生成订单，返回失败的商品名）
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ArrayList addOrder(OrderInfoParameter orderInfoParameter) {
+        System.out.println("1");
         ArrayList fails = new ArrayList();
         OrderInfo orderInfo = new OrderInfo();
         List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-
+        System.out.println("2");
         Date date = new Date();
         String sDate = datToStr(date);
         Date trueDate = strToDate(sDate);
         String orderNo = createOrderId();
         orderInfo.setOrderInfo(orderInfoParameter,trueDate,orderNo);
-
+        System.out.println("3");
         double totalPrice = 0;
         orderInfoDao.save(orderInfo);
 
         //标签检测，没有则生成
-        User user1 = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
-        if(user1.getUserTagId()<=0){
-            UserTag userTag = new UserTag();
-            userTag.setRecPrice(0);
-            userTag.setRecType(0);
-            userTagDao.save(userTag);
-            user1.setUserTagId(userTag.getUserTagId());
-            userDao.save(user1);
-        }
 
         double recPrice=0;
         int recType=0;
@@ -56,6 +48,7 @@ public class OrderInfoService extends BaseService {
         long orderInfoId = orderInfo.getOrderInfoId();
         //System.out.println("获取订单id");
         //System.out.println(orderInfoId);
+        System.out.println("订单"+orderInfoId);
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
             Integer amount = s.getAmount();
@@ -69,7 +62,7 @@ public class OrderInfoService extends BaseService {
                 orderItem.setPrice(s.getPrice());
                 orderItem.setOrderInfoId(orderInfoId);
                 orderItemDao.save(orderItem);
-                totalPrice = totalPrice+amount*s.getPrice();
+                totalPrice = totalPrice+amount*commodity.getPrice();
                 commodity.setRemaining(commodity.getRemaining() - amount);
                 commodity.setInventory(commodity.getInventory() - amount);
                 commodityDao.save(commodity);
@@ -80,9 +73,10 @@ public class OrderInfoService extends BaseService {
         }
 
         User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
-
+        System.out.println("6");
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
+            return fails;
         }
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
