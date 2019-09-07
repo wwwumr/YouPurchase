@@ -1,6 +1,5 @@
 package com.you_purchase.backenduser.entity;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,25 +7,24 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Recommend {
+public class UserTag {
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long recId;
+    private long userTagId;
 
     private double recPrice;
 
-    private int  recType;
-
-
+    private int recType;
 
     //getter and setter
-    public long getRecId() {
-        return recId;
+
+    public long getUserTagId() {
+        return userTagId;
     }
 
-    public void setRecId(long recId) {
-        this.recId = recId;
+    public void setUserTagId(long userTagId) {
+        this.userTagId = userTagId;
     }
 
     public double getRecPrice() {

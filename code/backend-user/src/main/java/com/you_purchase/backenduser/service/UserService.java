@@ -6,8 +6,8 @@ import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
-import com.you_purchase.backenduser.entity.Recommend;
 import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.entity.UserTag;
 import com.you_purchase.backenduser.parameter.*;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -161,9 +161,40 @@ public class UserService extends BaseService{
         return null;
     }
 
+
+    //用户找回密码获取验证短信
+    public MsgDTO PwdCode(String phone) throws Exception{
+        User user = userDao.findByPhoneAndValid(phone,true);
+        if(user == null){
+            return null;
+        }
+        try{
+            JSONObject json = null;
+            //随机生成验证码
+            String code = String .valueOf(new Random().nextInt(999999));
+            //调用榛子云接口发送短信
+            ZhenziSmsClient client = new ZhenziSmsClient(apiUrl,appId,appSecret);
+            String result = client.send(phone, "验证码为:" + code + "，该码有效期为5分钟，该码只能使用一次!");
+            json = JSONObject.parseObject(result);
+            if(json.getIntValue("code")!=0){
+                return null;
+            }
+            //保存相关信息，并存入创建时间
+            Message message = new Message();
+            long time = System.currentTimeMillis()/1000;
+            message.setSmsInfo(phone,code,time);
+            smsDao.save(message);
+            return new MsgDTO(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     //用户找回密码
-    public long pwdFind(long userId,String newPwd,long msgId,String code){
-        User user = userDao.findByUserIdAndValid(userId,true);
+    public long pwdFind(String  phone,String newPwd,long msgId,String code){
+        User user = userDao.findByPhoneAndValid(phone,true);
         Message msg = smsDao.findByMessageIdAndAndValid(msgId,true);
         if(msg.getCode().equals(code)){
             user.setPassword(newPwd);
@@ -177,7 +208,8 @@ public class UserService extends BaseService{
 
     //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
     public long SmsRegister(SmsParameter smsParameter){
-     Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
+        //System.out.println("1");
+        Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
      //System.out.println("开始验证");
      //System.out.println(msg.getCode());
      if(!msg.getCode().equals(smsParameter.getCode())){
@@ -187,27 +219,31 @@ public class UserService extends BaseService{
          return -403;
 
      }
-     //System.out.println("Yes here");
+     System.out.println("Yes here");
      if(smsParameter.getTime() - msg.getTime()>300  || smsParameter.getTime() <= msg.getTime()){
          //System.out.println("验证码超时");
          msg.setValid(false);
          smsDao.save(msg);
          return -402;
      }
-
+     //System.out.println("2");
      msg.setValid(false);
      smsDao.save(msg);
 
-     Recommend recommend = new Recommend();
-     recommend.setRecPrice(0);
-     recommend.setRecType(0);
-     recDao.save(recommend);
+        UserTag userTag = new UserTag();
+        userTag.setRecPrice(0);
+        userTag.setRecType(0);
+        userTagDao.save(userTag);
+        long recId = userTag.getUserTagId();
 
+
+     System.out.println("3");
      User user =new User();
+     user.setUserTagId(recId);
+     System.out.println("4");
      user.setPhone(smsParameter.getPhone());
      user.setPassword(smsParameter.getPassword());
      user.setValid(true);
-     user.setRecId(recommend.getRecId());
      user.setLongitude(0);
      user.setLatitude(0);
      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
