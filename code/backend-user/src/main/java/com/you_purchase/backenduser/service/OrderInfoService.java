@@ -9,6 +9,8 @@ import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
@@ -21,6 +23,7 @@ public class OrderInfoService extends BaseService {
 
 
     //用户新增订单（根据库存生成订单，返回失败的商品名）
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ArrayList addOrder(OrderInfoParameter orderInfoParameter) {
         ArrayList fails = new ArrayList();
         OrderInfo orderInfo = new OrderInfo();
@@ -34,6 +37,17 @@ public class OrderInfoService extends BaseService {
 
         double totalPrice = 0;
         orderInfoDao.save(orderInfo);
+
+        //标签检测，没有则生成
+        User user1 = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
+        if(user1.getUserTagId()<=0){
+            UserTag userTag = new UserTag();
+            userTag.setRecPrice(0);
+            userTag.setRecType(0);
+            userTagDao.save(userTag);
+            user1.setUserTagId(userTag.getUserTagId());
+            userDao.save(user1);
+        }
 
         double recPrice=0;
         int recType=0;
@@ -67,7 +81,9 @@ public class OrderInfoService extends BaseService {
 
         User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
 
-
+        if(totalPrice == 0){
+            orderInfoDao.delete(orderInfo);
+        }
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
 
