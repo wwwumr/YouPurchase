@@ -1,6 +1,10 @@
 import {
     AsyncStorage
  }from 'react-native';
+ /**
+  * @constructor
+  * @description AsynStorage异步存储
+  */
  export default class DeviceStorage{
      static async get(key) {
         return AsyncStorage.getItem(key).then((value) => {

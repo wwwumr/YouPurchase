@@ -3,6 +3,10 @@ import { ListItem,SearchBar,Header,Image,Text, Button,Divider,AirbnbRating,Overl
 import {ScrollView,View,DeviceEventEmitter} from 'react-native'
 import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+/**
+ * @description 商店列表的每一项
+ * @constructor
+ */
 export default class ShopItem extends Component{
     constructor(props){
       super(props);
@@ -17,15 +21,27 @@ ratingCompleted(rating) {
   this.setState({score:rating})
   console.log("Rating is: " + rating)
 }
+/**
+ * @description 跳转到评价页面
+ */
 StoreRating(){
   this.props.navigation.navigate('StoreGradeShow',{storeId:this.props.storeId,contact:this.props.contact,address:this.props.address,storeName:this.props.storeName,score:this.props.score});
 }
+/**
+ * @description 显示
+ */
     handler1(){
         this.setState({isVisible:false});
     }
+    /**
+     * @description 显示
+     */
     handler(){
         this.setState({isVisible:true})
     }
+    /**
+     * @description 跳转到订单详情
+     */
     handler3(){
       this.props.navigation.navigate('OrderDetail',{orderStatus:this.props.orderStatus,leftIcon:this.props.leftIcon,
         storeName:this.props.storeName,orderItemList:this.props.orderItemList,judged:this.props.judged,

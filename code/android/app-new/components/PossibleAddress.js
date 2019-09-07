@@ -55,10 +55,10 @@ function getFlatternDistance(lat1,lng1,lat2,lng2){
 }
 const {height, width} = Dimensions.get('window');
 /**
- * @description BaiduDemo
+ * @description 搜索得到的可能地址
  * @constructor
  */
-export default class BaiduDemo extends Component {
+export default class PossibleAddress extends Component {
     constructor(props){
         super(props);
         this.state = {

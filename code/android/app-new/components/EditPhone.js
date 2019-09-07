@@ -17,6 +17,10 @@ const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
 var sqLite = new SQLite();
 var db;
+/**
+ * @description EditPhone 修改手机号页面
+ * @constructor
+ */
 export default class EditPhone extends Component{
   constructor(props){
     super(props);
@@ -28,6 +32,11 @@ export default class EditPhone extends Component{
         msg:{}
     }
   }
+  /**
+   * 
+   * @param {string} phone 手机号
+   * @description 判断输入的手机号是否合法 
+   */
   phoneNumber(phone) {
     if (phone.length!=11)
       return '-1';
@@ -39,6 +48,9 @@ export default class EditPhone extends Component{
     else
       return phone;
   }
+  /**
+   * @description 发送验证码函数
+   */
   getMsg(){
     var phone =this.state.phone;
     if(phone == null ||phone== undefined ||phone == ''){
@@ -68,6 +80,9 @@ export default class EditPhone extends Component{
   });
 
   }
+  /**
+   * @description 提交修改
+   */
   submit(){
         var phone = this.state.phone;
         var yanzhengma = this.state.yanzhengma;

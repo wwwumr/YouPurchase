@@ -4,17 +4,26 @@ import { View, Text,DeviceEventEmitter } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import {Icon} from 'react-native-elements'; 
 import { TouchableOpacity } from 'react-native-gesture-handler';
+/**
+ * @description 商品类别menu
+ * @constructor
+ */
 export default class ClassMenu extends React.PureComponent {
   _menu = null;
  
   setMenuRef = ref => {
     this._menu = ref;
   };
-  
+  /**
+   * @description 点击其中一种类别之后的响应函数
+   */
   selected = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('getClass');
   };
+  /**
+   * @description 展示出Menu
+   */
   showMenu = () => {
     this._menu.show();
   };

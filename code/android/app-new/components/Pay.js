@@ -8,7 +8,10 @@ import {
 } from 'react-native';
 import Alipay from 'react-native-yunpeng-alipay';
 
-
+/**
+ * @description 支付宝支付组件
+ * @constructor
+ */
 export default class Pay extends Component {
     constructor(props){
         super(props);

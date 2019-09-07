@@ -70,28 +70,10 @@ export default class SelectAddress extends Component {
           center:{latitude:31.204429834743763,longitude:121.44134695857332}
         };
     }
-  /** 
-  componentWillMount() {
-   var tempaddress1 =this.props.navigation.state.params.tarAddress;
-   var tempaddress2 = this.props.navigation.state.params.carrierAddress;
-   var distance = getFlatternDistance(tempaddress1.latitude,tempaddress1.longitude,tempaddress2.latitude,tempaddress2.longitude);
-   console.log(distance);
-   var size=-1;
-   var zoom = [50,100,200,500,1000,2000,5000,10000,20000,25000,50000,100000,200000,500000,1000000,2000000];
-   for (var i = 0; i < zoom.length; i++) {
-     console.log(zoom[i]);
-    if(zoom[i] - distance > 0){
-      //之所以会多3，是因为地图范围常常是比例尺距离的10倍以上。所以级别会增加3。
-      size = 18-i+2;
-      break;
-    }
-  };
-
-   this.setState({tarAddress:tempaddress1,carrierAddress:tempaddress2,size:size})
-  
-   
-}*/
-submit(){
+    /**
+     * @description 点击跳转到可能地址页面
+     */
+  submit(){
         var text = this.state.text;
         if(text == ''||text == undefined ||text == null){
           ToastAndroid.show('请输入地址名',ToastAndroid.SHORT);
@@ -101,7 +83,7 @@ submit(){
             .then(res => {
                 console.log(res)
                 if(res.errcode ==-1){
-                  ToastAndroid.show('请输入合法地址',ToastAndroid.SHORT);
+                  ToastAndroid.show('不存在相关地址',ToastAndroid.SHORT);
                   return;
                 }
                 Geolocation.reverseGeoCode(res.latitude,res.longitude)

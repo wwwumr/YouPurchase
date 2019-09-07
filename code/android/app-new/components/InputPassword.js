@@ -6,7 +6,9 @@ import {
   FormInput,
   FormValidationMessage
 } from "react-native-elements";
-
+/**
+ * @description 输入框中的密码的组件
+ */
 export default class InputPassword extends React.Component {
   constructor(props) {
     super(props);

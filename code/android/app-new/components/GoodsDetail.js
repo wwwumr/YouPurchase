@@ -12,6 +12,10 @@ const Brief = Item.Brief;
 const {height, width} = Dimensions.get('window');
 var sqLite = new SQLite();
 var db;
+/**
+ * @description 物品详情组件
+ * @constructor
+ */
 export default class GoodsDetail extends Component{
     constructor(props){
         super(props);
@@ -21,6 +25,9 @@ export default class GoodsDetail extends Component{
             number:1
         }
     }
+    /**
+     * @description 生命周期函数
+     */
     componentWillMount(){
       if(!db){
         db = sqLite.open();
@@ -38,6 +45,9 @@ export default class GoodsDetail extends Component{
         console.log(error);
       })
     }
+    /**
+     * @description 加入购物车
+     */
     addcart(){
       var goodId =  this.props.navigation.state.params.goodsId;
       var storeName =  this.props.navigation.state.params.storeName;
@@ -52,6 +62,9 @@ export default class GoodsDetail extends Component{
       tempitem.amount = this.state.number;
       sqLite.insertUserData(tempitem);
     }
+    /**
+     * @description 销毁页面时关闭数据库
+     */
     compennetDidUnmount(){
       sqLite.close();
     }
@@ -147,6 +160,9 @@ export default class GoodsDetail extends Component{
       );
     }
 }
+/**
+ * @description 样式表
+ */
 const styles = StyleSheet.create({
     container: {
       flex: 1,

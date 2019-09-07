@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import TotalComp from './TotalComponent';
-
+/**
+ * @description Footer 购物车底部组件
+ */
 const Footer = () => {
   const { 
     containerStyle, 

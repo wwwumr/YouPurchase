@@ -1,6 +1,10 @@
 import JPushModule from 'jpush-react-native';
 import React,{Component} from 'react';
 import{View,Text,Linking,ToastAndroid}from'react-native'; 
+/**
+ * @constructor
+ * @description 极光推送组件
+ */
 export default class PushMessage extends Component{
  
 componentDidMount() {
