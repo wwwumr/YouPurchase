@@ -14,7 +14,7 @@ export default class GoodsList extends React.Component {
         this.state = {
             goodsList: [],
             goodsClass: [],
-            targetClassId: null,
+            targetClass: '',
             targetGoodsList: [],
         }
     }
@@ -82,11 +82,11 @@ export default class GoodsList extends React.Component {
      */
     handleSelectClass = (e) => {
         let targetGoodsList = this.state.goodsList.filter((elem) => {
-            return elem === parseInt(e.key);
+            return elem.classInfo === e.key;
         })
         this.setState({
             targetGoodsList: targetGoodsList,
-            targetClassId: parseInt(e.key),
+            targetClass: e.key,
         })
     }
 
@@ -97,7 +97,7 @@ export default class GoodsList extends React.Component {
         let targetGoodsList = this.state.goodsList;
         this.setState({
             targetGoodsList: targetGoodsList,
-            targetClassId: null,
+            targetClass: null,
         })
     }
 
