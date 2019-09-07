@@ -51,7 +51,7 @@ public class BaseService {
     @Autowired
     protected StoreTotalScoreDao storeTotalScoreDao;
     @Autowired
-    protected RecDao recDao;
+    protected UserTagDao userTagDao;
 
 
     //消息队列推送消息

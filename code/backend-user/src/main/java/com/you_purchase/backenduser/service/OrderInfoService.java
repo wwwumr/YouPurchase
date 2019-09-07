@@ -66,12 +66,7 @@ public class OrderInfoService extends BaseService {
         }
 
         User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
-        Recommend rec = recDao.findByRecId(user.getRecId());
-        recPrice = rec.getRecPrice()*0.5+recPrice*0.5;
-        recType = (rec.getRecType()+ recType)/2;
-        rec.setRecType(recType);
-        rec.setRecPrice(recPrice);
-        recDao.save(rec);
+
 
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);

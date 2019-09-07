@@ -35,9 +35,8 @@ public class User {
     private Date regDate;
 
     private String gender;
-    //推荐标签
-    private long recId;
 
+    private  long userTagId;
 
 
     public void setInfo(UserModifyParameter userModifyParameter){
@@ -61,14 +60,12 @@ public class User {
 
 
     //getter and setter
-
-
-    public long getRecId() {
-        return recId;
+    public long getUserTagId() {
+        return userTagId;
     }
 
-    public void setRecId(long recId) {
-        this.recId = recId;
+    public void setUserTagId(long userTagId) {
+        this.userTagId = userTagId;
     }
 
     public long getUserId() {

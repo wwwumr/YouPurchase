@@ -6,8 +6,8 @@ import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
-import com.you_purchase.backenduser.entity.Recommend;
 import com.you_purchase.backenduser.entity.User;
+import com.you_purchase.backenduser.entity.UserTag;
 import com.you_purchase.backenduser.parameter.*;
 import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -177,7 +177,8 @@ public class UserService extends BaseService{
 
     //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
     public long SmsRegister(SmsParameter smsParameter){
-     Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
+        //System.out.println("1");
+        Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
      //System.out.println("开始验证");
      //System.out.println(msg.getCode());
      if(!msg.getCode().equals(smsParameter.getCode())){
@@ -187,27 +188,31 @@ public class UserService extends BaseService{
          return -403;
 
      }
-     //System.out.println("Yes here");
+     System.out.println("Yes here");
      if(smsParameter.getTime() - msg.getTime()>300  || smsParameter.getTime() <= msg.getTime()){
          //System.out.println("验证码超时");
          msg.setValid(false);
          smsDao.save(msg);
          return -402;
      }
-
+     //System.out.println("2");
      msg.setValid(false);
      smsDao.save(msg);
 
-     Recommend recommend = new Recommend();
-     recommend.setRecPrice(0);
-     recommend.setRecType(0);
-     recDao.save(recommend);
+        UserTag userTag = new UserTag();
+        userTag.setRecPrice(0);
+        userTag.setRecType(0);
+        userTagDao.save(userTag);
+        long recId = userTag.getUserTagId();
 
+
+     System.out.println("3");
      User user =new User();
+     user.setUserTagId(recId);
+     System.out.println("4");
      user.setPhone(smsParameter.getPhone());
      user.setPassword(smsParameter.getPassword());
      user.setValid(true);
-     user.setRecId(recommend.getRecId());
      user.setLongitude(0);
      user.setLatitude(0);
      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
