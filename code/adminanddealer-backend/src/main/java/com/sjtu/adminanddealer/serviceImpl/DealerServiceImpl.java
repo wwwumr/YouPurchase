@@ -8,6 +8,7 @@ import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.parameter.DealerParameter;
 import com.sjtu.adminanddealer.service.DealerService;
 import com.sjtu.adminanddealer.utils.FileUploadUtil;
+import com.sjtu.adminanddealer.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class DealerServiceImpl implements DealerService {
         dealer.setContact(dealerParameter.getContact());
         dealer.setRealName(dealerParameter.getRealName());
         dealer.setAvatar(this.dealerDefaultAvatarUrl);
-        dealer.setPassword(dealerParameter.getPassword());
+        dealer.setPassword(Md5Util.encode(dealerParameter.getPassword()));
         Long id = dealerDao.addADealer(dealer);
         jsonObject.put("key", id);
         jsonObject.put("avatar", this.dealerDefaultAvatarUrl);
