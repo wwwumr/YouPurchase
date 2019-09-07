@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground} from 'react-native';
+import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground,ToastAndroid} from 'react-native';
 import {Image,Header,Icon,Text,Button} from 'react-native-elements'
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import { callExpression } from '@babel/types';
@@ -65,6 +65,7 @@ export default class SelectAddress extends Component {
           tarAddress:{},
           carrierAddress:{},
           size:-1,
+          text:'',
           markers:{latitude:31.204429834743763,longitude:121.44134695857332},
           center:{latitude:31.204429834743763,longitude:121.44134695857332}
         };
@@ -91,15 +92,23 @@ export default class SelectAddress extends Component {
    
 }*/
 submit(){
-     //地图空白区域点击事件,返回经纬度
-        let title = '';
-        Geolocation.geocode('上海市','上海交通大学')
+        var text = this.state.text;
+        if(text == ''||text == undefined ||text == null){
+          ToastAndroid.show('请输入地址名',ToastAndroid.SHORT);
+          return;
+        }
+        Geolocation.geocode('上海市',text)
             .then(res => {
                 console.log(res)
+                if(res.errcode ==-1){
+                  ToastAndroid.show('请输入合法地址',ToastAndroid.SHORT);
+                  return;
+                }
                 Geolocation.reverseGeoCode(res.latitude,res.longitude)
                 .then(res => {
                     console.log(res.poiList);
-                    this.props.navigation.navigate('PossibleAddress',{poiList:res.poiList});
+                    
+                    this.props.navigation.navigate('PossibleAddress',{poiList:res.poiList,flag:this.props.navigation.state.params.flag});
                     title = res.address;
                 })
                 .catch(err => {
@@ -157,11 +166,6 @@ submit(){
               }}
             placeholder="地址名"
           >
-            <Icon
-              name="search"
-              color={"#D0D0D0"}
-              size={40}
-            />
           </InputItem>
         </View>
         <TouchableOpacity onPress={this.submit.bind(this)}>
@@ -192,7 +196,7 @@ submit(){
             Geolocation.reverseGeoCode(e.latitude,e.longitude)
                 .then(res => {
                     console.log(res.poiList);
-                    this.props.navigation.navigate('PossibleAddress',{poiList:res.poiList});
+                    this.props.navigation.navigate('PossibleAddress',{poiList:res.poiList,flag:this.props.navigation.state.params.flag});
                     title = res.address;
                     this.setState({
                         center: {

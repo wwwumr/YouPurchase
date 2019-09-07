@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid,Dimensions} from 'react-native';
-import {Header,Text,ListItem, Divider,Button} from 'react-native-elements';
+import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid,Dimensions,Text} from 'react-native';
+import {Header,ListItem, Divider,Button} from 'react-native-elements';
 import axios from 'axios';
-import { Tag, WhiteSpace } from '@ant-design/react-native';
+import { Tag, WhiteSpace, List } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //const {height, width} = Dimensions.get('window');
 var addressList=[];
@@ -28,7 +28,7 @@ export default class AddAddress extends Component {
   change(){
     console.log("change addresslist");
     var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
+      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -58,7 +58,7 @@ export default class AddAddress extends Component {
   }
     componentWillMount(){
       var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
+      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -153,12 +153,15 @@ export default class AddAddress extends Component {
             <View>
         {
     this.state.addressList.map((item, i) => {
+      var lines=1;
+      if(item.address.length>16)
+      lines=2;
       return(
           <View>
       <ListItem
             title={<TouchableOpacity  onPress={()=>{
               DeviceEventEmitter.emit('addAddress',item);
-              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View></TouchableOpacity>}
+              this.props.navigation.goBack();}}><Text numberOfLines={lines} style={{marginRight:5}}>{item.address}</Text></TouchableOpacity>}
             rightAvatar={<TouchableOpacity onPress={()=>{
               this.props.navigation.navigate('AddAddressTable2',{userId:this.props.navigation.state.params.userId,item:item,addressList:this.state.addressList})
             }}><Icon
@@ -168,7 +171,7 @@ export default class AddAddress extends Component {
             /></TouchableOpacity>}
             subtitle={<TouchableOpacity onPress={()=>{
               DeviceEventEmitter.emit('addAddress',item);
-              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
+              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><View style={{marginRight:5,marginTop:2}}><Tag small={true} selected={true}>{item.tagger}</Tag></View><Text style={{marginRight:10,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
       />
       <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
       </View>)

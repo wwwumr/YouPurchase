@@ -21,11 +21,22 @@ export default class AddAddressTable extends Component {
       phone:"",
       address:"",
       index2:0,
-      selectedIndex2:0
+      selectedIndex2:0,
+      longitude:-1,
+      latitude:-1
     }
   }
-  componentWillMount(){
-       
+  componentDidMount(){
+    this.listener = DeviceEventEmitter.addListener('selectedAddress', (item) => {
+      console.log('selectedAddress');
+      this.setState({address:item.address,longitude:item.longitude,latitude:item.latitude});
+    })
+  }
+  componentWillUnmount() {
+    //移除监听
+    if (this.listener) {
+      this.listener.remove();
+    }
   }
   /**
    * @description 检查手机号是否合法
@@ -51,6 +62,8 @@ export default class AddAddressTable extends Component {
     var gender = this.state.index;
     var tag = this.state.index2;
     var name = this.state.name;
+    var longitude = this.state.longitude;
+    var latitude = this.state.latitude;
     if(gender == -1){
       ToastAndroid.show('请选择性别',ToastAndroid.SHORT);
       return;
@@ -59,7 +72,7 @@ export default class AddAddressTable extends Component {
       ToastAndroid.show('请选择地址标签',ToastAndroid.SHORT);
       return;
     }
-    if(address == ''||address == null||address == undefined){
+    if(address == ''||address == null||address == undefined || longitude == -1||latitude == -1){
       ToastAndroid.show('请输入地址',ToastAndroid.SHORT);
       return;
     }
@@ -87,10 +100,7 @@ export default class AddAddressTable extends Component {
           return;
       }
     }
-    Geolocation.geocode("上海",this.state.address).then((data) => {
-      var longitude = data.longitude;
-      var latitude = data.latitude;
-      axios.post("http://192.168.0.101:8080/delivery/address",{address:this.state.address,
+    axios.post("http://192.168.1.19:8080/delivery/address",{address:this.state.address,
         contact:this.state.phone,
         deliveryAddressId:0,
         detailAddress:this.state.address,
@@ -115,10 +125,6 @@ export default class AddAddressTable extends Component {
         ToastAndroid.show("保存失败 ",ToastAndroid.SHORT);
         console.log(e,'error')
       })
-    })
-    .catch(e =>{
-      console.warn(e, 'error');
-    })
   }
   render(){
     //console.log(this.state.index);
@@ -182,15 +188,15 @@ export default class AddAddressTable extends Component {
             }}
             placeholder="手机号码"
           >电话  </InputItem>
-          <InputItem
-            value={this.state.address}
-            onChange={value => {
-              this.setState({
-                address:value,
-              });
-            }}
-            placeholder="收货地址"
-          >地址  </InputItem>
+          <View style={{flexDirection:'row'}}>
+          <View style={{width:width*0.20}}>
+          <Text style={{fontSize:17,marginLeft:15,marginTop:10,color:'#3399ff'}}>地址</Text></View>
+          <View style={{width:width*0.8-15}}>
+          <List.Item wrap onPress={()=>{this.props.navigation.navigate('SelectAddress',{flag:1})}}
+          >
+            
+{this.state.address}
+          </List.Item></View></View>
           <View style={{flexDirection:"row",marginTop:10,marginBottom:10,marginLeft:15}}>
             <Text style={{fontSize:17}}>标签</Text>
             <View style={{marginLeft:50,marginRight:20}}><Tag
