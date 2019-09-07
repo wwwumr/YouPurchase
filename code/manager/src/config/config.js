@@ -37,6 +37,7 @@ var config = {
         "coverPicUrl": "image/defaultAlcohol.jpg",
         "price": null,
     },
+    /* 上传图片设置 */
     uploadImage: {
         validFormat: ["image/jpeg", "image/png", "image/gif"],
         maxCapicity: 2 << 21,
@@ -44,6 +45,7 @@ var config = {
         avatarAction: root + "api/a/dealers/avatar/",
         alcoholAction: root + "",
     },
+    /* 主页管理员头像 */
     avatar: {
         url: "image/defaultAvatar.png",
     },
@@ -55,7 +57,6 @@ var config = {
         changeBgCmd: "change",
         adminLogIn: "ADMIN",
     },
-    homePageImageUrl: "url(" + root + "image/defaultLogInCover.png)",
     adminLogIn: "ADMIN",
     url: {
         root: root,
@@ -85,6 +86,9 @@ var config = {
             delete: root + "api/a/alcohol/",
             put: root + "api/a/alcohol/",
         }
+    },
+    lengthLimit: {
+        
     }
 }
 

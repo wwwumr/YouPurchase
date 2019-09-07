@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-
+/**
+ * @description 篮子组件
+ */
 const BasketComponent = () => {
   const { basketContainerStyle, bagsTextStyle, priceTextStyle } = styles;
   return (

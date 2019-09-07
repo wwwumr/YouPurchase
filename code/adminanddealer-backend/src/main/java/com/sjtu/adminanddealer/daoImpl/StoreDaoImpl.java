@@ -109,7 +109,7 @@ public class StoreDaoImpl implements StoreDao {
     @Override
     public double getStoreAvgScore(Long storeId) {
         StoreTotalScore totalScore = storeTotalScoreRepository.getByStoreId(storeId);
-        if (!totalScore.getTotalJudgeTime().equals(0)) {
+        if (!totalScore.getTotalJudgeTime().equals(0L)) {
             return totalScore.getTotalScore() / totalScore.getTotalJudgeTime();
         } else {
             return 0;

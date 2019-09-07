@@ -4,6 +4,10 @@ import {ScrollView,View,DeviceEventEmitter,Dimensions} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Drawer, List  } from '@ant-design/react-native';
 const {height, width} = Dimensions.get('window');
+/**
+ * @description orderlist 的一项的组件
+ * @constructor
+ */
 export default class OrderItem extends Component{
     constructor(props){
       super(props);
@@ -18,12 +22,21 @@ ratingCompleted(rating) {
   this.setState({score:rating})
   console.log("Rating is: " + rating)
 }
+/**
+ * @description 打开
+ */
     handler1(){
         this.setState({isVisible:false});
     }
+    /**
+     * @description 打开
+     */
     handler(){
         this.setState({isVisible:true})
     }
+    /**
+     * @description 点击订单的详情之后跳转
+     */
     handler3(){
       console.log("Hello World!");
       if(this.props.status!=0)
@@ -51,6 +64,9 @@ ratingCompleted(rating) {
         tarAddress:this.props.tarAddress,orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice,orderInfoId:this.props.orderInfoId});
     }
   }
+  /**
+   * @description 刷新
+   */
   componentWillReceiveProps(){
     var yes=this.state.yes+="123";
     this.setState({yes:yes});

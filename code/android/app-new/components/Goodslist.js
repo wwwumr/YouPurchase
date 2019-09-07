@@ -18,6 +18,10 @@ const style1 = StyleSheet.create({
 });
 var list=[];
 var list2=[];
+/**
+ * @constructor
+ * @description 商品列表
+ */
 export default class Goodslist extends Component{
   constructor(props){
     super(props);
@@ -36,180 +40,123 @@ export default class Goodslist extends Component{
 
 
 //点击侧边栏的按钮，回调此函数，关闭menu
-SelectMenuItemCallBack(){
+  SelectMenuItemCallBack(){
     this.setState({
         isOpen:!this.state.isOpen,
         
     })
-}
-
-//点击打开侧边栏
-SelectToOpenLeftSideMenu(){
-    this.setState({
-        isOpen:true,
-    })
-}
-getClass(commodityClassId,classInfo){
-  console.log(classInfo);
-  console.log(commodityClassId);
-  if(commodityClassId==-1) 
-      this.setState({itemlist:list,classInfo:'全部'});
-  else{
-    var templist=[];
-    for(var i=0;i<list.length;i++){
-      if(list[i].classId==commodityClassId){
-        templist.push(list[i]);
-      }
-    }
-    this.setState({itemlist:templist,classInfo:classInfo});
-  }    
-}
-componentDidMount(){
-  this.listener = DeviceEventEmitter.addListener('getClass', (commodityClassId,classInfo) => {
-      this.getClass(commodityClassId,classInfo);  
-  })
-}
-componentWillUnmount() {
-  //移除监听
-  if (this.listener) {
-    this.listener.remove();
   }
-}
-componentWillMount(){
-  var id =  this.props.navigation.state.params.storeId;
-  //var id=1;
-  var url='http://192.168.0.101:9000/stores/'+id+'/commodities';
-  var url2="http://192.168.0.101:9000/commodities/classes?storeId="+id;
-  axios.get(url).then((response)=>{
-    list = response.data;
-    axios.get(url2).then((response)=>{
+/**
+ * 
+ * @param {int} commodityClassId 类型的id
+ * @param {string} classInfo 类型的名称
+ * @description 筛选相应的物品
+ */
+  getClass(commodityClassId,classInfo){
+    console.log(classInfo);
+    console.log(commodityClassId);
+    if(commodityClassId==-1) 
+      this.setState({itemlist:list,classInfo:'全部'});
+    else{
+      var templist=[];
+      for(var i=0;i<list.length;i++){
+        if(list[i].classId==commodityClassId){
+          templist.push(list[i]);
+        }
+      }
+      this.setState({itemlist:templist,classInfo:classInfo});
+    }    
+  }
+  /**
+   * @description 生命周期函数设置对getClass的信号的监听
+   */
+  componentDidMount(){
+    this.listener = DeviceEventEmitter.addListener('getClass', (commodityClassId,classInfo) => {
+      this.getClass(commodityClassId,classInfo);  
+    })
+  }
+  /**
+   * @description 销毁页面的时候移除监听
+   * */
+  componentWillUnmount() {
+  //移除监听
+    if (this.listener) {
+      this.listener.remove();
+    }
+  }
+  /**
+   * @description 生命周期函数
+   */
+  componentWillMount(){
+    var id =  this.props.navigation.state.params.storeId;
+    //var id=1;
+    var url='http://192.168.1.19:9000/stores/'+id+'/commodities';
+    var url2="http://192.168.1.19:9000/commodities/classes?storeId="+id;
+    axios.get(url).then((response)=>{
+      list = response.data;
+      axios.get(url2).then((response)=>{
         list2 = response.data;
         console.log(list2);
         this.setState({classlist:list2})
-    }).catch(function(error){
+      }).catch(function(error){
       console.log(error);
     })
     this.setState({itemlist:list,storeId:id});
       console.log(list);
     //console.log(this.state.itemlist[0].commodityPicUrls[0]);
-  }).catch(function(error){
-    console.log(error);
-  })
-  this.setState({itemlist:list});
-}
-handler(){
-  this.props.navigation.dispatch(StackActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({ routeName: 'GoodsDetail' })
-    ],
-  }))
-}
-handler1(){
-  var info =  this.props.navigation.state.params.info;
-  var storeId =  this.props.navigation.state.params.storeId;
+    }).catch(function(error){
+      console.log(error);
+    })
+    this.setState({itemlist:list});
+  }
+  /**
+   * @description 跳转到GoodsDestail页面
+   */
+  handler(){
+    this.props.navigation.dispatch(StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'GoodsDetail' })
+      ],
+    }))
+  }
+  /**
+   * @description 跳转到商店评价页面
+   */
+  handler1(){
+    var info =  this.props.navigation.state.params.info;
+    var storeId =  this.props.navigation.state.params.storeId;
 
-  this.props.navigation.navigate('StoreGradeShow',{storeId:storeId,contact:info.contact,address:info.address,storeName:info.storeName});
-}
-/*render1() {
+    this.props.navigation.navigate('StoreGradeShow',{storeId:storeId,
+      contact:info.contact,
+      address:info.address,
+      storeName:info.storeName});
+  }
+  /**
+   * @description 点击联系商家
+   */
+  phone(){
+    var info =  this.props.navigation.state.params.info;
+    var phone = info.contact;
+    let tel = 'tel:'+phone// 目标电话
+    Modal.alert('联系商家', '电话：'+phone,
+      [ { text: '取消', onPress: () => { console.log('取消') } },
+        { text: '确定',
+          onPress: () => {
+            Linking.canOpenURL(tel).then((supported) => {
+              if (!supported) {
+                console.log('Can not handle tel:' + tel)
+              } else {
+                return Linking.openURL(tel)
+              }
+            }).catch(error => console.log('tel error', error))
+          } }])
+  }
+  render() {
 
-  var info =  this.props.navigation.state.params.info;
-  var storeId =  this.props.navigation.state.params.storeId;;
-  var storeName= this.props.navigation.state.params.info.storeName
-    const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
-
-    return (
-      
-        <SideMenu
-        menu={menu}
-        isOpen={this.state.isOpen}
-        onChange={(isOpen)=>{
-            this.setState({
-                isOpen:isOpen,
-            })
-        }}
-        menuPosition={'left'}//侧边栏是左边还是右边
-        openMenuOffset={0.25*width}//侧边栏的宽度
-        edgeHitWidth={width*0.25}//手指拖动可以打开侧边栏的距离（距离侧边栏）
-        >
-          <View style={style1.container}>
-          <Header
-          backgroundColor={"#0399d3"}
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                onPress={() => this.props.navigation.goBack()}/>}
-                centerComponent={{ text: '商 品 列 表', style: { color: '#fff',fontSize:20 } }}
-                rightComponent={{icon:'home',color:"#fff"}}/>  
-
-          <ScrollView style={{marginBottom:100,marginTop:20}}>
-    <View>
-    <View style={{alignItems:"center"}}>
-            <Image source={require('../images/dianpu.jpg')} style={{width:80,height:80}}/>
-            <Text  style={{textAlign:'center',fontSize:25,
-    color:'#000000'}}>{info.storeName}</Text></View>
-    <Text  style={{textAlign:'center',fontSize:20,
-    color:'#000000'}}>{info.address}</Text>
-    <View style={{marginLeft:40,marginRight:40,flexDirection:'row'}}>
-        <Text style={{fontSize:15}}>手机 {info.contact}</Text>
-        <Text style={{fontSize:15,marginLeft:30}}>营业 09:00-21:00</Text>
-    </View>
-<Text  style={{marginTop:10,textAlign:'center',fontSize:20,
-    color:'#0080ff'}}>商品列表</Text>
-    <View>
-  {
-    this.state.itemlist.map((item, i) => {
-      var name = item.commodityCoverPicUrl;
-      return(
-        <View >
-      <ListItem onPress={() => {
-        this.props.navigation.navigate('GoodsDetail', {
-          goodsId:item.key,
-          storeId:this.state.storeId,
-          storeName:storeName,
-          userId:this.props.navigation.state.params.userId
-        });
-      }}
-        key={item.key}
-        title={item.commodityInfo}
-        subtitle={<Text>{item.price}¥</Text>}
-        rightTitle={item.onShelves?"有货":"无货"}
-        leftIcon={<Image source={{uri:name}}style={{width: 50, height: 50}}/>}
-      />
-      <Divider style={{backgroundColor:"blue",marginLeft:10,marginRight:10}}/>
-      </View>)
-     } )
-  }</View>
-  </View>
-        </ScrollView>
-        
-        </View>
-        
-        </SideMenu>
-
-
-
-    );}*/
-    phone(){
-      var info =  this.props.navigation.state.params.info;
-      var phone = info.contact;
-      let tel = 'tel:'+phone// 目标电话
-          Modal.alert('联系商家', '电话：'+phone,
-            [ { text: '取消', onPress: () => { console.log('取消') } },
-              { text: '确定',
-                onPress: () => {
-                  Linking.canOpenURL(tel).then((supported) => {
-                    if (!supported) {
-                      console.log('Can not handle tel:' + tel)
-                    } else {
-                      return Linking.openURL(tel)
-                    }
-                  }).catch(error => console.log('tel error', error))
-                } }])
-    }
-render() {
-
-  var info =  this.props.navigation.state.params.info;
-  var storeId =  this.props.navigation.state.params.storeId;;
-  var storeName= this.props.navigation.state.params.info.storeName
+    var info =  this.props.navigation.state.params.info;
+    var storeId =  this.props.navigation.state.params.storeId;;
+    var storeName= this.props.navigation.state.params.info.storeName
     const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
 
     return(

@@ -8,6 +8,10 @@ import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle';
 import { List } from '@ant-design/react-native';
 const{height,width} = Dimensions.get('window');
+/**
+ * @description 待付款订单详情页面
+ * @constructor
+ */
 export default class OrderOk2 extends Component{
     constructor(props){
         super(props);
@@ -23,6 +27,9 @@ export default class OrderOk2 extends Component{
           isVisible:false
         }
     }
+    /**
+     * @description 生命周期函数
+     */
     componentWillMount(){
         var orderItemlist = this.props.navigation.state.params.orderItemlist;
         var shopName = this.props.navigation.state.params.shopName;
@@ -43,6 +50,9 @@ export default class OrderOk2 extends Component{
             sex:''
         })
     }
+    /**
+     * @description 支付函数
+     */
     submit(){
         var orderInfoId = this.props.navigation.state.params.orderInfoId;
         console.log(orderInfoId);
@@ -62,6 +72,9 @@ export default class OrderOk2 extends Component{
         })
         
     }
+    /**
+     * @description 删除订单
+     */
     delete(){
       var orderInfoId = this.props.navigation.state.params.orderInfoId;
       var userId = this.props.navigation.state.params.userId;

@@ -10,22 +10,37 @@ export default class Menu1 extends React.PureComponent {
   setMenuRef = ref => {
     this._menu = ref;
   };
+  /**
+   * @description 点击全部函数
+   */
   hideMenu = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('orderstatus');
   };
+  /**
+   * @description 点击代付款函数
+   */
   hideMenu1 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('orderstatus1');
   };
+  /**
+   * @description 点击待发货函数
+   */
   hideMenu2 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('orderstatus2');
   };
+  /**
+   * @description 点击配送中函数
+   */
   hideMenu3 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('orderstatus3');
   };
+  /**
+   * @description 点击订单已送达函数
+   */
   hideMenu4 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('orderstatus4');

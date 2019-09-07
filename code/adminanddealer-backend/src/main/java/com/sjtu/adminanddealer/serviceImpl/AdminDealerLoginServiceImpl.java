@@ -7,6 +7,7 @@ import com.sjtu.adminanddealer.entity.Admin;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.User;
 import com.sjtu.adminanddealer.service.AdminDealerLoginService;
+import com.sjtu.adminanddealer.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class AdminDealerLoginServiceImpl implements AdminDealerLoginService {
 
     @Override
     public Dealer getDealerByUserNameAndPassword(String userName, String password) {
-        return dealerDao.getDealerByUserNameAndPassword(userName, password);
+        return dealerDao.getDealerByUserNameAndPassword(userName, Md5Util.encode(password));
     }
 
     @Override

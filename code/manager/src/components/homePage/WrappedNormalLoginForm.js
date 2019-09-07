@@ -22,7 +22,7 @@ class NormalLoginForm extends React.Component {
                         }
                     })
                     .then((res) => {
-                        if (res.data === "ADMIN") {
+                        if (res.data === config.adminLogIn) {
                             /* 若是管理员账号则设置用户名并跳转 */
                             this.props.setUserName(values.username);
                         } else {

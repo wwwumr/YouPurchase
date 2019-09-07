@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
-
+/**
+ * @description 上传头像组件
+ */
 export default class Upload extends Component {
 
   constructor() {
@@ -34,7 +36,10 @@ export default class Upload extends Component {
       images: null
     };
   }
-
+  /**
+   * @description 从相机中获取
+   * @param {boolean} cropping 是否截取
+   */
   pickSingleWithCamera(cropping) {
     ImagePicker.openCamera({
       cropping: cropping,
@@ -70,7 +75,9 @@ export default class Upload extends Component {
       })
     }).catch(e => alert(e));
   }
-
+/**
+ * @description 清空图盘
+ */
   cleanupImages() {
     ImagePicker.clean().then(() => {
       console.log('removed tmp images from tmp directory');
@@ -78,7 +85,9 @@ export default class Upload extends Component {
       alert(e);
     });
   }
-
+/**
+ * @description 清空单张图片
+ */
   cleanupSingleImage() {
     let image = this.state.image || (this.state.images && this.state.images.length ? this.state.images[0] : null);
     console.log('will cleanup image', image);
@@ -89,7 +98,9 @@ export default class Upload extends Component {
       alert(e);
     })
   }
-
+/**
+ * @description 对获取的图片进行截取
+ */
   cropLast() {
     if (!this.state.image) {
       return Alert.alert('No image', 'Before open cropping only, please select image');
@@ -110,7 +121,11 @@ export default class Upload extends Component {
       Alert.alert(e.message ? e.message : e);
     });
   }
-
+/**
+ * 
+ * @param {boolean} cropit 是否裁剪 
+ * @param {boolean} circular 是否要成圆形 
+ */
   pickSingle(cropit, circular=false) {
     ImagePicker.openPicker({
       width: 300,
@@ -135,7 +150,9 @@ export default class Upload extends Component {
       Alert.alert(e.message ? e.message : e);
     });
   }
-
+/**
+ * @description 挑选一系列的图片
+ */
   pickMultiple() {
     ImagePicker.openPicker({
       multiple: true,

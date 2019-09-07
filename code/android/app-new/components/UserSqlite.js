@@ -10,7 +10,10 @@ var database_version = "2.0";//版本号
 var database_displayname = "MySQLite";
 var database_size = 200000;//-1应该是表示无限制
 var db;
-
+/**
+ * @description android 本地存储user
+ * @constructor
+ */
 export default class  UserSqlite extends Component{
 	componentWillUnmount(){
         if(db){
@@ -21,6 +24,9 @@ export default class  UserSqlite extends Component{
             console.log("SQLiteStorage not open");
         }
     }
+    /**
+     * @description 打开本地数据
+     */
     open(){
         db = SQLiteStorage.openDatabase(
         database_name,
@@ -35,6 +41,9 @@ export default class  UserSqlite extends Component{
         });
         return db;
     }
+    /**
+     * @description 不存在是建立新的table
+     */
     createTable(){
         if (!db) {
             this.open();
@@ -56,7 +65,10 @@ export default class  UserSqlite extends Component{
         }, ()=> {
             this._successCB('transaction');
         })
-	}
+    }
+    /**
+     * @description 删除user
+     */
     deleteData(){
         if (!db) {
             this.open();
@@ -67,6 +79,9 @@ export default class  UserSqlite extends Component{
             });
         });
     }
+    /**
+     * @description 删除table
+     */
     dropTable(){
         db.transaction((tx)=>{
             tx.executeSql('drop table user',[],()=>{
@@ -78,6 +93,10 @@ export default class  UserSqlite extends Component{
             this._successCB('transaction');
         });
     }
+    /**
+     * @description 本地存储该用户信息
+     * @param {json} userData 与user相关的信息 
+     */
     insertUserData(userData){
         if (!db) {
             this.open();
@@ -103,6 +122,9 @@ export default class  UserSqlite extends Component{
             //ToastAndroid.show("数据插入成功",ToastAndroid.SHORT);
         })
     }
+    /**
+     * @description 关闭数据库
+     */
     close(){
         if(db){
             this._successCB('close');

@@ -4,6 +4,7 @@ import { Input, message, Popconfirm, Button, Radio, DatePicker } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../../config/config';
+import { checkNotChange } from '../../../lib/format/checkFormat';
 import AvatarUpload from './dealerMessage/AvatarUpload';
 import ShopAutoInput from './dealerMessage/ShopAutoInput';
 
@@ -42,7 +43,7 @@ class DealerMessage extends React.Component {
      * @description 检查变化并更改经销商
      */
     handleSubmit = () => {
-        if (!this.checkChange()) {
+        if (checkNotChange(this.state.dealer, this.state.originDealer)) {
             return ;
         }
         var dealer = this.state.dealer;
@@ -96,25 +97,6 @@ class DealerMessage extends React.Component {
             })
     }
 
-    /**
-     * @description 检查用户是否修改信息
-     * @returns 改变则返回true
-     */
-    checkChange = () => {
-        const dealer = this.state.dealer;
-        const originDealer = this.state.originDealer;
-        if (
-            dealer.contact === originDealer.contact &&
-            dealer.gender === originDealer.gender &&
-            dealer.realName === originDealer.realName &&
-            dealer.storeId === originDealer.storeId &&
-            dealer.userName === originDealer.userName &&
-            dealer.birthday === originDealer.birthday
-            ){
-                return false;
-            }
-        return true;
-    }
 
     render() {
         return(
