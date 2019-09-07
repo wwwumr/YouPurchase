@@ -49,7 +49,7 @@ export default class FindPassword extends Component{
       ToastAndroid.show('请输入合法的手机号',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.0.100:8080/user/getMsg',{params:{phone:phone}})
+    axios.get('http://192.168.1.19:8080/user/getMsg',{params:{phone:phone}})
     .then((response)=> {
       responseData = response.data;
       console.log(responseData);
@@ -97,7 +97,7 @@ export default class FindPassword extends Component{
       ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT)
       return;
     }
-    axios.post('http://192.168.0.100:8080/user/checkMsg',{phone:phone,
+    axios.post('http://192.168.1.19:8080/user/checkMsg',{phone:phone,
       password:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma,time:t1})
     .then((response)=> {

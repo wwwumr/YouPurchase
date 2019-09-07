@@ -8,6 +8,7 @@ import {
   Provider,InputItem
 } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+const provinces= []
 var EARTH_RADIUS = 6378137.0;    //单位M
 var PI = Math.PI;
 /**

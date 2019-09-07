@@ -89,7 +89,7 @@ orderStatus4(){
     change(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://10.162.158.3:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
@@ -175,7 +175,7 @@ orderStatus4(){
     componentWillReceiveProps(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://10.162.158.3:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
@@ -225,7 +225,7 @@ orderStatus4(){
       var userid =  this.props.userId;
       //var userid=2;
       console.log(userid);
-      axios.post('http://10.162.158.3:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
         
       //  0：未支付 1：待发货 2：配送中 3：已送达

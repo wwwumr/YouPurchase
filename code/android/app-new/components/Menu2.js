@@ -40,7 +40,7 @@ export default class ClassMenu extends React.PureComponent {
         >
             <MenuItem onPress={()=>{
                         this._menu.hide();
-                        DeviceEventEmitter.emit('getClass',-1,'全部');
+                        DeviceEventEmitter.emit('getClass','全部');
                     }}>全部</MenuItem>
                     <MenuDivider />
             <View>{
@@ -48,8 +48,8 @@ export default class ClassMenu extends React.PureComponent {
                 return(
                     <View><MenuItem onPress={()=>{
                         this._menu.hide();
-                        DeviceEventEmitter.emit('getClass',item.commodityClassId,item.classInfo);
-                    }}>{item.classInfo}</MenuItem>
+                        DeviceEventEmitter.emit('getClass',item);
+                    }}>{item}</MenuItem>
                     <MenuDivider /></View>
                 )
             })

@@ -57,7 +57,7 @@ export default class OrderOk2 extends Component{
         var orderInfoId = this.props.navigation.state.params.orderInfoId;
         console.log(orderInfoId);
         this.setState({isVisible:false});
-        axios.post("http://192.168.0.100:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
+        axios.post("http://192.168.1.19:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
         .then((response)=>{
             if(response.data == 200){
                 ToastAndroid.show("成功付款",ToastAndroid.SHORT);
@@ -78,7 +78,7 @@ export default class OrderOk2 extends Component{
     delete(){
       var orderInfoId = this.props.navigation.state.params.orderInfoId;
       var userId = this.props.navigation.state.params.userId;
-      var url = "http://192.168.0.101:8080/order/userDelete?orderInfoId="+orderInfoId+"&userId="+userId;
+      var url = "http://192.168.1.19:8080/order/userDelete?orderInfoId="+orderInfoId+"&userId="+userId;
       axios.get(url)
         .then((response)=>{
                 ToastAndroid.show("取消订单",ToastAndroid.SHORT);
