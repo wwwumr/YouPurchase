@@ -13,9 +13,14 @@ public class UserTag {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userTagId;
 
-    private double recPrice;
 
-    private int recType;
+    private String type1;
+
+    private String type2;
+
+    private String type3;
+
+    private String type4;
 
     //getter and setter
 
@@ -27,19 +32,35 @@ public class UserTag {
         this.userTagId = userTagId;
     }
 
-    public double getRecPrice() {
-        return recPrice;
+    public String getType4() {
+        return type4;
     }
 
-    public void setRecPrice(double recPrice) {
-        this.recPrice = recPrice;
+    public void setType4(String type4) {
+        this.type4 = type4;
     }
 
-    public int getRecType() {
-        return recType;
+    public String getType1() {
+        return type1;
     }
 
-    public void setRecType(int recType) {
-        this.recType = recType;
+    public void setType1(String type1) {
+        this.type1 = type1;
+    }
+
+    public String getType2() {
+        return type2;
+    }
+
+    public void setType2(String type2) {
+        this.type2 = type2;
+    }
+
+    public String getType3() {
+        return type3;
+    }
+
+    public void setType3(String type3) {
+        this.type3 = type3;
     }
 }

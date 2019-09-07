@@ -231,8 +231,10 @@ public class UserService extends BaseService{
      smsDao.save(msg);
 
         UserTag userTag = new UserTag();
-        userTag.setRecPrice(0);
-        userTag.setRecType(0);
+        userTag.setType1(null);
+        userTag.setType2(null);
+        userTag.setType3(null);
+        userTag.setType4(null);
         userTagDao.save(userTag);
         long recId = userTag.getUserTagId();
 
@@ -292,4 +294,7 @@ public class UserService extends BaseService{
     }
 
 
+
+
+    //商品推荐
 }
