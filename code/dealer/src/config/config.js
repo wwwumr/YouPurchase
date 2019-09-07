@@ -132,6 +132,10 @@ var config = {
             get: root1 + "order/check/",
         }
     },
+    /* 设置某些属性的最大值 */
+    lengthLimit: {
+
+    },
 }
 
 

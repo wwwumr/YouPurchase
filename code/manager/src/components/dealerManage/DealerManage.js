@@ -5,6 +5,7 @@ import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config/config';
+import { checkJsonNotNull } from '../../lib/format/checkFormat';
 
 
 const GENDER = ["男", "女"];
@@ -113,7 +114,8 @@ class DealerManage extends React.Component {
      */
     handleOk = (e) => {
         var dealer = this.state.dealer;
-        if (this.checkDealer(dealer)) {
+        const infos = ["userName", "gender", "realName", "contact", "password", "birthday"];
+        if (checkJsonNotNull(dealer, infos)) {
             axios.post(config.url.newdealer, dealer)
                 .then((res) => {
                     /* 后端返回数据格式变为{"key" : long, "avatar" : String}这种格式 */
@@ -192,18 +194,7 @@ class DealerManage extends React.Component {
         }       
     };
     
-    /**
-     * @description 检查dealer是否合格
-     * @param  {} dealer
-     */
-    checkDealer = (dealer) => {
-        if (dealer.userName !== "" && dealer.gender !== null && dealer.realName !== "" 
-            && dealer.contact !== "" && dealer.password !== "" && dealer.birthday !== "") {
-            return true;
-        }
-        return false;
-    }
-
+    
     render() {
         /* Table 列信息 */
         const columns = [

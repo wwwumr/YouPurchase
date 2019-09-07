@@ -4,6 +4,7 @@ import { Table, Input, Button, Icon, Modal, message, TimePicker, Radio } from 'a
 import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import config from '../../config/config';
+import { checkDeliveryRange, checkJsonNotNull } from '../../lib/format/checkFormat';
 import moment from 'moment';
 
 class ShopManage extends React.Component {
@@ -107,35 +108,19 @@ class ShopManage extends React.Component {
         this.setState({ searchText: '' });
     };
 
-    checkNewShopValid = (shop) => {
-        if (shop.deliveryRange <= 0) { return false;}
-        return true;
-    }
-
-    /**
-     * @description 检查商店是否信息不完整
-     * @param  {Shop} shop
-     * @returns : 完整 ? true : false
-     */ 
-    checkShop = (shop) => {
-        const attrs = ["storeName", "contact", "startHour", "endHour", "deliveryRange", "deliveryType"];
-        let allFilled = true;
-        attrs.forEach((elem) => {
-            if (shop[elem] === '' || shop[elem] === null) {
-                allFilled = false;
-            }
-        })
-        
-        return allFilled;
-    }
     
     /**
      * @description 新建商店
      */
     handleOk = () => {
-        var shop = this.state.shop;
+        let shop = this.state.shop;
+        const infos = ["storeName", "contact", "startHour", "endHour", "deliveryRange", "deliveryType"];
         /* 检查商店格式 */
-        if (this.checkShop(shop) && this.checkNewShopValid(shop)) {
+        if (checkJsonNotNull(shop, infos)) {
+            message.error("您还有信息未填写");
+        } else if (!checkDeliveryRange(shop.deliveryRange)){
+            message.warning("配送距离应为正数")
+        } else {
             var shopData = this.state.shopData;
             /* 接收数据 */
             axios
@@ -157,10 +142,6 @@ class ShopManage extends React.Component {
                         console.log(err.message);
                     }
                 })
-        } else if (!this.checkShop(shop)) {
-            message.error("您还有信息未填写");
-        } else {
-            message.warning("配送距离应为正数")
         }
     };
 

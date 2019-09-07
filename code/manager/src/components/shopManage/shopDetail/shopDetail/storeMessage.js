@@ -5,6 +5,7 @@ import config from '../../../../config/config';
 import moment from 'moment';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import DealerAutoInput from './DealerAutoInput';
+import { checkNotChange } from '../../../../lib/format/checkFormat';
 
 const { Title } = Typography;
 
@@ -42,7 +43,7 @@ export default class StoreMessage extends React.Component {
     handleSubmit = () => {
         const shop = this.state.shop;
         const originShop = this.state.originShop;
-        if (this.checkShop(shop, originShop)) {
+        if (!checkNotChange(shop, originShop)) {
             /* 商店经过信息修改 */
             axios
                 .put(config.url.stores, 
@@ -87,23 +88,6 @@ export default class StoreMessage extends React.Component {
         })
     }
 
-    
-    /**
-     * @description 检查店铺是否经过修改
-     * @param  { Store } shop
-     * @param  { Store } originShop
-     * @returns true if modified, otherwise false
-     */
-    checkShop(shop, originShop) {
-        if (shop.address !== originShop.address || shop.contact !== originShop.contact
-            || shop.startHour !== originShop.startHour || shop.endHour !== originShop.endHour 
-            || shop.storeName !== originShop.storeName || shop.dealerName !== originShop.dealerName
-            || shop.deliveryRange !== originShop.deliveryRange || shop.deliveryType !== originShop.deliveryType
-            ) {
-            return true;
-        } 
-        return false;
-    }
 
     render() {
         return (
