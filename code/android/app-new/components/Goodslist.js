@@ -215,7 +215,7 @@ export default class Goodslist extends Component{
                   营业时间: 9:00-21:00</Text>
                   </List.Item>
                   <List.Item>
-                  <Text style={{fontSize:15}}>地址:       {info.address}</Text>
+                  <Text style={{fontSize:15}}>地址: {info.address}</Text>
                   </List.Item>
                   </List>
                   </View>
@@ -243,7 +243,7 @@ export default class Goodslist extends Component{
         });
       }}
         key={item.key}
-        title={item.commodityInfo}
+        title={<Text>{item.commodityInfo}</Text>}
         subtitle={<Text>{item.price}¥</Text>}
         rightTitle={item.onShelves?"有货":"无货"}
         leftIcon={<Image source={{uri:name}}style={{width: 50, height: 50}}/>}

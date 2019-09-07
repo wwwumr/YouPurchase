@@ -65,10 +65,10 @@ StoreRating(){
       this.props.navigation.navigate('Goodslist',{storeId:this.props.storeId,info:this.props.info,userId:this.props.userId})
     }}>
             <Card.Header
-              title={<View style={{marginLeft:5}}><Text style={{fontSize:18}}>{this.props.storeName}</Text></View>}
+              title={<View style={{marginLeft:5}}><Text style={{fontSize:15}}>{this.props.storeName}</Text></View>}
               thumbStyle={{ width: 40, height: 40 }}
               thumb={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
-              extra={<View style={{flexDirection:'row-reverse'}}><Text style={{color:"#A0A0A0"}}>{tempdis}</Text></View>}
+              extra={<View style={{flexDirection:'row-reverse'}}><Text style={{color:"#A0A0A0",fontSize:13}}>{tempdis}</Text></View>}
             /></TouchableOpacity>
             <Card.Body>
               <View style={{ height: 42 }}>

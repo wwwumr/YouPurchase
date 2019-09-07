@@ -199,24 +199,27 @@ export default class OrderOk extends Component{
                   <View style={{backgroundColor:"#ffffff",
                     marginLeft:10,
                     marginRight:10}}
-                  >   
-                    <List renderHeader={''}>
-          <List.Item wrap={true} extra={'>'}
-          onPress={()=>{this.props.navigation.navigate('AddAddress',{userId:userId})}}
-          >
-          <Text style={{fontSize:17,
-                      marginBottom:5,
-                      fontWeight:"bold",
-                      fontFamily: 'System',
-                      marginTop:10}}
-                    >
-                      {this.state.title}
-                    </Text>
-          </List.Item>
-          <List.Item extra={'在线支付'}>
-            支付方式
-          </List.Item></List>
-                    
+                  >  
+                  <ListItem onPress={()=>{this.props.navigation.navigate('AddAddress',{userId:userId})}}
+                   title={<Text style={{fontSize:17,
+                    marginBottom:5,
+                    fontWeight:"bold",
+                    fontFamily: 'System',
+                    marginTop:10}}
+                  >
+                    {this.state.title}
+                  </Text>}
+                  rightAvatar={<Icon
+                    name='chevron-right'
+                    size={30}
+                    color='#3399ff'
+                  />}
+                  /> 
+                  <Divider style={{backgroundColor:'#f0f0f0',height:0.7}}/>
+                  <ListItem
+                   title={<Text style={{fontSize:16}}>支付方式</Text>}
+                   rightTitle={<Text style={{fontSize:16}}>在线支付</Text>}
+                  />
                   </View>
                  </View>
                  <View

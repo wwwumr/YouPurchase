@@ -129,20 +129,26 @@ export default class OrderOk2 extends Component{
                   <View style={{backgroundColor:"#ffffff",
                    }}
                   >   
-          <List.Item wrap={true}
-          >
-          <Text style={{fontSize:17,
-                      marginBottom:5,
-                      fontWeight:"bold",
-                      fontFamily: 'System',
-                      marginTop:10}}
-                    >
-                      {this.state.address}
-                    </Text>
-          </List.Item>
-          <List.Item extra={'在线支付'}>
-            支付方式
-          </List.Item>
+                  <ListItem 
+                   title={<Text style={{fontSize:17,
+                    marginBottom:5,
+                    fontWeight:"bold",
+                    fontFamily: 'System',
+                    marginTop:10}}
+                  >
+                    {this.state.address}
+                  </Text>}
+                  rightAvatar={<Icon
+                    name='chevron-right'
+                    size={30}
+                    color='#3399ff'
+                  />}
+                  /> 
+                  <Divider style={{backgroundColor:'#f0f0f0',height:0.7}}/>
+                  <ListItem
+                   title={<Text style={{fontSize:16}}>支付方式</Text>}
+                   rightTitle={<Text style={{fontSize:16}}>在线支付</Text>}
+                  />
                     
                   </View>
                  </View>
