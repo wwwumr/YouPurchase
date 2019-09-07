@@ -63,12 +63,22 @@ public class UserController extends BaseController {
         return userService.UserLogin(userLoginParameter);
     }
 
+
+    //密码找回的获取验证码接口
+    @RequestMapping(value = "/user/pwdSms",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "密码找回的获取验证短信的接口")
+    MsgDTO PwdCode(String phone) throws Exception {
+        return userService.PwdCode(phone);
+    }
+
     //用户找回密码
     @RequestMapping(value = "/user/pwdFind",method = RequestMethod.GET)
     @ResponseBody
     @ApiOperation(value = "密码找回")
-    long PwdFind(long userId,String newPwd,long msgId,String code){
-        return userService.pwdFind(userId,newPwd,msgId,code);
+    long PwdFind(String phone,String newPwd,long msgId,String code){
+        return userService.pwdFind(phone,newPwd,msgId,code);
     }
 
     //用户查看信息

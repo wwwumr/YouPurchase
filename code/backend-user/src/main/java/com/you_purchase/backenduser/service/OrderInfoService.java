@@ -25,17 +25,17 @@ public class OrderInfoService extends BaseService {
     //用户新增订单（根据库存生成订单，返回失败的商品名）
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public ArrayList addOrder(OrderInfoParameter orderInfoParameter) {
-        System.out.println("1");
+        //System.out.println("1");
         ArrayList fails = new ArrayList();
         OrderInfo orderInfo = new OrderInfo();
         List<CommodityShortageDTO> shortageDTOS = new ArrayList<>();
-        System.out.println("2");
+        //System.out.println("2");
         Date date = new Date();
         String sDate = datToStr(date);
         Date trueDate = strToDate(sDate);
         String orderNo = createOrderId();
         orderInfo.setOrderInfo(orderInfoParameter,trueDate,orderNo);
-        System.out.println("3");
+        //System.out.println("3");
         double totalPrice = 0;
         orderInfoDao.save(orderInfo);
 
@@ -48,7 +48,7 @@ public class OrderInfoService extends BaseService {
         long orderInfoId = orderInfo.getOrderInfoId();
         //System.out.println("获取订单id");
         //System.out.println(orderInfoId);
-        System.out.println("订单"+orderInfoId);
+        //System.out.println("订单"+orderInfoId);
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
             Integer amount = s.getAmount();

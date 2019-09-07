@@ -161,9 +161,40 @@ public class UserService extends BaseService{
         return null;
     }
 
+
+    //用户找回密码获取验证短信
+    public MsgDTO PwdCode(String phone) throws Exception{
+        User user = userDao.findByPhoneAndValid(phone,true);
+        if(user == null){
+            return null;
+        }
+        try{
+            JSONObject json = null;
+            //随机生成验证码
+            String code = String .valueOf(new Random().nextInt(999999));
+            //调用榛子云接口发送短信
+            ZhenziSmsClient client = new ZhenziSmsClient(apiUrl,appId,appSecret);
+            String result = client.send(phone, "验证码为:" + code + "，该码有效期为5分钟，该码只能使用一次!");
+            json = JSONObject.parseObject(result);
+            if(json.getIntValue("code")!=0){
+                return null;
+            }
+            //保存相关信息，并存入创建时间
+            Message message = new Message();
+            long time = System.currentTimeMillis()/1000;
+            message.setSmsInfo(phone,code,time);
+            smsDao.save(message);
+            return new MsgDTO(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     //用户找回密码
-    public long pwdFind(long userId,String newPwd,long msgId,String code){
-        User user = userDao.findByUserIdAndValid(userId,true);
+    public long pwdFind(String  phone,String newPwd,long msgId,String code){
+        User user = userDao.findByPhoneAndValid(phone,true);
         Message msg = smsDao.findByMessageIdAndAndValid(msgId,true);
         if(msg.getCode().equals(code)){
             user.setPassword(newPwd);
