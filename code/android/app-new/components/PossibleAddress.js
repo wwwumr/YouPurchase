@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground} from 'react-native';
+import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground,DeviceEventEmitter} from 'react-native';
 import {Image,Header,Icon,Text,Button} from 'react-native-elements'
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import { callExpression } from '@babel/types';
@@ -55,10 +55,10 @@ function getFlatternDistance(lat1,lng1,lat2,lng2){
 }
 const {height, width} = Dimensions.get('window');
 /**
- * @description BaiduDemo
+ * @description 搜索得到的可能地址
  * @constructor
  */
-export default class BaiduDemo extends Component {
+export default class PossibleAddress extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -89,13 +89,18 @@ export default class BaiduDemo extends Component {
           </View>
         </View>
         </View>
-        <ScrollView>
+        <ScrollView style={{marginBottom:20}}>
             <List>
                 {
                     this.props.navigation.state.params.poiList.map((item,i)=>{
                         return(
                         <List.Item key={i} wrap onPress={()=>{
-                            this.props.navigation.goBack();
+                          var flag = this.props.navigation.state.params.flag
+                          DeviceEventEmitter.emit('selectedAddress',item);
+                          if(flag == 1)
+                            this.props.navigation.navigate('AddAddressTable');
+                          else
+                          this.props.navigation.navigate('AddAddressTable2');
                         }}>{item.address}</List.Item>);
                     })
                 }

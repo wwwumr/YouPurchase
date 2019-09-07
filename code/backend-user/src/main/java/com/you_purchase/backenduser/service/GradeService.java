@@ -18,18 +18,18 @@ public class GradeService extends BaseService {
     public int GradeAdd(GradeParameter gradeParameter){
         Grade grade = new Grade();
         grade.setInfo(gradeParameter);
-        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(gradeParameter.getOrderInfoId(),true);
+        long id = gradeParameter.getOrderInfoId();
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(id,true);
         if(orderInfo.isJudged()){
             return 403;
         }
         orderInfo.setJudged(true);
-        Long storeId = orderInfo.getStoreId();
         orderInfoDao.save(orderInfo);
         gradeDao.save(grade);
-        StoreTotalScore totalScore = storeTotalScoreDao.findByStoreId(storeId);
-        totalScore.setTotalJudgeTime(totalScore.getTotalJudgeTime()+1);
-        totalScore.setTotalScore(totalScore.getTotalScore()+gradeParameter.getScore());
-        storeTotalScoreDao.save(totalScore);
+        //StoreTotalScore totalScore = storeTotalScoreDao.findByStoreId(storeId);
+        //totalScore.setTotalJudgeTime(totalScore.getTotalJudgeTime()+1);
+        //totalScore.setTotalScore(totalScore.getTotalScore()+gradeParameter.getScore());
+        //storeTotalScoreDao.save(totalScore);
         return 200;
     }
     //查看对应商店所有评价

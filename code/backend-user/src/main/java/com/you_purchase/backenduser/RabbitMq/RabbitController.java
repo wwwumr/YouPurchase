@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @Api(tags = "rabbit接口")
 public class RabbitController {
@@ -29,8 +27,8 @@ public class RabbitController {
     public
     @ResponseBody
     @ApiOperation(value = "rabbit增加订单")
-    String rabbitAddOrder(@RequestBody List<OrderInfoParameter> orderInfoParameter){
-        //System.out.println(orderInfoParameter.getCreateDate());
+    String rabbitAddOrder(@RequestBody OrderInfoParameter orderInfoParameter){
+        System.out.println(orderInfoParameter.getCreateDate());
         sender.orderSend(orderInfoParameter);
         return "success";
     }

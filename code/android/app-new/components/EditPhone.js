@@ -17,6 +17,10 @@ const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
 var sqLite = new SQLite();
 var db;
+/**
+ * @description EditPhone 修改手机号页面
+ * @constructor
+ */
 export default class EditPhone extends Component{
   constructor(props){
     super(props);
@@ -28,6 +32,11 @@ export default class EditPhone extends Component{
         msg:{}
     }
   }
+  /**
+   * 
+   * @param {string} phone 手机号
+   * @description 判断输入的手机号是否合法 
+   */
   phoneNumber(phone) {
     if (phone.length!=11)
       return '-1';
@@ -39,6 +48,9 @@ export default class EditPhone extends Component{
     else
       return phone;
   }
+  /**
+   * @description 发送验证码函数
+   */
   getMsg(){
     var phone =this.state.phone;
     if(phone == null ||phone== undefined ||phone == ''){
@@ -50,7 +62,7 @@ export default class EditPhone extends Component{
       ToastAndroid.show('手机号格式错误',ToastAndroid.SHORT);
       return;  
   }
-  var url = 'http://192.168.1.19:8080/user/getMsg?phone='+phone;
+  var url = 'http://10.162.158.3:8080/user/getMsg?phone='+phone;
   axios.get(url)
   .then((response)=> {
     var responseData = response.data;
@@ -68,6 +80,9 @@ export default class EditPhone extends Component{
   });
 
   }
+  /**
+   * @description 提交修改
+   */
   submit(){
         var phone = this.state.phone;
         var yanzhengma = this.state.yanzhengma;
@@ -87,7 +102,7 @@ export default class EditPhone extends Component{
         if(this.state.msg){
           var msgId = this.state.msg.msgId;
           var t1 = new Date().getTime()/1000;
-          axios.post('http://192.168.1.19/user/phoneModify',{code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
+          axios.post('http://10.162.158.3:8080/user/phoneModify',{time:t1,code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
           .then((response)=> {
             var responseData = response.data;
             if(responseData == 200){

@@ -42,7 +42,6 @@ public class UserModifyParameter {
         this.userName = userName;
     }
 
-
     public String getAddress() {
         return address;
     }

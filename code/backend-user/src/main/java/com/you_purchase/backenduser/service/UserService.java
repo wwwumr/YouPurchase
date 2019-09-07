@@ -6,7 +6,6 @@ import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
-import com.you_purchase.backenduser.entity.CommodityClass;
 import com.you_purchase.backenduser.entity.Recommend;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.*;
@@ -14,7 +13,6 @@ import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -65,18 +63,20 @@ public class UserService extends BaseService{
         System.out.println("开始返回信息");
         return new UserLoginDTO(403,null);
     }
-    //用户修改基本信息
+    //用户修改信息
     public UserLoginDTO UserModify(UserModifyParameter userModifyParameter){
         User user = userDao.findByUserIdAndValid(userModifyParameter.getUserId(),true);
+        //System.out.println(user.getUserId());
         user.setInfo(userModifyParameter);
         userDao.save(user);
+        //System.out.println("信息更新成功");
         return new UserLoginDTO(200,user);
     }
 
     //用户修改密码
-    public  int PwdModify(String oldPwd,String newPwd,long userId){
+    public long PwdModify(String oldPwd,String newPwd,long userId){
         User user = userDao.findByUserIdAndValid(userId,true);
-        if(user.pwdConfirm(oldPwd)){
+        if(user.getPassword().equals(oldPwd)){
             user.setPassword(newPwd);
             userDao.save(user);
             return 200;
@@ -85,26 +85,20 @@ public class UserService extends BaseService{
     }
 
     //用户修改手机号码
-    public int PhoneModify(long userId,SmsParameter smsParameter){
-        Message msg = smsDao.findByMessageIdAAndValid(smsParameter.getMsgId(),true);
-        if(!msg.getCode().equals(smsParameter.getCode())){
-            msg.setValid(false);
-            smsDao.save(msg);
-            return -403;
+    public long PhoneModify(PhoneParameter phoneParameter){
+        User user = userDao.findByUserIdAndValid(phoneParameter.getUserId(),true);
+        Message message = smsDao.findByMessageIdAndAndValid(phoneParameter.getMsgId(),true);
+        if(message.getCode().equals(phoneParameter.getCode())){
+            user.setPhone(phoneParameter.getPhone());
+            userDao.save(user);
+            message.setValid(false);
+            smsDao.save(message);
+            return 200;
         }
-        if(smsParameter.getTime() - msg.getTime()>300  || smsParameter.getTime() <= msg.getTime()){
-            msg.setValid(false);
-            smsDao.save(msg);
-            return -402;
-        }
-        msg.setValid(false);
-        smsDao.save(msg);
-        User user = userDao.findByUserIdAndValid(userId,true);
-        String phone = smsParameter.getPhone();
-        user.setPhone(phone);
-        userDao.save(user);
-        return 200;
+        return 403;
     }
+
+
 
     @Value("${imageBaseDirectory}")
     private String imageBaseDirectory;
@@ -134,7 +128,6 @@ public class UserService extends BaseService{
     }
 
 
-
     //短信申请注册
     private String apiUrl = "https://sms_developer.zhenzikj.com";
     private String appId = "102064";
@@ -142,7 +135,7 @@ public class UserService extends BaseService{
     public MsgDTO GetCode(String phone) throws Exception {
         User user = userDao.findByPhoneAndValid(phone,true);
         if(user != null){
-            //System.out.println( "该手机已注册");
+            //System.out.println( "该手机已使用");
             return null;
         }
         try{
@@ -151,7 +144,7 @@ public class UserService extends BaseService{
             String code = String .valueOf(new Random().nextInt(999999));
             //调用榛子云接口发送短信
             ZhenziSmsClient client = new ZhenziSmsClient(apiUrl,appId,appSecret);
-            String result = client.send(phone, "您的验证码为:" + code + "，该码有效期为5分钟，且只能使用一次!");
+            String result = client.send(phone, "您的验证码为:" + code + "，该码有效期为5分钟，该码只能使用一次!");
             json = JSONObject.parseObject(result);
             if(json.getIntValue("code")!=0){
                 return null;
@@ -168,9 +161,23 @@ public class UserService extends BaseService{
         return null;
     }
 
+    //用户找回密码
+    public long pwdFind(long userId,String newPwd,long msgId,String code){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        Message msg = smsDao.findByMessageIdAndAndValid(msgId,true);
+        if(msg.getCode().equals(code)){
+            user.setPassword(newPwd);
+            userDao.save(user);
+            msg.setValid(false);
+            smsDao.save(msg);
+            return 200;
+        }
+        return 403;
+    }
+
     //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
     public long SmsRegister(SmsParameter smsParameter){
-     Message msg = smsDao.findByMessageIdAAndValid(smsParameter.getMsgId(),true);
+     Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
      //System.out.println("开始验证");
      //System.out.println(msg.getCode());
      if(!msg.getCode().equals(smsParameter.getCode())){
@@ -178,6 +185,7 @@ public class UserService extends BaseService{
          msg.setValid(false);
          smsDao.save(msg);
          return -403;
+
      }
      //System.out.println("Yes here");
      if(smsParameter.getTime() - msg.getTime()>300  || smsParameter.getTime() <= msg.getTime()){
@@ -186,20 +194,22 @@ public class UserService extends BaseService{
          smsDao.save(msg);
          return -402;
      }
+
      msg.setValid(false);
      smsDao.save(msg);
+
      Recommend recommend = new Recommend();
-     recommend.setPrice(100);
-     recommend.setClassInfo(2);
-     long recId = recommend.getRecommendId();
+     recommend.setRecPrice(0);
+     recommend.setRecType(0);
      recDao.save(recommend);
+
      User user =new User();
      user.setPhone(smsParameter.getPhone());
      user.setPassword(smsParameter.getPassword());
      user.setValid(true);
+     user.setRecId(recommend.getRecId());
      user.setLongitude(0);
      user.setLatitude(0);
-     user.setRecommendId(recId);
      SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
      String now = formatter.format(new Date());
      Date regDate = strToDate(now);
@@ -245,8 +255,5 @@ public class UserService extends BaseService{
         return "data:image/jpeg;base64," + Base64.encodeBase64String(data);
     }
 
-
-    //推荐商品
-    public
 
 }

@@ -17,6 +17,10 @@ const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
 var sqLite = new SQLite();
 var db;
+/**
+ * @constructor
+ * @description EditPage 修改信息页面
+ */
 export default class EditPage extends Component{
   constructor(props){
     super(props);
@@ -34,11 +38,17 @@ export default class EditPage extends Component{
       regDate:''
     }
   }
+  /**
+   * @description 设置对editPage信号的监听
+   */
   componentDidMount(){
     this.listener = DeviceEventEmitter.addListener('editPage', () => {
       this.change();
     })
   }
+  /**
+   * @description 当销毁页面的时候释放监听
+   */
   compennetDidUnmount(){
     sqLite.close();
     if (this.listener) {

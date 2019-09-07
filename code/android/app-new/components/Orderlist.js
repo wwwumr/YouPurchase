@@ -14,6 +14,10 @@ var parserDate = function (date) {
   var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);  
   return d;
 };  
+/**
+ * @description 订单列表 
+ * @constructor
+ */
 export default class Orderlist extends Component{
     constructor(props){
         super(props);
@@ -24,10 +28,16 @@ export default class Orderlist extends Component{
             isOpen:false
         }
     }
+    /**
+     * @description 点击全部响应函数
+     */
     orderStatus(){
       console.log("emit here!");
         this.setState({itemlist:list});
     }
+    /**
+     * @description 点击待发货响应函数
+     */
     orderStatus1(){
       var templist=[];
       var constantList = list;
@@ -37,6 +47,9 @@ export default class Orderlist extends Component{
       }
       this.setState({itemlist:templist});
   }
+  /**
+     * @description 点击待付款响应函数
+     */
   orderStatus2(){
     var templist=[];
       var constantList = list;
@@ -46,6 +59,9 @@ export default class Orderlist extends Component{
       }
       this.setState({itemlist:templist});
 }
+/**
+     * @description 点击全部配送中函数
+     */
 orderStatus3(){
   var templist=[];
       var constantList = list;
@@ -55,6 +71,9 @@ orderStatus3(){
       }
       this.setState({itemlist:templist});
 }
+/**
+     * @description 点击全部订单已送达函数
+     */
 orderStatus4(){
   var templist=[];
       var constantList = list;
@@ -64,6 +83,9 @@ orderStatus4(){
       }
       this.setState({itemlist:templist});
 }
+/**
+ * @description 页面刷新函数
+ */
     change(){
       var userid =  this.props.userId;
       console.log(userid);
@@ -112,6 +134,9 @@ orderStatus4(){
     })
       this.setState({itemlist:list});
     }
+    /**
+     * @description 设置监听函数
+     */
     componentDidMount(){
       this.listener = DeviceEventEmitter.addListener('change', () => {
       this.change();
@@ -135,12 +160,18 @@ orderStatus4(){
                 this.orderStatus4()
                 })    
     }
+    /**
+     * @description 当页面销毁时移除监听
+     */
     componentWillUnmount() {
       //移除监听
       if (this.listener) {
         this.listener.remove();
       }
     }
+    /**
+     * @description 进入页面时刷新
+     */
     componentWillReceiveProps(){
       var userid =  this.props.userId;
       console.log(userid);

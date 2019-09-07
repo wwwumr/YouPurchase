@@ -35,8 +35,10 @@ public class User {
     private Date regDate;
 
     private String gender;
+    //推荐标签
+    private long recId;
 
-    private long recommendId;
+
 
     public void setInfo(UserModifyParameter userModifyParameter){
         this.setAddress(userModifyParameter.getAddress());
@@ -61,12 +63,12 @@ public class User {
     //getter and setter
 
 
-    public long getRecommendId() {
-        return recommendId;
+    public long getRecId() {
+        return recId;
     }
 
-    public void setRecommendId(long recommendId) {
-        this.recommendId = recommendId;
+    public void setRecId(long recId) {
+        this.recId = recId;
     }
 
     public long getUserId() {

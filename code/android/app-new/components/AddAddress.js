@@ -1,13 +1,17 @@
 import React, {Component} from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid,Dimensions} from 'react-native';
-import {Header,Text,ListItem, Divider,Button} from 'react-native-elements';
+import {StyleSheet, View,ScrollView,DeviceEventEmitter,ToastAndroid,Dimensions,Text} from 'react-native';
+import {Header,ListItem, Divider,Button} from 'react-native-elements';
 import axios from 'axios';
-import { Tag, WhiteSpace } from '@ant-design/react-native';
+import { Tag, WhiteSpace, List } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 //const {height, width} = Dimensions.get('window');
 var addressList=[];
 const {height, width} = Dimensions.get('window');
+/**
+ * @constructor
+ * @description AddAddress 选择地址列表
+ */
 export default class AddAddress extends Component {
     constructor(props){
         super(props);
@@ -15,20 +19,29 @@ export default class AddAddress extends Component {
             addressList:[],
         }
     }
+    /**
+     * @description 生命周期函数--监听对save信号的接听
+     */
     componentDidMount() {
       //收到监听
       this.listener = DeviceEventEmitter.addListener('save',()=>{
           this.change();
       });
   }
+  /**
+   * @description 生命周期函数--当销毁页面时销毁监听
+   */
   componentWillUnmount(){
       // 移除监听 
       this.listener.remove();
   }
+  /**
+   * @description 监听响应函数刷新页面
+   */
   change(){
     console.log("change addresslist");
     var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
+      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -56,9 +69,12 @@ export default class AddAddress extends Component {
         console.log(error);
     })
   }
+  /**
+   * @description 生命周期函数
+   */
     componentWillMount(){
       var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.0.101:8080/delivery/address?userId="+userId;
+      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -86,53 +102,6 @@ export default class AddAddress extends Component {
         console.log(error);
     })
     }
-  /*render() {
-    var userId = this.props.navigation.state.params.userId;
-    return (
-     <View style={{flex:1}}>
-         <View style={{flex:0.2}}>
-        <Header
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                /> }
-                centerComponent={{ text: '选择地址', style: { color: '#fff',fontSize:20 } }}
-            /></View>
-       <ScrollView style={{flex:0.70}}>
-       {
-    this.state.addressList.map((item, i) => {
-      return(
-          <View>
-      <ListItem 
-        key={item.key}
-        title={<TouchableOpacity onPress={()=>{
-          DeviceEventEmitter.emit('addAddress',item);
-          this.props.navigation.goBack();
-        }}><View  style={{flexDirection:"row"}}><Text style={{fontSize:15,fontWeight:"bold"}}>{item.name}</Text>
-        <Text style={{fontSize:14}}>{item.sex}</Text>
-        <View style={{marginLeft:10}}>
-        <Text style={{fontSize:14}}>{item.contact}</Text>
-        </View>
-        </View></TouchableOpacity>}
-        subtitle={<TouchableOpacity onPress={()=>{
-          DeviceEventEmitter.emit('addAddress',item);
-          this.props.navigation.goBack();
-        }}><View  style={{flexDirection:"row"}}><Text style={{fontWeight:"bold"}}>{item.tagger}</Text><Text> {item.address}</Text></View></TouchableOpacity>}
-        leftAvatar={<TouchableOpacity onPress={()=>{
-          DeviceEventEmitter.emit('addAddress',item);
-          this.props.navigation.goBack();
-        }}><View  style={{width:30,height:30}}></View></TouchableOpacity>}
-        rightTitle={<View style={{flexDirection:"row"}}><TouchableOpacity onPress={()=>{this.props.navigation.navigate('AddAddressTable2',{userId:userId,item:item,addressList:this.state.addressList})}}><Icon name='edit' color='#000'
-        /></TouchableOpacity><Icon name='delete' color='#000' onPress={()=>{this.delete(item.deliveryAddressId,i)}}
-        /></View>}
-      />
-      <Divider style={{backgroundColor: 'blue'}}/>
-      </View>)
-     } )
-  }
-       </ScrollView>
-       <View style={{flex:0.1}}><Button title="新增收货地址"type="outline" onPress={()=>{this.props.navigation.navigate('AddAddressTable',{userId:userId,addressList:this.state.addressList})}}/></View>
-      </View>
-    );
-  }*/
   render(){
     return(
       <View style={{backgroundColor:"#f8f8f8",height:height}}>
@@ -153,12 +122,15 @@ export default class AddAddress extends Component {
             <View>
         {
     this.state.addressList.map((item, i) => {
+      var lines=1;
+      if(item.address.length>16)
+      lines=2;
       return(
           <View>
       <ListItem
             title={<TouchableOpacity  onPress={()=>{
               DeviceEventEmitter.emit('addAddress',item);
-              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5}}>{item.address}</Text><Tag small={true} selected={true}>{item.tagger}</Tag></View></TouchableOpacity>}
+              this.props.navigation.goBack();}}><Text numberOfLines={lines} style={{marginRight:5}}>{item.address}</Text></TouchableOpacity>}
             rightAvatar={<TouchableOpacity onPress={()=>{
               this.props.navigation.navigate('AddAddressTable2',{userId:this.props.navigation.state.params.userId,item:item,addressList:this.state.addressList})
             }}><Icon
@@ -168,7 +140,7 @@ export default class AddAddress extends Component {
             /></TouchableOpacity>}
             subtitle={<TouchableOpacity onPress={()=>{
               DeviceEventEmitter.emit('addAddress',item);
-              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><Text style={{marginRight:5,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
+              this.props.navigation.goBack();}}><View style={{flexDirection:'row'}}><View style={{marginRight:5,marginTop:2}}><Tag small={true} selected={true}>{item.tagger}</Tag></View><Text style={{marginRight:10,color:"#B0B0B0"}}>{item.name}({item.sex})</Text><Text style={{color:"#B0B0B0"}}>{item.contact}</Text></View></TouchableOpacity>}
       />
       <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7 }}/>
       </View>)

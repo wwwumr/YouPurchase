@@ -28,8 +28,6 @@ public class OrderInfo {
     //收货者信息
     private String tarPeople;
 
-    private String gender;
-
     private String tarAddress;
 
     private String tarPhone;
@@ -43,26 +41,20 @@ public class OrderInfo {
 
     private boolean judged;
 
-    //备注
-    private String content;
-
     @JoinColumn(name = "deliveryAddressId")
     private Long deliveryAddressId;
 
 
     public void setOrderInfo(OrderInfoParameter orderInfoParameter,Date date,String orderNo){
-        this.setValid(false);
+        this.setValid(true);
         this.setJudged(false);
         this.setStatus(0);
         this.setUserId(orderInfoParameter.getUserId());
         this.setStoreId(orderInfoParameter.getStoreId());
-        this.setTotalPrice(orderInfoParameter.getTotalPrice());
-        this.setContent(orderInfoParameter.getContent());
         this.setOrderInfoNo(orderNo);
         this.setCreateDate(date);
         this.setTarAddress(orderInfoParameter.getTarAddress());
         this.setTarPeople(orderInfoParameter.getTarPeople());
-        this.setGender(orderInfoParameter.getGender());
         this.setTarPhone(orderInfoParameter.getTarPhone());
         this.setDeliveryAddressId(orderInfoParameter.getDeliveryAddressId());
     }
@@ -72,22 +64,6 @@ public class OrderInfo {
 
     //getter and setter
 
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public String getOrderInfoNo() {
         return orderInfoNo;

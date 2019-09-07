@@ -17,6 +17,8 @@ public class Message {
 
     private long time;
 
+    private String createTime;
+
     private boolean valid;
 
     public void setSmsInfo(String phone,String code,long time){
@@ -27,6 +29,7 @@ public class Message {
     }
 
     //getter and setter
+
     public boolean isValid() {
         return valid;
     }

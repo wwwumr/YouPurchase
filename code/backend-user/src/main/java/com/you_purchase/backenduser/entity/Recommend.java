@@ -1,50 +1,47 @@
 package com.you_purchase.backenduser.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Recommend {
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "recommendId")
-    private long recommendId;
+    private long recId;
 
-    private double price;
+    private double recPrice;
 
-    private long classInfo;
-
-
-    public void setRec(double price,long classInfo){
-        this.setClassInfo(classInfo);
-        this.setPrice(price);
-    }
-
+    private int  recType;
 
 
 
     //getter and setter
-    public long getRecommendId() {
-        return recommendId;
+    public long getRecId() {
+        return recId;
     }
 
-    public void setRecommendId(long recommendId) {
-        this.recommendId = recommendId;
+    public void setRecId(long recId) {
+        this.recId = recId;
     }
 
-    public double getPrice() {
-        return price;
+    public double getRecPrice() {
+        return recPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setRecPrice(double recPrice) {
+        this.recPrice = recPrice;
     }
 
-    public long getClassInfo() {
-        return classInfo;
+    public int getRecType() {
+        return recType;
     }
 
-    public void setClassInfo(long classInfo) {
-        this.classInfo = classInfo;
+    public void setRecType(int recType) {
+        this.recType = recType;
     }
 }

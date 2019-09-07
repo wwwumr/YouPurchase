@@ -23,7 +23,21 @@ export default class AddAddressTable2 extends Component {
       address:"",
       selectedIndex2:0,
       index:0,
-      index2:0
+      index2:0,
+      longitude:-1,
+      latitude:-1,
+    }
+  }
+  componentDidMount(){
+    this.listener = DeviceEventEmitter.addListener('selectedAddress', (item) => {
+      console.log('selectedAddress');
+      this.setState({address:item.address,longitude:item.longitude,latitude:item.latitude});
+    })
+  }
+  componentWillUnmount() {
+    //移除监听
+    if (this.listener) {
+      this.listener.remove();
     }
   }
   /**
@@ -37,7 +51,9 @@ export default class AddAddressTable2 extends Component {
       selectedIndex:item.gender,
       selectedIndex2:item.tag,
       phone:item.contact,
-      address:item.address
+      address:item.address,
+      longitude:item.longitude,
+      latitude:item.latitude
     });
   }
   /**
@@ -61,7 +77,7 @@ export default class AddAddressTable2 extends Component {
    */
   delete(){
     var item = this.props.navigation.state.params.item;
-    var url="http://192.168.0.101:8080/delivery/address?deliveryAddressId="+item.deliveryAddressId;
+    var url="http://192.168.1.19:8080/delivery/address?deliveryAddressId="+item.deliveryAddressId;
     axios.delete(url).then(response=>{
       if(response.data=='DELETE'){
         ToastAndroid.show("已删除 ",ToastAndroid.SHORT);
@@ -86,6 +102,9 @@ export default class AddAddressTable2 extends Component {
     var gender = this.state.index;
     var tag = this.state.index2;
     var name = this.state.name;
+    var longitude = this.state.longitude;
+    var latitude = this.state.latitude;
+    var deliveryAddressId = item.deliveryAddressId;
     if(gender == -1){
       ToastAndroid.show('请选择性别',ToastAndroid.SHORT);
       return;
@@ -94,7 +113,7 @@ export default class AddAddressTable2 extends Component {
       ToastAndroid.show('请选择地址标签',ToastAndroid.SHORT);
       return;
     }
-    if(address == ''||address == null||address == undefined){
+    if(address == ''||address == null||address == undefined||longitude == -1||latitude == -1){
       ToastAndroid.show('请输入地址',ToastAndroid.SHORT);
       return;
     }
@@ -123,39 +142,30 @@ export default class AddAddressTable2 extends Component {
           return;
       }
     }
-    Geolocation.geocode("上海",this.state.address).then((data) => {
-      var longitude = data.longitude;
-      var latitude = data.latitude;
-      var item = this.props.navigation.state.params.item;
-      var deliveryAddressId = item.deliveryAddressId;
-      axios.put("http://192.168.0.101:8080/delivery/address",{address:this.state.address,
-        contact:this.state.phone,
-        deliveryAddressId:deliveryAddressId,
-        detailAddress:this.state.address,
-        gender:this.state.index,
-        latitude:latitude,
-        longitude:longitude,
-        name:this.state.name,
-        tag:this.state.index2,
-        userId:this.props.navigation.state.params.userId})
-      .then((response)=> {
-        DeviceEventEmitter.emit('save');
-        if(response.data=='UPDATE'){
-          console.log("Save the address");
-          ToastAndroid.show("已保存 ",ToastAndroid.SHORT);
-          this.props.navigation.goBack();
-        }
-        else{
-          ToastAndroid.show("保存失败 ",ToastAndroid.SHORT);
-        }
-      }).catch(e=>{
-        ToastAndroid.show("保存失败 ",ToastAndroid.SHORT);
-        console.log(e,'error')
-      })
-    })
-    .catch(e =>{
-      console.warn(e, 'error');
-    })
+    axios.put("http://192.168.1.19:8080/delivery/address",{address:this.state.address,
+    contact:this.state.phone,
+    deliveryAddressId:deliveryAddressId,
+    detailAddress:this.state.address,
+    gender:this.state.index,
+    latitude:latitude,
+    longitude:longitude,
+    name:this.state.name,
+    tag:this.state.index2,
+    userId:this.props.navigation.state.params.userId})
+  .then((response)=> {
+    DeviceEventEmitter.emit('save');
+    if(response.data=='UPDATE'){
+      console.log("Save the address");
+      ToastAndroid.show("已保存 ",ToastAndroid.SHORT);
+      this.props.navigation.goBack();
+    }
+    else{
+      ToastAndroid.show("保存失败 ",ToastAndroid.SHORT);
+    }
+  }).catch(e=>{
+    ToastAndroid.show("保存失败 ",ToastAndroid.SHORT);
+    console.log(e,'error')
+  })
   }
   render(){
     return(
@@ -213,15 +223,15 @@ export default class AddAddressTable2 extends Component {
             }}
             placeholder="手机号码"
           >电话  </InputItem>
-          <InputItem
-            value={this.state.address}
-            onChange={value => {
-              this.setState({
-                address:value,
-              });
-            }}
-            placeholder="收货地址"
-          >地址  </InputItem>
+          <View style={{flexDirection:'row'}}>
+          <View style={{width:width*0.20}}>
+          <Text style={{fontSize:17,marginLeft:15,marginTop:10,color:'#3399ff'}}>地址</Text></View>
+          <View style={{width:width*0.8-15}}>
+          <List.Item wrap onPress={()=>{this.props.navigation.navigate('SelectAddress',{flag:2})}}
+          >
+            
+{this.state.address}
+          </List.Item></View></View>
           <View style={{flexDirection:"row",marginTop:10,marginBottom:10,marginLeft:15}}>
             <Text style={{fontSize:17}}>标签</Text>
             <View style={{marginLeft:50,marginRight:20}}><Tag

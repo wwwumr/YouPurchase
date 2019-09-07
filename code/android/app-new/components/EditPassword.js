@@ -17,6 +17,10 @@ const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
 var sqLite = new SQLite();
 var db;
+/**
+ * @constructor
+ * @description 修改密码组件
+ */
 export default class EditPassword extends Component{
   constructor(props){
     super(props);
@@ -27,6 +31,9 @@ export default class EditPassword extends Component{
         password2:'',
     }
   }
+  /**
+   * @description 提交修改
+   */
   submit(){
     var password = this.state.password;
     var password1 = this.state.password1;

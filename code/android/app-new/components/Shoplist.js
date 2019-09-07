@@ -74,7 +74,7 @@ export default class ShopList extends Component{
    */
   componentWillMount(){
     var tempcenter={};
-    var url = "http://192.168.0.101:9000/stores/sort";
+    var url = "http://192.168.1.19:9000/stores/sort";
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)
@@ -102,7 +102,7 @@ export default class ShopList extends Component{
    */
   componentWillReceiveProps(){
     var tempcenter={};
-    var url = "http://192.168.0.101:9000/stores/sort";
+    var url = "http://192.168.1.19:9000/stores/sort";
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)

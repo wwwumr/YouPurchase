@@ -7,6 +7,10 @@ import Item from './Item';
 import { List } from '@ant-design/react-native';
 import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle'
+/**
+ * @description 确认订单页面
+ * @constructor
+ */
 export default class OrderOk extends Component{
     constructor(props){
         super(props);
@@ -25,6 +29,9 @@ export default class OrderOk extends Component{
           isVisible:false
         }
     }
+    /**
+     * @description 生命周期函数
+     */
     componentWillMount(){
         var orderItemlist = this.props.navigation.state.params.orderItemlist;
         var shopName = this.props.navigation.state.params.shopName;
@@ -40,16 +47,25 @@ export default class OrderOk extends Component{
             title:'请选择收货地址'
         })
     }
+    /**
+     * @description 设置对addAddress监听
+     */
     componentDidMount() {
       //收到监听
       this.listener = DeviceEventEmitter.addListener('addAddress',(item)=>{
           this.change(item);
       });
   }
+  /**
+   * @description 当页面销毁时移除监听
+   */
   componentWillUnmount(){
       // 移除监听 
       this.listener.remove();
   }
+  /**
+   * @description 提交订单
+   */
   submit(){
     var time= new Date();
     var year = time.getFullYear();
@@ -112,6 +128,9 @@ export default class OrderOk extends Component{
     console.log(e)
   })
   }
+  /**
+   * @description 进行付款
+   */
   submit1(){
     var userId = this.props.navigation.state.params.userId;
     var orderInfoId = this.state.orderPayId;
@@ -131,116 +150,19 @@ export default class OrderOk extends Component{
     })
     
 }
+/**
+ * 
+ * @param {json} item 地址
+ * @description 监听事件响应函数 
+ */
   change(item){
-       this.setState({sex:item.sex,name:item.name,phone:item.contact,address:item.address,deliveryAddressId:item.deliveryAddressId,title:item.address})
+       this.setState({sex:item.sex,
+        name:item.name,
+        phone:item.contact,
+        address:item.address,
+        deliveryAddressId:item.deliveryAddressId,
+        title:item.address})
   }
-  /*
-    render(){
-      var userId = this.props.navigation.state.params.userId;
-        return(
-            <View style={{flex:1}}> 
-            <View style={{flex:0.2}}> 
-                <Header
-                leftComponent={<Icon name='arrow-back' color='#fff'
-                onPress={() => {this.props.navigation.goBack();
-                } }/> }
-                centerComponent={{ text: '确定订单', style: { color: '#fff',fontSize:20 } }}
-                /></View>
-                <ScrollView style={{backgroundColor:"#E8E8E8",marginTop:15,marginBottom:10,flex:0.7}}>
-                <View >
-                <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                        <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                        <TouchableOpacity onPress={()=>{this.props.navigation.navigate('AddAddress',{userId:userId})}}>
-                     <Text 
-                    style={{fontSize:30}}> {"选择收货地址 >"}</Text></TouchableOpacity>
-                    <Divider style={{marginTop:15,marginBottom:15,backgroundColor: 'blue'}}/>
-                    <View style={{flexDirection:"row"}}>
-                    <Text 
-                    style={{fontSize:16,marginBottom:15}}>送达时间</Text><View style={{marginLeft:150}}><Text style={{fontSize:16,marginBottom:15}}>尽快送达</Text></View></View>
-                   <Divider style={{backgroundColor: 'blue',marginTop:0,marginBottom:10}}/>
-                   <View style={{flexDirection:"row"}}>
-                    <Text 
-                    style={{fontSize:16,marginBottom:15}}>支付方式</Text><View style={{marginLeft:150}}><Text style={{fontSize:16,marginBottom:15}}>在线支付</Text></View></View>
-                         </View>
-                 </View>
-                 <View
-
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10,marginTop:15}}>
-                        <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                        <ListItem leftIcon={<Image source={require('../images/dianpu.jpg')} style={{width:30,height:30}}/>}
-                        title={this.state.shopName} rightTitle={">"}/>
-                        <Divider style={{backgroundColor:"blue",marginBottom:5}}/>
-                        <Divider style={{backgroundColor:"blue",marginBottom:5}}/>    
-                        <View>
-                        {
-                            this.state.orderItemlist.map((item, i) =>{ return(
-                                <View>
-                             <ListItem
-                                 key={i}
-                                leftAvatar={<Image source={{uri:item.itemimg}} style={{width:30,height:30}}/>}
-                                title={item.commodityInfo}
-                                subtitle={"x "+item.quantity}
-                                rightSubtitle={"￥ "+item.itemPrice}
-                            />
-                            <Divider style={{backgroundColor:"blue",marginLeft:10,marginRight:10}}/>
-                            </View>
-                            )})
-                        }   
-                        </View>
-                        <Divider style={{backgroundColor:"blue",marginBottom:5,marginTop:10,marginLeft:10,marginRight:10}}/>    
-                        <View style={{alignItems:"flex-end"}}>
-                        <Text style={{fontSize:20,marginBottom:15}}>{"小计 ￥"+this.state.total}</Text></View>
-                         </View>
-                 </View>
-                 <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10,marginTop:15,marginBottom:10}}>
-                        <View
-                    style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
-                     <Text style={{fontSize:18,color:"#484848",marginTop:5,marginBottom:5}}>订单信息</Text>
-                     <Divider style={{backgroundColor:"blue",marginTop:5,marginBottom:5}}/>
-                     <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"联系人:    "+this.state.name+""+this.state.sex}</Text>
-                     <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"电话:      "+this.state.phone}</Text>
-                     <Text style={{fontSize:15,color:"#484848",marginTop:5,marginBottom:5}}>{"地址:      "+this.state.address}</Text>
-                         </View>
-                 </View>
-                </View>
-                </ScrollView>
-                <View style={{flex:0.1}}>
-          <View style={{ 
-    height: commonStyle.cellHeight,
-    flexDirection: commonStyle.row,
-    alignItems: commonStyle.center,
-    flex:1
-  }}>
-      <View style={{flex:0.65}}>
-
-          <Text style={{marginHorizontal: 10}}>合计:
-            <Text style={{color: commonStyle.red}}>{"￥"+this.state.total}</Text>
-          </Text>
-          </View>
-          <View style={{flex:0.35}}>
-          <TouchableOpacity>
-          <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
-            <TouchableOpacity onPress={this.submit.bind(this)}>
-            <Text style={{color: commonStyle.white}}>去支付</Text></TouchableOpacity>
-          </View>
-          </TouchableOpacity></View></View>
-          </View>
-          <Overlay isVisible={this.state.isVisible}>
-          <Text h3 style={{textAlign:'center'}}>确认付款</Text>
-          <View style={{marginTop:150}}>
-                <Text h3 style={{textAlign:'center'}}>{"￥"+this.state.total}</Text>
-                <View style={{marginLeft:10,marginRight:10}}><Button title="立即付款" onPress={this.submit1.bind(this)}/></View>
-                <View style={{marginTop:20,marginLeft:10,marginRight:10}}><Button title="取消付款" onPress={()=>{this.setState({isVisible:false});
-                this.props.navigation.goBack();}}/></View>
-                </View>
-          </Overlay>
-                </View>
-        );
-    }*/
     render(){
       var userId = this.props.navigation.state.params.userId;
         return(

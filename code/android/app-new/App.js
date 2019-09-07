@@ -154,7 +154,7 @@ const AppNavigator = createStackNavigator({
     }
   }
 }, {
-    initialRouteName: 'SelectAddress',
+    initialRouteName: 'HomePage',
 });
 const AppContainer = createAppContainer(AppNavigator);
 export default class App extends React.Component {

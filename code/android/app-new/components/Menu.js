@@ -4,24 +4,40 @@ import { View, Text,DeviceEventEmitter } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import {Icon} from 'react-native-elements'; 
 import { TouchableOpacity } from 'react-native-gesture-handler';
+/**
+ * @constructor 商店列表排序组件
+ * @description
+ */
 export default class ItemMenu extends React.PureComponent {
   _menu = null;
  
   setMenuRef = ref => {
     this._menu = ref;
   };
+  /**
+   * @description 点击距离优先函数
+   */
   hideMenu1 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change1');
   };
+  /**
+   * @description 点击销量优先函数
+   */
   hideMenu2 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change2');
   };
+  /**
+   * @description 点击评分优先函数
+   */
   hideMenu3 = () => {
     this._menu.hide();
     DeviceEventEmitter.emit('change3');
   };
+  /**
+   * 展示出menu
+   */
   showMenu = () => {
     this._menu.show();
   };

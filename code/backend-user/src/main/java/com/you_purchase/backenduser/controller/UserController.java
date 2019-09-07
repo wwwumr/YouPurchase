@@ -1,23 +1,19 @@
 package com.you_purchase.backenduser.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.you_purchase.backenduser.dao.UserDao;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.parameter.*;
-import com.you_purchase.backenduser.service.BaseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,21 +23,34 @@ import java.io.IOException;
 @Api(tags = "用户相关接口")
 public class UserController extends BaseController {
 
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private BaseService baseService;
+
+
 
     //用户信息修改
     @RequestMapping(value = "/user/modify",method = RequestMethod.POST)
     public
     @ResponseBody
     @ApiOperation(value = "用户信息修改")
-    UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter,HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return null;
-        }
+    UserLoginDTO UserModify(@RequestBody UserModifyParameter userModifyParameter){
         return userService.UserModify(userModifyParameter);
+    }
+
+    //用户修改密码
+    @RequestMapping(value = "/user/pwdModify",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户密码修改")
+    long PwdModify(String oldPwd,String newPwd,long userId){
+        return userService.PwdModify(oldPwd,newPwd,userId);
+    }
+
+    //用户修改手机号码
+    @RequestMapping(value = "/user/phoneModify",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户修改手机号码")
+    long PhoneModify(PhoneParameter phoneParameter){
+        return userService.PhoneModify(phoneParameter);
     }
 
     //用户登陆
@@ -49,28 +58,17 @@ public class UserController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "用户登陆")
-    UserLoginDTO UserLogin(@RequestBody  UserLoginParameter userLoginParameter,HttpSession session){
-        String phone = userLoginParameter.getPhone();
-        String pwd = userLoginParameter.getPassword();
-        User user = userDao.findByPhoneAndValid(phone,true);
-        if(user != null && user.getPassword().equals(pwd)){
-            session.setAttribute("userId",user.getUserId());
-            baseService.addSessionIdToRedis("loginUser:" + user.getUserId(), session.getId());
-            return new UserLoginDTO(200, user);
-        }
-        return new UserLoginDTO(404, null);
+    UserLoginDTO UserLogin(@RequestBody  UserLoginParameter userLoginParameter){
+        System.out.println("start user Login");
+        return userService.UserLogin(userLoginParameter);
     }
 
-
-    //用户注销
-    @RequestMapping(value = "/user/logout",method = RequestMethod.GET)
+    //用户找回密码
+    @RequestMapping(value = "/user/pwdFind",method = RequestMethod.GET)
     @ResponseBody
-    @ApiOperation(value = "注销")
-    String UserLogout(HttpSession session){
-        long userId = (long)session.getAttribute("userId");
-        session.removeAttribute("userId");
-        baseService.delSession("userId"+userId);
-        return "Logout";
+    @ApiOperation(value = "密码找回")
+    long PwdFind(long userId,String newPwd,long msgId,String code){
+        return userService.pwdFind(userId,newPwd,msgId,code);
     }
 
     //用户查看信息
@@ -78,10 +76,7 @@ public class UserController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "用户查看个人信息")
-    UserLoginDTO UserCheck(long userId,HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return null;
-        }
+    UserLoginDTO UserCheck(long userId){
         return userService.UserCheck(userId);
     }
 
@@ -104,33 +99,6 @@ public class UserController extends BaseController {
         return userService.SmsRegister(smsParameter);
     }
 
-    //修改密码
-    @RequestMapping(value = "/user/pwdModify",method = RequestMethod.GET)
-    public
-    @ResponseBody
-    @ApiOperation(value = "用户修改密码")
-    int PwdModify(String oldPwd,String newPwd,HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return 403;
-        }
-        long userId = (long) session.getAttribute("userId");
-        return userService.PwdModify(oldPwd,newPwd,userId);
-    }
-
-    //修改手机号码
-    @RequestMapping(value = "/user/phoneModify",method = RequestMethod.POST)
-    public
-    @ResponseBody
-    @ApiOperation(value = "修改手机号码")
-    int PhoneModify(SmsParameter smsParameter, HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return 403;
-        }
-        long userId = (long) session.getAttribute("userId");
-        return userService.PhoneModify(userId,smsParameter);
-    }
-
-
     //用户拉黑
     @RequestMapping(value = "/user/black",method = RequestMethod.GET)
     public
@@ -144,10 +112,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.POST)
     public
     @ResponseBody
-    String UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter,HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return null;
-        }
+    String UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter){
         return userService.UploadPhoto(userPhotoParameter);
     }
 

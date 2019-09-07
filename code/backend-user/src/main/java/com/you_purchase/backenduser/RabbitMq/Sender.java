@@ -5,8 +5,6 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class Sender {
     @Autowired
@@ -18,8 +16,8 @@ public class Sender {
         this.amqpTemplate.convertAndSend("pay", id);
     }
 
-    public void orderSend(List<OrderInfoParameter> orderInfoParameters){
-        //System.out.println("sender: "+orderInfoParameters.getCreateDate());
-        this.amqpTemplate.convertAndSend("orderAdd",orderInfoParameters);
+    public void orderSend(OrderInfoParameter orderInfoParameter){
+        System.out.println("sender: "+orderInfoParameter.getCreateDate());
+        this.amqpTemplate.convertAndSend("orderAdd",orderInfoParameter);
     }
 }

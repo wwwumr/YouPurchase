@@ -1,16 +1,21 @@
 package com.you_purchase.backenduser.controller;
 
 
-import com.you_purchase.backenduser.dto.OrderDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
+import com.you_purchase.backenduser.parameter.PayParameter;
+import com.you_purchase.backenduser.service.OrderInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,9 +27,9 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户新增订单")
-    OrderDTO addOrder(@RequestBody List<OrderInfoParameter> orderInfoParameters){
+    ArrayList addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
 
-        return orderInfoService.addOrder(orderInfoParameters);
+        return orderInfoService.addOrder(orderInfoParameter);
     }
 
 
@@ -33,8 +38,8 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户支付订单")
-    int OrderPay( List<Long> ids){
-        return orderInfoService.OrderPay(ids);
+    int OrderPay(@RequestBody PayParameter payParameter){
+        return orderInfoService.OrderPay(payParameter);
     }
 
     //用户查看订单
@@ -139,7 +144,7 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户删除订单")
-    int orderInfoUserDeleter(long orderInfoId,long userId){
+    int orderInfouUserDeleter(long orderInfoId,long userId){
         return orderInfoService.OrderInfoUserDelete(orderInfoId,userId);
     }
 
