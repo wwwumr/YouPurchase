@@ -7,32 +7,73 @@ import java.util.List;
 
 public class RecDTO {
 
-    private Commodity commodity;
+    private long commodityId;
 
-    private Store store;
+    private String commodityPic;
 
+    private String commodityInfo;
 
+    private long storeId;
 
+    private String storePic;
+
+    private String storeInfo;
 
     public RecDTO(Commodity commodity ,Store store){
-        this.setCommodity(commodity);
-        this.setStore(store);
+        this.setCommodityId(commodity.getCommodityId());
+        this.setCommodityInfo(commodity.getCommodityInfo());
+        this.setCommodityPic(commodity.getCommodityCoverPicUrl());
+        this.setStoreId(store.getStoreId());
+        this.setStoreInfo(store.getStoreName());
+        this.setStorePic(store.getCoverPicUrl());
     }
     //getter and setter
 
-    public Commodity getCommodity() {
-        return commodity;
+    public long getCommodityId() {
+        return commodityId;
     }
 
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
+    public void setCommodityId(long commodityId) {
+        this.commodityId = commodityId;
     }
 
-    public Store getStore() {
-        return store;
+    public String getCommodityPic() {
+        return commodityPic;
     }
 
-    public void setStore(Store store) {
-        this.store = store;
+    public void setCommodityPic(String commodityPic) {
+        this.commodityPic = commodityPic;
+    }
+
+    public String getCommodityInfo() {
+        return commodityInfo;
+    }
+
+    public void setCommodityInfo(String commodityInfo) {
+        this.commodityInfo = commodityInfo;
+    }
+
+    public long getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(long storeId) {
+        this.storeId = storeId;
+    }
+
+    public String getStorePic() {
+        return storePic;
+    }
+
+    public void setStorePic(String storePic) {
+        this.storePic = storePic;
+    }
+
+    public String getStoreInfo() {
+        return storeInfo;
+    }
+
+    public void setStoreInfo(String storeInfo) {
+        this.storeInfo = storeInfo;
     }
 }

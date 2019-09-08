@@ -2,6 +2,7 @@ package com.you_purchase.backenduser.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.dto.MsgDTO;
+import com.you_purchase.backenduser.dto.RecDTO;
 import com.you_purchase.backenduser.dto.UserInfoDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.entity.User;
@@ -14,16 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @Api(tags = "用户相关接口")
 public class UserController extends BaseController {
-
-
 
 
     //用户信息修改
@@ -124,6 +123,15 @@ public class UserController extends BaseController {
     @ResponseBody
     String UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter){
         return userService.UploadPhoto(userPhotoParameter);
+    }
+
+    //推荐商品
+    @RequestMapping(value = "/user/rec",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户获取推荐商品")
+    List<RecDTO> GetRec(long userId){
+        return userService.UserRec(userId);
     }
 
 }

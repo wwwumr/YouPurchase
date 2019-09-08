@@ -25,14 +25,20 @@ export default class ShopList extends Component{
       center:{},
       tempvalue:'',
       yes:'',
-      class:''
+      class:'全部'
     }
+  }
+   /**
+   * @description 默认
+   */
+  change(){
+    this.setState({itemlist:list,class:'全部'})
   }
   /**
    * @description 按照距离排序
    */
   change1(){
-    var list1 = list;
+    var list1 = this.state.itemlist;
     list1.sort(function(item1,item2){
       return item1.distance-item2.distance;
     })
@@ -42,7 +48,7 @@ export default class ShopList extends Component{
    * @description 按照销量排序
    */
   change2(){
-    var list1 = list;
+    var list1 = this.state.itemlist;
     list1.sort(function(item1,item2){
       return item2.sales-item1.sales;
     })
@@ -52,23 +58,22 @@ export default class ShopList extends Component{
    * @description 按照评分排序
    */
   change3(){
-    var list1 = list;
+    var list1 = this.state.itemlist;
     list1.sort(function(item1,item2){
       return item2.score-item1.score;
     })
     this.setState({itemlist:list1,class:'评分优先'})
   }
   /**
-   * @description 跳转到商品列表
+   * @description 搜索
    */
   handler(){
-    this.props.navigation.dispatch(StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Goodslist' })
-      ],
-    }))
-  }0
+    var text = this.state.text;
+    var templist = list.filter((item)=> {
+      return item.storeDTO.storeName.toString().toLowerCase().indexOf(text) > -1;
+    });
+    this.setState({itemlist:templist});
+  }
   /**
    * @description 生命周期函数
    */
@@ -134,6 +139,9 @@ export default class ShopList extends Component{
     this.listener = DeviceEventEmitter.addListener('change1', () => {
       this.change1();
     })
+    this.listener = DeviceEventEmitter.addListener('change', () => {
+      this.change();
+    })
     this.listener = DeviceEventEmitter.addListener('change2', () => {
       this.change2();
     })
@@ -184,7 +192,7 @@ export default class ShopList extends Component{
             />
           </InputItem>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.handler.bind(this)}>
           <View style={{borderRadius:5,
             backgroundColor:'#ffffff', 
             borderColor:"#D0D0D0",
@@ -199,7 +207,7 @@ export default class ShopList extends Component{
         </TouchableOpacity>    
         </View>
         <View style={{marginLeft:20,flexDirection:'row'}}>
-          <ItemMenu change1={this.change1}change2={this.change2}change3={this.change3}/>
+          <ItemMenu change1={this.change1}change2={this.change2}change3={this.change3} change={this.change}/>
           <View style={{marginTop:6}}>
             <Icon
               name='chevron-right'
@@ -277,6 +285,7 @@ export default class ShopList extends Component{
                 userId={this.props.userId}
                 info={item.storeDTO}
                 key={item.storeDTO.key}
+                coverPicUrl={item.storeDTO.coverPicUrl}
                 storeName={item.storeDTO.storeName}
                 address={item.storeDTO.address}
                 contact={item.storeDTO.contact}

@@ -24,7 +24,6 @@ import AddAddressTable2 from './components/AddAddressTable2';
 import OrderOk from './components/OrderOk';
 import OrderOk2 from './components/OrderOk2';
 import StoreGradeShow from './components/StoreGradeShow';
-import Pay from './components/Pay';
 import PushMessage from './components/PushMessage';
 import HomePage from './components/HomPage';
 import EditPage from './components/EditPage';

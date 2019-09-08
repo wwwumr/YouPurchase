@@ -26,9 +26,14 @@ export default class TagManage extends React.Component {
 
     handleClose = removedTag => {
         axios
-            .delete(config.url.comodityClass.delete)
+            .delete(config.url.comodityClass.delete, {
+                data: removedTag.commodityClassId,
+                headers: {
+                    'Content-Type':'application/json'
+                }
+            })
             .then(() => {
-                const tags = this.state.tags.filter(tag => tag.classInfo !== removedTag);
+                const tags = this.state.tags.filter(tag => tag.classInfo !== removedTag.classInfo);
                 this.setState({ 
                     tags: tags,
                 });

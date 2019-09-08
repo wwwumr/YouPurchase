@@ -75,22 +75,6 @@ public class AllBaseTest {
         System.out.println(currentTime_2);
     }
 
-    //add用户
-    @Test
-    public void insertUser(){
-        User user = new User();
-        user.setRegDate(new Date());
-        user.setAddress("东川路800");
-        user.setLatitude(12.1);
-        user.setLongitude(21.4);
-        user.setGender("女");
-        user.setUserName("芙利德");
-        user.setPassword("189846230");
-        user.setPhoto(" ");
-        user.setPhone("05663216");
-        user.setValid(true);
-        userDao.save(user);
-    }
 
     //生成订单号
     @Test
@@ -182,6 +166,18 @@ public class AllBaseTest {
         store.setContact("4984654");
         store.setAddress("adsiasi");
         storeDao.save(store);
+    }
+
+    @Test
+    public  void findStore(){
+        long storeId=storeDao.getStoreIdByCommdoity(8);
+        System.out.println(storeId);
+    }
+
+    @Test
+    public void findCommodity(){
+        Commodity commodity = commodityDao.getCommodity("高级素材");
+        System.out.println(commodity.getCommodityInfo());
     }
 
 

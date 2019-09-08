@@ -37,14 +37,29 @@ export default class OrderOk extends Component{
         var shopName = this.props.navigation.state.params.shopName;
         var total = this.props.navigation.state.params.total;
         var userId = this.props.navigation.state.params.userId;
-        console.log(orderItemlist)
-        this.setState({
-            orderItemlist:orderItemlist,
-            shopName:shopName,
-            total:total,
-            userId:userId,
-            address:'',
-            title:'请选择收货地址'
+        var storeId = this.props.navigation.state.params.shopId;
+        console.log(storeId);
+        
+        var url = 'http://192.168.1.19:9000/api/u/stores/'+storeId
+        axios.get(url).then((response)=>{
+          console.log(response);
+          var responseData =response.data;
+          if(responseData.coverPicUrl!=null){
+            this.setState({
+              orderItemlist:orderItemlist,
+              shopName:shopName,
+              total:total,
+              userId:userId,
+              address:'',
+              title:'请选择收货地址',
+              coverPicUrl:responseData.coverPicUrl
+          })
+          }else{
+            ToastAndroid.show('出现异常');
+            return;
+          }
+        }).catch((err)=>{
+          ToastAndroid.show('网络异常',ToastAndroid.SHORT);
         })
     }
     /**
@@ -237,7 +252,7 @@ export default class OrderOk extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={require("../images/dianpu.jpg")} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:this.state.coverPicUrl}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{this.state.shopName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   

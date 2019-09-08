@@ -5,6 +5,7 @@ import moment from 'moment';
 import axios from 'axios';
 import AvatarUpload from './accountManage/AvatarUpload';
 import config from '../../config/config';
+import RenewPassword from './accountManage/RenewPassword';
 
 
 
@@ -15,6 +16,7 @@ class AccountManage extends React.Component {
         this.state = {
             dealer: Object.assign({}, config.dealer.originDealer),
             originDealer: Object.assign({}, config.dealer.originDealer),
+            visible: false,
         }
     }
 
@@ -55,6 +57,19 @@ class AccountManage extends React.Component {
                 }
             })
     }
+
+    handleChangePassword = () => {
+        this.setState({
+            visible: true,
+        })
+    }
+
+    setDisvisible = () => {
+        this.setState({
+            visible: false,
+        })
+    }
+
     /**
      * @description 绑定输入框的onChange
      * @param  { event } e
@@ -96,6 +111,7 @@ class AccountManage extends React.Component {
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px"}}
             >
+            <RenewPassword visible={ this.state.visible } setDisvisible={ this.setDisvisible } />
                 <div 
                     style={{position: "relative", height: "100px", width: "100px", float: "left",}}
                 >
@@ -163,27 +179,14 @@ class AccountManage extends React.Component {
                 确认修改
                 </Button>
                 <Button style={{display: "inline-block", marginBottom: "15px", width: "25%", marginRight: "20px"}} 
-                    onClick = { () => {
-                        const originDealer = this.state.originDealer;
-                        this.setState({
-                            dealer: Object.assign({}, originDealer)
-                        })
-                    }} 
+                    onClick = { this.handleChangePassword } 
                 >
-                重置信息
-                </Button>
-                <Button style={{display: "inline-block", marginBottom: "15px", width: "25%", marginRight: "20px"}} 
-                    onClick = { () => {
-                        message.info("功能待开发");
-                    }} 
-                >
-                找回密码
+                修改密码
                 </Button>
             </div>
         </div>
         );
     }
 }
-
 
 export default AccountManage;

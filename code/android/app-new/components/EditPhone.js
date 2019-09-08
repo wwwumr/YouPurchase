@@ -29,7 +29,8 @@ export default class EditPhone extends Component{
         password1:'',
         password2:'',
         phone:'',
-        msg:{}
+        msg:{},
+        time :-1
     }
   }
   /**
@@ -52,6 +53,12 @@ export default class EditPhone extends Component{
    * @description 发送验证码函数
    */
   getMsg(){
+    var t1 = new Date().getTime()/1000;
+    console.log(t1);
+    if(this.state.time!=-1 && t1-this.state.time<300){
+      ToastAndroid.show('请勿在5分钟内重复发验证码',ToastAndroid.SHORT);
+      return;
+    }
     var phone =this.state.phone;
     if(phone == null ||phone== undefined ||phone == ''){
       ToastAndroid.show('请输入手机号',ToastAndroid.SHORT);
@@ -62,13 +69,13 @@ export default class EditPhone extends Component{
       ToastAndroid.show('手机号格式错误',ToastAndroid.SHORT);
       return;  
   }
-  var url = 'http://10.162.158.3:8080/user/getMsg?phone='+phone;
+  var url = 'http://192.168.1.19:8080/user/getMsg?phone='+phone;
   axios.get(url)
   .then((response)=> {
     var responseData = response.data;
     console.log(responseData);
-    if(responseData!={}){
-      this.setState({msg:responseData});
+    if(responseData){
+      this.setState({msg:responseData,time:responseData.time});
       ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
     }
     else
@@ -84,6 +91,16 @@ export default class EditPhone extends Component{
    * @description 提交修改
    */
   submit(){
+    var t1 = new Date().getTime()/1000;
+    console.log(t1);
+    if(this.state.time == -1){
+      ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT);
+      return;
+    }
+    if(t1-this.state.time>300){
+      ToastAndroid.show('验证超时',ToastAndroid.SHORT);
+      return;
+    }
         var phone = this.state.phone;
         var yanzhengma = this.state.yanzhengma;
         if(yanzhengma == ''||yanzhengma==null||yanzhengma==undefined){
@@ -111,7 +128,7 @@ export default class EditPhone extends Component{
               this.props.navigation.goBack();
             }
             else{
-              ToastAndroid.show('修改手机号失败',ToastAndroid.SHORT);
+              ToastAndroid.show('修改手机号失败,请五分钟后重试',ToastAndroid.SHORT);
             }
           })
           .catch(function (error) {

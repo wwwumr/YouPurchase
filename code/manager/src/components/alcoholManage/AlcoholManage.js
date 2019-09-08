@@ -19,15 +19,6 @@ export default class AlcoholManage extends React.Component {
                 this.setState({
                     alcohols: res.data,
                 })
-                this.setState({
-                    alcohols: [{
-                        "alcoholId": 0,
-                        "alcoholInfo": "茅台",
-                        "remaining": 10000,
-                        "coverPicUrl": "image/defaultAlcohol.jpg",
-                        "price": 50,
-                    }]
-                })
             })
     }
 
@@ -38,13 +29,21 @@ export default class AlcoholManage extends React.Component {
     }
 
     removeAlcohol = (text) => {
-        /* axios here */
-        let alcohols = this.state.alcohols.filter((elem) => {
-            return elem.alcoholId === text;
-        })
-        this.setState({
-            alcohols: alcohols,
-        })
+        axios
+            .delete(config.url.alcohol.delete, {
+                id: text,
+            })
+            .then((res) => {
+                console.log(res.data)
+                if (res.data === "DELETE") {
+                    let alcohols = this.state.alcohols.filter((elem) => {
+                        return elem.alcoholId === text;
+                    })
+                    this.setState({
+                        alcohols: alcohols,
+                    })
+                }
+            })
     }
 
     handleInputChange = (e, info) => {
