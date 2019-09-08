@@ -81,7 +81,9 @@ var config = {
             post: root + "api/a/stores/address",
         },
         comodityClass: {
-            get: root + "",
+            get: root + "api/ad/commodities/classes/all/",
+            post: root + "api/a/commodities/classes/",
+            delete: root + "api/a/commodities/classes/",
         },
         alcohol: {
             get: root + "api/a/alcohol/",

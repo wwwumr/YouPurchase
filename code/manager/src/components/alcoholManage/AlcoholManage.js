@@ -19,7 +19,6 @@ export default class AlcoholManage extends React.Component {
                 this.setState({
                     alcohols: res.data,
                 })
-                /* mock */
                 this.setState({
                     alcohols: [{
                         "alcoholId": 0,

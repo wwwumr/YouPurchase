@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tag, Input, Tooltip, Icon } from 'antd';
-//import axios from 'axios';
+import axios from 'axios';
+import config from '../../config/config';
 
 const TAGLENGTH = 10;
 
@@ -13,17 +14,25 @@ export default class TagManage extends React.Component {
     };
 
     componentDidMount = () => {
-        /* axios here */
-        this.setState({
-            tags: ["其他", "直销酒", "文具", "玩具", "食品", "衣服"]
-        })
+        axios
+            .get(config.url.comodityClass.get)
+            .then((res) => {
+                this.setState({
+                    tags: res.data,
+                })
+            })
+                
     }
 
     handleClose = removedTag => {
-        const tags = this.state.tags.filter(tag => tag !== removedTag);
-        this.setState({ 
-            tags 
-        });
+        axios
+            .delete(config.url.comodityClass.delete)
+            .then(() => {
+                const tags = this.state.tags.filter(tag => tag.classInfo !== removedTag);
+                this.setState({ 
+                    tags: tags,
+                });
+            })
     };
 
     showInput = () => {
@@ -43,15 +52,22 @@ export default class TagManage extends React.Component {
     handleInputConfirm = () => {
         const { inputValue } = this.state;
         let { tags } = this.state;
-        if (inputValue && tags.indexOf(inputValue) === -1) {
-            tags = [...tags, inputValue];
+        if (inputValue && !tags.find((tag) => { return tag.classInfo === inputValue })) {
+            axios
+                .post(config.url.comodityClass.post, inputValue)
+                .then((res) => {
+                    let tag = {
+                        commodityClassId: parseInt(res.data),
+                        classInfo: inputValue,
+                    };
+                    tags.push(tag);
+                    this.setState({
+                        tags: tags,
+                        inputVisible: false,
+                        inputValue: '',
+                    })
+                })
         }
-        /* axios here */
-        this.setState({
-            tags: tags,
-            inputVisible: false,
-            inputValue: '',
-        });
     };
 
     saveInputRef = input => (this.input = input);
@@ -65,16 +81,17 @@ export default class TagManage extends React.Component {
                 {tags.map((tag) => {
                     const isLongTag = tag.length > TAGLENGTH;
                     const tagElem = (
-                        <Tag key={tag} closable={true} 
+                        <Tag key={tag.commodityClassId.toString()} closable={true} 
                             onClose={() => this.handleClose(tag)}
                             style={{ width: 100, height: 30, padding: 3, textAlign: "center"
                                 , marginBottom: 20, }}
                         >
-                            {isLongTag ? `${tag.slice(0, TAGLENGTH)}...` : tag}
+                            {isLongTag ? `${tag.classInfo.slice(0, TAGLENGTH)}...` : tag.classInfo}
                         </Tag>
                     );
                     return isLongTag ? (
-                        <Tooltip title={tag} key={tag} style={{marginBottom: 20}}>
+                        <Tooltip title={tag.classInfo} key={tag.commodityClassId.toString()} 
+                            style={{marginBottom: 20}}>
                             {tagElem}
                         </Tooltip>
                     ) : (
