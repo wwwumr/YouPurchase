@@ -150,4 +150,5 @@ public interface CommodityService {
      */
     void deleteCommodityClass(Long commodityClassId);
 
+    List<CommodityClass> getAllCommodityClass();
 }

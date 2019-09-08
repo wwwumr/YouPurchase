@@ -21,7 +21,7 @@ public class Admin {
     @Column(nullable = false, unique = true, length = 31)
     private String userName;
 
-    @Column(nullable = false, length = 31)
+    @Column(nullable = false, length = 128)
     private String password;
 
     /* constructor */

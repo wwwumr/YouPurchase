@@ -47,7 +47,6 @@ var config = {
             "onShelves": true,
             "inventory": null,
             "remaining": null,
-            "commodityClassId": null,
             "classInfo": '',
         },
         defaultClassName: "其它",

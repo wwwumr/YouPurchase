@@ -16,21 +16,20 @@ public class Alcohol {
 
     private String alcoholInfo;
 
-    private boolean available;
+    private Integer remaining;
+
+    private double price;
 
     private String coverPicUrl;
-
-    // 酒的度数(滑稽.jpg
-    private Short degree;
 
     public Alcohol() {
     }
 
-    public Alcohol(String alcoholInfo, boolean available, String coverPicUrl, Short degree) {
+    public Alcohol(String alcoholInfo, Integer remaining, double price, String coverPicUrl) {
         this.alcoholInfo = alcoholInfo;
-        this.available = available;
+        this.remaining = remaining;
+        this.price = price;
         this.coverPicUrl = coverPicUrl;
-        this.degree = degree;
     }
 
     public Long getAlcoholId() {
@@ -49,12 +48,20 @@ public class Alcohol {
         this.alcoholInfo = alcoholInfo;
     }
 
-    public boolean isAvailable() {
-        return available;
+    public Integer getRemaining() {
+        return remaining;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+    public void setRemaining(Integer remaining) {
+        this.remaining = remaining;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getCoverPicUrl() {
@@ -63,13 +70,5 @@ public class Alcohol {
 
     public void setCoverPicUrl(String coverPicUrl) {
         this.coverPicUrl = coverPicUrl;
-    }
-
-    public Short getDegree() {
-        return degree;
-    }
-
-    public void setDegree(Short degree) {
-        this.degree = degree;
     }
 }

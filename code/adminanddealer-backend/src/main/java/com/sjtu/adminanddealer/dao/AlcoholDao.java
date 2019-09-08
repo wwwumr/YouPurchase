@@ -19,4 +19,6 @@ public interface AlcoholDao {
 
     void deleteById(Long alcoholId);
 
+    void updateAlcoholCover(String newUrl, Long alcoholId);
+
 }

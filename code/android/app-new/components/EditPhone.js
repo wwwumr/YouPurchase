@@ -102,7 +102,7 @@ export default class EditPhone extends Component{
         if(this.state.msg){
           var msgId = this.state.msg.msgId;
           var t1 = new Date().getTime()/1000;
-          axios.post('http://10.162.158.3:8080/user/phoneModify',{time:t1,code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
+          axios.post('http://192.168.1.19:8080/user/phoneModify',{time:t1,code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
           .then((response)=> {
             var responseData = response.data;
             if(responseData == 200){

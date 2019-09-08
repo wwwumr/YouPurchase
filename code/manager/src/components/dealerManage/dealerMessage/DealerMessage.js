@@ -7,6 +7,7 @@ import config from '../../../config/config';
 import { checkNotChange } from '../../../lib/format/checkFormat';
 import AvatarUpload from './dealerMessage/AvatarUpload';
 import ShopAutoInput from './dealerMessage/ShopAutoInput';
+import RenewPassword from './dealerMessage/RenewPassword';
 
 
 class DealerMessage extends React.Component {
@@ -16,6 +17,7 @@ class DealerMessage extends React.Component {
         this.state = {
             dealer: Object.assign({}, config.dealer.originDealer),
             originDealer: Object.assign({}, config.dealer.originDealer),
+            renewPassword: true,
         }
     }
 
@@ -59,6 +61,13 @@ class DealerMessage extends React.Component {
             })
     }
 
+    handleRenewPassword = () => {
+        let visible = !this.state.visible;
+        this.setState({
+            visible: visible,
+        })
+    }
+
     /**
      * @description 绑定输入框的onChange
      * @param  { event } e
@@ -97,10 +106,16 @@ class DealerMessage extends React.Component {
             })
     }
 
+    setDisvisible = () => {
+        this.setState({
+            visible: false,
+        })
+    }
 
     render() {
         return(
         <div style={{position: "relative", textAlign: "center", left: "430px" }}>
+            <RenewPassword visible={ this.state.visible } setDisvisible={ this.setDisvisible } />
             <h1 style={{position: "relative", right: "430px"}}>经销商信息</h1>
             <div 
                 style={{position: "relative", height: "320px", width: "350px", float: "left", marginTop: "50px"}}
@@ -187,12 +202,18 @@ class DealerMessage extends React.Component {
                     }} 
                 >
                 </ShopAutoInput>
-                <Button 
+                <Button style={{ margin: 10 }}
                     onClick = { this.handleSubmit } 
                 >
                 确认修改
                 </Button>
+                <Button style={{ margin: 10 }}
+                    onClick = { this.handleRenewPassword } 
+                >
+                更改密码
+                </Button>
             </div>
+            
         </div>
         );
     }

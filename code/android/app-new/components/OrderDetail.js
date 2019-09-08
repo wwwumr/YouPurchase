@@ -50,7 +50,19 @@ export default class OrderDetail extends Component{
      * @description 用户提交评价
      */
     submit(){
-      var createData = this.props.navigation.state.params.createData
+      var time= new Date();
+      var year = time.getFullYear();
+      var month = time.getMonth()+1;
+      if(month<10)month="0"+month;
+        var day = time.getDate();
+      if(day<10) day="0"+day;
+        var hour = time.getHours();
+      if(hour<10) hour="0"+hour;
+        var min = time.getMinutes();
+      if(min<10) min ="0"+min;
+        var second = time.getSeconds();
+      if(second<10) second="0"+second;
+      var currentTime = ""+year+"-"+month+"-"+day+" "+hour+":"+min+":"+second;
       var content = this.state.content;
       var orderInfoId = this.props.navigation.state.params.orderInfoId;
       var score = this.state.score;
@@ -60,7 +72,7 @@ export default class OrderDetail extends Component{
         ToastAndroid.show('请输入评价',ToastAndroid.SHORT);
         return;
       }
-      axios.post('http://10.162.158.3:8080/grade/add',{createDate:createData,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
+      axios.post('http://192.168.1.19:8080/grade/add',{createDate:currentTime,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
       .then((response)=> {
         var responseData = response.data;
         console.log(responseData);
@@ -83,7 +95,12 @@ export default class OrderDetail extends Component{
      * @description 打开地图页面
      */
     getMap(){
-      axios.post('http://10.162.158.3:9002/order/carrier',{partner_order_code:"123"})
+      if(this.props.navigation.state.params.mapjudged)
+      {
+        ToastAndroid.show('订单未在配送',ToastAndroid.SHORT);
+        return;
+      }
+      axios.post('http://192.168.1.19:9002/order/carrier',{partner_order_code:"123"})
       .then((response)=> {
         var tarAddress={};
         tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;

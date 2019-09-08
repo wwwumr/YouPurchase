@@ -5,7 +5,7 @@ import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import moment from 'moment';
 import config from '../../config/config';
-import { checkJsonNotNull } from '../../lib/format/checkFormat';
+import { checkJsonNotNull, checkNotNull } from '../../lib/format/checkFormat';
 
 
 const GENDER = ["男", "女"];
@@ -163,7 +163,7 @@ class DealerManage extends React.Component {
         let dealerData = this.state.dealerData;
         let count = 0;
         this.state.selectedRows.forEach(element => {
-            if(element.storeName !== null){
+            if(checkNotNull(element.storeName)){
                 count++;
             }
         });
@@ -248,7 +248,9 @@ class DealerManage extends React.Component {
             <div>
                 <div style={{ marginBottom: 16 }}>
                     {/* 删除和增加的按钮 */}
-                    <Button type="primary" style={{marginLeft:"20px"}} onClick={this.removeDealer} disabled={!hasSelected} >
+                    <Button type="primary" style={{marginLeft:"20px"}} disabled={!hasSelected} 
+                        onClick={this.removeDealer} 
+                    >
                     删除
                     </Button>
                     <Button type="primary" style={{marginLeft:"20px", marginRight: "20px"}}

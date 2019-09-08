@@ -52,15 +52,13 @@ export default class Goodslist extends Component{
  * @param {string} classInfo 类型的名称
  * @description 筛选相应的物品
  */
-  getClass(commodityClassId,classInfo){
-    console.log(classInfo);
-    console.log(commodityClassId);
-    if(commodityClassId==-1) 
+  getClass(classInfo){
+    if(classInfo == '全部') 
       this.setState({itemlist:list,classInfo:'全部'});
     else{
       var templist=[];
       for(var i=0;i<list.length;i++){
-        if(list[i].classId==commodityClassId){
+        if(list[i].classInfo==classInfo){
           templist.push(list[i]);
         }
       }
@@ -71,8 +69,8 @@ export default class Goodslist extends Component{
    * @description 生命周期函数设置对getClass的信号的监听
    */
   componentDidMount(){
-    this.listener = DeviceEventEmitter.addListener('getClass', (commodityClassId,classInfo) => {
-      this.getClass(commodityClassId,classInfo);  
+    this.listener = DeviceEventEmitter.addListener('getClass', (classInfo) => {
+      this.getClass(classInfo);  
     })
   }
   /**
@@ -91,7 +89,7 @@ export default class Goodslist extends Component{
     var id =  this.props.navigation.state.params.storeId;
     //var id=1;
     var url='http://192.168.1.19:9000/stores/'+id+'/commodities';
-    var url2="http://192.168.1.19:9000/commodities/classes?storeId="+id;
+    var url2="http://192.168.1.19:9000/api/u/commodities/classes?storeId="+id;
     axios.get(url).then((response)=>{
       list = response.data;
       axios.get(url2).then((response)=>{
@@ -217,7 +215,7 @@ export default class Goodslist extends Component{
                   营业时间: 9:00-21:00</Text>
                   </List.Item>
                   <List.Item>
-                  <Text style={{fontSize:15}}>地址:       {info.address}</Text>
+                  <Text style={{fontSize:15}}>地址: {info.address}</Text>
                   </List.Item>
                   </List>
                   </View>
@@ -245,7 +243,7 @@ export default class Goodslist extends Component{
         });
       }}
         key={item.key}
-        title={item.commodityInfo}
+        title={<Text>{item.commodityInfo}</Text>}
         subtitle={<Text>{item.price}¥</Text>}
         rightTitle={item.onShelves?"有货":"无货"}
         leftIcon={<Image source={{uri:name}}style={{width: 50, height: 50}}/>}

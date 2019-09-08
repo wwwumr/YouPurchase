@@ -37,6 +37,8 @@ public class DeliveryAddress {
     // 1表示家，2表示公司，3表示学校
     private Integer tag;
 
+    private boolean deleted;
+
     public DeliveryAddress() {
     }
 
@@ -129,5 +131,13 @@ public class DeliveryAddress {
 
     public void setTag(Integer tag) {
         this.tag = tag;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

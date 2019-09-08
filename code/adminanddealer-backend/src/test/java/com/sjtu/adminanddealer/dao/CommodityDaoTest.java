@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.dao;
 
 import com.sjtu.adminanddealer.entity.Commodity;
 import com.sjtu.adminanddealer.entity.CommodityClass;
+import com.sjtu.adminanddealer.repository.CommodityRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,13 +22,16 @@ import java.util.List;
  */
 @Transactional
 @RunWith(SpringRunner.class)
-@ActiveProfiles("test")
+//@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CommodityDaoTest {
 
     @Autowired
     private CommodityDao commodityDao;
+
+    @Autowired
+    private CommodityRepository commodityRepository;
 
     /* assume we have tuples in the database as follows:
      * in table:
@@ -113,5 +117,11 @@ public class CommodityDaoTest {
 
         commodityDao.deleteCommodityClass(commodityClass2.getCommodityClassId());
 
+    }
+
+    @Test
+    public void test() throws Exception {
+        Long storeId = commodityRepository.getStoreIdByCommdoity(1L);
+        System.out.println(storeId);
     }
 }

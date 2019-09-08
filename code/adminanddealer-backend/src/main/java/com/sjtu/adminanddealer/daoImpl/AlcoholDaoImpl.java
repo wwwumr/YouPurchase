@@ -42,4 +42,11 @@ public class AlcoholDaoImpl implements AlcoholDao {
     public void deleteById(Long alcoholId) {
         alcoholRepository.deleteById(alcoholId);
     }
+
+    @Override
+    public void updateAlcoholCover(String newUrl, Long alcoholId) {
+        Alcohol alcohol = alcoholRepository.getAlcoholByAlcoholId(alcoholId);
+        alcohol.setCoverPicUrl(newUrl);
+        alcoholRepository.saveAndFlush(alcohol);
+    }
 }

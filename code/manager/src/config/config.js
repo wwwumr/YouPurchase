@@ -64,6 +64,9 @@ var config = {
         userName: {
             get: root + "login/userName/",
         },
+        password: {
+            post: root + "",
+        },
         stores: root + "api/a/stores/",
         storeUnbind: root + "api/a/stores/unbind/",
         dealers: root + "api/a/dealers/",
@@ -85,10 +88,10 @@ var config = {
             post: root + "api/a/alcohol/",
             delete: root + "api/a/alcohol/",
             put: root + "api/a/alcohol/",
-        }
+        },
     },
     lengthLimit: {
-        
+        password: 20,
     }
 }
 

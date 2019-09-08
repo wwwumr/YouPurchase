@@ -182,4 +182,34 @@ public class DealerController {
         }
         return null;
     }
+
+    /**
+     * 经销商修改自己的密码，成功返回200，失败返回400
+     *
+     * @param session     session
+     * @param oldPassword 原来的密码
+     * @param newPassword 新密码
+     * @return 成功返回200，失败返回400
+     */
+    @GetMapping("/api/d/dealers/password")
+    public Integer updateDealerPassword(HttpSession session, @RequestParam("oldpassword") String oldPassword, @RequestParam("newpassword") String newPassword) {
+        if (session.getAttribute("loginUserId") != null
+                && ((String) session.getAttribute("loginUserType")).equals("DEALER")) {
+            return dealerService.updateDealerPassword((Long) session.getAttribute("loginUserId"), oldPassword, newPassword);
+        }
+        return null;
+    }
+
+    /**
+     * 管理员修改经销商账户的密码，成功返回200，失败返回400
+     *
+     * @param dealerId    经销商账户id
+     * @param newPassword 新的密码
+     * @return 成功返回200，失败返回400
+     */
+    @GetMapping("/api/a/dealers/password")
+    public Integer updateDealerPasswordByAdmin(@RequestParam("dealerId") Long dealerId, @RequestParam("newpassword") String newPassword) {
+        return dealerService.updateDealerPasswordByAdmin(dealerId, newPassword);
+    }
+
 }

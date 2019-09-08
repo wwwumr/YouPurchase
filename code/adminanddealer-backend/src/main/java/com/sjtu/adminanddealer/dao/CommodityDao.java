@@ -95,4 +95,6 @@ public interface CommodityDao {
      */
     void deleteCommodityClass(Long commodityClassId);
 
+    List<CommodityClass> getAllCommodityClass();
+
 }

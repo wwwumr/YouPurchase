@@ -68,7 +68,7 @@ export default class ShopList extends Component{
         NavigationActions.navigate({ routeName: 'Goodslist' })
       ],
     }))
-  }
+  }0
   /**
    * @description 生命周期函数
    */
@@ -118,14 +118,14 @@ export default class ShopList extends Component{
       }).catch(function(error){
         console.log(error);
       })
-      this.setState({itemlist:list,center:tempcenter});
+      this.setState({itemlist:list,center:tempcenter,class:''});
     })
     .catch(e =>{
       console.warn(e, 'error');
     })
-    this.setState({itemlist:list,center:tempcenter});
+    this.setState({itemlist:list,center:tempcenter,class:''});
     var yes = this.props.yes+"123";
-    this.setState({itemlist:list,yes:yes});
+    this.setState({itemlist:list,yes:yes,class:''});
   }
   /**
    * @description 生命周期函数--注册监听事件
