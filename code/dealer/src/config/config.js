@@ -100,6 +100,9 @@ var config = {
         dealers: root + "api/d/dealers/",
         /* 经销商信息接口 */
         dealer: root + "api/d/dealers/dealer/",
+        renewPassword: {
+            post: root + "api/d/dealers/password/",
+        },
         /* 商店接口 */
         stores: root +  "api/d/stores/",
         updateStoreCover: root + "api/d/stores/cover/",
@@ -118,7 +121,7 @@ var config = {
             delete: root + "api/d/commodities/classes/",
         }, 
         alcoholClass: {
-            get: root + "",
+            get: root + "api/d/alcohol/",
         },
         /* root1 */
         root1: root1,
@@ -130,10 +133,6 @@ var config = {
         orderDetail: {
             get: root1 + "order/check/",
         }
-    },
-    /* 设置某些属性的最大值 */
-    lengthLimit: {
-
     },
 }
 

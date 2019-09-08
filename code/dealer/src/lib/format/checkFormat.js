@@ -1,6 +1,8 @@
-import config from '../../config/config'
-
-const LENGTHLIMIT = config.lengthLimit;
+const LENGTHLIMIT = {
+    "password": 20,
+    "goodsName": 10,
+    "shopName": 10,
+}
 
 /**
  * 检查项目中各种数据的格式
