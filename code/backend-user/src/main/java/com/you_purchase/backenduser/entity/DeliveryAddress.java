@@ -42,7 +42,8 @@ public class DeliveryAddress {
     public DeliveryAddress() {
     }
 
-    public DeliveryAddress(String name, Integer gender, String contact, String address, double latitude, double longitude, String detailAddress, Integer tag) {
+    public DeliveryAddress(Long userId, String name, Integer gender, String contact, String address, double latitude, double longitude, String detailAddress, Integer tag, boolean deleted) {
+        this.userId = userId;
         this.name = name;
         this.gender = gender;
         this.contact = contact;
@@ -51,6 +52,7 @@ public class DeliveryAddress {
         this.longitude = longitude;
         this.detailAddress = detailAddress;
         this.tag = tag;
+        this.deleted = deleted;
     }
 
     public Long getDeliveryAddressId() {
