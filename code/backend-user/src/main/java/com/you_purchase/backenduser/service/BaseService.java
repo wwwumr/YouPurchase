@@ -137,7 +137,7 @@ public class BaseService {
         for (OrderInfo s : orderInfos) {
             OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
             orderInfoDTO.setStoreId(s.getStoreId());
-            orderInfoDTO.setStatus(s.getStatus());
+            orderInfoDTO.setStatus(s.getStatus());;
             orderInfoDTO.setOrderNo(s.getOrderInfoNo());
             orderInfoDTO.setTarPhone(s.getTarPhone());
             orderInfoDTO.setTarAddress(s.getTarAddress());
@@ -149,6 +149,7 @@ public class BaseService {
             orderInfoDTO.setCreateDate(date);
             Store store = storeDao.findByStoreId(s.getStoreId());
             orderInfoDTO.setStoreName(store.getStoreName());;
+            orderInfoDTO.setCoverPicUrl(store.getCoverPicUrl());
             orderInfoDTO.setTotalPrice(s.getTotalPrice());
             orderInfoDTO.setOrderInfoId(s.getOrderInfoId());
             //获取对应订单id的所有商品

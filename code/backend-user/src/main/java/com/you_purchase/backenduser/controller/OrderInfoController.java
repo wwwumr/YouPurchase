@@ -1,6 +1,7 @@
 package com.you_purchase.backenduser.controller;
 
 
+import com.you_purchase.backenduser.dto.OrderAddDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
@@ -27,7 +28,7 @@ public class OrderInfoController extends BaseController{
     public
     @ResponseBody
     @ApiOperation(value = "用户新增订单")
-    ArrayList addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
+    OrderAddDTO addOrder(@RequestBody OrderInfoParameter orderInfoParameter){
 
         return orderInfoService.addOrder(orderInfoParameter);
     }

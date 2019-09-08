@@ -24,7 +24,7 @@ public class OrderInfoService extends BaseService {
 
     //用户新增订单（根据库存生成订单，返回失败的商品名）
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ArrayList addOrder(OrderInfoParameter orderInfoParameter) {
+    public OrderAddDTO addOrder(OrderInfoParameter orderInfoParameter) {
         //System.out.println("1");
         ArrayList fails = new ArrayList();
         OrderInfo orderInfo = new OrderInfo();
@@ -94,13 +94,13 @@ public class OrderInfoService extends BaseService {
         System.out.println("6");
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
-            return fails;
+            return new OrderAddDTO(0,fails);
         }
 
         userTagDao.save(userTag);
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
-        return fails;
+        return new OrderAddDTO(totalPrice,fails);
     }
 
     //用户查看不同执行状态的订单

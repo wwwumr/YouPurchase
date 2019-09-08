@@ -19,6 +19,8 @@ public class OrderInfoDTO {
 
     private String OrderNo;
 
+    private String coverPicUrl;
+
     private String storeName;
 
     private String tarPeople;
@@ -42,6 +44,13 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+    public String getCoverPicUrl() {
+        return coverPicUrl;
+    }
+
+    public void setCoverPicUrl(String coverPicUrl) {
+        this.coverPicUrl = coverPicUrl;
+    }
 
     public String getOrderNo() {
         return OrderNo;
