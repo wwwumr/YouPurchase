@@ -9,6 +9,9 @@ var database_version = "2.0";//版本号
 var database_displayname = "MySQLite";
 var database_size = 200000;//-1应该是表示无限制
 var db;
+/**
+ * @description 存储购物陈单向
+ */
 export default class  Database extends Component{
 	componentWillUnmount(){
     if(db){

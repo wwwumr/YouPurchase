@@ -5,10 +5,6 @@ var sqLite = new SQLite();
 var db;
 const {height, width} = Dimensions.get('window');
 import axios from 'axios';
-/**
- * @description HomePage
- * @constructor
- */
 export default class HomePage extends Component{
     constructor(props){
         super(props);
@@ -16,15 +12,9 @@ export default class HomePage extends Component{
             item:{}
         }
     }
-    /**
-     * @description 生命周期函数--在销毁页面的时候关闭数据库
-     */
     compennetDidUnmount(){
         sqLite.close();
       }
-    /**
-     * @description 在app首页进行自动登录检查
-     */
     componentDidMount(){
         db.transaction((tx)=>{
             tx.executeSql("select * from user", [],(tx,results)=>{
@@ -68,9 +58,7 @@ export default class HomePage extends Component{
             console.log(error);
         });
     }
-    /**
-     * @deprecated 生命周期函数--在打开app的时候打开数据库
-     */
+
     componentWillMount(){
         if(!db){
             db = sqLite.open();

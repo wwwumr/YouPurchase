@@ -168,7 +168,12 @@ export default class Upload extends Component {
       });
     }).catch(e => alert(e));
   }
-
+/**
+ * 
+ * @param {*} oldW 宽度
+ * @param {*} oldH 高度
+ * @param {*} newW 新的宽度
+ */
   scaledHeight(oldW, oldH, newW) {
     return (oldH / oldW) * newW;
   }

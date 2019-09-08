@@ -49,7 +49,7 @@ export default class FindPassword extends Component{
       ToastAndroid.show('请输入合法的手机号',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.0.100:8080/user/getMsg',{params:{phone:phone}})
+    axios.get('http://192.168.1.19:8080/user/pwdSms',{params:{phone:phone}})
     .then((response)=> {
       responseData = response.data;
       console.log(responseData);
@@ -59,7 +59,7 @@ export default class FindPassword extends Component{
         ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
       }
       else
-        ToastAndroid.show('该手机号已被使用',ToastAndroid.SHORT);
+        ToastAndroid.show('发送失败',ToastAndroid.SHORT);
     })
     .catch(function (error) {
       console.log(error);
@@ -67,9 +67,9 @@ export default class FindPassword extends Component{
     });
   }
   /**
-   * @description 用户注册
+   * @description 用户找回密码
    */
-  registry(){
+  FindPassword(){
     var t1 = new Date().getTime()/1000;
     console.log(t1);
     var phone = this.phoneNumber();
@@ -93,13 +93,17 @@ export default class FindPassword extends Component{
       ToastAndroid.show('密码与确认密码不一致',ToastAndroid.SHORT);
       return;
     }
+    if(this.state.password.length>12||this.state.password<6){
+      ToastAndroid.show('新密码长度应为6--12位',ToastAndroid.SHORT);
+      return;
+    }
     if(this.state.responseData == {}){
       ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT)
       return;
     }
-    axios.post('http://192.168.0.100:8080/user/checkMsg',{phone:phone,
-      password:this.state.password,
-      msgId:this.state.responseData.msgId,code:this.state.yanzhengma,time:t1})
+    axios.get('http://192.168.1.19:8080/user/pwdFind',{params:{phone:phone,
+      newPwd:this.state.password,
+      msgId:this.state.responseData.msgId,code:this.state.yanzhengma}})
     .then((response)=> {
       var responsedata = response.data;
       console.log(responsedata);
@@ -107,9 +111,9 @@ export default class FindPassword extends Component{
         ToastAndroid.show('验证操作超时',ToastAndroid.SHORT);
       else if(responsedata==-403)
         ToastAndroid.show('验证码错误',ToastAndroid.SHORT);
-      else {
+      else if(responsedata == 200) {
         this.setState({responseData:{}})
-        ToastAndroid.show('成功注册',ToastAndroid.SHORT);
+        ToastAndroid.show('成功重置密码',ToastAndroid.SHORT);
         this.props.navigation.navigate('Login')
       }
     })
@@ -222,7 +226,7 @@ export default class FindPassword extends Component{
             </View>    
             <View style={{marginLeft:30,marginRight:30,marginTop:10}}>
               <View style={{marginBottom:30}}>
-                <Button onPress={this.registry.bind(this)}
+                <Button onPress={this.FindPassword.bind(this)}
                   type="ghost"
                 >重置密码
                 </Button>

@@ -1,13 +1,18 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, View, Dimensions,Alert,Linking,ImageBackground,ToastAndroid} from 'react-native';
-import {Image,Header,Icon,Text,Button} from 'react-native-elements'
+import {Image,Header,Icon,Text,Button,Divider} from 'react-native-elements'
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import { callExpression } from '@babel/types';
 import {
   Modal,
   Provider,InputItem
 } from '@ant-design/react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+const provinces= ['北京市','天津市','上海市','重庆市','河北省','山西省','辽宁省',
+'吉林省','黑龙江省','江苏省','浙江省','安徽省','福建省','江西省','山东省','河南省',
+'湖北省','湖南省','广东省','海南省','四川省','贵州省','云南省','陕西省','甘肃省',
+'青海省','台湾省','内蒙古自治区','广西壮族自治区','西藏自治区','宁夏回族自治区',
+'新疆维吾尔自治区','香港特别行政区','澳门特别行政区'];
 var EARTH_RADIUS = 6378137.0;    //单位M
 var PI = Math.PI;
 /**
@@ -66,20 +71,29 @@ export default class SelectAddress extends Component {
           carrierAddress:{},
           size:-1,
           text:'',
+          province:'上海市',
+          isVisable2:false,
           markers:{latitude:31.204429834743763,longitude:121.44134695857332},
           center:{latitude:31.204429834743763,longitude:121.44134695857332}
         };
     }
     /**
+   * @description 关闭popup事件
+   */
+  onClose2(){
+    this.setState({isVisable2:false});
+}
+    /**
      * @description 点击跳转到可能地址页面
      */
   submit(){
         var text = this.state.text;
+        var province = this.state.province;
         if(text == ''||text == undefined ||text == null){
           ToastAndroid.show('请输入地址名',ToastAndroid.SHORT);
           return;
         }
-        Geolocation.geocode('上海市',text)
+        Geolocation.geocode(province,text)
             .then(res => {
                 console.log(res)
                 if(res.errcode ==-1){
@@ -131,9 +145,17 @@ export default class SelectAddress extends Component {
         </View>
         </View>
         <View style={{width:width,backgroundColor:'#F8F8F8',flexDirection:'row',height:height*0.09}}>
-        <View style={{marginLeft:10,
+        <TouchableOpacity onPress={()=>{
+              this.setState({isVisable2:true})
+            }}>
+          <View style={{borderColor:'#D0D0D0',width:width*0.2,borderWidth:0.7,borderRadius:8,marginLeft:10,height:40,justifyContent:'center',alignItems:'center'}}>
+            
+            <Text ellipsizeMode={'tail'} style={{fontSize:18}} numberOfLines={1}>{this.state.province}</Text>
+            
+          </View></TouchableOpacity>
+        <View style={{marginLeft:5,
           marginRight:5,
-          width:width*0.8,
+          width:width*0.6+5,
           backgroundColor:'#ffffff',
           borderRadius:20}}
         >
@@ -201,7 +223,28 @@ export default class SelectAddress extends Component {
           <Marker location={markers}/>
         </MapView>
       </View>
-     
+      <View style={{height:height*0.5}}>
+      <Modal
+          transparent={false}
+          visible={this.state.isVisable2}
+          animationType="slide-up"
+          onClose={this.onClose2}
+        >
+        <ScrollView>
+        {
+          provinces.map((item,i)=>{
+            return(
+              <View key={i}>
+                <TouchableOpacity onPress={()=>{
+                  this.setState({province:item,isVisable2:false});
+              }}>
+              <Text style={{ textAlign: 'center',fontSize:15 }}>{item}</Text></TouchableOpacity>
+              <Divider style={{ marginRight:20,marginLeft:20,backgroundColor: '#f0f0f0',height:0.7,marginTop:5,marginBottom:5 }}/></View>
+              );
+            })
+          }
+          </ScrollView>
+        </Modal></View>
       </View>
       </Provider>
     );
