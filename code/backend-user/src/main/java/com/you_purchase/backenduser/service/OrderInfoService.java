@@ -85,13 +85,19 @@ public class OrderInfoService extends BaseService {
         if(tagFlag){
             userTagDao.save(userTag);
         }
+        OrderAddDTO orderAddDTO = new OrderAddDTO();
+        orderAddDTO.setFails(fails);
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
-            return new OrderAddDTO(0,fails);
+            orderAddDTO.setTotalPrice(0);
+            orderAddDTO.setOrderInfoId(-1);
+            return orderAddDTO;
         }
+        orderAddDTO.setOrderInfoId(orderInfoId);
+        orderAddDTO.setTotalPrice(totalPrice);
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
-        return new OrderAddDTO(totalPrice,fails);
+        return orderAddDTO;
     }
 
     //用户查看不同执行状态的订单
