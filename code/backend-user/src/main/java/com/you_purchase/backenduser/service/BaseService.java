@@ -53,12 +53,37 @@ public class BaseService {
     @Autowired
     protected UserTagDao userTagDao;
 
-
     //消息队列推送消息
     @Autowired
     protected Sender sender;
 
 
+    //用户标签修改
+    protected boolean tagModify(int amount,UserTag userTag,String commodityClass){
+        if(commodityClass.equals(userTag.getType1()) || commodityClass.equals(userTag.getType2()) ||
+                commodityClass.equals(userTag.getType3()) || commodityClass.equals(userTag.getType4())){
+            return false;
+        }
+        if(amount>=5){
+            userTag.setType1(commodityClass);
+        }
+        if(amount ==1){
+            userTag.setType4(commodityClass);
+        }
+        if(amount>1 && amount<4){
+            userTag.setType3(commodityClass);
+        }
+        if(amount == 4){
+            userTag.setType2(commodityClass);
+        }
+        return true;
+    }
+
+
+
+
+
+    //用户商品推荐
 
     //日期转换String-Date
     protected Date strToDate(String sDate){

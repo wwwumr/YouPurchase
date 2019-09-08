@@ -54,24 +54,14 @@ public class OrderInfoService extends BaseService {
 
         UserTag userTag = userTagDao.findByUserTagId(user.getUserTagId());
         long orderInfoId = orderInfo.getOrderInfoId();
+        boolean tagFlag = false;
         //System.out.println("获取订单id");
         //System.out.println(orderInfoId);
         //System.out.println("订单"+orderInfoId);
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
             Integer amount = s.getAmount();
-            if(amount>=5){
-                userTag.setType1(commodity.getCommodityClass());
-            }
-            if(amount ==1){
-                userTag.setType4(commodity.getCommodityClass());
-            }
-            if(amount>1 && amount<4){
-                userTag.setType3(commodity.getCommodityClass());
-            }
-            if(amount == 4){
-                userTag.setType2(commodity.getCommodityClass());
-            }
+            tagFlag = tagModify(amount,userTag,commodity.getCommodityClass());
             //检查商品库存，成功则记录并加入总价格，失败则将失败的加入fails返回给前端
             if (commodity.getRemaining() >= amount) {
                 OrderItem orderItem = new OrderItem();
@@ -96,8 +86,9 @@ public class OrderInfoService extends BaseService {
             orderInfoDao.delete(orderInfo);
             return new OrderAddDTO(0,fails);
         }
-
+        if(tagFlag){
         userTagDao.save(userTag);
+        }
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
         return new OrderAddDTO(totalPrice,fails);
