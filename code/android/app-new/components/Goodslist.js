@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SideMenu from 'react-native-side-menu'
 import LeftMenu from './test/Test1';
-import { Card,List,Provider,Modal } from '@ant-design/react-native';
+import { Card,List,Provider,Modal,InputItem } from '@ant-design/react-native';
 import ClassMenu from './Menu2';
 import styles from 'react-native-side-menu/build/styles';
 let {width,height} = Dimensions.get('window');
@@ -107,16 +107,12 @@ export default class Goodslist extends Component{
     })
     this.setState({itemlist:list});
   }
-  /**
-   * @description 跳转到GoodsDestail页面
-   */
   handler(){
-    this.props.navigation.dispatch(StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'GoodsDetail' })
-      ],
-    }))
+    var text = this.state.text;
+    var templist = list.filter((item)=> {
+      return item.commodityInfo.toString().toLowerCase().indexOf(text) > -1;
+    });
+    this.setState({itemlist:templist});
   }
   /**
    * @description 跳转到商店评价页面
@@ -177,6 +173,45 @@ export default class Goodslist extends Component{
             <Text style={{fontSize:20}}>商品列表</Text>
           </View>
         </View>
+        </View>
+        <View style={{width:width,backgroundColor:'#F8F8F8',flexDirection:'row'}}>
+        <View style={{marginLeft:10,
+          marginRight:5,
+          width:width*0.8,
+          backgroundColor:'#ffffff',
+          borderRadius:20}}
+        >
+          <InputItem
+            clear
+            type="text"
+            value={this.state.text}
+              onChange={value => {
+                this.setState({
+                  text: value,
+                });
+              }}
+            placeholder="商品名"
+          >
+            <Icon
+              name="search"
+              color={"#D0D0D0"}
+              size={40}
+            />
+          </InputItem>
+        </View>
+        <TouchableOpacity onPress={this.handler.bind(this)}>
+          <View style={{borderRadius:5,
+            backgroundColor:'#ffffff', 
+            borderColor:"#D0D0D0",
+            borderWidth:1}}
+          >
+            <Icon
+              name="search"
+              color={'#D0D0D0'}
+              size={40}
+            />
+          </View>
+        </TouchableOpacity>    
         </View>
         <View style={{marginLeft:20,flexDirection:'row'}}>
           <ClassMenu classlist={this.state.classlist}/>

@@ -21,7 +21,7 @@ export default class PersonPage extends Component{
       sex:'',
       detail:{},
       image: null,
-      uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId
+      uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId+"&v="+Math.random()
     }
   }
   /**
@@ -50,7 +50,7 @@ export default class PersonPage extends Component{
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
-      this.setState({detail:responseData})
+      this.setState({detail:responseData,uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId+"&v="+Math.random()})
     })
     .catch(function (error) {
       ToastAndroid.show('网络异常',ToastAndroid.SHORT);
