@@ -3,6 +3,7 @@ package com.sjtu.adminanddealer.service;
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
 import com.sjtu.adminanddealer.DTO.CommodityShortageDTO;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.parameter.CommodityCheckParameter;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import org.springframework.web.multipart.MultipartFile;
@@ -149,4 +150,5 @@ public interface CommodityService {
      */
     void deleteCommodityClass(Long commodityClassId);
 
+    List<CommodityClass> getAllCommodityClass();
 }

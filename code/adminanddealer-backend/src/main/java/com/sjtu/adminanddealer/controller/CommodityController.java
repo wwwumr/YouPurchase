@@ -2,6 +2,7 @@ package com.sjtu.adminanddealer.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sjtu.adminanddealer.DTO.CommodityDTO;
+import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.parameter.CommodityParameter;
 import com.sjtu.adminanddealer.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -219,13 +220,13 @@ public class CommodityController {
     }
 
     /**
-     * 经销商新增商品类别
+     * 管理员新增商品类别
      *
      * @param classInfo 商品类别名
      * @param session   session
      * @return 放回新生成的商品类别id
      */
-    @PostMapping("/api/d/commodities/classes")
+    @PostMapping("/api/a/commodities/classes")
     public Long AddNewClass(@RequestParam("classInfo") String classInfo, HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId == null) {
@@ -235,28 +236,38 @@ public class CommodityController {
     }
 
     /**
-     * 经销商通过商品类别id修改商品类别信息
+     * 管理员通过商品类别id修改商品类别信息
      *
      * @param commodityClassId 商品类别id
      * @param newClassInfo     商品类别信息
      * @return UPDATE
      */
-    @PutMapping("/api/d/commodities/classes")
+    @PutMapping("/api/a/commodities/classes")
     public String updateClass(@RequestParam("commodityClassId") Long commodityClassId, @RequestParam("classInfo") String newClassInfo) {
         commodityService.updateCommodityClass(commodityClassId, newClassInfo);
         return "UPDATE";
     }
 
     /**
-     * 经销商删除商品类别信息
+     * 管理员删除商品类别信息
      *
      * @param commodityClassId 商品类别id
      * @return DELETE
      */
-    @DeleteMapping("/api/d/commodities/classes")
+    @DeleteMapping("/api/a/commodities/classes")
     public String deleteClass(@RequestParam("commodityClassId") Long commodityClassId) {
         commodityService.deleteCommodityClass(commodityClassId);
         return "DELETE";
+    }
+
+    /**
+     * 管理员，经销商获取全部的商品类别信息
+     *
+     * @return 所有的商品类别信息
+     */
+    @GetMapping("/api/ad/commodities/classes/all")
+    public List<CommodityClass> getAllCommodityClasses() {
+        return commodityService.getAllCommodityClass();
     }
 
 

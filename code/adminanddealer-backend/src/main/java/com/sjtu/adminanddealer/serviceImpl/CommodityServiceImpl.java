@@ -264,4 +264,9 @@ public class CommodityServiceImpl implements CommodityService {
     public void deleteCommodityClass(Long commodityClassId) {
         commodityDao.deleteCommodityClass(commodityClassId);
     }
+
+    @Override
+    public List<CommodityClass> getAllCommodityClass() {
+        return commodityDao.getAllCommodityClass();
+    }
 }

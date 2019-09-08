@@ -100,4 +100,9 @@ public class CommodityDaoImpl implements CommodityDao {
     public void deleteCommodityClass(Long commodityClassId) {
         commodityClassRepository.deleteCommodityClassByCommodityClassId(commodityClassId);
     }
+
+    @Override
+    public List<CommodityClass> getAllCommodityClass() {
+        return commodityClassRepository.findAll();
+    }
 }
