@@ -227,6 +227,7 @@ public class CommodityController {
      */
     @PostMapping("/api/a/commodities/classes")
     public Long AddNewClass(@RequestBody String classInfo) {
+        System.out.println(classInfo);
         return commodityService.addNewCommodityClass(classInfo);
     }
 

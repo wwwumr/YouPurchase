@@ -60,8 +60,21 @@ public class StoreServiceImpl implements StoreService {
         storeArrayList = storeDao.getAllStores();
         for (Store s : storeArrayList
         ) {
-            StoreDTO storeDTO = new StoreDTO(s);
-
+//            StoreDTO storeDTO = new StoreDTO(s);
+            StoreDTO storeDTO = new StoreDTO();
+            storeDTO.setKey(s.getStoreId());
+            storeDTO.setStoreName(s.getStoreName());
+            storeDTO.setAddress(s.getAddress());
+            storeDTO.setCoverPicUrl(s.getCoverPicUrl());
+            storeDTO.setContact(s.getContact());
+            storeDTO.setStartHour(dateFormat.format(s.getOpenHourStart()));
+            storeDTO.setEndHour(dateFormat.format(s.getOpenHourEnd()));
+            if (s.getDealer() != null) {
+                storeDTO.setDealerId(s.getDealer().getDealerId().intValue());
+                storeDTO.setDealerName(s.getDealer().getUserName());
+            }
+            storeDTO.setDeliveryType(s.getDeliveryType());
+            storeDTO.setDeliveryRange(s.getDeliveryRange());
             storeDTOList.add(storeDTO);
 
         }

@@ -37,7 +37,7 @@ public class AlcoholController {
      * @return 新的酒类的id
      */
     @PostMapping("/api/a/alcohol")
-    public Long add(NewAlcoholParameter parameter) {
+    public Long add(@RequestBody NewAlcoholParameter parameter) {
         return alcoholService.add(parameter);
     }
 
@@ -48,7 +48,7 @@ public class AlcoholController {
      * @return DELETE
      */
     @DeleteMapping("/api/a/alcohol")
-    public String delete(@RequestParam("id") Long alcoholId) {
+    public String delete(@RequestBody Long alcoholId) {
         alcoholService.deleteById(alcoholId);
         return "DELETE";
     }

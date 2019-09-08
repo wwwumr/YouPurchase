@@ -54,7 +54,7 @@ public class StoreDTO {
     }
 
     public StoreDTO(Store store) {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
         this.key = store.getStoreId();
         this.storeName = store.getStoreName();
         this.address = store.getAddress();
