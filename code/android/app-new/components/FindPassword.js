@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Input,Image,Header,Text,Icon } from 'react-native-elements';
 import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,Dimensions,ImageBackground,ToastAndroid} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
-import { InputItem,Button } from '@ant-design/react-native';
+import { InputItem,Button, Toast } from '@ant-design/react-native';
 var responseData;
 const {height, width} = Dimensions.get('window');
 /**
@@ -18,7 +18,8 @@ export default class FindPassword extends Component{
       password:'',
       password1:'',
       yanzhengma:'',
-      responseData:{}
+      responseData:{},
+      time:-1
     }
   }
   /**
@@ -42,6 +43,12 @@ export default class FindPassword extends Component{
    * @description 发送验证码
    */
   getMsg(){
+    var t1 = new Date().getTime()/1000;
+    console.log(t1);
+    if(this.state.time!=-1 && t1-this.state.time<300){
+      ToastAndroid.show('请勿在5分钟内重复发验证码',ToastAndroid.SHORT);
+      return;
+    }
     console.log(this.state.phone);
     console.log(this.state.password);
     var phone = this.phoneNumber();
@@ -55,11 +62,11 @@ export default class FindPassword extends Component{
       console.log(responseData);
       
       if(responseData){
-        this.setState({responseData:responseData});
+        this.setState({responseData:responseData,time:responseData.time});
         ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
       }
       else
-        ToastAndroid.show('发送失败',ToastAndroid.SHORT);
+        ToastAndroid.show('不存在该手机号的用户',ToastAndroid.SHORT);
     })
     .catch(function (error) {
       console.log(error);
@@ -73,6 +80,14 @@ export default class FindPassword extends Component{
     var t1 = new Date().getTime()/1000;
     console.log(t1);
     var phone = this.phoneNumber();
+    if(this.state.time == -1){
+      ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT);
+      return;
+    }
+    if(t1-this.state.time>300){
+      ToastAndroid.show('验证超时',ToastAndroid.SHORT);
+      return;
+    }
     if(phone=='-1') {
       ToastAndroid.show('请输入合法手机号',ToastAndroid.SHORT);
       return;
@@ -97,24 +112,18 @@ export default class FindPassword extends Component{
       ToastAndroid.show('新密码长度应为6--12位',ToastAndroid.SHORT);
       return;
     }
-    if(this.state.responseData == {}){
-      ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT)
-      return;
-    }
     axios.get('http://192.168.1.19:8080/user/pwdFind',{params:{phone:phone,
       newPwd:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma}})
     .then((response)=> {
       var responsedata = response.data;
       console.log(responsedata);
-      if(responsedata==-402)
-        ToastAndroid.show('验证操作超时',ToastAndroid.SHORT);
-      else if(responsedata==-403)
-        ToastAndroid.show('验证码错误',ToastAndroid.SHORT);
-      else if(responsedata == 200) {
+      if(responsedata == 200) {
         this.setState({responseData:{}})
         ToastAndroid.show('成功重置密码',ToastAndroid.SHORT);
         this.props.navigation.navigate('Login')
+      }else{
+        ToastAndroid.show('修改失败,请五分钟后重试',ToastAndroid.SHORT);
       }
     })
     .catch(function (error) {

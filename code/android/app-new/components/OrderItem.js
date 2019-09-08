@@ -42,10 +42,11 @@ ratingCompleted(rating) {
       if(this.props.status!=0)
       this.props.navigation.navigate('OrderDetail',{orderStatus:this.props.orderStatus,leftIcon:this.props.leftIcon,
         storeName:this.props.storeName,orderItemList:this.props.orderItemList,judged:this.props.judged,
-      totalPrice:this.props.totalPrice,tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,
-      tarAddress:this.props.tarAddress,createData:this.props.time,
-      tarLongitude:this.props.tarLongitude,tarLatitude:this.props.tarLatitude,orderNo:this.props.orderNo,
-      orderInfoId:this.props.orderInfoId,storeId:this.props.storeId,userId:this.props.userId,mapjudged:this.props.mapjudged
+        totalPrice:this.props.totalPrice,tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,
+        tarAddress:this.props.tarAddress,createData:this.props.time,
+        tarLongitude:this.props.tarLongitude,tarLatitude:this.props.tarLatitude,orderNo:this.props.orderNo,
+        orderInfoId:this.props.orderInfoId,storeId:this.props.storeId,userId:this.props.userId,mapjudged:this.props.mapjudged,
+        uri:this.props.coverPicUrl,
     });
     else{
       var orderItemList = this.props.orderItemList;
@@ -60,7 +61,7 @@ ratingCompleted(rating) {
         templist.push(tempitem);
       }
       this.props.navigation.navigate('OrderOk2',{tarPeople:this.props.tarPeople,tarPhone:this.props.tarPhone,orderNo:this.props.orderNo,createData:this.props.time,
-        orderStatus:this.props.orderStatus,userId:this.props.userId,
+        orderStatus:this.props.orderStatus,userId:this.props.userId,uri:this.props.coverPicUrl,
         tarAddress:this.props.tarAddress,orderItemlist:templist,shopName:this.props.storeName,total:this.props.totalPrice,orderInfoId:this.props.orderInfoId});
     }
   }
@@ -72,13 +73,14 @@ ratingCompleted(rating) {
     this.setState({yes:yes});
   }
     render(){
+      var uri = this.props.coverPicUrl;
       return(
   <View style={{marginTop:20,marginBottom:10,backgroundColor:"#ffffff",borderWidth:1,borderColor:"#f0f0f0"}}>
     
       <View style={{marginLeft:10,marginRight:10}}>
     <ListItem
     leftIcon={
-      <Image source={require("../images/dianpu.jpg")} style={{width:30,height:30}}/>
+      <Image source={{uri:uri}} style={{width:30,height:30}}/>
     }
     rightSubtitle={<View><Text style={{fontSize:13,color:'#ffffff'}}>123   </Text></View>}
     title={<Text style={{fontSize:15}}>{this.props.storeName}</Text>}

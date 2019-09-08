@@ -4,7 +4,9 @@ package com.you_purchase.backenduser.service;
 import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
+import com.you_purchase.backenduser.dao.UserTagDao;
 import com.you_purchase.backenduser.dto.MsgDTO;
+import com.you_purchase.backenduser.dto.RecDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
 import com.you_purchase.backenduser.entity.User;
 import com.you_purchase.backenduser.entity.UserTag;
@@ -18,7 +20,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -293,8 +297,15 @@ public class UserService extends BaseService{
         return "data:image/jpeg;base64," + Base64.encodeBase64String(data);
     }
 
-
-
-
     //商品推荐
+    public List<RecDTO> UserRec(long userId){
+        User user = userDao.findByUserIdAndValid(userId,true);
+        UserTag userTag = userTagDao.findByUserTagId(user.getUserTagId());
+        List<RecDTO> recDTOS = new ArrayList<>();
+        recDTOS.add(CommodityGet(userTag.getType1()));
+        recDTOS.add(CommodityGet(userTag.getType2()));
+        recDTOS.add(CommodityGet(userTag.getType3()));
+        recDTOS.add(CommodityGet(userTag.getType4()));
+        return recDTOS;
+    }
 }

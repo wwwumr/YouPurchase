@@ -25,7 +25,12 @@ ratingCompleted(rating) {
  * @description 跳转到评价页面
  */
 StoreRating(){
-  this.props.navigation.navigate('StoreGradeShow',{storeId:this.props.storeId,contact:this.props.contact,address:this.props.address,storeName:this.props.storeName,score:this.props.score});
+  this.props.navigation.navigate('StoreGradeShow',{storeId:this.props.storeId,
+    contact:this.props.contact,
+    address:this.props.address,
+    storeName:this.props.storeName,
+    score:this.props.score,
+    coverPicUrl:this.props.coverPicUrl});
 }
 /**
  * @description 显示
@@ -62,12 +67,12 @@ StoreRating(){
           <View style={{backgroundColor:'#ffffff'}}>
           <Card>
             <TouchableOpacity onPress={()=>{
-      this.props.navigation.navigate('Goodslist',{storeId:this.props.storeId,info:this.props.info,userId:this.props.userId})
+      this.props.navigation.navigate('Goodslist',{storeId:this.props.storeId,info:this.props.info,userId:this.props.userId,coverPicUrl:this.props.coverPicUrl})
     }}>
             <Card.Header
               title={<View style={{marginLeft:5}}><Text style={{fontSize:15}}>{this.props.storeName}</Text></View>}
               thumbStyle={{ width: 40, height: 40 }}
-              thumb={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
+              thumb={<Image source={{uri:this.props.coverPicUrl}} style={{width:40,height:40}}/>}
               extra={<View style={{flexDirection:'row-reverse'}}><Text style={{color:"#A0A0A0",fontSize:13}}>{tempdis}</Text></View>}
             /></TouchableOpacity>
             <Card.Body>

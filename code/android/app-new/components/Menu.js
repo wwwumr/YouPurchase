@@ -15,6 +15,13 @@ export default class ItemMenu extends React.PureComponent {
     this._menu = ref;
   };
   /**
+   * @description 点击获取默认的列表
+   */
+  hideMenu = () => {
+    this._menu.hide();
+    DeviceEventEmitter.emit('change');
+  };
+  /**
    * @description 点击距离优先函数
    */
   hideMenu1 = () => {
@@ -52,6 +59,8 @@ export default class ItemMenu extends React.PureComponent {
           </TouchableOpacity>
         </View>}
         >
+          <MenuItem onPress={this.hideMenu}>全部</MenuItem>
+          <MenuDivider />
           <MenuItem onPress={this.hideMenu1}>距离优先</MenuItem>
           <MenuDivider />
           <MenuItem onPress={this.hideMenu2}>销量优先</MenuItem>

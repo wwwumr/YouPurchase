@@ -149,7 +149,7 @@ export default class EditPage extends Component{
    * @param {boolean} cropit 是否可以剪切 
    */
   pickSingleBase64(cropit) {
-    var uri = "http://192.168.1.19:8080/user/getPhoto?userId="+this.props.userId+"&v="+Math.random();
+    var userId = this.props.navigation.state.params.userId;
     ImagePicker.openPicker({
       width: 300,
       height: 300,
@@ -159,8 +159,8 @@ export default class EditPage extends Component{
     }).then((image) => {
       console.log('received base64 image');
       
-      console.log(image.data);
-      axios.post("http://192.168.1.19:8080/user/uploadPhoto",{userId:this.props.userId,photoImage:`data:${image.mime};base64,`+ image.data}).then((response)=>{
+      console.log(`data:${image.mime};base64,`+image.data);
+      axios.post("http://192.168.1.19:8080/user/uploadPhoto",{photoImage:`data:${image.mime};base64,`+ image.data,userId:userId}).then((response)=>{
         tempitem = response.data;
         console.log(tempitem);
         DeviceEventEmitter.emit('editPersonPage');
@@ -169,9 +169,6 @@ export default class EditPage extends Component{
         console.log(error);
         ToastAndroid.show('修改失败',ToastAndroid.SHORT);
       })
-      this.setState({
-        uri:uri
-      });
       
     }).catch(e => alert(e));
   }
