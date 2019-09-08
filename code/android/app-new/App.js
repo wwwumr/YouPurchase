@@ -32,6 +32,7 @@ import EditPhone from './components/EditPhone';
 import FindPassword from './components/FindPassword';
 import SelectAddress from './components/SelectAddress';
 import PossibleAddress from './components/PossibleAddress';
+import RecGoodsDetail from './components/RecGoodsDetail';
 const AppNavigator = createStackNavigator({
   Login: {
     screen: Login,
@@ -142,6 +143,12 @@ const AppNavigator = createStackNavigator({
   },
   FindPassword:{
     screen: FindPassword,
+    navigationOptions:{
+      header:null
+    }
+  },
+  RecGoodsDetail:{
+    screen: RecGoodsDetail,
     navigationOptions:{
       header:null
     }

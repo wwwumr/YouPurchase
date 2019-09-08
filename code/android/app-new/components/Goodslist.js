@@ -247,7 +247,7 @@ export default class Goodslist extends Component{
                   </List.Item>
                   <List.Item>
                     <Text style={{fontSize:15}}>
-                  营业时间: 9:00-21:00</Text>
+                  营业时间: {info.startHour}-{info.endHour}</Text>
                   </List.Item>
                   <List.Item>
                   <Text style={{fontSize:15}}>地址: {info.address}</Text>
