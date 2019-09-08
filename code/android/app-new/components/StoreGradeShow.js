@@ -53,6 +53,7 @@ export default class StoreGradeShow extends Component{
     var address = this.props.navigation.state.params.address;
     var contact = this.props.navigation.state.params.contact;
     var score = this.props.navigation.state.params.score;
+    var uri = this.props.navigation.state.params.coverPicUrl;
     return (    
       <View style={style1.container}>
         <View style={{width:width,height:height*0.09}}>
@@ -83,7 +84,7 @@ export default class StoreGradeShow extends Component{
             borderWidth:1}}
           >
             <ListItem
-              leftAvatar={<Image source={require('../images/dianpu.jpg')} style={{width:60,height:60}}/>}
+              leftAvatar={<Image source={{uri:uri}} style={{width:60,height:60}}/>}
               title={storeName}
               subtitle={<View style={{flexDirection:'row'}}>
                 <Rating readonly imageSize={15} startingValue={score}/>

@@ -17,7 +17,8 @@ export default class Registry extends Component{
       password:'',
       password1:'',
       yanzhengma:'',
-      responseData:{}
+      responseData:{},
+      time:-1
     }
   }
   /**
@@ -44,6 +45,11 @@ export default class Registry extends Component{
    * @description 发送验证码
    */
   getMsg(){
+    var t1 = new Date().getTime()/1000;
+    if(this.state.time!=-1 && t1-this.state.time<300){
+      ToastAndroid.show('请勿在5分钟内重复发验证码',ToastAndroid.SHORT);
+      return;
+    }
     console.log(this.state.phone);
     console.log(this.state.password);
     var phone = this.phoneNumber();
@@ -60,8 +66,8 @@ export default class Registry extends Component{
       var responseData = response.data;
       console.log(responseData);
       
-      if(responseData!={}){
-        this.setState({responseData:responseData});
+      if(responseData){
+        this.setState({responseData:responseData,time:responseData.time});
         ToastAndroid.show('验证码已发送',ToastAndroid.SHORT);
       }
       else
@@ -79,6 +85,14 @@ export default class Registry extends Component{
     var t1 = new Date().getTime()/1000;
     console.log(t1);
     var phone = this.phoneNumber();
+    if(this.state.time == -1){
+      ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT);
+      return;
+    }
+    if(t1-this.state.time>300){
+      ToastAndroid.show('验证超时',ToastAndroid.SHORT);
+      return;
+    }
     if(phone=='-1') {
       ToastAndroid.show('请输入合法手机号',ToastAndroid.SHORT);
       return;
@@ -103,10 +117,6 @@ export default class Registry extends Component{
       ToastAndroid.show('密码与确认密码不一致',ToastAndroid.SHORT);
       return;
     }
-    if(this.state.responseData == {}){
-      ToastAndroid.show('请先发送验证码',ToastAndroid.SHORT)
-      return;
-    }
     axios.post('http://192.168.1.19:8080/user/checkMsg',{phone:phone,
       password:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma,time:t1})
@@ -116,7 +126,7 @@ export default class Registry extends Component{
       if(responsedata==-402)
         ToastAndroid.show('验证操作超时',ToastAndroid.SHORT);
       else if(responsedata==-403)
-        ToastAndroid.show('验证码错误',ToastAndroid.SHORT);
+        ToastAndroid.show('验证失败，请五分钟后重试',ToastAndroid.SHORT);
       else {
         this.setState({responseData:{}})
         ToastAndroid.show('成功注册',ToastAndroid.SHORT);

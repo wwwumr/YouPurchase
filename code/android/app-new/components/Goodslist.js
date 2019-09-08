@@ -153,10 +153,10 @@ export default class Goodslist extends Component{
   render() {
 
     var info =  this.props.navigation.state.params.info;
-    var storeId =  this.props.navigation.state.params.storeId;;
+    var storeId =  this.props.navigation.state.params.storeId;
     var storeName= this.props.navigation.state.params.info.storeName
     const menu=<LeftMenu onSelectMenuItem={this.SelectMenuItemCallBack} classlist={this.state.classlist}/>;
-
+    var coverPicUrl =  this.props.navigation.state.params.coverPicUrl;
     return(
       <Provider>
       <View style={{backgroundColor:'#f8f8f8',height:height}}>
@@ -195,7 +195,7 @@ export default class Goodslist extends Component{
             <Card.Header
               title={<View style={{marginLeft:5}}><Text style={{fontSize:18}}>{storeName}</Text></View>}
               thumbStyle={{ width: 40, height: 40 }}
-              thumb={<Image source={require("../images/dianpu.jpg")}  style={{width:40,height:40} }/>}
+              thumb={<Image source={{uri:coverPicUrl}} style={{width:40,height:40}}/>}
             />
             <Card.Body>
               <View style={{ height: 110}}>

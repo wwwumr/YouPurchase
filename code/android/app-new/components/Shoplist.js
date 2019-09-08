@@ -277,6 +277,7 @@ export default class ShopList extends Component{
                 userId={this.props.userId}
                 info={item.storeDTO}
                 key={item.storeDTO.key}
+                coverPicUrl={item.storeDTO.coverPicUrl}
                 storeName={item.storeDTO.storeName}
                 address={item.storeDTO.address}
                 contact={item.storeDTO.contact}
