@@ -24,7 +24,7 @@ public class OrderInfoService extends BaseService {
 
     //用户新增订单（根据库存生成订单，返回失败的商品名）
     @Transactional(isolation = Isolation.REPEATABLE_READ)
-    public ArrayList addOrder(OrderInfoParameter orderInfoParameter) {
+    public OrderAddDTO addOrder(OrderInfoParameter orderInfoParameter) {
         //System.out.println("1");
         ArrayList fails = new ArrayList();
         OrderInfo orderInfo = new OrderInfo();
@@ -40,11 +40,19 @@ public class OrderInfoService extends BaseService {
         orderInfoDao.save(orderInfo);
 
         //标签检测，没有则生成
+        User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
+        if(user.getUserTagId()<=0){
+            UserTag userTag = new UserTag();
+            userTag.setType4("酒");
+            userTag.setType3("酒");
+            userTag.setType2("酒");
+            userTag.setType1("酒");
+            userTagDao.save(userTag);
+            user.setUserTagId(userTag.getUserTagId());
+            userDao.save(user);
+        }
 
-        double recPrice=0;
-        int recType=0;
-        int n=0;
-
+        UserTag userTag = userTagDao.findByUserTagId(user.getUserTagId());
         long orderInfoId = orderInfo.getOrderInfoId();
         //System.out.println("获取订单id");
         //System.out.println(orderInfoId);
@@ -52,8 +60,18 @@ public class OrderInfoService extends BaseService {
         for (OrderListDTO s : orderInfoParameter.getOrderItemList()) {
             Commodity commodity = commodityDao.getCommodityByCommodityId(s.getCommodityId());
             Integer amount = s.getAmount();
-            n++;
-            recPrice = (recPrice+commodity.getPrice())/n;
+            if(amount>=5){
+                userTag.setType1(commodity.getCommodityClass());
+            }
+            if(amount ==1){
+                userTag.setType4(commodity.getCommodityClass());
+            }
+            if(amount>1 && amount<4){
+                userTag.setType3(commodity.getCommodityClass());
+            }
+            if(amount == 4){
+                userTag.setType2(commodity.getCommodityClass());
+            }
             //检查商品库存，成功则记录并加入总价格，失败则将失败的加入fails返回给前端
             if (commodity.getRemaining() >= amount) {
                 OrderItem orderItem = new OrderItem();
@@ -72,16 +90,17 @@ public class OrderInfoService extends BaseService {
             }
         }
 
-        User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
+
         System.out.println("6");
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
-            return fails;
+            return new OrderAddDTO(0,fails);
         }
+
+        userTagDao.save(userTag);
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
-
-        return fails;
+        return new OrderAddDTO(totalPrice,fails);
     }
 
     //用户查看不同执行状态的订单
