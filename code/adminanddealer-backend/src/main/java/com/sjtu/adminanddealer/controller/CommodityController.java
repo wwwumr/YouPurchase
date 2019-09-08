@@ -223,16 +223,11 @@ public class CommodityController {
      * 管理员新增商品类别
      *
      * @param classInfo 商品类别名
-     * @param session   session
      * @return 放回新生成的商品类别id
      */
     @PostMapping("/api/a/commodities/classes")
-    public Long AddNewClass(@RequestBody String classInfo, HttpSession session) {
-        Long storeId = (Long) session.getAttribute("storeId");
-        if (storeId == null) {
-            return -1L;
-        }
-        return commodityService.addNewCommodityClass(classInfo, storeId);
+    public Long AddNewClass(@RequestBody String classInfo) {
+        return commodityService.addNewCommodityClass(classInfo);
     }
 
     /**

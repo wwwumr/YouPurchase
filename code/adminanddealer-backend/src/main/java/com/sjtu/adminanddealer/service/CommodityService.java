@@ -127,13 +127,12 @@ public interface CommodityService {
     List<String> getCommodityClassInStore(Long storeId);
 
     /**
-     * 店铺中新增商品类别
+     * 管理员新增商品类别
      *
      * @param classInfo 新增的商品类别信息
-     * @param storeId   店铺id
      * @return 新建商品类别的id
      */
-    Long addNewCommodityClass(String classInfo, Long storeId);
+    Long addNewCommodityClass(String classInfo);
 
     /**
      * 修改商品类别的信息

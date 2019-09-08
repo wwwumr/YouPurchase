@@ -246,7 +246,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public Long addNewCommodityClass(String classInfo, Long storeId) {
+    public Long addNewCommodityClass(String classInfo) {
         CommodityClass commodityClass = new CommodityClass();
         commodityClass.setClassInfo(classInfo);
         commodityDao.addNewCommodityClass(commodityClass);
