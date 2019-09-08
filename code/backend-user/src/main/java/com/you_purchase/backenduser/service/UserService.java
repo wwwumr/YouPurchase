@@ -88,10 +88,22 @@ public class UserService extends BaseService{
         return 403;
     }
 
-    //用户修改手机号码
+    //用户修改手机号码(ok)
     public long PhoneModify(PhoneParameter phoneParameter){
-        User user = userDao.findByUserIdAndValid(phoneParameter.getUserId(),true);
+        //System.out.println(phoneParameter.getUserId());
         Message message = smsDao.findByMessageIdAndAndValid(phoneParameter.getMsgId(),true);
+        if(message == null){
+            return 404;
+        }
+        String phone = message.getPhone();
+        if(!phoneParameter.getPhone().equals(phone)){
+            //手机号不对
+            return 406;
+        }
+        User user = userDao.findByUserIdAndValid(phoneParameter.getUserId(),true);
+        if(user == null){
+            return 405;
+        }
         if(message.getCode().equals(phoneParameter.getCode())){
             user.setPhone(phoneParameter.getPhone());
             userDao.save(user);
@@ -196,10 +208,22 @@ public class UserService extends BaseService{
     }
 
 
-    //用户找回密码
+    //用户找回密码（ok）
     public long pwdFind(String  phone,String newPwd,long msgId,String code){
-        User user = userDao.findByPhoneAndValid(phone,true);
         Message msg = smsDao.findByMessageIdAndAndValid(msgId,true);
+        if(msg==null){
+            return 404;
+        }
+        if(!phone.equals(msg.getPhone())){
+            //手机号不对
+            return 406;
+        }
+        User user = userDao.findByPhoneAndValid(msg.getPhone(),true);
+        if(user == null){
+            //不存在该用户
+            return 405;
+        }
+
         if(msg.getCode().equals(code)){
             user.setPassword(newPwd);
             userDao.save(user);
@@ -210,10 +234,19 @@ public class UserService extends BaseService{
         return 403;
     }
 
-    //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用
+    //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用(ok)
     public long SmsRegister(SmsParameter smsParameter){
-        //System.out.println("1");
+        //System.out.println(smsParameter.getMsgId());
         Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
+        if(msg == null){
+            //验证码失效
+            return 404;
+        }
+        String phone = msg.getPhone();
+        if(!smsParameter.getPhone().equals(phone)){
+            //手机号不对
+            return 406;
+        }
      //System.out.println("开始验证");
      //System.out.println(msg.getCode());
      if(!msg.getCode().equals(smsParameter.getCode())){
@@ -230,7 +263,7 @@ public class UserService extends BaseService{
          smsDao.save(msg);
          return -402;
      }
-     //System.out.println("2");
+     System.out.println("2");
      msg.setValid(false);
      smsDao.save(msg);
 
@@ -247,7 +280,7 @@ public class UserService extends BaseService{
      User user =new User();
      user.setUserTagId(recId);
      System.out.println("4");
-     user.setPhone(smsParameter.getPhone());
+     user.setPhone(phone);
      user.setPassword(smsParameter.getPassword());
      user.setValid(true);
      user.setLongitude(0);
