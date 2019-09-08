@@ -320,6 +320,7 @@ orderStatus4(){
         tarPhone={item.tarPhone}
         tarAddress={item.tarAddress}
         orderInfoId={item.orderInfoId}
+        coverPicUrl={item.coverPicUrl}
       />
     ))
   }</View>

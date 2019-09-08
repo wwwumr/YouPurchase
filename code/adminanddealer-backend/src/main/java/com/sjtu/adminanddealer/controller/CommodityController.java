@@ -227,7 +227,7 @@ public class CommodityController {
      * @return 放回新生成的商品类别id
      */
     @PostMapping("/api/a/commodities/classes")
-    public Long AddNewClass(@RequestParam("classInfo") String classInfo, HttpSession session) {
+    public Long AddNewClass(@RequestBody String classInfo, HttpSession session) {
         Long storeId = (Long) session.getAttribute("storeId");
         if (storeId == null) {
             return -1L;
@@ -255,7 +255,7 @@ public class CommodityController {
      * @return DELETE
      */
     @DeleteMapping("/api/a/commodities/classes")
-    public String deleteClass(@RequestParam("commodityClassId") Long commodityClassId) {
+    public String deleteClass(@RequestBody Long commodityClassId) {
         commodityService.deleteCommodityClass(commodityClassId);
         return "DELETE";
     }

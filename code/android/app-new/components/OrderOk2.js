@@ -38,6 +38,7 @@ export default class OrderOk2 extends Component{
         var address=this.props.navigation.state.params.tarAddress;
         var phone = this.props.navigation.state.params.tarPhone;
         var name = this.props.navigation.state.params.tarPeople;
+        var uri = this.props.navigation.state.params.uri;
         console.log(orderItemlist)
         this.setState({
             orderItemlist:orderItemlist,
@@ -47,7 +48,8 @@ export default class OrderOk2 extends Component{
             name:name,
             address:address,
             phone:phone,
-            sex:''
+            sex:'',
+            uri:uri
         })
     }
     /**
@@ -167,7 +169,7 @@ export default class OrderOk2 extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={require("../images/dianpu.jpg")} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:this.state.uri}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{this.state.shopName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   

@@ -138,6 +138,7 @@ export default class OrderDetail extends Component{
       var createData = this.props.navigation.state.params.createData
       var mapjudged = this.props.navigation.state.params.mapjudged
       var orderNo = this.props.navigation.state.params.orderNo;
+      var uri = this.props.navigation.state.params.uri;
       return(
         <Provider>
           <View style={{backgroundColor:"#F8F8F8"}}> 
@@ -225,7 +226,7 @@ export default class OrderDetail extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={require("../images/dianpu.jpg")} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:uri}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{storeName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   

@@ -50,35 +50,23 @@ def gen_commodity():
 # INSERT INTO `you_purchase`.`commodity_class`(`commodity_class_id`, `class_info`, `store_id`) VALUES (366, '水果', 124);
 # INSERT INTO `you_purchase`.`store_commodity`(`store_id`, `commodity_id`) VALUES (124, 6);
 
-    f_gen_commodity = open("gen_commodity.sql", "w")
-    f_gen_commodity_class = codecs.open("gen_commodity_class.sql", "w", "utf-8")
+    commodityClass = ["蔬菜","水果","酒","零食","日用","玩具","衣物","电子产品","化妆品","母婴用品"]
+    f_gen_commodity = codecs.open("gen_commodity.sql", "w", "utf-8")
     f_gen_store_commodity = open("gen_store_commodity.sql", "w")
-    f_gen_commodity.write("INSERT INTO `you_purchase`.`commodity`(`commodity_id`, `commodity_cover_pic_url`, `commodity_info`, `inventory`, `on_shelves`, `price`, `remaining`, `commodity_class_id`) VALUES ")
-    f_gen_commodity_class.write("INSERT INTO `you_purchase`.`commodity_class`(`commodity_class_id`, `class_info`, `store_id`) VALUES ")
+    f_gen_commodity.write("INSERT INTO `you_purchase`.`commodity`(`commodity_id`, `commodity_cover_pic_url`, `commodity_info`, `inventory`, `on_shelves`, `price`, `remaining`, `commodity_class`) VALUES ")
     f_gen_store_commodity.write("INSERT INTO `you_purchase`.`store_commodity`(`store_id`, `commodity_id`) VALUES ")
-    for j in list(range(1000)):
-        storeId = 30000 + j
-        for k in list(range(5)):
-            commodity_class_id = 40000 + j * 5 + k
-            if k != 4:
-                f_gen_commodity_class.write("(" + str(commodity_class_id) + ", 'commodityClass" + str(k) + "', " + str(storeId) + ") , ")
-            if j != 999 and k == 4:
-                f_gen_commodity_class.write("(" + str(commodity_class_id) + ", '其它', " + str(storeId) + ") , ")
-            if j == 999 and k == 4:
-                f_gen_commodity_class.write("(" + str(commodity_class_id) + ", '其它', " + str(storeId) + ");")
-
 
     for i in range(3000):
         commodity_id = 10000 + i
         inventory = random.randint(10,100)
         price = random.randint(1, 300)
-        commodity_class_id1 = 40000 + i // 3
+        commodity_class = random.sample(commodityClass, 1)
         store_id = i // 3 + 30000
         if i < 2999:
-            f_gen_commodity.write("(" + str(commodity_id) + ", 'image/defaultCommodityPic.png', 'commodity_name_" + str(commodity_id) + "', " + str(inventory) + ", true, " + str(price) + ", " + str(inventory) + ", " + str(commodity_class_id1) + ") , " )
+            f_gen_commodity.write("(" + str(commodity_id) + ", 'image/defaultCommodityPic.png', 'commodity_name_" + str(commodity_id) + "', " + str(inventory) + ", true, " + str(price) + ", " + str(inventory) + ", '" + str(commodity_class[0]) + "') , " )
             f_gen_store_commodity.write("(" + str(store_id) + ", " + str(commodity_id) + "), ")
         else:
-            f_gen_commodity.write("(" + str(commodity_id) + ", 'image/defaultCommodityPic.png', 'commodity_name_" + str(commodity_id) + "', " + str(inventory) + ", true, " + str(price) + ", " + str(inventory) + ", " + str(commodity_class_id1) + ") ;" )
+            f_gen_commodity.write("(" + str(commodity_id) + ", 'image/defaultCommodityPic.png', 'commodity_name_" + str(commodity_id) + "', " + str(inventory) + ", true, " + str(price) + ", " + str(inventory) + ", '" + str(commodity_class[0]) + "') ;" )
             f_gen_store_commodity.write("(" + str(store_id) + ", " + str(commodity_id) + "); ")
     f_gen_commodity.close()
     f_gen_commodity_class.close()
@@ -130,8 +118,8 @@ def gen_total_score():
 '''
 需要生成的数据,取消该行注释
 '''
-generate_store_and_dealer()
-generate_longitude_and_latitude()
+# generate_store_and_dealer()
+# generate_longitude_and_latitude()
 gen_commodity()
-gen_order()
-gen_total_score()
+# gen_order()
+# gen_total_score()
