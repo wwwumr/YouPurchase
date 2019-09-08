@@ -81,13 +81,13 @@ public class OrderInfoService extends BaseService {
         }
 
 
-        System.out.println("6");
+        //System.out.println("6");
+        if(tagFlag){
+            userTagDao.save(userTag);
+        }
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
             return new OrderAddDTO(0,fails);
-        }
-        if(tagFlag){
-        userTagDao.save(userTag);
         }
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
@@ -112,7 +112,7 @@ public class OrderInfoService extends BaseService {
         if(orderInfos ==null){
             return null;
         }
-        System.out.println("准备开始获取数据");
+        //System.out.println("准备开始获取数据");
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
         return orderInfoDTOS;
     }
@@ -120,7 +120,7 @@ public class OrderInfoService extends BaseService {
 
     //商家查看所有订单
     public List<OrderInfoDTO> OrderStoreCheck(long storeId) {
-        System.out.println("id"+storeId);
+        //System.out.println("id"+storeId);
         List<OrderInfo> orderInfos = orderInfoDao.findByStoreIdAndValid(storeId, true);
         if (orderInfos == null) {
             return null;

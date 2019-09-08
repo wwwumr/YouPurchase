@@ -16,6 +16,9 @@ public interface CommodityDao extends CrudRepository<Commodity,String> {
     @Query(value = "select * from commodity where commodity_class = :commodity_class ORDER BY rand() limit 1",nativeQuery = true)
     Commodity getCommodity(@Param("commodity_class")String commodityClass);
 
+    @Query(value = "select * from commodity order by rand() limit 1",nativeQuery = true)
+    Commodity randCommodity();
+
 
 
 }

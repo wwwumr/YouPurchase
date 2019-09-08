@@ -6,6 +6,7 @@ import com.you_purchase.backenduser.RabbitMq.Sender;
 import com.you_purchase.backenduser.dao.*;
 import com.you_purchase.backenduser.dto.OrderCheckDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
+import com.you_purchase.backenduser.dto.RecDTO;
 import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -79,11 +80,17 @@ public class BaseService {
         return true;
     }
 
-
-
-
-
     //用户商品推荐
+    protected RecDTO CommodityGet(String type){
+        Commodity commodity = commodityDao.getCommodity(type);
+        if(commodity == null){
+            commodity = commodityDao.randCommodity();
+        }
+        long storeId = storeDao.getStoreIdByCommdoity(commodity.getCommodityId());
+        Store store = storeDao.findByStoreId(storeId);
+        return new RecDTO(commodity,store);
+
+    }
 
     //日期转换String-Date
     protected Date strToDate(String sDate){
