@@ -150,7 +150,7 @@ class App extends React.Component {
                                 />
                                 <Route exact path = "/dealerManage/" component = { DealerManage }></Route>
                                 <Route exact path = "/dealerManage/dealerMessage/:key" component = { DealerMessage } ></Route>
-                                <Route path = "/shopManage/" component = { ShopManage }></Route>
+                                <Route exact path = "/shopManage/" component = { ShopManage }></Route>
                                 <Route path = "/shopManage/shopDetail/:key" component = { ShopDetail } ></Route>       
                                 <Route exact path = "/tagManage/" component = { TagManage }></Route>
                                 <Route exact path = "/alcoholManage/" component = { AlcoholManage }></Route>

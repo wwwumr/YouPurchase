@@ -59,7 +59,11 @@ export default class TagManage extends React.Component {
         let { tags } = this.state;
         if (inputValue && !tags.find((tag) => { return tag.classInfo === inputValue })) {
             axios
-                .post(config.url.comodityClass.post, inputValue, {headers:{'Content-Type':'application/json'}})
+                .post(config.url.comodityClass.post, inputValue, {
+                    headers: {
+                        'Content-Type':'application/json'
+                    }
+                })
                 .then((res) => {
                     let tag = {
                         commodityClassId: parseInt(res.data),

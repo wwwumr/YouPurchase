@@ -149,7 +149,7 @@ export default class NewGoods extends React.Component {
      */
     classFilled = () => {
         const goods = this.state.goods;
-        let attrToBeChecked = ["commodityClassId", "classInfo", ];
+        let attrToBeChecked = [ "commodityClass" ];
         for (let attr in attrToBeChecked) {
             if (goods[attr] === '' || goods[attr] === null) {
                 return false;
@@ -159,14 +159,12 @@ export default class NewGoods extends React.Component {
     }
 
     /**
-     * @description 设定商品信息
-     * @param  { int } commodityClassId
-     * @param  { string } classInfo
+     * @description 设定商品类别信息
+     * @param  { string } commodityClass
      */
-    setClass = (commodityClassId, classInfo) => {
+    setClass = (commodityClass) => {
         let goods = this.state.goods;
-        goods.commodityClassId = commodityClassId;
-        goods.classInfo = classInfo;
+        goods.commodityClass = commodityClass;
         this.setState({
             goods: goods,
         })

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Steps, Input, Radio, Button } from 'antd';
 import config from '../../../config/config';
+import AlcoholClassInput from './newAlcohol/AlcoholClassInput';
 
 export default class NewAlcohol extends React.Component {
 
@@ -41,6 +42,40 @@ export default class NewAlcohol extends React.Component {
         }
     }
 
+    /**
+     * @description 绑定输入框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+    handleChange = (e, info) => {
+        let goods = this.state.goods;
+        goods[info] = e.target.value;
+        this.setState({
+            goods: goods
+        })
+    }
+
+    /**
+     * @description 绑定单选框的onChange
+     * @param  { event } e
+     * @param  { String } info
+     */
+    handleRadioChange = (e, info) => {
+        let goods = this.state.goods;
+        goods[info] = e.target.value;
+        this.setState({
+            goods: goods
+        })
+    }
+
+    setAlcohol = (alcohol) => {
+        let goods = this.state.goods;
+        goods.price = alcohol.price;
+        goods.commodityInfo = alcohol.alcoholInfo;
+        goods.commodityCoverPicUrl = alcohol.coverPicUrl;
+        goods.commodityClass = "酒";
+    }
+
     render() {
         return (
             <div style={{ width: 800, height: 400, textAlign: "center" }}>
@@ -54,13 +89,12 @@ export default class NewAlcohol extends React.Component {
                 {/* 选择酒商品 */}
                 {
                     this.state.step === 0 &&
-                    <div>hello</div>
+                    <AlcoholClassInput setAlcohol={ this.setAlcohol } />
                 }
                 {/* 商品信息输入 */}
                 {
                     this.state.step === 1 &&
                     <div>
-                        
                         <Input.TextArea placeholder="商品信息描述" style={{margin:"10px"}}
                             value={this.state.goods.commodityInfo} 
                             onChange= {(e) => {this.handleChange(e, "commodityInfo")}}>

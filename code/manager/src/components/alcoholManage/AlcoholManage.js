@@ -1,8 +1,9 @@
 import React from 'react';
-import { Table, Button, Modal, Input } from 'antd';
+import { Table, Button, Modal, Input, message } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../config/config';
+import { checkNotNull, checkJsonNotNull, checkLength, checkNotNegetive } from '../../lib/format/checkFormat';
 
 export default class AlcoholManage extends React.Component {
 
@@ -31,7 +32,10 @@ export default class AlcoholManage extends React.Component {
     removeAlcohol = (text) => {
         axios
             .delete(config.url.alcohol.delete, {
-                id: text,
+                data: text,
+                headers: {
+                    "Content-Type": "application/json",
+                }
             })
             .then((res) => {
                 console.log(res.data)
@@ -54,17 +58,41 @@ export default class AlcoholManage extends React.Component {
         })
     }
 
-    handleOk = e => {
+    handleOk = () => {
         let alcohol = this.state.alcohol;
         let alcohols = this.state.alcohols;
-        alcohol.alcoholId = alcohols.length;
-        alcohols.push(alcohol);
-        /* axios here */
-        this.setState({
-            visible: false,
-            alcohol: Object.assign({}, config.alcohol),
-            alcohols: alcohols,
-        });
+
+        if (!checkJsonNotNull(alcohol, ["alcoholInfo", "remaining", "price"])
+        ) {
+            message.warning("请将信息填写完整")
+            return false;
+        } else if (!checkLength("goods", alcohol.alcoholInfo)) {
+            message.warning("酒名过长");
+        } else if (!checkNotNegetive(alcohol.remaining)) {
+            message.warning("库存不应为负数");
+        } else {
+            axios({
+                method: "POST",
+                url: config.url.alcohol.post,
+                data: alcohol,
+            })
+            .then((res) => {
+                if (checkNotNull(res.data)) {
+                    alcohol.alcoholId = alcohols.length;
+                    alcohols.push(alcohol);
+                    this.setState({
+                        visible: false,
+                        alcohol: Object.assign({}, config.alcohol),
+                        alcohols: alcohols,
+                    }, () => {
+                        message.success("添加成功");
+                    });
+                } else {
+                    message.error("添加失败");
+                }
+            })
+        }
+        
     };
 
     handleCancel = e => {
@@ -97,7 +125,7 @@ export default class AlcoholManage extends React.Component {
                 title: (<Button onClick={this.addAlcohol}>增加</Button>),
                 dataIndex: "alcoholId",
                 key: "4",
-                render: (text) => (<Button onClick={(text) => {this.removeAlcohol(text)}}>删除</Button>),
+                render: (text) => (<Button onClick={() => {this.removeAlcohol(text)}}>删除</Button>),
             },{
                 title: "修改",
                 dataIndex: "alcoholId",
@@ -110,7 +138,9 @@ export default class AlcoholManage extends React.Component {
         ]
         return (
             <div style={{ position: "relative", width: 800, left: 200, top: 50, textAlign: "center"}}>
-                <Table rowKey="alcoholId" columns  ={ column } dataSource = { this.state.alcohols } ></Table>
+                <Table rowKey="alcoholId" columns  ={ column } dataSource = { this.state.alcohols } 
+                    pagination={{ defaultPageSize: 5 }}
+                />
                 <Modal title="新增酒种类"
                     visible={this.state.visible}
                     onOk={this.handleOk}

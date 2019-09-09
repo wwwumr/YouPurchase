@@ -11,7 +11,6 @@ export default class SelectTag extends React.Component {
         super(props);
         this.state = {
             tagList: [],
-            defaultClassId: null,
         }
     }
 
@@ -20,50 +19,27 @@ export default class SelectTag extends React.Component {
             .get(config.url.goodsClass.get)
             .then((res) => {
                 const tagList = res.data;
-                const defaultClass = tagList.find((elem) => {
-                    return elem === config.goods.defaultClassName;
-                })
                 this.setState({
                     tagList: tagList,
-                    defaultClass: defaultClass.commodityClassId,
                 })
             })
-            .catch((err) => {
-                if (err.response) {
-                    console.log(err.message);
-                }
-            })
     }
 
-    handleChange = (value) => {
-        let targetClass = this.state.tagList.find((elem) => {
-            return elem.commodityClassId === parseInt(value);
-        })
-        this.props.setClass(targetClass.commodityClassId, targetClass.classInfo);
-    }
-
-    handleSelect = (value) => {
-        let targetClass = this.state.tagList.find((elem) => {
-            return elem.commodityClassId === parseInt(value);
-        })
-        this.props.setClass(targetClass.commodityClassId, targetClass.classInfo);
-    }
 
     render() {
         return (
             <div >
                 <Select style={{width: 300,}} dropdownMenuStyle={{maxHeight: 200}} placeholder={"点击查看分类"} 
-                    defaultValue={this.state.defaultClassId}
-                    onSelect={this.handleSelect}
+                    onSelect={ this.props.setClass }
                 >
                 {
                     this.state.tagList.length === 0 ? '' :
                     this.state.tagList.map((elem) => {
                         return (
-                            <Option key={elem.commodityClassId.toString()}
-                                value={elem.commodityClassId}
+                            <Option key={elem}
+                                value={elem}
                             >
-                            {elem.classInfo}
+                            {elem}
                             </Option>
                         );
                     })
