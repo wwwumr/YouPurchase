@@ -2,8 +2,6 @@ package com.sjtu.adminanddealer.utils;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class Md5UtilTest {
 
     @Test

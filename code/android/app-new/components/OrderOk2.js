@@ -8,6 +8,7 @@ import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle';
 import { List, Provider,Modal } from '@ant-design/react-native';
 import { ToolbarAndroid } from 'react-native-gesture-handler';
+import config from '../components/config/config';
 const{height,width} = Dimensions.get('window');
 /**
  * @description 待付款订单详情页面
@@ -60,7 +61,7 @@ export default class OrderOk2 extends Component{
         var orderInfoId = this.props.navigation.state.params.orderInfoId;
         console.log(orderInfoId);
         this.setState({isVisible:false});
-        axios.post("http://192.168.1.19:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
+        axios.post(config.url+"/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
         .then((response)=>{
             if(response.data == 200){
                 ToastAndroid.show("成功付款",ToastAndroid.SHORT);
@@ -82,7 +83,7 @@ export default class OrderOk2 extends Component{
     delete(){
       var orderInfoId = this.props.navigation.state.params.orderInfoId;
       var userId = this.props.navigation.state.params.userId;
-      var url = "http://192.168.1.19:8080/order/userDelete?orderInfoId="+orderInfoId+"&userId="+userId;
+      var url = config.url+"order/userDelete?orderInfoId="+orderInfoId+"&userId="+userId;
       axios.get(url)
         .then((response)=>{
                 ToastAndroid.show("取消订单",ToastAndroid.SHORT);

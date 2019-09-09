@@ -7,7 +7,6 @@ import com.sjtu.adminanddealer.DTO.StoreDTO;
 import com.sjtu.adminanddealer.dao.CommodityDao;
 import com.sjtu.adminanddealer.dao.DealerDao;
 import com.sjtu.adminanddealer.dao.StoreDao;
-import com.sjtu.adminanddealer.entity.CommodityClass;
 import com.sjtu.adminanddealer.entity.Dealer;
 import com.sjtu.adminanddealer.entity.Store;
 import com.sjtu.adminanddealer.entity.StoreTotalScore;
@@ -101,11 +100,11 @@ public class StoreServiceImpl implements StoreService {
             double deliveryRange = s.getDeliveryRange();
             double distance = distanceUtil.getDistance(s.getLongitude(), s.getLatitude(), userLongitude, userLatitude);
             if (deliveryRange >= distance) {
-//                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
+                Integer recentSales = storeDao.getStoreRecentSales(s.getStoreId());
                 BigDecimal b = new BigDecimal(storeDao.getStoreAvgScore(s.getStoreId()));
                 double avgScore = b.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
-//                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
+//                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, 0, avgScore);
+                SortedStoreDTO dto = new SortedStoreDTO(new StoreDTO(s), distance, recentSales, avgScore);
                 dtos.add(dto);
             }
         }
@@ -134,13 +133,6 @@ public class StoreServiceImpl implements StoreService {
         store.setDeliveryRange(storeParameter.getDeliveryRange());
         Long newId = storeDao.addAStore(store);
 
-        // 给店铺添加酒的分类与其他分类
-        CommodityClass commodityClass = new CommodityClass();
-        commodityClass.setClassInfo("酒");
-        CommodityClass commodityClass1 = new CommodityClass();
-        commodityClass.setClassInfo("其他");
-        commodityDao.addNewCommodityClass(commodityClass);
-        commodityDao.addNewCommodityClass(commodityClass1);
 
         StoreTotalScore totalScore = new StoreTotalScore(newId, 0.0, 0L);
         storeDao.addStoreTotalScore(totalScore);

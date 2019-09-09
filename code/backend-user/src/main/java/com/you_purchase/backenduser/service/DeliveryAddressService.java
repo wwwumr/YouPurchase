@@ -81,7 +81,7 @@ public class DeliveryAddressService extends BaseService {
                 DeliveryAddress address = deliveryAddressDao.getDeliveryAddressesByDeliveryAddressId(orderInfo.getDeliveryAddressId());
                 JSONObject json = new JSONObject();
                 json.put("partner_order_code", orderInfoId);
-                json.put("notify_url", "http://localhost:9000/delivery");
+                json.put("notify_url", "http://202.120.40.8:30413/delivery");
                 json.put("receiver_name", orderInfo.getTarPeople());
                 json.put("receiver_phone", orderInfo.getTarPhone());
                 json.put("receiver_address", orderInfo.getTarAddress());
@@ -92,7 +92,7 @@ public class DeliveryAddressService extends BaseService {
                 json.put("transport_tel", store.getContact());
                 json.put("transport_longitude", store.getLongitude());
                 json.put("transport_latitude", store.getLatitude());
-                String postUrl = "http://localhost:9002/order";
+                String postUrl = "http://202.120.40.8:30417/order";
                 ResponseEntity<JSONObject> response = restTemplate.postForEntity(postUrl, json, JSONObject.class);
                 }
             } else {

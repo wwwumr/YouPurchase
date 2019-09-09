@@ -7,6 +7,7 @@ import Item from './Item';
 import OrderItem from './OrderItem';
 import { List, TextareaItem,Button } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import config from '../components/config/config';
 import {
   Modal,
   WhiteSpace,
@@ -72,7 +73,7 @@ export default class OrderDetail extends Component{
         ToastAndroid.show('请输入评价',ToastAndroid.SHORT);
         return;
       }
-      axios.post('http://192.168.1.19:8080/grade/add',{createDate:currentTime,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
+      axios.post(config.url+'grade/add',{createDate:currentTime,content:content,orderInfoId:orderInfoId,score:score,userId:userId,storeId:storeId})
       .then((response)=> {
         var responseData = response.data;
         console.log(responseData);
@@ -100,7 +101,7 @@ export default class OrderDetail extends Component{
         ToastAndroid.show('订单未在配送',ToastAndroid.SHORT);
         return;
       }
-      axios.post('http://192.168.1.19:9002/order/carrier',{partner_order_code:"123"})
+      axios.post(config.url3+'order/carrier',{partner_order_code:"123"})
       .then((response)=> {
         var tarAddress={};
         tarAddress['longitude']=this.props.navigation.state.params.tarLongitude;

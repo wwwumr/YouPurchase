@@ -15,6 +15,7 @@ const RadioItem = Radio.RadioItem;
 var ImagePicker = NativeModules.ImageCropPicker;
 const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
+import config from '../components/config/config';
 var sqLite = new SQLite();
 var db;
 /**
@@ -59,7 +60,7 @@ export default class EditPassword extends Component{
       ToastAndroid.show('两次输入新密码不一致',ToastAndroid.SHORT);
       return;
     }
-    var url= 'http://192.168.1.19:8080/user/pwdModify?userId='+userId+'&oldPwd='+password+'&newPwd='+password1;
+    var url= config.url+'user/pwdModify?userId='+userId+'&oldPwd='+password+'&newPwd='+password1;
     axios.get(url)
     .then((response)=> {
       var responseData = response.data;
