@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { ListItem,Header,Image,Text,Icon, Divider } from 'react-native-elements'
-import {ScrollView,View,DeviceEventEmitter,Alert,Dimensions,StyleSheet} from 'react-native';
+import {ScrollView,View,DeviceEventEmitter,Alert,Dimensions,StyleSheet,ToastAndroid} from 'react-native';
 import ItemMenu from '../components/Menu';
 import ShopItem from '../components/ShopItem';
 import { SearchBar,InputItem,Carousel } from '@ant-design/react-native';
@@ -8,9 +8,10 @@ import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map'
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
 import axios from 'axios'
 import PushMessage from './PushMessage';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ToolbarAndroid } from 'react-native-gesture-handler';
 var list = [
 ];
+var goodslist=[];
 const {height, width} = Dimensions.get('window');
 /**
  * @description ShopList
@@ -25,7 +26,8 @@ export default class ShopList extends Component{
       center:{},
       tempvalue:'',
       yes:'',
-      class:'全部'
+      class:'全部',
+      goodslist:goodslist
     }
   }
    /**
@@ -80,6 +82,7 @@ export default class ShopList extends Component{
   componentWillMount(){
     var tempcenter={};
     var url = "http://192.168.1.19:9000/stores/sort";
+    var url1 = 'http://192.168.1.19:8080/user/rec?userId='+this.props.userId;
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)
@@ -89,18 +92,38 @@ export default class ShopList extends Component{
       console.log(tempcenter.latitude);
       url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
       axios.get(url).then((response)=>{
+        axios.get(url1).then((response1)=>{
+          console.log(response1.data);
+          var templist = response1.data;
+          var templist1 = [];
+          var tempNumber =[];
+          for(var index = 0;index <templist.length;index++){
+            var tempitem = templist[index];
+            if(tempNumber.indexOf(tempitem.commodityId)<0){
+              console.log(tempitem.commodityId);
+              console.log(index);
+              tempNumber.push(tempitem.commodityId);
+              templist1.push(tempitem);
+            }
+          }
+          goodslist = templist1;
+          this.setState({goodslist:goodslist})
+        }).catch((err)=>{
+          ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
+          console.log(err);
+        })
         list = response.data;
         console.log(this.state.itemlist);
         this.setState({itemlist:list,center:tempcenter});
       }).catch(function(error){
         console.log(error);
       })
-      this.setState({itemlist:list,center:tempcenter});
+      this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});
     })
     .catch(e =>{
       console.warn(e, 'error');
     })  
-    this.setState({itemlist:list,center:tempcenter});  
+    this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});  
   }
   /**
    * @description 生命周期函数
@@ -108,6 +131,7 @@ export default class ShopList extends Component{
   componentWillReceiveProps(){
     var tempcenter={};
     var url = "http://192.168.1.19:9000/stores/sort";
+    var url1 = 'http://192.168.1.19:8080/user/rec?userId='+this.props.userId;
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)
@@ -117,20 +141,38 @@ export default class ShopList extends Component{
       console.log(tempcenter.latitude);
       url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
       axios.get(url).then((response)=>{
+        axios.get(url1).then((response1)=>{
+          var templist = response1.data;
+          console.log(templist);
+          var templist1 = [];
+          var tempNumber =[];
+          for(var index = 0;index <templist.length;index++){
+            var tempitem = templist[index];
+            if(tempNumber.indexOf(tempitem.commodityId)<0){
+              tempNumber.push(tempitem.commodityId);
+              templist1.push(tempitem);
+            }
+          }
+          goodslist = templist1;
+          this.setState({goodslist:goodslist})
+        }).catch((err)=>{
+          ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
+          console.log(err);
+        })
         list = response.data;
         console.log(this.state.itemlist);
-        this.setState({itemlist:list,center:tempcenter});
+        this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});
       }).catch(function(error){
         console.log(error);
       })
-      this.setState({itemlist:list,center:tempcenter,class:''});
+      this.setState({itemlist:list,center:tempcenter,class:'全部',goodslist:goodslist});
     })
     .catch(e =>{
       console.warn(e, 'error');
     })
-    this.setState({itemlist:list,center:tempcenter,class:''});
+    this.setState({itemlist:list,center:tempcenter,class:'全部',goodslist:goodslist});
     var yes = this.props.yes+"123";
-    this.setState({itemlist:list,yes:yes,class:''});
+    this.setState({itemlist:list,yes:yes,class:'全部',goodslist:goodslist});
   }
   /**
    * @description 生命周期函数--注册监听事件
@@ -234,43 +276,26 @@ export default class ShopList extends Component{
             infinite
             afterChange={this.onHorizontalSelectedIndexChange}
           >
-            <TouchableOpacity onPress={()=>{
-              Alert.alert('red');
-            }}>
-            <View
-              style={[styles.containerHorizontal, { backgroundColor: 'red' }]}
-            >
-              <Text>Carousel 1</Text>
-            </View></TouchableOpacity>
-            <TouchableOpacity onPress={()=>{
-              Alert.alert('blue');
-            }}>
-            <View
-              style={[styles.containerHorizontal, { backgroundColor: 'blue' }]}
-            >
-              <Text>Carousel 2</Text>
-            </View></TouchableOpacity>
-            <View
-              style={[
-                styles.containerHorizontal,
-                { backgroundColor: 'yellow' },
-              ]}
-            >
-              <Text>Carousel 3</Text>
-            </View>
-            <View
-              style={[styles.containerHorizontal, { backgroundColor: 'aqua' }]}
-            >
-              <Text>Carousel 4</Text>
-            </View>
-            <View
-              style={[
-                styles.containerHorizontal,
-                { backgroundColor: 'fuchsia' },
-              ]}
-            >
-              <Text>Carousel 5</Text>
-            </View>
+            {
+              this.state.goodslist.map((item,i)=>{
+                return(
+                  <TouchableOpacity style={{alignItems:'center'}}
+                  onPress={() => {
+                    this.props.navigation.navigate('RecGoodsDetail', {
+                      goodsId:item.commodityId,
+                      storeId:item.storeId,
+                      storeName:item.storeInfo,
+                      userId:this.props.userId,
+                      coverPicUrl:item.storePic
+                    });
+                  }}
+                  >
+                    <View style={{height:width*0.5,width:width*0.5}}>
+                    <Image source={{uri:item.commodityPic}} style={{height:width*0.5,width:width*0.5}}/></View>
+                  </TouchableOpacity>
+                );
+              })
+            }
           </Carousel>
           <Text  style={{marginTop:10,
             textAlign:'center',

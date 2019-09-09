@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity,  StyleSheet, SectionList,Alert,DeviceEventEmitter,Dimensions} from 'react-native'
+import {View, Text, TouchableOpacity,  StyleSheet, SectionList,Alert,DeviceEventEmitter,Dimensions,ToastAndroid} from 'react-native'
 import {commonStyle} from './commonStyle'
 import DeviceStorage from './Store';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -199,6 +199,10 @@ console.log(this.state.status)
         this.setState({yes:this.props.yes})
   }
     pay(){
+      if(foreverdata.length == 0){
+        ToastAndroid.show('请选择下单物品',ToastAndroid.SHORT);
+        return;
+      }
       var orderItemlist=[];
       var storeId =-1;
       var shopName="";
@@ -218,12 +222,16 @@ console.log(this.state.status)
             orderItemlist.push(item);
           }
           else{
-            Alert.alert("请选择同一个商店的商品")
+            ToastAndroid.show('请选择同一商店商品',ToastAndroid.SHORT);
             return;
           }
           }
         }
       
+      }
+      if(idlist.length == 0){
+        ToastAndroid.show('请选择下单物品',ToastAndroid.SHORT);
+        return;
       }
       sqLite.deleteItems(idlist);
       for(var i=0;i<foreverdata.length;i++){

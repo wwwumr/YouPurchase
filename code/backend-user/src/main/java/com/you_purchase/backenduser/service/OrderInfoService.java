@@ -85,13 +85,19 @@ public class OrderInfoService extends BaseService {
         if(tagFlag){
             userTagDao.save(userTag);
         }
+        OrderAddDTO orderAddDTO = new OrderAddDTO();
+        orderAddDTO.setFails(fails);
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
-            return new OrderAddDTO(0,fails);
+            orderAddDTO.setTotalPrice(0);
+            orderAddDTO.setOrderInfoId(-1);
+            return orderAddDTO;
         }
+        orderAddDTO.setOrderInfoId(orderInfoId);
+        orderAddDTO.setTotalPrice(totalPrice);
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
-        return new OrderAddDTO(totalPrice,fails);
+        return orderAddDTO;
     }
 
     //用户查看不同执行状态的订单
@@ -116,6 +122,44 @@ public class OrderInfoService extends BaseService {
         List<OrderInfoDTO> orderInfoDTOS = OrderCheck(orderInfos);
         return orderInfoDTOS;
     }
+
+    //用户查看单个订单
+    public OrderInfoDTO OrderInfoUser(long orderInfoId,long userId){
+        OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
+        if(orderInfo.getUserId()!=userId){
+            return null;
+        }
+        OrderInfoDTO orderInfoDTO = new OrderInfoDTO();
+        orderInfoDTO.setStoreId(orderInfo.getStoreId());
+        orderInfoDTO.setStatus(orderInfo.getStatus());
+        orderInfoDTO.setOrderNo(orderInfo.getOrderInfoNo());
+        orderInfoDTO.setTarPhone(orderInfo.getTarPhone());
+        orderInfoDTO.setTarAddress(orderInfo.getTarAddress());
+        orderInfoDTO.setTarPeople(orderInfo.getTarPeople());
+        orderInfoDTO.setJudged(orderInfo.isJudged());
+        String date = datToStr(orderInfo.getCreateDate());
+        orderInfoDTO.setCreateDate(date);
+        Store store = storeDao.findByStoreId(orderInfo.getStoreId());
+        orderInfoDTO.setStoreName(store.getStoreName());
+        orderInfoDTO.setTotalPrice(orderInfo.getTotalPrice());
+        orderInfoDTO.setOrderInfoId(orderInfo.getOrderInfoId());
+        //获取对应订单id的所有商品
+        List<OrderItem> orderItems = orderItemDao.findByOrderInfoId(orderInfo.getOrderInfoId());
+        List<OrderCheckDTO> orderCheckDTOS = new ArrayList<>();
+        for(OrderItem o:orderItems){
+            OrderCheckDTO orderCheckDTO = new OrderCheckDTO();
+            orderCheckDTO.setPrice(o.getPrice());
+            orderCheckDTO.setAmount(o.getAmount());
+            Commodity commodity = commodityDao.findByCommodityId(o.getCommodityId());
+            orderCheckDTO.setCommodityCoverPicUrl(commodity.getCommodityCoverPicUrl());
+            orderCheckDTO.setCommodityId(commodity.getCommodityId());
+            orderCheckDTO.setCommodityInfo(commodity.getCommodityInfo());
+            orderCheckDTOS.add(orderCheckDTO);
+        }
+        orderInfoDTO.setOrderItemList(orderCheckDTOS);
+        return orderInfoDTO;
+    }
+
 
 
     //商家查看所有订单
@@ -159,7 +203,7 @@ public class OrderInfoService extends BaseService {
         return  orderInfoDTOS;
     }
 
-    //查询单个订单
+    //商家查询单个订单
     public OrderInfoDTO OrderInfoCheck(long orderInfoId,long storeId){
         boolean flag = orderBelong(orderInfoId,storeId);
         if(flag == false){

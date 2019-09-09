@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import { ListItem,SearchBar,Header,Text,Image,Icon,Divider,Button,Overlay, Input,AirbnbRating,StyleSheet } from 'react-native-elements'
-import {ScrollView,View,DeviceEventEmitter,Alert,TouchableOpacity,ToastAndroid} from 'react-native'
+import {ScrollView,View,DeviceEventEmitter,Alert,TouchableOpacity,ToastAndroid,Dimensions} from 'react-native'
 import axios from 'axios';
 import { MapView, MapTypes, Geolocation } from 'react-native-baidu-map';
 import Item from './Item';
-import { List } from '@ant-design/react-native';
+import { List,Provider,Modal } from '@ant-design/react-native';
 import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle'
+const {height,width} = Dimensions.get('window');
 /**
  * @description 确认订单页面
  * @constructor
@@ -25,7 +26,7 @@ export default class OrderOk extends Component{
           address:"",
           sex:"",
           deliveryAddressId:-1,
-          orderPayId:-1,
+          orderInfoId:-1,
           isVisible:false
         }
     }
@@ -34,7 +35,6 @@ export default class OrderOk extends Component{
      */
     componentWillMount(){
         var orderItemlist = this.props.navigation.state.params.orderItemlist;
-        var shopName = this.props.navigation.state.params.shopName;
         var total = this.props.navigation.state.params.total;
         var userId = this.props.navigation.state.params.userId;
         var storeId = this.props.navigation.state.params.shopId;
@@ -47,7 +47,7 @@ export default class OrderOk extends Component{
           if(responseData.coverPicUrl!=null){
             this.setState({
               orderItemlist:orderItemlist,
-              shopName:shopName,
+              shopName:responseData.storeName,
               total:total,
               userId:userId,
               address:'',
@@ -104,7 +104,10 @@ export default class OrderOk extends Component{
     var total = this.props.navigation.state.params.total;
     var userId = this.props.navigation.state.params.userId;
     var templist=[];
-    if(deliveryAddressId==-1) {Alert.alert("请先选择收货地址");return;}
+    if(deliveryAddressId==-1) {
+      ToastAndroid.show("请先选择收货地址",ToastAndroid.SHORT);
+      return;
+    }
     for(var i=0;i<this.state.orderItemlist.length;i++){
       var item=this.state.orderItemlist[i];
       console.log("ok Here!");
@@ -122,49 +125,36 @@ export default class OrderOk extends Component{
   }).then((response)=>{
     console.log(response.data);
       var responseDate= response.data;
-      if(responseDate.orderPayId){
+      if(responseDate.orderInfoId!=-1){
+        console.log(responseDate);
         ToastAndroid.show("已生成订单",ToastAndroid.SHORT);
-        this.setState({orderPayId:responseDate.orderPayId,isVisible:true});
-        if(responseDate.shortageDTOS.length!=0){
-          var id = responseDate.shortageDTOS[0].commodityId;
-          var number = responseDate.shortageDTOS[0].actualRemaining;
-          var name="";
-          for(var i=0;i<this.state.orderItemlist.length;i++){
-            if(id == this.state.orderItemlist[i].itemId){
-              name = this.state.orderItemlist[i].commodityInfo;
-              Alert.alert( ""+name+"库存只有"+number );
-            }
+        if(responseDate.fails.length!=0){
+          var templist = '';
+          var templength = responseDate.fails.length;
+          for(var index=0;index<templength;index++){
+            templist+=responseDate.fails[index];
+            if(index!=templength)
+            templist+=',';
           }
-        }
+        Modal.alert('超库存商品', templist, [
+          {
+            text: '确定',
+            onPress: () => this.props.navigation.navigate('OrderOk3',{userId:userId,orderInfoId:responseDate.orderInfoId}),
+            style: 'cancel',
+          }
+        ]);
+      }
+      else
+
+        this.props.navigation.navigate('OrderOk3',{userId:userId,orderInfoId:responseDate.orderInfoId})
       }else{
         ToastAndroid.show("订单生成失败",ToastAndroid.SHORT);
+        this.props.navigation.goBack();
       }
   }).catch(e=>{
     console.log(e)
   })
   }
-  /**
-   * @description 进行付款
-   */
-  submit1(){
-    var userId = this.props.navigation.state.params.userId;
-    var orderInfoId = this.state.orderPayId;
-    console.log(orderInfoId);
-    this.setState({isVisible:false});
-    axios.post("http://192.168.1.19:8080/order/pay",{createDate:"2018-01-01 00:00:00",payId:orderInfoId,status:1,totalPrice:this.state.total})
-    .then((response)=>{
-        if(response.data == 200){
-            ToastAndroid.show("成功付款",ToastAndroid.SHORT);
-            this.props.navigation.goBack();
-        }
-        else{
-            ToastAndroid.show("支付失败",ToastAndroid.SHORT);
-        }
-    }).catch(e=>{
-        console.log(e);
-    })
-    
-}
 /**
  * 
  * @param {json} item 地址
@@ -181,6 +171,7 @@ export default class OrderOk extends Component{
     render(){
       var userId = this.props.navigation.state.params.userId;
         return(
+          <Provider>
             <View style={{flex:1,backgroundColor:'#F8F8F8'}}> 
             <View style={{flex:0.1}}> 
         <View style={{flexDirection:"row",marginLeft:20,marginTop:25}}>
@@ -322,22 +313,14 @@ export default class OrderOk extends Component{
           </View>
           <View style={{flex:0.35}}>
           <TouchableOpacity>
-          <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
+          <View style={{width: width*0.35, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <TouchableOpacity onPress={this.submit.bind(this)}>
             <Text style={{color: commonStyle.white}}>去支付</Text></TouchableOpacity>
           </View>
           </TouchableOpacity></View></View>
           </View>
-          <Overlay isVisible={this.state.isVisible}>
-          <Text h3 style={{textAlign:'center'}}>确认付款</Text>
-          <View style={{marginTop:150}}>
-                <Text h3 style={{textAlign:'center'}}>{"￥"+this.state.total}</Text>
-                <View style={{marginLeft:10,marginRight:10}}><Button title="立即付款" onPress={this.submit1.bind(this)}/></View>
-                <View style={{marginTop:20,marginLeft:10,marginRight:10}}><Button title="取消付款" onPress={()=>{this.setState({isVisible:false});
-                this.props.navigation.goBack();}}/></View>
                 </View>
-          </Overlay>
-                </View>
+                </Provider>
         );
     }
 

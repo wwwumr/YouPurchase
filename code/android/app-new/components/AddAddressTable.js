@@ -134,7 +134,7 @@ export default class AddAddressTable extends Component {
         <View style={{backgroundColor:"#ffffff",height:height*0.1,flexDirection:'row',marginTop:15}}>
             <View style={{marginLeft:10}}>
               <TouchableOpacity onPress={()=>{
-                this.navigation.goBack();
+                this.props.navigation.goBack();
               }}>
                 <Icon
                   name='chevron-left'

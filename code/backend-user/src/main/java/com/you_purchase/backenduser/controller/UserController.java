@@ -48,7 +48,8 @@ public class UserController extends BaseController {
     public
     @ResponseBody
     @ApiOperation(value = "用户修改手机号码")
-    long PhoneModify(PhoneParameter phoneParameter){
+    long PhoneModify(@RequestBody PhoneParameter phoneParameter){
+           // System.out.println("1");
         return userService.PhoneModify(phoneParameter);
     }
 
@@ -105,6 +106,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @ApiOperation(value = "验证码验证")
     long SmsRegister(@RequestBody SmsParameter smsParameter){
+        System.out.println("1");
         return userService.SmsRegister(smsParameter);
     }
 

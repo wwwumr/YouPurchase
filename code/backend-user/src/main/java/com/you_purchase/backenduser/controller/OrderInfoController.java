@@ -52,6 +52,16 @@ public class OrderInfoController extends BaseController{
         return orderInfoService.OrderUserCheck(orderInfoCheckParameter);
     }
 
+    //用户查看单个订单
+    @RequestMapping(value = "/order/idUser",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户根据id查询订单")
+    OrderInfoDTO orderInfoUser(long orderInfoId,long userId){
+        return orderInfoService.OrderInfoUser(orderInfoId,userId);
+    }
+
+
     //用户查状态看订单
     @RequestMapping(value = "/order/userStatusCheck",method = RequestMethod.POST)
     public

@@ -13,19 +13,20 @@ const {height, width} = Dimensions.get('window');
 var sqLite = new SQLite();
 var db;
 /**
- * @description 物品详情组件
+ * @description 推荐物品组件
  * @constructor
  */
-export default class GoodsDetail extends Component{
+export default class RecGoodsDetail extends Component{
     constructor(props){
         super(props);
         this.state={
             item:{},
             id:-1,
-            number:1
+            number:1,
+            info:{}
         }
     }
-     /**
+    /**
    * @description 立即购买
    */
   immdieateBuy(){
@@ -61,6 +62,19 @@ export default class GoodsDetail extends Component{
         axios.get(url).then((response)=>{
         tempitem = response.data;
         this.setState({item:tempitem,id:id});
+        console.log(this.state.item);
+      }).catch(function(error){
+        console.log(error);
+      })
+      var storeId =  this.props.navigation.state.params.storeId;
+      var url1='http://192.168.1.19:9000/api/u/stores/'+storeId;
+        axios.get(url1).then((response)=>{
+          console.log(response.data);
+        var tempitem1 = response.data;
+        var info={};
+        info.startHour = tempitem1.startHour;
+        info.endHour = tempitem1.endHour;
+        this.setState({info:tempitem1});
         console.log(this.state.item);
       }).catch(function(error){
         console.log(error);
@@ -169,12 +183,17 @@ export default class GoodsDetail extends Component{
                 <Divider style={{ backgroundColor: '#f0f0f0',height:1 }}/>
                 </View></ScrollView>
                 <View style={styles.toolBar}>
-          <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
-          </View>
-          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
+          <TouchableOpacity onPress={()=>{
+            this.props.navigation.navigate('Goodslist',{storeId:this.props.navigation.state.params.storeId,
+              info:this.state.info,userId:this.props.navigation.state.params.userId,storeName:this.props.navigation.state.params.storeName,
+              coverPicUrl:this.props.navigation.state.params.coverPicUrl})
+          }}>
+          <View style={{alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight,width:width*0.3}}><Text  style={{marginHorizontal: 10,color:'#585858'}}>进入店铺</Text>
+          </View></TouchableOpacity>
+          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:width*0.4,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.immdieateBuy.bind(this)}>
-          <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
+          <View style={{width: width*0.3, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <Text style={{color: commonStyle.white}}>立即购买</Text>
           </View>
           </TouchableOpacity>
