@@ -3,6 +3,7 @@ import { ListItem,SearchBar,Header,Image,Text, Button,Divider,AirbnbRating,Overl
 import {ScrollView,View,DeviceEventEmitter,Dimensions} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Drawer, List  } from '@ant-design/react-native';
+import config from '../components/config/config';
 const {height, width} = Dimensions.get('window');
 /**
  * @description orderlist 的一项的组件
@@ -80,7 +81,7 @@ ratingCompleted(rating) {
       <View style={{marginLeft:10,marginRight:10}}>
     <ListItem
     leftIcon={
-      <Image source={{uri:uri}} style={{width:30,height:30}}/>
+      <Image source={{uri:config.url2+uri}} style={{width:30,height:30}}/>
     }
     rightSubtitle={<View><Text style={{fontSize:13,color:'#ffffff'}}>123   </Text></View>}
     title={<Text style={{fontSize:15}}>{this.props.storeName}</Text>}

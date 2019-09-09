@@ -227,7 +227,7 @@ export default class OrderDetail extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={{uri:uri}} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:config.url2+uri}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{storeName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   
@@ -237,7 +237,7 @@ export default class OrderDetail extends Component{
                       <View>
                         <ListItem
                           key={i}
-                          leftAvatar={<Image source={{uri:item.commodityCoverPicUrl}} style={{width:30,height:30}}/>}
+                          leftAvatar={<Image source={{uri:config.url2+item.commodityCoverPicUrl}} style={{width:30,height:30}}/>}
                           title={<Text style={{fontSize:15}}>{item.commodityInfo}</Text>}
                           subtitle={<Text style={{fontSize:13,color:"#606060"}}>{"x"+item.amount}</Text>}
                           rightSubtitle={<Text style={{fontSize:13,color:"#606060"}}>{"￥ "+item.price}</Text>}

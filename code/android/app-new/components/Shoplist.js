@@ -84,46 +84,35 @@ export default class ShopList extends Component{
     var tempcenter={};
     var url = config.url2+"stores/sort";
     var url1 = config.url+'user/rec?userId='+this.props.userId;
-    Geolocation.getCurrentPosition()
-    .then(data => {
-      console.log(data)
-      tempcenter['longitude']=parseFloat(data.longitude);
-      tempcenter['latitude'] = parseFloat(data.latitude);
-      console.log(tempcenter.longitude);
-      console.log(tempcenter.latitude);
-      url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
-      axios.get(url).then((response)=>{
-        axios.get(url1).then((response1)=>{
-          console.log(response1.data);
-          var templist = response1.data;
-          var templist1 = [];
-          var tempNumber =[];
-          for(var index = 0;index <templist.length;index++){
-            var tempitem = templist[index];
-            if(tempNumber.indexOf(tempitem.commodityId)<0){
-              console.log(tempitem.commodityId);
-              console.log(index);
-              tempNumber.push(tempitem.commodityId);
-              templist1.push(tempitem);
-            }
+    var tempcenter = this.props.navigation.state.params.center;
+    url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
+    axios.get(url).then((response)=>{
+      axios.get(url1).then((response1)=>{
+        console.log(response1.data);
+        var templist = response1.data;
+        var templist1 = [];
+        var tempNumber =[];
+        for(var index = 0;index <templist.length;index++){
+          var tempitem = templist[index];
+          if(tempNumber.indexOf(tempitem.commodityId)<0){
+            console.log(tempitem.commodityId);
+            console.log(index);
+            tempNumber.push(tempitem.commodityId);
+            templist1.push(tempitem);
           }
-          goodslist = templist1;
-          this.setState({goodslist:goodslist})
-        }).catch((err)=>{
-          ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
-          console.log(err);
-        })
-        list = response.data;
-        console.log(this.state.itemlist);
-        this.setState({itemlist:list,center:tempcenter});
-      }).catch(function(error){
-        console.log(error);
+        }
+        goodslist = templist1;
+        this.setState({goodslist:goodslist})
+      }).catch((err)=>{
+        ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
+        console.log(err);
       })
-      this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});
+      list = response.data;
+      console.log(this.state.itemlist);
+      this.setState({itemlist:list,center:tempcenter});
+    }).catch(function(error){
+      console.log(error);
     })
-    .catch(e =>{
-      console.warn(e, 'error');
-    })  
     this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});  
   }
   /**
@@ -133,43 +122,32 @@ export default class ShopList extends Component{
     var tempcenter={};
     var url = config.url2+"stores/sort";
     var url1 = config.url+'user/rec?userId='+this.props.userId;
-    Geolocation.getCurrentPosition()
-    .then(data => {
-      console.log(data)
-      tempcenter['longitude']=parseFloat(data.longitude);
-      tempcenter['latitude'] = parseFloat(data.latitude);
-      console.log(tempcenter.longitude);
-      console.log(tempcenter.latitude);
-      url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
-      axios.get(url).then((response)=>{
-        axios.get(url1).then((response1)=>{
-          var templist = response1.data;
-          console.log(templist);
-          var templist1 = [];
-          var tempNumber =[];
-          for(var index = 0;index <templist.length;index++){
-            var tempitem = templist[index];
-            if(tempNumber.indexOf(tempitem.commodityId)<0){
-              tempNumber.push(tempitem.commodityId);
-              templist1.push(tempitem);
-            }
+    var tempcenter = this.props.navigation.state.params.center;
+    url+=("?longitude="+tempcenter.longitude+"&latitude="+tempcenter.latitude);
+    axios.get(url).then((response)=>{
+      axios.get(url1).then((response1)=>{
+        var templist = response1.data;
+        console.log(templist);
+        var templist1 = [];
+        var tempNumber =[];
+        for(var index = 0;index <templist.length;index++){
+          var tempitem = templist[index];
+          if(tempNumber.indexOf(tempitem.commodityId)<0){
+            tempNumber.push(tempitem.commodityId);
+            templist1.push(tempitem);
           }
-          goodslist = templist1;
-          this.setState({goodslist:goodslist})
-        }).catch((err)=>{
-          ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
-          console.log(err);
-        })
-        list = response.data;
-        console.log(this.state.itemlist);
-        this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});
-      }).catch(function(error){
-        console.log(error);
+        }
+        goodslist = templist1;
+        this.setState({goodslist:goodslist})
+      }).catch((err)=>{
+        ToastAndroid.show('网络异常',ToolbarAndroid.SHORT);
+        console.log(err);
       })
-      this.setState({itemlist:list,center:tempcenter,class:'全部',goodslist:goodslist});
-    })
-    .catch(e =>{
-      console.warn(e, 'error');
+      list = response.data;
+      console.log(this.state.itemlist);
+      this.setState({itemlist:list,center:tempcenter,goodslist:goodslist});
+    }).catch(function(error){
+      console.log(error);
     })
     this.setState({itemlist:list,center:tempcenter,class:'全部',goodslist:goodslist});
     var yes = this.props.yes+"123";
@@ -292,7 +270,7 @@ export default class ShopList extends Component{
                   }}
                   >
                     <View style={{height:width*0.5,width:width*0.5}}>
-                    <Image source={{uri:item.commodityPic}} style={{height:width*0.5,width:width*0.5}}/></View>
+                    <Image source={{uri:config.url2+item.commodityPic}} style={{height:width*0.5,width:width*0.5}}/></View>
                   </TouchableOpacity>
                 );
               })

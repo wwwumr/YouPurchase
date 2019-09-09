@@ -231,7 +231,7 @@ export default class Goodslist extends Component{
             <Card.Header
               title={<View style={{marginLeft:5}}><Text style={{fontSize:18}}>{storeName}</Text></View>}
               thumbStyle={{ width: 40, height: 40 }}
-              thumb={<Image source={{uri:coverPicUrl}} style={{width:40,height:40}}/>}
+              thumb={<Image source={{uri:config.url2+coverPicUrl}} style={{width:40,height:40}}/>}
             />
             <Card.Body>
               <View style={{ height: 110}}>
@@ -282,7 +282,7 @@ export default class Goodslist extends Component{
         title={<Text>{item.commodityInfo}</Text>}
         subtitle={<Text>{item.price}¥</Text>}
         rightTitle={item.onShelves?"有货":"无货"}
-        leftIcon={<Image source={{uri:name}}style={{width: 50, height: 50}}/>}
+        leftIcon={<Image source={{uri:config.url2+name}}style={{width: 50, height: 50}}/>}
       />
       <Divider style={{backgroundColor:"#C0C0C0",marginLeft:10,marginRight:10}}/>
       </View>)

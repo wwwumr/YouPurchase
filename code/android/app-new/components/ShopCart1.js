@@ -11,6 +11,7 @@ var db;
 var foreverdata=[];
 const {height,width} = Dimensions.get('window');
 import axios from 'axios';
+import config from '../components/config/config';
 export default class ShopCart1 extends Component {
   constructor(props) {
     super(props)
@@ -376,7 +377,8 @@ console.log(this.state.status)
     let items = shop.items
     let item = items[index]
     if (item.quantity <= 1) {
-      alert('商品购买数量不能小于:'+1)
+      ToastAndroid.show('商品购买数量不能小于:1',ToastAndroid.SHORT);
+      return;
     } else {
       var id =  shop.shopId*10000+item.itemId;
       sqLite.minusAmount(id);
@@ -492,7 +494,7 @@ this.setState({data:data,status:tempStatusArr})
         <TouchableOpacity onPress={() => this.checkItem(sectionIndex, index)}>
           <Image style={styles.checkBox} source={statusItem.checked ? require('./assets/ic_selected.png') : require('./assets/ic_defult.png')} resizeMode={'center'}/>
         </TouchableOpacity>
-        <Image style={{width: 80, height: 80}} source={{uri: item.itemimg}}/>
+        <Image style={{width: 80, height: 80}} source={{uri: config.url2+item.itemimg}}/>
         <View style={{justifyContent: commonStyle.around, flex: 1, marginHorizontal: 10, height: 50}}>
           <Text style={{fontSize: 13, color: commonStyle.textBlockColor}}>{item.itemName}</Text>
           <Text style={{fontSize: 13, color: commonStyle.textBlockColor}}>{`￥${item.itemPrice}`}</Text>

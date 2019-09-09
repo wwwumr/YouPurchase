@@ -244,7 +244,7 @@ export default class OrderOk extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={{uri:this.state.coverPicUrl}} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:config.url2+this.state.coverPicUrl}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{this.state.shopName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   
@@ -254,7 +254,7 @@ export default class OrderOk extends Component{
                       <View>
                         <ListItem
                           key={i}
-                          leftAvatar={<Image source={{uri:item.itemimg}} style={{width:30,height:30}}/>}
+                          leftAvatar={<Image source={{uri:config.url2+item.itemimg}} style={{width:30,height:30}}/>}
                           title={<Text style={{fontSize:15}}>{item.itemName}</Text>}
                           subtitle={<Text style={{fontSize:13,color:"#606060"}}>{"x"+item.quantity}</Text>}
                           rightSubtitle={<Text style={{fontSize:13,color:"#606060"}}>{"￥ "+item.itemPrice}</Text>}
@@ -316,7 +316,7 @@ export default class OrderOk extends Component{
           <TouchableOpacity>
           <View style={{width: width*0.35, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <TouchableOpacity onPress={this.submit.bind(this)}>
-            <Text style={{color: commonStyle.white}}>去支付</Text></TouchableOpacity>
+            <Text style={{color: commonStyle.white}}>下订单</Text></TouchableOpacity>
           </View>
           </TouchableOpacity></View></View>
           </View>
