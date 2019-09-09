@@ -1,5 +1,5 @@
 import React from 'react';
-import { Upload, Icon, message, Tooltip, Modal } from 'antd';
+import { Upload, Icon, message, Tooltip  } from 'antd';
 import axios from 'axios';
 import config from '../../../../config/config';
 

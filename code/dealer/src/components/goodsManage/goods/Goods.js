@@ -27,10 +27,12 @@ class Goods extends React.Component {
             .get(config.url.goods + this.props.match.params.id)
             .then(res => {
                 let goods = Object.assign({}, res.data);
-                goods.commodityPicUrls = res.data.commodityPicUrls.concat;
+                goods.commodityClass = goods.classInfo;
+                delete goods.classInfo;
+                console.log(goods);
                 this.setState({
-                    goods: res.data,
-                    originGoods: goods,
+                    goods: goods,
+                    originGoods: Object.assign({}, goods),
                 })
             })
     }
@@ -42,6 +44,7 @@ class Goods extends React.Component {
         if (!this.checkShop()) {
             return false;
         }   
+        
         axios
             .put(config.url.goodsP, this.state.goods)
             .then(res => {
@@ -66,7 +69,7 @@ class Goods extends React.Component {
 
     setClassInfo = (classInfo) => {
         var goods = this.state.goods;
-        goods.classInfo = classInfo;
+        goods.commodityClass = classInfo;
         this.setState({
             goods: goods,
         })
@@ -79,6 +82,7 @@ class Goods extends React.Component {
     checkShop() {
         let goods = this.state.goods;
         let originGoods = this.state.originGoods;
+        console.log(checkNotChange(goods, originGoods));
         if (!checkNotChange(goods, originGoods)) {
             if (parseInt(goods.inventory) < parseInt(goods.remaining)) {
                 message.error("您的商品上架量大于库存");
@@ -133,7 +137,7 @@ class Goods extends React.Component {
                     onChange = {(e) => { this.handleChange(e, "remaining") }}
                 >
                 </Input>
-                <ClassAutoInput classInfo={this.state.goods.classInfo} setClassInfo={this.setClassInfo} />
+                <ClassAutoInput classInfo={this.state.goods.commodityClass} setClassInfo={this.setClassInfo} />
                 <Button style={{ marginTop: "15px" }}
                     onClick = { this.handleSubmit } 
                 >
