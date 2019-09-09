@@ -276,7 +276,7 @@ public class BaseService {
             bos = new BufferedOutputStream(fos);
             bos.write(imageByte);
             User user = userDao.findByUserIdAndValid(userId,true);
-            directory = directory.substring(directory.indexOf("//")+2);
+            directory = directory.substring(directory.indexOf("//")+1);
             user.setPhoto(directory);
             userDao.save(user);
             return 200;
