@@ -123,7 +123,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/user/uploadPhoto",method = RequestMethod.POST)
     public
     @ResponseBody
-    String UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter){
+    long UploadPhoto(@RequestBody UserPhotoParameter userPhotoParameter){
         return userService.UploadPhoto(userPhotoParameter);
     }
 

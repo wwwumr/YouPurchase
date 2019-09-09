@@ -1,9 +1,6 @@
 package com.you_purchase.backenduser.controller;
 
-import com.you_purchase.backenduser.service.DeliveryAddressService;
-import com.you_purchase.backenduser.service.GradeService;
-import com.you_purchase.backenduser.service.OrderInfoService;
-import com.you_purchase.backenduser.service.UserService;
+import com.you_purchase.backenduser.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class BaseController {
@@ -15,4 +12,6 @@ public class BaseController {
     protected GradeService gradeService;
     @Autowired
     protected DeliveryAddressService deliveryAddressService;
+    @Autowired
+    protected AdvertService advertService;
 }

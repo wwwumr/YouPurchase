@@ -11,6 +11,7 @@ import com.you_purchase.backenduser.entity.*;
 import com.you_purchase.backenduser.parameter.PayParameter;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -53,6 +54,8 @@ public class BaseService {
     protected StoreTotalScoreDao storeTotalScoreDao;
     @Autowired
     protected UserTagDao userTagDao;
+    @Autowired
+    protected  AdvertDao advertDao;
 
     //消息队列推送消息
     @Autowired
@@ -254,6 +257,9 @@ public class BaseService {
         }
     }
 
+    @Value("${imageBaseDirectory}")
+    private String imageBase;
+
     protected int UploadPhotoBase(long userId,String photo){
         BufferedOutputStream bos = null;
         FileOutputStream fos = null;
@@ -263,7 +269,7 @@ public class BaseService {
             byte[] imageByte = Base64.decodeBase64(photo);
             //uuid产生唯一的图片名字
             String uuid = UUID.randomUUID().toString();
-            String directory = "D://image/" + uuid +".jpg";
+            String directory = imageBase + uuid +".jpg";
 
             file = new File(directory);
             fos = new FileOutputStream(file);
