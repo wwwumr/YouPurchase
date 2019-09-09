@@ -1,6 +1,8 @@
 import JPushModule from 'jpush-react-native';
 import React,{Component} from 'react';
 import{View,Text,Linking,ToastAndroid}from'react-native'; 
+import axios from 'axios';
+import config from '../components/config/config';
 /**
  * @constructor
  * @description 极光推送组件
@@ -27,9 +29,15 @@ componentDidMount() {
       
       console.log("Opening notification!");
       console.log("map.extra: " + map.extras);
-      Linking.canOpenURL("http://baidu.com").then(() => {
-          return Linking.openURL("http://baidu.com");
+      axios.get(config.url+'advert/find').then((respnose)=>{
+        var respnosedata = respnose.data;
+        Linking.canOpenURL(config.url+'advert/'+respnosedata).then(() => {
+          return Linking.openURL(config.url+'advert/'+respnosedata);
       }).catch(error => ToastAndroid.show('网络异常',ToastAndroid.SHORT))
+      })
+     .catch(err=>{
+       ToastAndroid.show('网络异常',ToastAndroid.SHORT);
+     })
     });
   }
  

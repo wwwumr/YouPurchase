@@ -171,7 +171,7 @@ export default class EditPage extends Component{
         ToastAndroid.show('修改失败',ToastAndroid.SHORT);
       })
       
-    }).catch(e => alert(e));
+    }).catch(e => ToastAndroid.show('请选择图像',ToastAndroid.SHORT));
   }
   /**
    * @description 刷新页面

@@ -14,12 +14,6 @@ public class Receiver {
     @Autowired
     private OrderInfoService orderInfoService;
 
-    @RabbitHandler
-    @RabbitListener(queues = "pay")
-    public void payReceiver(Long id) {
-        System.out.println("receiver" + id);
-    }
-
 
 
     @RabbitHandler

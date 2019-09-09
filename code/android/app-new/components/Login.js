@@ -5,6 +5,7 @@ import { Input,Image,Header,Text } from 'react-native-elements';
 import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,ImageBackground,Dimensions,ToastAndroid} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SQLite from './UserSqlite';
+import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import { InputItem, List,Button,Toast } from '@ant-design/react-native';
 import config from '../components/config/config';
 var item={};
@@ -20,7 +21,8 @@ export default class Login extends Component{
     super(props);
     this.state={
       phone:'',
-      password:''
+      password:'',
+      center:{}
     }
   }
   /**
@@ -39,6 +41,19 @@ export default class Login extends Component{
       db = sqLite.open();
     }
     sqLite.createTable();
+    var tempcenter={};
+    Geolocation.getCurrentPosition()
+    .then(data => {
+      console.log(data)
+      tempcenter['longitude']=parseFloat(data.longitude);
+      tempcenter['latitude'] = parseFloat(data.latitude);
+      console.log(tempcenter.longitude);
+      console.log(tempcenter.latitude);
+      this.setState({center:tempcenter});
+    })
+    .catch(e =>{
+      console.warn(e, 'error');
+    })  
   }
   /**
    * @description 处理用户登录操作
@@ -73,7 +88,7 @@ export default class Login extends Component{
         tempItem.phone = phone;
         tempItem.password = password;
         sqLite.insertUserData(tempItem);
-        this.props.navigation.navigate('MainPage',{userId:id,selectedTab:0})}
+        this.props.navigation.navigate('MainPage',{userId:id,selectedTab:0,center:this.state.center})}
       else
         ToastAndroid.show('用户名或密码错误',ToastAndroid.SHORT);        
     })

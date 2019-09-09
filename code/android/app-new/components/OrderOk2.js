@@ -178,7 +178,7 @@ export default class OrderOk2 extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={{uri:this.state.uri}} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:config.url2+this.state.uri}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{this.state.shopName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   
@@ -188,7 +188,7 @@ export default class OrderOk2 extends Component{
                       <View>
                         <ListItem
                           key={i}
-                          leftAvatar={<Image source={{uri:item.itemimg}} style={{width:30,height:30}}/>}
+                          leftAvatar={<Image source={{uri:config.url2+item.itemimg}} style={{width:30,height:30}}/>}
                           title={<Text style={{fontSize:15}}>{item.itemName}</Text>}
                           subtitle={<Text style={{fontSize:13,color:"#606060"}}>{"x"+item.quantity}</Text>}
                           rightSubtitle={<Text style={{fontSize:13,color:"#606060"}}>{"￥ "+item.itemPrice}</Text>}

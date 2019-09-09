@@ -5,6 +5,7 @@ import com.you_purchase.backenduser.entity.DeliveryAddress;
 import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.entity.Store;
 import com.you_purchase.backenduser.parameter.DeliveryAddressParameter;
+import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.ResponseEntity;
@@ -71,7 +72,7 @@ public class DeliveryAddressService extends BaseService {
     }
 
     @RabbitHandler
-    @RabbitListener(queues = "pay")
+    @RabbitListener(queuesToDeclare = @Queue("pay"))
     public void thirdDeliveryAfterPay(Long orderInfoId){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if(orderInfo!=null){
