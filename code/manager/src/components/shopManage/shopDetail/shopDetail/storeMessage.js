@@ -76,6 +76,30 @@ export default class StoreMessage extends React.Component {
     } 
 
     /**
+     * @description 解绑经销商和店铺
+     */
+    handleUnbind = () => {
+        axios.get(config.url.storeUnbind, {
+                params: {
+                    dealerId: this.state.shop.dealerId,
+                    storeId: this.state.shop.key,
+                }
+            })
+            .then((res) => {
+                if (res.data < 0) {
+                    message.error("解除授权失败");
+                } else {
+                    message.success("授权已取消");
+                    var shop = this.state.shop;
+                    shop.dealerName = "";
+                    this.setState({
+                        shop: shop,
+                    })
+                }
+            })
+    }
+
+    /**
      * @description 绑定输入框的onChange
      * @param  { moment } time
      * @param  { String } info
