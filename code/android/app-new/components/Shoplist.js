@@ -9,6 +9,7 @@ import { createAppContainer, createStackNavigator, StackActions, NavigationActio
 import axios from 'axios'
 import PushMessage from './PushMessage';
 import { TouchableOpacity, ToolbarAndroid } from 'react-native-gesture-handler';
+import config from '../components/config/config';
 var list = [
 ];
 var goodslist=[];
@@ -81,8 +82,8 @@ export default class ShopList extends Component{
    */
   componentWillMount(){
     var tempcenter={};
-    var url = "http://192.168.1.19:9000/stores/sort";
-    var url1 = 'http://192.168.1.19:8080/user/rec?userId='+this.props.userId;
+    var url = config.url2+"stores/sort";
+    var url1 = config.url+'user/rec?userId='+this.props.userId;
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)
@@ -130,8 +131,8 @@ export default class ShopList extends Component{
    */
   componentWillReceiveProps(){
     var tempcenter={};
-    var url = "http://192.168.1.19:9000/stores/sort";
-    var url1 = 'http://192.168.1.19:8080/user/rec?userId='+this.props.userId;
+    var url = config.url2+"stores/sort";
+    var url1 = config.url+'user/rec?userId='+this.props.userId;
     Geolocation.getCurrentPosition()
     .then(data => {
       console.log(data)

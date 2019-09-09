@@ -252,7 +252,6 @@ public class CommodityController {
      */
     @DeleteMapping("/api/a/commodities/classes")
     public String deleteClass(@RequestBody Long commodityClassId) {
-        System.out.println(commodityClassId);
         commodityService.deleteCommodityClass(commodityClassId);
         return "DELETE";
     }

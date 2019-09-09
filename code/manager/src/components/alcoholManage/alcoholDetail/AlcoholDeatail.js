@@ -1,18 +1,42 @@
 import React from 'react';
 import AlcoholImg from './alcoholDetail/AlcoholImg';
+import axios from 'axios';
 import config from '../../../config/config';
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
 
 export default class AlcoholDetail extends React.Component {
 
     state = {
-        alcohol: {
-            "alcoholId": 0,
-            "alcoholInfo": "茅台",
-            "remaining": 10000,
-            "coverPicUrl": "image/defaultAlcohol.jpg",
-            "price": 50,
-        }
+        alcohol: Object.assign({}, config.alcohol),
+    }
+
+    componentDidMount() {
+        axios({
+            method: "GET",
+            url: config.url.oneAlcohol.get,
+            params: { alcoholId: this.props.match.params.alcoholId }
+        })
+        .then((res) => {
+            this.setState({
+                alcohol: res.data,
+            })
+        })
+    }
+
+    handleInputChange = (e, info) => {
+        let alcohol = this.state.alcohol;
+        alcohol[info] = e.target.value;
+        this.setState({
+            alcohol: alcohol,
+        })
+    }
+
+    handleOk = () => {
+        /*
+        axios({
+            method: "POST",
+            url: config.url.
+        })*/
     }
 
     render() {
@@ -21,8 +45,8 @@ export default class AlcoholDetail extends React.Component {
                 <div style={{ width: 200, height: 200, display: "inline-block", marginTop: 50, marginLeft: 200 }}>
                 <AlcoholImg id={ this.props.match.params.alcoholId } 
                     action={config.uploadImage.alcoholAction}
-                    api = { config.url.alcohol.get }
-                    defaultImg={"image/defaultAlcohol.jpg"}
+                    api = { config.url.oneAlcohol.get }
+                    defaultImg={config.alcohol.coverPicUrl}
                     pos = {{
                         bwidth: "210px",
                         bheight: "210px",
@@ -33,7 +57,7 @@ export default class AlcoholDetail extends React.Component {
                 />
                 </div>
                 <div style={{ width: "30%", display: "inline-block", marginLeft: 100, top: -50 }}>
-                    <h1 style={{ marginBottom: 50 }}>酒商品信息</h1>
+                    <h1 style={{ marginBottom: 10 }}>酒商品信息</h1>
                     <Input addonBefore={ "酒类别" } style={{ marginBottom: 15 }}
                         value={this.state.alcohol.alcoholInfo}
                         onChange = {(e) => {this.handleInputChange(e, "alcoholInfo")}}
@@ -46,6 +70,7 @@ export default class AlcoholDetail extends React.Component {
                         value={this.state.alcohol.remaining}
                         onChange = {(e) => {this.handleInputChange(e, "remaining")}}
                     />
+                    <Button onClick={ this.handleOk } >确认修改</Button>
                 </div>
             </div>
         );

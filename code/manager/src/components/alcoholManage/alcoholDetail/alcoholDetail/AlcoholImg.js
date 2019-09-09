@@ -17,15 +17,17 @@ function beforeUpload(file) {
     return true;
 }
 
-/* props: id, action, api */
+/* 
+ * props: id, action, api, pos 
+ * key, coverPicUrl
+*/
 class AlcoholImg extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             loading: false,
-            imageUrl: this.props.defaultImg ? this.props.defaultImg : "",
+            imageUrl: "",
         };
-        
     }
 
     /**
@@ -33,10 +35,14 @@ class AlcoholImg extends React.Component {
      */
     componentDidMount() {
         axios
-            .get(this.props.api + this.props.id)
+            .get(this.props.api, {
+                params: {
+                    alcoholId: this.props.id,
+                }
+            })
             .then(res => {
                 this.setState({
-                    imageUrl: res.data.avatar,
+                    imageUrl: res.data.coverPicUrl,
                 })
             })
             .catch(err => {
@@ -81,7 +87,7 @@ class AlcoholImg extends React.Component {
                 showUploadList={false}
                 action= { this.props.action }
                 withCredentials={true}
-                data={{"key": this.props.id, "avatar": this.state.imageUrl}}
+                data={{"key": this.props.id, "coverPicUrl": this.state.imageUrl}}
                 beforeUpload={ beforeUpload }
                 onChange={ this.handleChange }
                 style={{position: "relative",display: "block", width: pos.bwidth, height: pos.bwidth, 

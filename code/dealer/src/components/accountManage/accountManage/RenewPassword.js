@@ -40,16 +40,29 @@ export default class RenewPassword extends React.Component {
             message.error("新密码不要超过20位");
         } else if (newPassword !== oneMorePassword) {
             message.error('两次密码填写不一致');
-        } else {
+        } else if (oldPassword === newPassword) {
+            message.error("密码未更改");
+        }
+        else {
             axios
                 .get(config.url.renewPassword.post, {
                     params: {
-                        oldPassword: oldPassword,
-                        newPassword: newPassword,
+                        oldpassword: oldPassword,
+                        newpassword: newPassword,
                     }
                 })
                 .then((res) => {
-                    console.log(res.data);
+                    if (res.data === 200) {
+                        message.success("修改成功");
+                        this.props.setDisvisible();
+                        this.setState({
+                            oldPassword: "",
+                            newPassword: "",
+                            oneMorePassword: "",
+                        })
+                    } else {
+                        message.error("原密码输入错误");
+                    }
                 })
         }
     }

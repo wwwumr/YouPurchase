@@ -1,7 +1,7 @@
-import config from '../../config/config'
-
-
-const LENGTHLIMIT = config.lengthLimit;
+const LENGTHLIMIT = {
+    password: 20,
+    goods: 10,
+}
 
 /**
  * 检查项目中各种数据的格式
@@ -95,4 +95,12 @@ export function checkNotChange(former, latter) {
         }
     })
     return flag;
+}
+
+export function checkPositive(info) {
+    return parseFloat(info) > 0;
+}
+
+export function checkNotNegetive(info) {
+    return parseFloat(info) >= 0;
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icon, Button, Input, AutoComplete } from 'antd';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import config from '../../../../config/config';
 
@@ -13,29 +12,26 @@ const { Option } = AutoComplete;
 function renderOption(item) {
     return (
         
-        <Option key={item.storeName} text={item.storeName}>
+        <Option key={item.alcoholId} text={item.alcoholInfo}>
         <div className="global-search-item">
             <span style={{marginLeft: "20px"}} >
                 <img style={{height: "40px"}} 
                     src={config.url.root + item.coverPicUrl} 
-                    alt="店面"
+                    alt="酒商品"
                 />
             </span>
             <span className="global-search-item-desc" style={{marginLeft: "30px"}}>
-            {item.storeName}
-            </span>
-            <span className="global-search-item-desc" style={{margin: "10px",  float: "right",}}>
-            <Link to={{
-                pathname: "/shopManage/shopDetail/" + item.storeId
-            }}>
-            查看信息
-            </Link>
+            { item.alcoholInfo }
             </span>
         </div>
         </Option>
     );
 }
 
+
+/**
+ * props: set
+ */
 export default class AlcoholClassInput extends React.Component {
     state = {
         dataSource: [],
@@ -47,10 +43,10 @@ export default class AlcoholClassInput extends React.Component {
      * @description 加载未绑定商店信息
      */
     componentDidMount() {
-        axios.get(config.url.goodsClass.get)
+        axios.get(config.url.alcoholClass.get)
             .then((res) => {
                 this.setState({
-                    shopData: res.data,
+                    alcohols: res.data,
                 })
             })
     }
@@ -62,12 +58,12 @@ export default class AlcoholClassInput extends React.Component {
     handleSearch = (value) => {
         if (value === "") {
             this.setState({
-                dataSource: this.state.shopData,
+                dataSource: this.state.alcohols,
             })
             return ;
         }
-        const dataSource = this.state.shopData.filter((elem) => {
-            return elem.storeName.slice(0, value.length) === value ;
+        const dataSource = this.state.alcohols.filter((elem) => {
+            return elem.alcoholInfo.slice(0, value.length) === value ;
         })
         this.setState({
             dataSource: dataSource,
@@ -75,14 +71,14 @@ export default class AlcoholClassInput extends React.Component {
     };
 
     /**
-     * @description 选中后更新绑定信息但不提交
+     * @description 设定选定酒
      * @param  {string} name
      */
-    handleSelect = (name) => {
-        var shop = this.state.shopData.find((elem) => {
-            return elem.storeName === name;
+    handleSelect = (alcoholId) => {
+        let alcohol = this.state.alcohols.find((elem) => {
+            return elem.alcoholId === parseInt(alcoholId);
         })
-        this.props.setShop(shop.key, shop.storeName);
+        this.props.setAlcohol(alcohol)
     }
 
     render() {
@@ -93,13 +89,12 @@ export default class AlcoholClassInput extends React.Component {
             <AutoComplete
                 className="global-search"
                 size="large"
-                placeholder="输入店铺名以修改店铺"
+                placeholder="输入酒名查找"
                 optionLabelProp="text"
                 style={{ width: '100%', marginBottom: inputMarginButtom}}
                 dataSource={dataSource.map(renderOption)}
                 onSelect={ this.handleSelect }
                 onSearch={ this.handleSearch }
-                disabled={ this.props.storeName !== null && this.props.storeName !== ''}
             >
                 <Input
                     suffix={
@@ -111,7 +106,6 @@ export default class AlcoholClassInput extends React.Component {
                     }
                 />
             </AutoComplete>
-        
         </div>
         );
     }

@@ -5,6 +5,7 @@ import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map'
 import axios from 'axios';
 import { Tag, InputItem, List,Button } from '@ant-design/react-native';
 const {height, width} = Dimensions.get('window');
+import config from '../components/config/config';
 //const {height, width} = Dimensions.get('window');
 const buttons = ['先生','女士']
 const buttons1 = ['家','学校','公司']
@@ -77,7 +78,7 @@ export default class AddAddressTable2 extends Component {
    */
   delete(){
     var item = this.props.navigation.state.params.item;
-    var url="http://192.168.1.19:8080/delivery/address?deliveryAddressId="+item.deliveryAddressId;
+    var url=config.url+"delivery/address?deliveryAddressId="+item.deliveryAddressId;
     axios.delete(url).then(response=>{
       if(response.data=='DELETE'){
         ToastAndroid.show("已删除 ",ToastAndroid.SHORT);
@@ -142,7 +143,7 @@ export default class AddAddressTable2 extends Component {
           return;
       }
     }
-    axios.put("http://192.168.1.19:8080/delivery/address",{address:this.state.address,
+    axios.put(config.url+"delivery/address",{address:this.state.address,
     contact:this.state.phone,
     deliveryAddressId:deliveryAddressId,
     detailAddress:this.state.address,

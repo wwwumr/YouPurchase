@@ -9,6 +9,7 @@ import LeftMenu from './test/Test1';
 import { Card,List,Provider,Modal,InputItem } from '@ant-design/react-native';
 import ClassMenu from './Menu2';
 import styles from 'react-native-side-menu/build/styles';
+import config from '../components/config/config';
 let {width,height} = Dimensions.get('window');
 const style1 = StyleSheet.create({
   container: {
@@ -88,8 +89,8 @@ export default class Goodslist extends Component{
   componentWillMount(){
     var id =  this.props.navigation.state.params.storeId;
     //var id=1;
-    var url='http://192.168.1.19:9000/stores/'+id+'/commodities';
-    var url2="http://192.168.1.19:9000/api/u/commodities/classes?storeId="+id;
+    var url=config.url2+'stores/'+id+'/commodities';
+    var url2=config.url2+"api/u/commodities/classes?storeId="+id;
     axios.get(url).then((response)=>{
       list = response.data;
       axios.get(url2).then((response)=>{

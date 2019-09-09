@@ -231,7 +231,7 @@ class ShopManage extends React.Component {
                     title: "修改信息",
                     dataIndex: "key",
                     key: "6",
-                    render: text => <Button ><Link to={{pathname: "/shopManage/shopDetail/"+text}} >修改</Link></Button>
+                    render: text => <Button ><Link to={{ pathname: "/shopManage/shopDetail/"+text }} >修改</Link></Button>
                 }
             ];
 

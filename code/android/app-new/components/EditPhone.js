@@ -15,6 +15,7 @@ const RadioItem = Radio.RadioItem;
 var ImagePicker = NativeModules.ImageCropPicker;
 const {height, width} = Dimensions.get('window');
 import SQLite from './UserSqlite';
+import config from '../components/config/config';
 var sqLite = new SQLite();
 var db;
 /**
@@ -69,7 +70,7 @@ export default class EditPhone extends Component{
       ToastAndroid.show('手机号格式错误',ToastAndroid.SHORT);
       return;  
   }
-  var url = 'http://192.168.1.19:8080/user/getMsg?phone='+phone;
+  var url = config.url+'user/getMsg?phone='+phone;
   axios.get(url)
   .then((response)=> {
     var responseData = response.data;
@@ -119,13 +120,29 @@ export default class EditPhone extends Component{
         if(this.state.msg){
           var msgId = this.state.msg.msgId;
           var t1 = new Date().getTime()/1000;
-          axios.post('http://192.168.1.19:8080/user/phoneModify',{time:t1,code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
+          axios.post(config.url+'user/phoneModify',{time:t1,code:yanzhengma,msgId:msgId,phone:phone,userId:this.props.navigation.state.params.userId})
           .then((response)=> {
             var responseData = response.data;
             if(responseData == 200){
               ToastAndroid.show('手机号修改成功',ToastAndroid.SHORT);
               DeviceEventEmitter.emit('editPage');
               this.props.navigation.goBack();
+            }
+            else if(responseData == 404){
+              ToastAndroid.show('验证码已失效，请五分钟后重试',ToastAndroid.SHORT);
+              return;
+            }
+            else if(responseData == 406){
+              ToastAndroid.show('输入手机号错误，请五分钟后重试',ToastAndroid.SHORT);
+              return;
+            }
+            else if(responseData == 403){
+              ToastAndroid.show('验证码错误，请五分钟后重试',ToastAndroid.SHORT);
+              return;
+            }
+            else if(responseData == 405){
+              ToastAndroid.show('不存在该用户',ToastAndroid.SHORT);
+              return;
             }
             else{
               ToastAndroid.show('修改手机号失败,请五分钟后重试',ToastAndroid.SHORT);

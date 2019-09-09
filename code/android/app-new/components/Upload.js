@@ -4,7 +4,7 @@ import {
   Image, TouchableOpacity, NativeModules, Dimensions
 } from 'react-native';
 import axios from 'axios';
-
+import config from '../components/config/config';
 
 var ImagePicker = NativeModules.ImageCropPicker;
 

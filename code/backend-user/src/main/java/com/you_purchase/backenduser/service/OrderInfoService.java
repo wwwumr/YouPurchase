@@ -79,25 +79,17 @@ public class OrderInfoService extends BaseService {
                 fails.add(commodity.getCommodityInfo());
             }
         }
-
-
         //System.out.println("6");
         if(tagFlag){
             userTagDao.save(userTag);
         }
-        OrderAddDTO orderAddDTO = new OrderAddDTO();
-        orderAddDTO.setFails(fails);
         if(totalPrice == 0){
             orderInfoDao.delete(orderInfo);
-            orderAddDTO.setTotalPrice(0);
-            orderAddDTO.setOrderInfoId(-1);
-            return orderAddDTO;
+            return new OrderAddDTO(0,fails,-1);
         }
-        orderAddDTO.setOrderInfoId(orderInfoId);
-        orderAddDTO.setTotalPrice(totalPrice);
         orderInfo.setTotalPrice(totalPrice);
         orderInfoDao.save(orderInfo);
-        return orderAddDTO;
+        return new OrderAddDTO(totalPrice,fails,orderInfoId);
     }
 
     //用户查看不同执行状态的订单
@@ -123,8 +115,8 @@ public class OrderInfoService extends BaseService {
         return orderInfoDTOS;
     }
 
-    //用户查看单个订单
-    public OrderInfoDTO OrderInfoUser(long orderInfoId,long userId){
+    //用户查看特定订单
+    public OrderInfoDTO OrderIdUser(long orderInfoId,long userId){
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId,true);
         if(orderInfo.getUserId()!=userId){
             return null;
@@ -141,6 +133,7 @@ public class OrderInfoService extends BaseService {
         orderInfoDTO.setCreateDate(date);
         Store store = storeDao.findByStoreId(orderInfo.getStoreId());
         orderInfoDTO.setStoreName(store.getStoreName());
+        orderInfoDTO.setStorePic(store.getCoverPicUrl());
         orderInfoDTO.setTotalPrice(orderInfo.getTotalPrice());
         orderInfoDTO.setOrderInfoId(orderInfo.getOrderInfoId());
         //获取对应订单id的所有商品
@@ -159,7 +152,6 @@ public class OrderInfoService extends BaseService {
         orderInfoDTO.setOrderItemList(orderCheckDTOS);
         return orderInfoDTO;
     }
-
 
 
     //商家查看所有订单
@@ -203,7 +195,7 @@ public class OrderInfoService extends BaseService {
         return  orderInfoDTOS;
     }
 
-    //商家查询单个订单
+    //查询单个订单
     public OrderInfoDTO OrderInfoCheck(long orderInfoId,long storeId){
         boolean flag = orderBelong(orderInfoId,storeId);
         if(flag == false){
@@ -247,7 +239,7 @@ public class OrderInfoService extends BaseService {
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if (orderInfo == null) {
             //System.out.println("不存在该订单");
-            return 403;
+            return -403;
         }
         orderInfo.setStatus(status);
         orderInfoDao.save(orderInfo);
@@ -258,12 +250,12 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoDelete(long orderInfoId,long id) {
         boolean flag = orderBelong(orderInfoId,id);
         if(flag==false){
-            return 0;
+            return -404;
         }
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if (orderInfo == null) {
             //System.out.println("不存在该订单");
-            return 403;
+            return -403;
         }
         orderInfo.setValid(false);
         orderInfoDao.save(orderInfo);
@@ -274,12 +266,12 @@ public class OrderInfoService extends BaseService {
     public int OrderInfoUserDelete(long orderInfoId,long id) {
         boolean flag = orderUserBelong(orderInfoId,id);
         if(flag==false){
-            return 0;
+            return -404;
         }
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(orderInfoId, true);
         if (orderInfo == null) {
             //System.out.println("不存在该订单");
-            return 403;
+            return -403;
         }
         orderInfo.setValid(false);
         orderInfoDao.save(orderInfo);
@@ -295,7 +287,7 @@ public class OrderInfoService extends BaseService {
     public int OrderPay(PayParameter payParameter) {
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(payParameter.getPayId(), true);
         if (orderInfo == null) {
-            return 403;
+            return -403;
         }
         try {
             //第三方支付
@@ -312,7 +304,7 @@ public class OrderInfoService extends BaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 403;
+        return -403;
     }
 
 }

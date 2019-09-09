@@ -4,6 +4,7 @@ import { Input,Image,Header,Text,Icon } from 'react-native-elements';
 import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,Dimensions,ImageBackground,ToastAndroid} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import { InputItem,Button } from '@ant-design/react-native';
+import config from '../components/config/config';
 const {height, width} = Dimensions.get('window');
 /**
  * @description Registry
@@ -61,7 +62,7 @@ export default class Registry extends Component{
       ToastAndroid.show('请输入合法的手机号',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.1.19:8080/user/getMsg',{params:{phone:phone}})
+    axios.get(config.url+'/user/getMsg',{params:{phone:phone}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -117,16 +118,24 @@ export default class Registry extends Component{
       ToastAndroid.show('密码与确认密码不一致',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://192.168.1.19:8080/user/checkMsg',{phone:phone,
+    axios.post(config.url+'user/checkMsg',{phone:phone,
       password:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma,time:t1})
     .then((response)=> {
       var responsedata = response.data;
       console.log(responsedata);
-      if(responsedata==-402)
+      if(responsedata == -404){
+        ToastAndroid.show('验证码失效，请五分钟后重试',ToastAndroid.SHORT);
+        return;
+      }
+      else if(responsedata == -406){
+        ToastAndroid.show('输入的手机号错误,请五分钟后重试',ToastAndroid.SHORT);
+        return;
+      }
+      else if(responsedata==-402)
         ToastAndroid.show('验证操作超时',ToastAndroid.SHORT);
       else if(responsedata==-403)
-        ToastAndroid.show('验证失败，请五分钟后重试',ToastAndroid.SHORT);
+        ToastAndroid.show('验证码错误，请五分钟后重试',ToastAndroid.SHORT);
       else {
         this.setState({responseData:{}})
         ToastAndroid.show('成功注册',ToastAndroid.SHORT);

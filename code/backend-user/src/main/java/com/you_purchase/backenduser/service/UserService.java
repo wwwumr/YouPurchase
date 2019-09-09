@@ -29,24 +29,6 @@ import java.util.Random;
 public class UserService extends BaseService{
 
 
-/*    //用户注册
-    public UserInfoDTO UserReg(UserRegParameter userRegParameter){
-        User user = userDao.findByPhoneAndValid(userRegParameter.getPhone(),true);
-        if(user != null){
-            System.out.println("手机已注册");
-            return new UserLoginDTO(404,null);
-        }
-
-        //短信验证通过，后面再加
-        if(true) {
-            User user1 = new User();
-            user1.setReg(userRegParameter);
-            userDao.save(user1);
-            return new UserLoginDTO(200,user1);
-        }
-        return new UserLoginDTO(403,null);
-    }*/
-
     //用户登陆
     public UserLoginDTO UserLogin(UserLoginParameter userLoginParameter){
         System.out.println("开始登陆");
@@ -56,7 +38,7 @@ public class UserService extends BaseService{
         if(user == null){
             System.out.println("不存在该用户");
             Constrain.log("不存在该用户");
-            return new UserLoginDTO(404,null);
+            return new UserLoginDTO(-404,null);
         }
         if(user.pwdConfirm(userLoginParameter.getPassword())){
             System.out.println("登陆成功");
@@ -65,7 +47,7 @@ public class UserService extends BaseService{
             return new UserLoginDTO(200,user);
         }
         System.out.println("开始返回信息");
-        return new UserLoginDTO(403,null);
+        return new UserLoginDTO(-403,null);
     }
     //用户修改信息
     public UserLoginDTO UserModify(UserModifyParameter userModifyParameter){
@@ -85,7 +67,7 @@ public class UserService extends BaseService{
             userDao.save(user);
             return 200;
         }
-        return 403;
+        return -403;
     }
 
     //用户修改手机号码(ok)
@@ -93,16 +75,16 @@ public class UserService extends BaseService{
         //System.out.println(phoneParameter.getUserId());
         Message message = smsDao.findByMessageIdAndAndValid(phoneParameter.getMsgId(),true);
         if(message == null){
-            return 404;
+            return -404;
         }
         String phone = message.getPhone();
         if(!phoneParameter.getPhone().equals(phone)){
             //手机号不对
-            return 406;
+            return -406;
         }
         User user = userDao.findByUserIdAndValid(phoneParameter.getUserId(),true);
         if(user == null){
-            return 405;
+            return -405;
         }
         if(message.getCode().equals(phoneParameter.getCode())){
             user.setPhone(phoneParameter.getPhone());
@@ -111,7 +93,7 @@ public class UserService extends BaseService{
             smsDao.save(message);
             return 200;
         }
-        return 403;
+        return -403;
     }
 
 
@@ -135,7 +117,7 @@ public class UserService extends BaseService{
         User user = userDao.findByUserIdAndValid(userId,true);
         if(user == null){
             //System.out.println("该用户不存在或已经被屏蔽");
-            return 403;
+            return -403;
         }
         user.setValid(false);
         userDao.save(user);
@@ -212,16 +194,16 @@ public class UserService extends BaseService{
     public long pwdFind(String  phone,String newPwd,long msgId,String code){
         Message msg = smsDao.findByMessageIdAndAndValid(msgId,true);
         if(msg==null){
-            return 404;
+            return -404;
         }
         if(!phone.equals(msg.getPhone())){
             //手机号不对
-            return 406;
+            return -406;
         }
         User user = userDao.findByPhoneAndValid(msg.getPhone(),true);
         if(user == null){
             //不存在该用户
-            return 405;
+            return -405;
         }
 
         if(msg.getCode().equals(code)){
@@ -231,7 +213,7 @@ public class UserService extends BaseService{
             smsDao.save(msg);
             return 200;
         }
-        return 403;
+        return -403;
     }
 
     //短信验证,验证通过则创建新的不可用用户，用户在完善信息后账户可用(ok)
@@ -240,12 +222,12 @@ public class UserService extends BaseService{
         Message msg = smsDao.findByMessageIdAndAndValid(smsParameter.getMsgId(),true);
         if(msg == null){
             //验证码失效
-            return 404;
+            return -404;
         }
         String phone = msg.getPhone();
         if(!smsParameter.getPhone().equals(phone)){
             //手机号不对
-            return 406;
+            return -406;
         }
      //System.out.println("开始验证");
      //System.out.println(msg.getCode());

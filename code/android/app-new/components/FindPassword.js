@@ -4,6 +4,7 @@ import { Input,Image,Header,Text,Icon } from 'react-native-elements';
 import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,Dimensions,ImageBackground,ToastAndroid} from'react-native';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import { InputItem,Button, Toast } from '@ant-design/react-native';
+import config from '../components/config/config';
 var responseData;
 const {height, width} = Dimensions.get('window');
 /**
@@ -56,7 +57,7 @@ export default class FindPassword extends Component{
       ToastAndroid.show('请输入合法的手机号',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.1.19:8080/user/pwdSms',{params:{phone:phone}})
+    axios.get(config.url+'user/pwdSms',{params:{phone:phone}})
     .then((response)=> {
       responseData = response.data;
       console.log(responseData);
@@ -112,7 +113,7 @@ export default class FindPassword extends Component{
       ToastAndroid.show('新密码长度应为6--12位',ToastAndroid.SHORT);
       return;
     }
-    axios.get('http://192.168.1.19:8080/user/pwdFind',{params:{phone:phone,
+    axios.get(config.url+'user/pwdFind',{params:{phone:phone,
       newPwd:this.state.password,
       msgId:this.state.responseData.msgId,code:this.state.yanzhengma}})
     .then((response)=> {
@@ -122,8 +123,21 @@ export default class FindPassword extends Component{
         this.setState({responseData:{}})
         ToastAndroid.show('成功重置密码',ToastAndroid.SHORT);
         this.props.navigation.navigate('Login')
-      }else{
-        ToastAndroid.show('修改失败,请五分钟后重试',ToastAndroid.SHORT);
+      }
+      else if(responsedata == 406){
+        ToastAndroid.show('手机号错误，请五分钟后操作',ToastAndroid.SHORT);
+        return;
+      }
+      else if(responsedata == 405){
+        ToastAndroid.show('不存在该用户',ToastAndroid.SHORT);
+        return;
+      }
+      else if(responsedata == 404){
+        ToastAndroid.show('验证码失效,请五分钟后重试',ToastAndroid.SHORT);
+        return;
+      }
+      else{
+        ToastAndroid.show('验证码错误,请五分钟后重试',ToastAndroid.SHORT);
       }
     })
     .catch(function (error) {

@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public class OrderAddDTO {
     private double totalPrice;
 
-    private long orderInfoId;
-
     private ArrayList fails;
 
+    private long orderInfoId;
 
+    public OrderAddDTO(double price ,ArrayList fails,long orderInfoId){
+        this.setFails(fails);
+        this.setTotalPrice(price);
+        this.setOrderInfoId(orderInfoId);
+    }
 
 
 

@@ -9,6 +9,7 @@ import { List,Button,Modal,
     WhiteSpace,
     WingBlank,
     Provider,Radio,Toast } from '@ant-design/react-native';
+import config from '../components/config/config';
 const Item = List.Item;
 const Brief = Item.Brief;
 const RadioItem = Radio.RadioItem;
@@ -112,7 +113,7 @@ export default class EditPage extends Component{
       ToastAndroid.show('手机号不合法',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://192.168.1.19:8080/user/modify',{
+    axios.post(config.url+'user/modify',{
 	    userId:userId,
 	    userName:userName,
 	    address:address,
@@ -160,7 +161,7 @@ export default class EditPage extends Component{
       console.log('received base64 image');
       
       console.log(`data:${image.mime};base64,`+image.data);
-      axios.post("http://192.168.1.19:8080/user/uploadPhoto",{photoImage:`data:${image.mime};base64,`+ image.data,userId:userId}).then((response)=>{
+      axios.post(config.url+"user/uploadPhoto",{photoImage:`data:${image.mime};base64,`+ image.data,userId:userId}).then((response)=>{
         tempitem = response.data;
         console.log(tempitem);
         DeviceEventEmitter.emit('editPersonPage');
@@ -177,7 +178,7 @@ export default class EditPage extends Component{
    */
   change(){
     var userId = this.props.navigation.state.params.userId
-    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:userId}})
+    axios.get(config.url+'user/check',{params:{userId:userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
@@ -203,7 +204,7 @@ export default class EditPage extends Component{
     }
     sqLite.createTable();
     var userId = this.props.navigation.state.params.userId
-    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:userId}})
+    axios.get(config.url+'user/check',{params:{userId:userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);

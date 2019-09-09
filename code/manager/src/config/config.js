@@ -43,7 +43,7 @@ var config = {
         maxCapicity: 2 << 21,
         storeAction: root + "api/a/stores/cover/",
         avatarAction: root + "api/a/dealers/avatar/",
-        alcoholAction: root + "",
+        alcoholAction: root + "api/a/alcohol/cover/",
     },
     /* 主页管理员头像 */
     avatar: {
@@ -91,10 +91,10 @@ var config = {
             delete: root + "api/a/alcohol/",
             put: root + "api/a/alcohol/",
         },
+        oneAlcohol: {
+            get: root + "api/ad/alcohol/",
+        }
     },
-    lengthLimit: {
-        password: 20,
-    }
 }
 
 export default config;
