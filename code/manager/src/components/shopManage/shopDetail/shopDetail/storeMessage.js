@@ -125,7 +125,7 @@ export default class StoreMessage extends React.Component {
                 value={
                     this.state.shop.endHour ? moment( this.state.shop.endHour, "HH:mm"): moment()
                 }
-                onChange = {(time) => { this.handleTimeChange(time, "startHour")}}
+                onChange = {(time) => { this.handleTimeChange(time, "endHour")}}
             />
             <Input addonBefore="配送距离(km)" style={{display: "inline-block", marginBottom: "20px", width: "50%"}}  
                 min={0} type="number"
