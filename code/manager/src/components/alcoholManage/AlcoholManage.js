@@ -41,7 +41,7 @@ export default class AlcoholManage extends React.Component {
                 console.log(res.data)
                 if (res.data === "DELETE") {
                     let alcohols = this.state.alcohols.filter((elem) => {
-                        return elem.alcoholId === text;
+                        return elem.alcoholId !== text;
                     })
                     this.setState({
                         alcohols: alcohols,
