@@ -26,7 +26,7 @@ public class ImageController {
      * 数据库中所有的图片url，都是image/123456.jpg这种格式
      * 这样在前端请求的时候，用主机的root路径加上这个字符串就可以请求到相应图片了 */
 
-    @Value("${imageBaseDirectory}")
+    @Value("${imageBaseDir}")
     private String IMAGE_BASE_DIRECTORY;
 
     @Autowired
