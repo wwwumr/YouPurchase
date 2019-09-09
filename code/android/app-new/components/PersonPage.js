@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import Upload from './Upload'
 import { Input,Image,Header,Text,Button,Overlay, Divider } from 'react-native-elements';
+import config from '../components/config/config';
 import {View,StyleSheet,TouchableOpacity,ImageBackground, NativeModules,Dimensions,DeviceEventEmitter,ToastAndroid} from'react-native';
 var ImagePicker = NativeModules.ImageCropPicker;
 const {height, width} = Dimensions.get('window');
@@ -21,7 +22,7 @@ export default class PersonPage extends Component{
       sex:'',
       detail:{},
       image: null,
-      uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId+"&v="+Math.random()
+      uri:config.url+'user/getPhoto?userId='+this.props.userId+"&v="+Math.random()
     }
   }
   /**
@@ -46,11 +47,11 @@ export default class PersonPage extends Component{
    */
   change(){
     console.log(this.props.userId);
-    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get(config.url+'user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);
-      this.setState({detail:responseData,uri:'http://192.168.1.19:8080/user/getPhoto?userId='+this.props.userId+"&v="+Math.random()})
+      this.setState({detail:responseData,uri:config.url+'user/getPhoto?userId='+this.props.userId+"&v="+Math.random()})
     })
     .catch(function (error) {
       ToastAndroid.show('网络异常',ToastAndroid.SHORT);
@@ -62,7 +63,7 @@ export default class PersonPage extends Component{
    */
   componentWillMount(){
     console.log(this.props.userId);
-    axios.get('http://192.168.1.19:8080/user/check',{params:{userId:this.props.userId}})
+    axios.get(config.url+'user/check',{params:{userId:this.props.userId}})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);

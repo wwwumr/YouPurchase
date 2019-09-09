@@ -9,6 +9,7 @@ import LeftMenu from './test/Test1'
 import styles from 'react-native-side-menu/build/styles';
 import GradeItem from './GradeItem';
 import { List } from '@ant-design/react-native';
+import config from '../components/config/config';
 let {width,height} = Dimensions.get('window');
 const style1 = StyleSheet.create({
   container: {
@@ -40,7 +41,7 @@ export default class StoreGradeShow extends Component{
    */
   componentWillMount(){
     var storeId = this.props.navigation.state.params.storeId;
-    var url="http://192.168.1.19:8080/grade/show?storeId="+storeId;
+    var url=config.url+"grade/show?storeId="+storeId;
     axios.get(url).then((response)=>{
       list = response.data;
       this.setState({itemlist:list});

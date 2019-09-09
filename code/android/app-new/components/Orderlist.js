@@ -7,6 +7,7 @@ import Menu1 from './Menu1';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Menu from 'react-native-material-menu';
 import { Drawer, List  } from '@ant-design/react-native';
+import config from '../components/config/config';
 var list=[];
 const {height, width} = Dimensions.get('window');
 var parserDate = function (date) {  
@@ -89,7 +90,7 @@ orderStatus4(){
     change(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post(config.url+'order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
@@ -175,7 +176,7 @@ orderStatus4(){
     componentWillReceiveProps(){
       var userid =  this.props.userId;
       console.log(userid);
-      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post(config.url+'/order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
       //  0：未支付 1：待发货 2：配送中 3：已送达
         for(var i=0;i<list.length;i++){
@@ -225,7 +226,7 @@ orderStatus4(){
       var userid =  this.props.userId;
       //var userid=2;
       console.log(userid);
-      axios.post('http://192.168.1.19:8080/order/userCheck',{id:userid,status:0}).then((response)=>{
+      axios.post(config.url+'order/userCheck',{id:userid,status:0}).then((response)=>{
         list = response.data;
         
       //  0：未支付 1：待发货 2：配送中 3：已送达

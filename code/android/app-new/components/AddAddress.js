@@ -5,6 +5,7 @@ import {Header,ListItem, Divider,Button} from 'react-native-elements';
 import axios from 'axios';
 import { Tag, WhiteSpace, List } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import config from '../components/config/config';
 //const {height, width} = Dimensions.get('window');
 var addressList=[];
 const {height, width} = Dimensions.get('window');
@@ -41,7 +42,7 @@ export default class AddAddress extends Component {
   change(){
     console.log("change addresslist");
     var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
+      var url=config.url+'delivery/address?userId='+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];
@@ -74,7 +75,7 @@ export default class AddAddress extends Component {
    */
     componentWillMount(){
       var userId = this.props.navigation.state.params.userId;
-      var url="http://192.168.1.19:8080/delivery/address?userId="+userId;
+      var url=config.url+"delivery/address?userId="+userId;
       axios.get(url).then((response)=>{
         list = response.data;
         addressList=[];

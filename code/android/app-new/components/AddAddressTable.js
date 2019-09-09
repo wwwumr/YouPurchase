@@ -4,6 +4,7 @@ import {Header,Text,Icon,ListItem, Divider,Input} from 'react-native-elements';
 import { MapView, MapTypes, Geolocation, Overlay } from 'react-native-baidu-map';
 import axios from 'axios';
 import { Tag, InputItem, List,Button } from '@ant-design/react-native';
+import config from '../components/config/config';
 const {height, width} = Dimensions.get('window');
 //const {height, width} = Dimensions.get('window');
 /**
@@ -100,7 +101,7 @@ export default class AddAddressTable extends Component {
           return;
       }
     }
-    axios.post("http://192.168.1.19:8080/delivery/address",{address:this.state.address,
+    axios.post(config.url+"delivery/address",{address:this.state.address,
         contact:this.state.phone,
         deliveryAddressId:0,
         detailAddress:this.state.address,

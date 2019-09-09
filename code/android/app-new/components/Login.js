@@ -6,6 +6,7 @@ import {View,StyleSheet,TouchableOpacity,Alert,KeyboardAvoidingView,ImageBackgro
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation'
 import SQLite from './UserSqlite';
 import { InputItem, List,Button,Toast } from '@ant-design/react-native';
+import config from '../components/config/config';
 var item={};
 var sqLite = new SQLite();
 var db;
@@ -58,7 +59,8 @@ export default class Login extends Component{
       ToastAndroid.show('密码不能为空',ToastAndroid.SHORT);
       return;
     }
-    axios.post('http://192.168.1.19:8080/user/login',{phone:phone,password:this.state.password})
+    var tempurl = config.url+'user/login';
+    axios.post(tempurl,{phone:phone,password:this.state.password})
     .then((response)=> {
       var responseData = response.data;
       console.log(responseData);

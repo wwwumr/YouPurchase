@@ -7,6 +7,7 @@ import DeviceStorage from './Store';
 import {commonStyle} from './commonStyle'
 import SQLite from './Sqlite';
 import { Tag, InputItem, List,Button,Stepper } from '@ant-design/react-native';
+import config from '../components/config/config';
 const Item = List.Item;
 const Brief = Item.Brief;
 const {height, width} = Dimensions.get('window');
@@ -58,7 +59,7 @@ export default class RecGoodsDetail extends Component{
       sqLite.createTable();
         //var id = 1;
         var id =  this.props.navigation.state.params.goodsId;
-        var url='http://192.168.1.19:9000/commodities/'+id;
+        var url=config.url2+'commodities/'+id;
         axios.get(url).then((response)=>{
         tempitem = response.data;
         this.setState({item:tempitem,id:id});
@@ -67,7 +68,7 @@ export default class RecGoodsDetail extends Component{
         console.log(error);
       })
       var storeId =  this.props.navigation.state.params.storeId;
-      var url1='http://192.168.1.19:9000/api/u/stores/'+storeId;
+      var url1=config.url2+'api/u/stores/'+storeId;
         axios.get(url1).then((response)=>{
           console.log(response.data);
         var tempitem1 = response.data;

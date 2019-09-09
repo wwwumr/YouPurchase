@@ -7,6 +7,7 @@ import Item from './Item';
 import { List,Provider,Modal } from '@ant-design/react-native';
 import OrderItem from './OrderItem';
 import {commonStyle} from './commonStyle'
+import config from '../components/config/config';
 const {height,width} = Dimensions.get('window');
 /**
  * @description 确认订单页面
@@ -40,7 +41,7 @@ export default class OrderOk extends Component{
         var storeId = this.props.navigation.state.params.shopId;
         console.log(storeId);
         
-        var url = 'http://192.168.1.19:9000/api/u/stores/'+storeId
+        var url = config.url2+'api/u/stores/'+storeId
         axios.get(url).then((response)=>{
           console.log(response);
           var responseData =response.data;
@@ -120,7 +121,7 @@ export default class OrderOk extends Component{
     console.log(templist);
     console.log(deliveryAddressId);
     console.log(storeId);
-    axios.post("http://192.168.1.19:8080/order/add",{createDate:currentTime,deliveryAddressId:deliveryAddressId,
+    axios.post(config.url+"order/add",{createDate:currentTime,deliveryAddressId:deliveryAddressId,
     orderItemList:templist,storeId:storeId,tarAddress:tarAddress,tarPeople:tarPeople,tarPhone:tarPhone,totalPrice:total,userId:userId
   }).then((response)=>{
     console.log(response.data);

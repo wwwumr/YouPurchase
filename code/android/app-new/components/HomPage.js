@@ -5,6 +5,7 @@ var sqLite = new SQLite();
 var db;
 const {height, width} = Dimensions.get('window');
 import axios from 'axios';
+import config from '../components/config/config';
 export default class HomePage extends Component{
     constructor(props){
         super(props);
@@ -29,7 +30,8 @@ export default class HomePage extends Component{
                 console.log("Ok Here!");
                 console.log(item.phone);
                 console.log(item.password);
-                axios.post('http://192.168.1.19:8080/user/login',{phone:item.phone,password:item.password})
+                var tempurl = config.url+'user/login';
+                axios.post(tempurl,{phone:item.phone,password:item.password})
                 .then((response)=> {
                     console.log(response)
                     var responseData = response.data;
