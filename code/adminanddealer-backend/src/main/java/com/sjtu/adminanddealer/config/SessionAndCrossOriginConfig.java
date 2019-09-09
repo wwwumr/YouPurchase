@@ -78,10 +78,10 @@ public class SessionAndCrossOriginConfig implements WebMvcConfigurer {
         // 必须写成链式，分别设置的话会创建多个拦截器。
         // 必须写成getSessionInterceptor()，否则SessionInterceptor中的@Autowired会无效
 
-        registry.addInterceptor(getSessionInterceptor())
-                .addPathPatterns("/api/**")
-                .excludePathPatterns("/login/**")
-                .excludePathPatterns("/logout");
+//        registry.addInterceptor(getSessionInterceptor())
+//                .addPathPatterns("/api/**")
+//                .excludePathPatterns("/login/**")
+//                .excludePathPatterns("/logout");
 //        registry.addInterceptor(getAdminInterceptor())
 //                .addPathPatterns("/api/a/**");
 //        registry.addInterceptor(getDealerInterceptor())

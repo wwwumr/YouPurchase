@@ -77,3 +77,12 @@ alter table `tablename` convert to charset utf8;
 1. 打开putty客户端，进入左边的“Auth”配置菜单。
 2. 点击“Browse”按钮，进入弹窗后进入密钥存储的路径，并选择刚才转换的ppk密钥文件，点击“打开”，返回配置界面，进入“Session”配置。
 3. 在Session配置页中，配置服务器的IP，端口，协议信息，在“Saved Sessions”输入框中中输入会话名称，再点击“Save”按钮，然后双击会话名称或者点击“Open”按钮发起登录请求.
+
+#### 用putty上传文件到服务器
+用到的工具是putty自带的pscp
+
+在windows下进入安装putty的文件夹，打开命令行进入该文件夹，然后输入指令
+
+pscp 文件路径 用户名@主机:远程路径
+
+这里的主机可以是保存的连接session名字，这样是用ssh连接的服务器（没有用户密码）也可以直接传文件上去
