@@ -123,6 +123,7 @@ var config = {
         alcoholClass: {
             get: root + "api/d/alcohol/",
         },
+        allGoodsClass: root + "api/ad/commodities/classes/all/" ,
         /* root1 */
         root1: root1,
         /* 订单接口 */
@@ -132,6 +133,9 @@ var config = {
         },
         orderDetail: {
             get: root1 + "order/check/",
+        },
+        orderByTime: {
+            post: root1 + "order/storeTimeCheck/",
         }
     },
 }

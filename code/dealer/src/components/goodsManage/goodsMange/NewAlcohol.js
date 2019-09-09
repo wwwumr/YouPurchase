@@ -1,7 +1,11 @@
 import React from 'react';
 import { Steps, Input, Radio, Button } from 'antd';
+import { createHashHistory } from 'history';
+import axios from 'axios';
 import config from '../../../config/config';
 import AlcoholClassInput from './newAlcohol/AlcoholClassInput';
+
+const history = createHashHistory();
 
 export default class NewAlcohol extends React.Component {
 
@@ -24,8 +28,16 @@ export default class NewAlcohol extends React.Component {
                 step: step + 1,
             })
         } else if (step === 1) {
-            this.setState({
-                step: step + 1,
+            axios({
+                method: "POST",
+                url: config.url.goods,
+                data: this.state.goods,
+            })
+            .then((res) => {
+                console.log(res.data)
+                history.push({
+                    pathname: "/goodsManage/",
+                })
             })
         }
     }

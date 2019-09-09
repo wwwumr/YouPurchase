@@ -41,6 +41,9 @@ public class OrderInfoService extends BaseService {
 
         //标签检测，没有则生成
         User user = userDao.findByUserIdAndValid(orderInfoParameter.getUserId(),true);
+        if(user==null){
+            return null;
+        }
         if(user.getUserTagId()<=0){
             UserTag userTag = new UserTag();
             userTag.setType4("酒");

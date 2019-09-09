@@ -2,12 +2,14 @@ import React from 'react';
 import AlcoholImg from './alcoholDetail/AlcoholImg';
 import axios from 'axios';
 import config from '../../../config/config';
-import { Input, Button } from 'antd';
+import { checkNotChange, checkJsonNotNull } from '../../../lib/format/checkFormat';
+import { Input, Button, message } from 'antd';
 
 export default class AlcoholDetail extends React.Component {
 
     state = {
         alcohol: Object.assign({}, config.alcohol),
+        originAlcohol: Object.assign({}, config.alcohol),
     }
 
     componentDidMount() {
@@ -32,11 +34,20 @@ export default class AlcoholDetail extends React.Component {
     }
 
     handleOk = () => {
-        /*
+        if (checkNotChange(this.state.alcohol, this.state.originAlcohol)) {
+            return ;
+        }
+        if (!checkJsonNotNull(this.state.alcohol, ["alcoholId", "alcoholInfo", "price", "remaining"])) {
+            return ;
+        }
         axios({
-            method: "POST",
-            url: config.url.
-        })*/
+            method: "PUT",
+            url: config.url.oneAlcohol.put,
+            data: this.state.alcohol,
+        })
+        .then(() => {
+            message.success("更新成功");
+        })
     }
 
     render() {

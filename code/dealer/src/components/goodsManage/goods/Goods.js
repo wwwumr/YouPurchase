@@ -3,6 +3,8 @@ import { Input, message, Button, Radio,  } from 'antd';
 import axios from 'axios';
 import ImageUpload from './goods/ImageUpload';
 import config from '../../../config/config';
+import { checkNotChange } from '../../../lib/format/checkFormat';
+import ClassAutoInput from './goods/ClassAutoInput';
 
 const { TextArea } = Input;
 
@@ -25,10 +27,12 @@ class Goods extends React.Component {
             .get(config.url.goods + this.props.match.params.id)
             .then(res => {
                 let goods = Object.assign({}, res.data);
-                goods.commodityPicUrls = res.data.commodityPicUrls.concat;
+                goods.commodityClass = goods.classInfo;
+                delete goods.classInfo;
+                console.log(goods);
                 this.setState({
-                    goods: res.data,
-                    originGoods: goods,
+                    goods: goods,
+                    originGoods: Object.assign({}, goods),
                 })
             })
     }
@@ -40,6 +44,7 @@ class Goods extends React.Component {
         if (!this.checkShop()) {
             return false;
         }   
+        
         axios
             .put(config.url.goodsP, this.state.goods)
             .then(res => {
@@ -62,6 +67,14 @@ class Goods extends React.Component {
         })
     }
 
+    setClassInfo = (classInfo) => {
+        var goods = this.state.goods;
+        goods.commodityClass = classInfo;
+        this.setState({
+            goods: goods,
+        })
+    }
+
     /**
      * @description 检查店铺是否有更改
      * @returns 
@@ -69,13 +82,8 @@ class Goods extends React.Component {
     checkShop() {
         let goods = this.state.goods;
         let originGoods = this.state.originGoods;
-        if (
-            goods.commodityInfo !== originGoods.commodityInfo ||
-            goods.inventory !== originGoods.inventory || 
-            goods.remaining !== originGoods.remaining ||
-            goods.onShelves !== originGoods.onShelves ||
-            goods.price !== originGoods.price 
-        ) {
+        console.log(checkNotChange(goods, originGoods));
+        if (!checkNotChange(goods, originGoods)) {
             if (parseInt(goods.inventory) < parseInt(goods.remaining)) {
                 message.error("您的商品上架量大于库存");
             } else if (parseInt(goods.inventory) < 0 || parseInt(goods.remaining) < 0 
@@ -94,7 +102,8 @@ class Goods extends React.Component {
         <div style={{position: "relative", textAlign: "center", left: "150px" }}>
             <h1 style={{position: "relative", right: "150px"}}>商品信息</h1>
             <div 
-                style={{position: "relative", height: "320px", width: "400px", float: "left", marginRight: "0px", marginTop: "20px", marginLeft: "50px"}}
+                style={{position: "relative", height: "320px", width: "400px", float: "left"
+                , marginRight: "0px", marginTop: "70px", marginLeft: "50px"}}
             >
             <ImageUpload goodsId={this.props.match.params.id} 
             />
@@ -128,6 +137,7 @@ class Goods extends React.Component {
                     onChange = {(e) => { this.handleChange(e, "remaining") }}
                 >
                 </Input>
+                <ClassAutoInput classInfo={this.state.goods.commodityClass} setClassInfo={this.setClassInfo} />
                 <Button style={{ marginTop: "15px" }}
                     onClick = { this.handleSubmit } 
                 >

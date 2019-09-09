@@ -1,14 +1,8 @@
 import React from 'react';
-import { Upload, Icon, message, Tooltip, Modal } from 'antd';
+import { Upload, Icon, message, Tooltip  } from 'antd';
 import axios from 'axios';
 import config from '../../../../config/config';
 
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-}
 
 function beforeUpload(file) {
     if (config.uploadImage.validFormat.indexOf(file.type) < 0) {
@@ -31,20 +25,10 @@ class ImageUpload extends React.Component {
             loading: false,
             imageUrl: '',
             goodsId: null,
-            previewVisible: false,
-            previewImage: '',
-            fileList: [
-                {
-                    uid: '-1',
-                    name: 'xxx.png',
-                    status: 'done',
-                    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-                },
-            ],
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let key = this.props.goodsId;
         axios   
             .get(config.url.goods + key)
@@ -52,25 +36,12 @@ class ImageUpload extends React.Component {
                 if (res.data !== null && res.data !== ''){
                     this.setState({
                         imageUrl: res.data.commodityCoverPicUrl,
-                        goodsId: res.data.key,
+                        goodsId: key,
                     })
                 }
                 
             })
     }
-
-    handleCancel = () => this.setState({ previewVisible: false });
-
-    handlePreview = async file => {
-        if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
-        }
-
-        this.setState({
-        previewImage: file.url || file.preview,
-        previewVisible: true,
-        });
-    };
     
     handleChange = info => {
         if (info.file.status === 'uploading') {
@@ -93,14 +64,6 @@ class ImageUpload extends React.Component {
         </div>
         );
 
-        const { previewVisible, previewImage, fileList } = this.state;
-        const uploadButton1 = (
-        <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-        </div>
-        );
-
         return (
         <Tooltip placement="topLeft" title="更换店面图片">
             <Upload
@@ -119,32 +82,13 @@ class ImageUpload extends React.Component {
                 {/* action之后重构 */}
                 {
                     this.state.imageUrl ?
-                    <img src={ config.url.root + this.state.imageUrl} alt="头像" 
+                    <img src={ config.url.root + this.state.imageUrl} alt="商品图片" 
                         style={{position: "relative", width: "100%", height: "90%"}}
                     /> 
                     : uploadButton
                 }
                 <h3>点击更换图片</h3>
             </Upload>
-            <div className="clearfix">
-                <Upload
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    listType="picture-card"
-                    fileList={fileList}
-                    onPreview={ this.handlePreview }
-                    onChange={ ({ fileList }) => this.setState({ fileList }) }
-                    style={{position: "relative",display: "block", width: "100px", height: "100px", 
-                        verticalAlign: "center", textAlign: "center"}}
-                >
-                {fileList.length >= 3 ? null : uploadButton1}
-                </Upload>
-                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-                    <img alt="example" 
-                        style={{position: "relative", width: "100%", height: "100%"}} 
-                        src={previewImage} 
-                    />
-                </Modal>
-            </div>
         </Tooltip>
         );
     }

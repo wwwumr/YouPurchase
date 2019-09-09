@@ -16,9 +16,12 @@ export default class SelectTag extends React.Component {
 
     componentDidMount() {
         axios
-            .get(config.url.goodsClass.get)
+            .get(config.url.allGoodsClass)
             .then((res) => {
-                const tagList = res.data;
+                let tags = res.data;
+                const tagList = tags.map((elem) => {
+                    return elem.classInfo;
+                });
                 this.setState({
                     tagList: tagList,
                 })
