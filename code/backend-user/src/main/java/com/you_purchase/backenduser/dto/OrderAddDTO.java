@@ -7,17 +7,25 @@ public class OrderAddDTO {
 
     private ArrayList fails;
 
+    private long orderInfoId;
 
-    public OrderAddDTO(double price ,ArrayList fails){
+    public OrderAddDTO(double price ,ArrayList fails,long orderInfoId){
         this.setFails(fails);
         this.setTotalPrice(price);
+        this.setOrderInfoId(orderInfoId);
     }
 
 
 
 
     //getter and setter
+    public long getOrderInfoId() {
+        return orderInfoId;
+    }
 
+    public void setOrderInfoId(long orderInfoId) {
+        this.orderInfoId = orderInfoId;
+    }
 
     public double getTotalPrice() {
         return totalPrice;

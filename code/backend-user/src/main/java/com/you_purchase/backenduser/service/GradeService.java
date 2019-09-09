@@ -21,7 +21,7 @@ public class GradeService extends BaseService {
         long id = gradeParameter.getOrderInfoId();
         OrderInfo orderInfo = orderInfoDao.findByOrderInfoIdAndValid(id,true);
         if(orderInfo.isJudged()){
-            return 403;
+            return -403;
         }
         orderInfo.setJudged(true);
         orderInfoDao.save(orderInfo);
@@ -56,7 +56,7 @@ public class GradeService extends BaseService {
         Grade grade = gradeDao.findByGradeIdAndValid(gradeId,true);
         if(grade == null){
             //System.out.println("该评论不存在或已删除");
-            return 403;
+            return -403;
         }
         grade.setValid(false);
         gradeDao.save(grade);

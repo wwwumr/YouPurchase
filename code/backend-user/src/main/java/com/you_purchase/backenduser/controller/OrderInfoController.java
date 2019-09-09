@@ -4,6 +4,7 @@ package com.you_purchase.backenduser.controller;
 import com.you_purchase.backenduser.dto.OrderAddDTO;
 import com.you_purchase.backenduser.dto.OrderInfoDTO;
 import com.you_purchase.backenduser.dto.OrderPayDTO;
+import com.you_purchase.backenduser.entity.OrderInfo;
 import com.you_purchase.backenduser.parameter.OrderInfoCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoDateCheckParameter;
 import com.you_purchase.backenduser.parameter.OrderInfoParameter;
@@ -50,6 +51,15 @@ public class OrderInfoController extends BaseController{
     @ApiOperation(value = "用户查看所有订单")
     List<OrderInfoDTO> OrderUserCheck(@RequestBody OrderInfoCheckParameter orderInfoCheckParameter){
         return orderInfoService.OrderUserCheck(orderInfoCheckParameter);
+    }
+
+    //用户查看特定订单
+    @RequestMapping(value = "/order/idUser",method = RequestMethod.GET)
+    public
+    @ResponseBody
+    @ApiOperation(value = "用户根据id查订单")
+    OrderInfoDTO OrderIdUser(long orderInfoId,long userId){
+        return orderInfoService.OrderIdUser(orderInfoId,userId);
     }
 
     //用户查状态看订单
