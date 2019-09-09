@@ -1,5 +1,5 @@
 let root = "http://202.120.40.8:30414/";
-let root1 = "http://202.120.40.8:30413";
+let root1 = "http://202.120.40.8:30413/";
 /*
 var root = "http://localhost:9000/";
 var root1 = "http://localhost:9001/";
