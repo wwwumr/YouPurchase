@@ -19,7 +19,6 @@ public class RecDTO {
 
     private String storeInfo;
 
-
     public RecDTO(Commodity commodity ,Store store){
         this.setCommodityId(commodity.getCommodityId());
         this.setCommodityInfo(commodity.getCommodityInfo());

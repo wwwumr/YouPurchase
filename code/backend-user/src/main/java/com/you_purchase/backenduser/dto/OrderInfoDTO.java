@@ -23,6 +23,8 @@ public class OrderInfoDTO {
 
     private String storeName;
 
+    private String storePic;
+
     private String tarPeople;
 
     private  String tarPhone;
@@ -44,6 +46,14 @@ public class OrderInfoDTO {
 
 
     //getter and setter
+    public String getStorePic() {
+        return storePic;
+    }
+
+    public void setStorePic(String storePic) {
+        this.storePic = storePic;
+    }
+
     public String getCoverPicUrl() {
         return coverPicUrl;
     }
