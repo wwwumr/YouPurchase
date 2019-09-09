@@ -94,6 +94,8 @@ public class DeliveryAddressService extends BaseService {
                 json.put("transport_latitude", store.getLatitude());
                 String postUrl = "http://202.120.40.8:30417/order";
                 ResponseEntity<JSONObject> response = restTemplate.postForEntity(postUrl, json, JSONObject.class);
+                orderInfo.setStatus(2);
+                orderInfoDao.save(orderInfo);
                 }
             } else {
             // TODO 商家的配送方式是自己配送，直接修改订单状态
