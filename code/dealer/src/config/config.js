@@ -133,6 +133,9 @@ var config = {
         },
         orderDetail: {
             get: root1 + "order/check/",
+        },
+        orderByTime: {
+            post: root1 + "order/storeTimeCheck/",
         }
     },
 }

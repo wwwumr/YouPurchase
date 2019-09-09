@@ -1,8 +1,10 @@
 import React from 'react';
-import { Statistic, Row, Col, Table } from 'antd';
+import { Statistic, Row, Col, Table, Modal, DatePicker, Button } from 'antd';
 import axios from 'axios';
 import config from '../../../config/config';
 
+
+const { RangePicker } = DatePicker;
 const columns = [
     {
         title: "商品",
@@ -42,6 +44,11 @@ export default class OrderStatistics extends React.Component {
         orderList: [],
         totalPrice: null,
         orderItemList: [],
+        date: {
+            sDate: "",
+            eDate: "",
+        },
+        visible: false,
     }
     
     componentDidMount() {
@@ -52,10 +59,29 @@ export default class OrderStatistics extends React.Component {
                     orderList: res.data,
                 }, this.analize)
             })
-            .catch((err) => {
-                if (err.response) {
-                    console.log(err.message);
-                }
+    }
+
+
+    onChange = (value, dateString) => {
+        let date = {
+            sDate: dateString[0],
+            eDate: dateString[1],
+        }
+        this.setState({
+            date: date,
+        })
+        
+    }
+
+    onOk = () => {
+        axios
+            .post(config.url.orderByTime.post, this.state.date)
+            .then((res) => {
+                this.setState({
+                    orderList: res.data,
+                    visible: false,
+                })
+                this.analize();
             })
     }
 
@@ -69,13 +95,15 @@ export default class OrderStatistics extends React.Component {
         /* 计算商品销量及价格 */
         let orderItemIdList = [], orderItemList = [];
         /* 遍历orderList的orderItemList获取商品id */
-        orderList.forEach((elem) => {
-            elem.orderItemList.forEach(element => {
-                if (orderItemIdList.indexOf(element["commodityId"]) < 0) {
-                    orderItemIdList.push(element["commodityId"]);
-                }
-            })    
-        })
+        if (orderList.length > 0) {
+            orderList.forEach((elem) => {
+                elem.orderItemList.forEach(element => {
+                    if (orderItemIdList.indexOf(element["commodityId"]) < 0) {
+                        orderItemIdList.push(element["commodityId"]);
+                    }
+                })    
+            })
+        }
         /* 遍历orderItemList并计算每个商品的属性 */
         orderList.forEach((element) => {
             element.orderItemList.forEach(elem => {
@@ -108,8 +136,22 @@ export default class OrderStatistics extends React.Component {
     render() {
         return (
         <div style={{margin: 20, textAlign: "center"}}>
+            <Modal  okText="确认" cancelText="取消" title="选择日期"
+                visible={this.state.visible}
+                onOk={ this.onOk }
+                onCancel={()=>{ this.setState({ visible: false }) }}
+            >
+                <RangePicker
+                    format="YYYY-MM-DD HH:mm:SS"
+                    placeholder={['开始时间', '结束时间']}
+                    onChange={this.onChange}
+                />
+            </Modal>
             <Row gutter={16} style={{marginBottom: 20, }}>
-                <Col span={6} offset={5}>
+                <Col span={5}>
+                    <Button onClick={() => {this.setState({ visible: true })}}>按时间查看</Button>
+                </Col>
+                <Col span={6}>
                 <Statistic title="累计订单数" value={this.state.orderList.length} />
                 </Col>
                 <Col span={6} >
