@@ -1,5 +1,9 @@
-var root = "http://202.120.40.8:30414/";
-//var root = "http://localhost:9000/";
+let root = "http://202.120.40.8:30414/";
+let root1 = "http://202.120.40.8:30413";
+/*
+var root = "http://localhost:9000/";
+var root1 = "http://localhost:9001/";
+*/
 var config = {
     shop: {
         originShop: {
@@ -94,6 +98,9 @@ var config = {
         oneAlcohol: {
             get: root + "api/ad/alcohol/",
             put: root + "api/a/alcohol/",
+        },
+        advertise: {
+            post: root1 + "advert/add/",
         }
     },
 }
