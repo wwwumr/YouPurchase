@@ -257,7 +257,7 @@ public class BaseService {
         }
     }
 
-    @Value("${imageBaseDirectory}")
+    @Value("${imageBaseDir}")
     private String imageBase;
 
     protected int UploadPhotoBase(long userId,String photo){
@@ -271,13 +271,14 @@ public class BaseService {
             String uuid = UUID.randomUUID().toString();
             String directory = "image/" + uuid +".jpg";
 
-            file = new File(directory);
+            file = new File(imageBase+directory);
             fos = new FileOutputStream(file);
             bos = new BufferedOutputStream(fos);
             bos.write(imageByte);
             User user = userDao.findByUserIdAndValid(userId,true);
-            directory = directory.substring(directory.indexOf("//")+2);
+            directory = directory.substring(directory.indexOf("//"));
             user.setPhoto(directory);
+            userDao.save(user);
             return 200;
         } catch (Exception e) {
             e.printStackTrace();
