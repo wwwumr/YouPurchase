@@ -269,7 +269,7 @@ public class BaseService {
             byte[] imageByte = Base64.decodeBase64(photo);
             //uuid产生唯一的图片名字
             String uuid = UUID.randomUUID().toString();
-            String directory = imageBase + uuid +".jpg";
+            String directory = "image/" + uuid +".jpg";
 
             file = new File(directory);
             fos = new FileOutputStream(file);
