@@ -25,32 +25,25 @@ export default class OrderOk2 extends Component{
           name:"",
           phone:"",
           address:"",
-          isVisible:false
         }
     }
     /**
      * @description 生命周期函数
      */
     componentWillMount(){
-        var orderItemlist = this.props.navigation.state.params.orderItemlist;
-        var shopName = this.props.navigation.state.params.shopName;
-        var total = this.props.navigation.state.params.total;
+        var orderInfoId = this.props.navigation.state.params.orderInfoId;
         var userId = this.props.navigation.state.params.userId;
-        var address=this.props.navigation.state.params.tarAddress;
-        var phone = this.props.navigation.state.params.tarPhone;
-        var name = this.props.navigation.state.params.tarPeople;
-        var uri = this.props.navigation.state.params.uri;
-        console.log(orderItemlist)
-        this.setState({
-            orderItemlist:orderItemlist,
-            shopName:shopName,
-            total:total,
-            userId:userId,
-            name:name,
-            address:address,
-            phone:phone,
-            sex:'',
-            uri:uri
+        var url='http://192.168.1.19:8080/order/idUser?orderInfoId='+orderInfoId+'&userId='+userId;
+        axios.get(url).then((response)=>{
+            var responseData = response.data;
+            this.setState({shopName:responseData.storeName,
+                storePic:responseData.storePic,
+                total:responseData.totalPrice,name:responseData.tarPeople,
+                phone:responseData.tarPhone,
+                address:responseData.tarAddress,
+                createDate:responseData.createDate,
+                orderNo:responseData.orderNo,
+                orderItemlist:responseData.orderItemList})
         })
     }
     /**
@@ -65,7 +58,7 @@ export default class OrderOk2 extends Component{
             if(response.data == 200){
                 ToastAndroid.show("成功付款",ToastAndroid.SHORT);
                 DeviceEventEmitter.emit('changeOrder');
-                this.props.navigation.goBack();
+                this.props.navigation.navigate('MainPage');
             }
             else{
                 ToastAndroid.show("支付失败",ToastAndroid.SHORT);
@@ -75,23 +68,6 @@ export default class OrderOk2 extends Component{
             console.log(e);
         })
         
-    }
-    /**
-     * @description 删除订单
-     */
-    delete(){
-      var orderInfoId = this.props.navigation.state.params.orderInfoId;
-      var userId = this.props.navigation.state.params.userId;
-      var url = "http://192.168.1.19:8080/order/userDelete?orderInfoId="+orderInfoId+"&userId="+userId;
-      axios.get(url)
-        .then((response)=>{
-                ToastAndroid.show("取消订单",ToastAndroid.SHORT);
-                DeviceEventEmitter.emit('changeOrder');
-                this.props.navigation.goBack();
-        }).catch(e=>{
-          ToastAndroid.show("网络异常",ToastAndroid.SHORT);
-            console.log(e);
-        })
     }
     onClick(){
       Modal.alert('确认付款', `￥${this.state.total}`, [
@@ -104,10 +80,6 @@ export default class OrderOk2 extends Component{
       ]);
     }
     render(){
-      var userId = this.props.navigation.state.params.userId;
-      var orderNo = this.props.navigation.state.params.orderNo;
-      var createData = this.props.navigation.state.params.createData;
-      var orderStatus = this.props.navigation.state.params.orderStatus;
         return(
           <Provider>
             <View style={{flex:1,backgroundColor:'#F8F8F8'}}> 
@@ -131,7 +103,7 @@ export default class OrderOk2 extends Component{
                 <Text style={{fontSize:24,
                   marginLeft:10,
                   marginBottom:5}}
-                >{orderStatus}</Text>
+                >订单支付</Text>
                 <View
                   style={{backgroundColor:"#ffffff",
                     marginLeft:10,
@@ -177,7 +149,7 @@ export default class OrderOk2 extends Component{
                     marginRight:10}}
                   >
                     <ListItem 
-                      leftIcon={<Image source={{uri:this.state.uri}} style={{width:30,height:30}}/>}
+                      leftIcon={<Image source={{uri:this.state.storePic}} style={{width:30,height:30}}/>}
                       title={<Text style={{fontSize:17,fontWeight:"bold",fontFamily: 'System'}}>{this.state.shopName}</Text>} 
                     />
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/>   
@@ -187,10 +159,10 @@ export default class OrderOk2 extends Component{
                       <View>
                         <ListItem
                           key={i}
-                          leftAvatar={<Image source={{uri:item.itemimg}} style={{width:30,height:30}}/>}
-                          title={<Text style={{fontSize:15}}>{item.itemName}</Text>}
-                          subtitle={<Text style={{fontSize:13,color:"#606060"}}>{"x"+item.quantity}</Text>}
-                          rightSubtitle={<Text style={{fontSize:13,color:"#606060"}}>{"￥ "+item.itemPrice}</Text>}
+                          leftAvatar={<Image source={{uri:item.commodityCoverPicUrl}} style={{width:30,height:30}}/>}
+                          title={<Text style={{fontSize:15}}>{item.commodityInfo}</Text>}
+                          subtitle={<Text style={{fontSize:13,color:"#606060"}}>{"x"+item.amount}</Text>}
+                          rightSubtitle={<Text style={{fontSize:13,color:"#606060"}}>{"￥ "+item.price}</Text>}
                         />
                         <Divider style={{ backgroundColor: '#f0f0f0',height:0.7 }}/> 
                       </View>
@@ -220,7 +192,7 @@ export default class OrderOk2 extends Component{
                   <View style={{marginLeft:10,marginRight:10}}>
                     <Text style={{fontSize:17,marginTop:10,marginBottom:5,fontWeight:"bold",fontFamily: 'System'}}>配送信息</Text>
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/> 
-                    <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"顾客姓名："+this.state.name+""+this.state.sex}</Text>
+                    <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"顾客姓名："+this.state.name}</Text>
                     <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"顾客电话："+this.state.phone}</Text>
                     <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"送货地址："+this.state.address}</Text>
                     <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/> 
@@ -244,8 +216,8 @@ export default class OrderOk2 extends Component{
                   <View style={{backgroundColor:"#ffffff",marginLeft:10,marginRight:10}}>
                      <Text style={{fontSize:17,marginTop:10,marginBottom:5,fontWeight:"bold",fontFamily: 'System'}}>订单信息</Text>
                      <Divider style={{ backgroundColor: '#D0D0D0',height:0.7 }}/> 
-                     <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"订单号：   "+orderNo}</Text>
-                    <Text style={{fontSize:15,marginTop:5,marginBottom:10}}>{"下单时间:  "+createData}</Text>
+                     <Text style={{fontSize:15,marginTop:5,marginBottom:5}}>{"订单号：   "+this.state.orderNo}</Text>
+                    <Text style={{fontSize:15,marginTop:5,marginBottom:10}}>{"下单时间:  "+this.state.createDate}</Text>
                   </View>
                   </View>
                 </View>
@@ -258,18 +230,11 @@ export default class OrderOk2 extends Component{
     alignItems: commonStyle.center,
     flex:1
   }}>
-      <View style={{flex:0.35}}>
+      <View style={{flex:0.65}}>
 
           <Text style={{marginHorizontal: 20}}>合计:
             <Text style={{color: commonStyle.red}}>{"￥"+this.state.total}</Text>
           </Text>
-          </View>
-          <View style={{flex:0.30}}>
-          <View style={{width: width*0.30,  borderWidth:1,borderColor:'#A0A0A0',alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
-            <TouchableOpacity onPress={this.delete.bind(this)}>
-            <Text >删除订单</Text></TouchableOpacity>
-          </View>
-          
           </View>
           <View style={{flex:0.35}}>
           <TouchableOpacity>

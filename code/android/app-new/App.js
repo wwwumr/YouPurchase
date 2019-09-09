@@ -23,6 +23,7 @@ import AddAddressTable from './components/AddAddressTable';
 import AddAddressTable2 from './components/AddAddressTable2';
 import OrderOk from './components/OrderOk';
 import OrderOk2 from './components/OrderOk2';
+import OrderOk3 from './components/OrderOk3';
 import StoreGradeShow from './components/StoreGradeShow';
 import PushMessage from './components/PushMessage';
 import HomePage from './components/HomPage';
@@ -71,6 +72,12 @@ const AppNavigator = createStackNavigator({
   },
   OrderOk:{
     screen: OrderOk,
+    navigationOptions:{
+      header:null
+    }
+  },
+  OrderOk3:{
+    screen: OrderOk3,
     navigationOptions:{
       header:null
     }

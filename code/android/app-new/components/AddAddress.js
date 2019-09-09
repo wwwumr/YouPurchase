@@ -107,13 +107,17 @@ export default class AddAddress extends Component {
       <View style={{backgroundColor:"#f8f8f8",height:height}}>
         <View style={{backgroundColor:"#ffffff",height:height*0.08}}>
           <View style={{flex:1,flexDirection:'row',marginTop:15}}>
-            <View style={{flex:0.15,marginLeft:10}}>
+          <View style={{flex:0.15,marginLeft:10}}>
+            <TouchableOpacity onPress={()=>{
+              this.props.navigation.goBack();
+            }}>
+            
             <Icon
               name='chevron-left'
               size={20}
               color='#3399ff'
         />
-            </View>
+            </TouchableOpacity></View>
             <Text style={{fontSize:20}}>选择收货地址</Text>
           </View>  
         </View>

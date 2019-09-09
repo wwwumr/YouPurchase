@@ -172,7 +172,10 @@ export default class AddAddressTable2 extends Component {
       <View>
         <View style={{backgroundColor:"#ffffff",height:height*0.1,flexDirection:'row',marginTop:15}}>
             <View style={{marginLeft:10}}>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=>{
+                this.props.navigation.goBack();
+              }}>
               <Icon
                 name='chevron-left'
                 size={30}

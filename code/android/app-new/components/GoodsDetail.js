@@ -25,6 +25,27 @@ export default class GoodsDetail extends Component{
             number:1
         }
     }
+     /**
+   * @description 立即购买
+   */
+  immdieateBuy(){
+    var storeId =  this.props.navigation.state.params.storeId;
+    var userId =  this.props.navigation.state.params.userId;
+    var orderItemlist =[];
+    var total = this.state.item.price*this.state.number;
+    var item={};
+    item.itemimg = this.state.item.commodityCoverPicUrl;
+    item.itemName = this.state.item.commodityInfo;
+    item.quantity = this.state.number;
+    item.itemPrice = this.state.item.price;
+    item.itemId = this.props.navigation.state.params.goodsId;
+    orderItemlist.push(item);
+    this.props.navigation.navigate('OrderOk',{shopId:storeId,
+      orderItemlist:orderItemlist,
+      total:total,
+      userId:userId})
+  
+  }
     /**
      * @description 生命周期函数
      */
@@ -152,9 +173,11 @@ export default class GoodsDetail extends Component{
           </View>
           <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={this.immdieateBuy.bind(this)}>
           <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
             <Text style={{color: commonStyle.white}}>立即购买</Text>
           </View>
+          </TouchableOpacity>
       </View>
         </View>
       );

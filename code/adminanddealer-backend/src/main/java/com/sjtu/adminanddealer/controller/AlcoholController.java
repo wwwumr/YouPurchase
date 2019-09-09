@@ -42,6 +42,18 @@ public class AlcoholController {
     }
 
     /**
+     * 管理员修改酒类商品
+     *
+     * @param parameter 修改的酒类商品属性
+     * @return 成功返回UPDATE
+     */
+    @PutMapping("/api/a/alcohol")
+    public String update(@RequestBody NewAlcoholParameter parameter) {
+        alcoholService.update(parameter);
+        return "UPDATE";
+    }
+
+    /**
      * 管理员删除酒类商品
      *
      * @param alcoholId 酒类商品的id

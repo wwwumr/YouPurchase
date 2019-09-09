@@ -29,24 +29,6 @@ import java.util.Random;
 public class UserService extends BaseService{
 
 
-/*    //用户注册
-    public UserInfoDTO UserReg(UserRegParameter userRegParameter){
-        User user = userDao.findByPhoneAndValid(userRegParameter.getPhone(),true);
-        if(user != null){
-            System.out.println("手机已注册");
-            return new UserLoginDTO(404,null);
-        }
-
-        //短信验证通过，后面再加
-        if(true) {
-            User user1 = new User();
-            user1.setReg(userRegParameter);
-            userDao.save(user1);
-            return new UserLoginDTO(200,user1);
-        }
-        return new UserLoginDTO(403,null);
-    }*/
-
     //用户登陆
     public UserLoginDTO UserLogin(UserLoginParameter userLoginParameter){
         System.out.println("开始登陆");
@@ -102,7 +84,7 @@ public class UserService extends BaseService{
         }
         User user = userDao.findByUserIdAndValid(phoneParameter.getUserId(),true);
         if(user == null){
-            return 405;
+            return -405;
         }
         if(message.getCode().equals(phoneParameter.getCode())){
             user.setPhone(phoneParameter.getPhone());
