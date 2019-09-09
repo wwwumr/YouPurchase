@@ -124,7 +124,7 @@ export default class RecGoodsDetail extends Component{
             <ScrollView>
               <View>
             <View style={{alignItems:'center',alignContent:'center'}}>
-                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:width*0.8,height:width*0.8}}/>  
+                <Image source={{uri:config.url2+this.state.item.commodityCoverPicUrl}} style={{width:width*0.8,height:width*0.8}}/>  
                 </View>
                 
                 <View style={{flexDirection:'row'}}>
@@ -191,7 +191,7 @@ export default class RecGoodsDetail extends Component{
           }}>
           <View style={{alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight,width:width*0.3}}><Text  style={{marginHorizontal: 10,color:'#585858'}}>进入店铺</Text>
           </View></TouchableOpacity>
-          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:width*0.4,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
+          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:width*0.4,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#585868'}}>加入购物车</Text></View>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.immdieateBuy.bind(this)}>
           <View style={{width: width*0.3, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>

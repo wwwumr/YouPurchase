@@ -85,7 +85,7 @@ export default class StoreGradeShow extends Component{
             borderWidth:1}}
           >
             <ListItem
-              leftAvatar={<Image source={{uri:uri}} style={{width:60,height:60}}/>}
+              leftAvatar={<Image source={{uri:config.url2+uri}} style={{width:60,height:60}}/>}
               title={storeName}
               subtitle={<View style={{flexDirection:'row'}}>
                 <Rating readonly imageSize={15} startingValue={score}/>

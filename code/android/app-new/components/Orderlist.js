@@ -122,7 +122,7 @@ orderStatus4(){
           
         }
         list.sort(function(item1,item2){
-          return item1.time1-item2.time1;
+          return item2.time1-item1.time1;
       })
         console.log(list)
         this.setState({itemlist:list});
@@ -131,7 +131,7 @@ orderStatus4(){
         console.log(error);
       })
       list.sort(function(item1,item2){
-        return item1.time1-item2.time1;
+        return item2.time1-item1.time1;
     })
       this.setState({itemlist:list});
     }
@@ -208,7 +208,7 @@ orderStatus4(){
           
         }
         list.sort(function(item1,item2){
-          return item1.time1-item2.time1;
+          return item2.time1-item1.time1;
       })
         console.log(list)
         this.setState({itemlist:list});
@@ -218,7 +218,7 @@ orderStatus4(){
       })
       var yes = this.props.yes+"123";
       list.sort(function(item1,item2){
-        return item1.time1-item2.time1;
+        return item2.time1-item1.time1;
     })
       this.setState({itemlist:list,yes:yes});
     }
@@ -260,7 +260,7 @@ orderStatus4(){
         }
         console.log("sort here");
         list.sort(function(item1,item2){
-          return item1.time1-item2.time1;
+          return item2.time1-item1.time1;
       })
         console.log(list)
         console.log("sort end!");
@@ -270,7 +270,7 @@ orderStatus4(){
         console.log(error);
       })
       list.sort(function(item1,item2){
-        return item1.time1-item2.time1;
+        return item2.time1-item1.time1;
     })
       this.setState({itemlist:list});
     }

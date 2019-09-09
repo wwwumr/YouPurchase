@@ -3,6 +3,7 @@ import { ListItem,SearchBar,Header,Image,Text, Button,Divider,AirbnbRating,Overl
 import {ScrollView,View,DeviceEventEmitter} from 'react-native'
 import { Card, WhiteSpace, WingBlank } from '@ant-design/react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import config from '../components/config/config';
 /**
  * @description 商店列表的每一项
  * @constructor
@@ -72,7 +73,7 @@ StoreRating(){
             <Card.Header
               title={<View style={{marginLeft:5}}><Text style={{fontSize:15}}>{this.props.storeName}</Text></View>}
               thumbStyle={{ width: 40, height: 40 }}
-              thumb={<Image source={{uri:this.props.coverPicUrl}} style={{width:40,height:40}}/>}
+              thumb={<Image source={{uri:config.url2+this.props.coverPicUrl}} style={{width:40,height:40}}/>}
               extra={<View style={{flexDirection:'row-reverse'}}><Text style={{color:"#A0A0A0",fontSize:13}}>{tempdis}</Text></View>}
             /></TouchableOpacity>
             <Card.Body>

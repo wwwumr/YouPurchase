@@ -110,7 +110,7 @@ export default class GoodsDetail extends Component{
             <ScrollView>
               <View>
             <View style={{alignItems:'center',alignContent:'center'}}>
-                <Image source={{uri:this.state.item.commodityCoverPicUrl}} style={{width:width*0.8,height:width*0.8}}/>  
+                <Image source={{uri:config.url2+this.state.item.commodityCoverPicUrl}} style={{width:width*0.8,height:width*0.8}}/>  
                 </View>
                 
                 <View style={{flexDirection:'row'}}>
@@ -172,7 +172,7 @@ export default class GoodsDetail extends Component{
                 <View style={styles.toolBar}>
           <View style={{flex: 1, flexDirection: commonStyle.row, alignItems: commonStyle.center}}>
           </View>
-          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#fff'}}>加入购物车</Text></View>
+          <TouchableOpacity onPress={this.addcart.bind(this)}><View style={{backgroundColor:'#FFFF00',width:120,alignItems:'center',justifyContent:'center',height: commonStyle.cellHeight}}><Text style={{marginHorizontal: 10,color:'#585858'}}>加入购物车</Text></View>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.immdieateBuy.bind(this)}>
           <View style={{width: 120, backgroundColor: commonStyle.red, alignItems: commonStyle.center, justifyContent: commonStyle.center, height: commonStyle.cellHeight}}>
