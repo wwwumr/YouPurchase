@@ -93,6 +93,7 @@ var config = {
         },
         oneAlcohol: {
             get: root + "api/ad/alcohol/",
+            put: root + "api/a/alcohol/",
         }
     },
 }
