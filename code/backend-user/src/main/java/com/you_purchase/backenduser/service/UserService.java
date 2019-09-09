@@ -4,7 +4,6 @@ package com.you_purchase.backenduser.service;
 import com.alibaba.fastjson.JSONObject;
 import com.you_purchase.backenduser.Config.Constrain;
 import com.you_purchase.backenduser.Sms.Message;
-import com.you_purchase.backenduser.dao.UserTagDao;
 import com.you_purchase.backenduser.dto.MsgDTO;
 import com.you_purchase.backenduser.dto.RecDTO;
 import com.you_purchase.backenduser.dto.UserLoginDTO;
@@ -272,27 +271,26 @@ public class UserService extends BaseService{
      Date regDate = strToDate(now);
      user.setRegDate(regDate);
      userDao.save(user);
-     long id = user.getUserId();
-     return id;
+     return user.getUserId();
     }
 
 
     //用户上传头像
-    public String UploadPhoto(UserPhotoParameter userPhotoParameter){
+    public long UploadPhoto(UserPhotoParameter userPhotoParameter){
         User user = userDao.findByUserIdAndValid(userPhotoParameter.getUserId(),true);
         if(user == null){
-            return "不存在该用户";
+            return -403;
         }
         int code = UploadPhotoBase(userPhotoParameter.getUserId(),userPhotoParameter.getPhotoImage());
         System.out.println(code);
         if(code == 200){
             userDao.save(user);
-            return "成功更新头像";
+            return 200;
         }
-        return  "失败";
+        return  -404;
     }
 
-    public String GetPhoto(long userId){
+    /*public String GetPhoto(long userId){
         User user = userDao.findByUserIdAndValid(userId,true);
         if(user.getPhoto().isEmpty()){
             return null;
@@ -311,7 +309,7 @@ public class UserService extends BaseService{
         }
         return "data:image/jpeg;base64," + Base64.encodeBase64String(data);
     }
-
+*/
     //商品推荐
     public List<RecDTO> UserRec(long userId){
         User user = userDao.findByUserIdAndValid(userId,true);

@@ -6,16 +6,9 @@ import org.apache.logging.log4j.Logger;
 public class Constrain {
     private static final Logger logger = LogManager.getLogger();
 
-
-
-
-
-
     public static void log(Object message) {
         logger.info(message);
     }
 
-    public static void logerror(Exception e) {
-        logger.error(e.getMessage());
-    }
+
 }
